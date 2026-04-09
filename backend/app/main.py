@@ -1,0 +1,44 @@
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from app.api.routes import health, topics, articles, qa, reports
+from app.core.config import settings
+from app.db.base import Base
+from app.db.session import engine, SessionLocal
+from app.services.seed import seed_demo_data
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Application lifespan: startup and shutdown events."""
+    # Startup
+    Base.metadata.create_all(bind=engine)
+    with SessionLocal() as db:
+        seed_demo_data(db)
+
+    from app.services.scheduler import init_scheduler, shutdown_scheduler
+    init_scheduler()
+
+    yield
+
+    # Shutdown
+    shutdown_scheduler()
+
+
+app = FastAPI(title=settings.app_name, version=settings.app_version, lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(health.router)
+app.include_router(topics.router, prefix="/api/topics", tags=["topics"])
+app.include_router(articles.router, prefix="/api/articles", tags=["articles"])
+app.include_router(qa.router, prefix="/api/qa", tags=["qa"])
+app.include_router(reports.router, prefix="/api/reports", tags=["reports"])
