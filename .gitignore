@@ -38,3 +38,9 @@ tmp_*.py
 _debug_*.py
 _retest.py
 test_copilot_results.json
+
+# Integration test temp files
+_test_*.py
+_test_*.txt
+test.py
+test_xc_*.py
