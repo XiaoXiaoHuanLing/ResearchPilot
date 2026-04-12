@@ -35,15 +35,22 @@ SUPERVISOR_PROMPT = """你是研究助手的调度中心。根据用户请求决
 1. 禁止自我介绍
 2. 用中文回复
 
-你必须用以下格式回复：
+对于复杂任务（涉及多种操作：搜索采集、分析报告、数据管理），你必须按以下JSON格式回复：
 
-对于复杂任务（涉及搜索+分析+管理多种操作），回复：
-DELEGATE
-- [researcher] 搜索AI最新新闻
-- [analyst] 分析知识库中关于AI的内容
-- [manager] 创建AI研究专题
+```json
+{
+  "delegate": true,
+  "tasks": [
+    {"worker": "researcher", "description": "搜索AI最新新闻"},
+    {"worker": "analyst", "description": "分析知识库中关于AI的内容"},
+    {"worker": "manager", "description": "创建AI研究专题"}
+  ]
+}
+```
 
-对于简单任务，直接回复用户即可（不加 DELEGATE 前缀）。"""
+worker 只能是: researcher（搜索采集）、analyst（分析报告）、manager（数据管理）
+
+对于简单任务（只需要一个操作），直接回复用户，不输出JSON。"""
 
 
 # ─── Nodes ──────────────────────────────────────────────────────────────────
@@ -94,18 +101,15 @@ async def supervisor_node(state: SupervisorState) -> dict:
     ])
     response_text = analysis.content or ""
 
-    if "DELEGATE" in response_text:
-        tasks = _parse_tasks(response_text)
-        logger.info("DELEGATE detected, parsed %d tasks from: %s", len(tasks), response_text[:200])
-        if tasks:
-            logger.info("Supervisor delegates %d tasks: %s", len(tasks), 
-                       [f"{t['worker']}:{t['description'][:30]}" for t in tasks])
-            return {
-                "tasks": tasks,
-                "next_worker": tasks[0]["worker"],
-            }
-        else:
-            logger.warning("DELEGATE detected but no tasks parsed!")
+    # 尝试解析 JSON 格式的任务分配
+    tasks = _parse_tasks(response_text)
+    if tasks:
+        logger.info("Supervisor delegates %d tasks: %s", len(tasks), 
+                   [f"{t['worker']}:{t['description'][:30]}" for t in tasks])
+        return {
+            "tasks": tasks,
+            "next_worker": tasks[0]["worker"],
+        }
     
     # 简单任务：直接回复
     logger.info("Supervisor responds directly (no delegation)")
@@ -261,17 +265,45 @@ def reset_supervisor():
 # ─── Helpers ─────────────────────────────────────────────────────────────────
 
 def _parse_tasks(text: str) -> list[dict]:
-    """从 LLM 输出解析任务列表。"""
+    """从 LLM 输出解析任务列表，支持 JSON 和 markdown 两种格式。"""
     tasks = []
     counter = 0
+
+    # 优先尝试 JSON 解析
+    json_str = _extract_json_block(text)
+    if json_str:
+        try:
+            data = json.loads(json_str)
+            if isinstance(data, dict) and data.get("delegate") and isinstance(data.get("tasks"), list):
+                for item in data["tasks"]:
+                    worker = item.get("worker", "")
+                    description = item.get("description", "")
+                    if worker in ("researcher", "analyst", "manager") and description:
+                        counter += 1
+                        tasks.append({
+                            "id": f"task_{counter}",
+                            "description": description,
+                            "worker": worker,
+                            "status": "pending",
+                            "result": None,
+                        })
+                if tasks:
+                    logger.info("Parsed %d tasks from JSON block", len(tasks))
+                    return tasks
+        except (json.JSONDecodeError, KeyError, TypeError):
+            logger.debug("JSON parse failed, falling back to line parser")
+
+    # Fallback: 逐行解析 - [worker] description 格式
     for line in text.split("\n"):
         line = line.strip()
-        if not line.startswith("- ["):
+        # Match patterns like: - [researcher] xxx  or  * [analyst] xxx
+        if not (line.startswith("- [") or line.startswith("* [")):
             continue
         try:
-            bracket_end = line.index("]")
-            worker = line[2:bracket_end]
-            description = line[bracket_end + 1:].strip()
+            bracket_start = line.index("[")
+            bracket_end = line.index("]", bracket_start)
+            worker = line[bracket_start + 1:bracket_end]
+            description = line[bracket_end + 1:].strip().lstrip("-:")
             if worker in ("researcher", "analyst", "manager") and description:
                 counter += 1
                 tasks.append({
@@ -283,7 +315,42 @@ def _parse_tasks(text: str) -> list[dict]:
                 })
         except (ValueError, IndexError):
             continue
+
     return tasks
+
+
+def _extract_json_block(text: str) -> str | None:
+    """从文本中提取 ```json ... ``` 代码块或裸 JSON 对象。"""
+    # Try ```json ... ``` block first
+    import re
+    m = re.search(r"```json\s*\n(.*?)\n```", text, re.DOTALL)
+    if m:
+        return m.group(1).strip()
+
+    # Try ``` ... ``` block
+    m = re.search(r"```\s*\n(.*?)\n```", text, re.DOTALL)
+    if m:
+        candidate = m.group(1).strip()
+        if candidate.startswith("{"):
+            return candidate
+
+    # Try finding a raw JSON object with "delegate" key
+    # Use non-greedy match, find the outermost balanced braces
+    start = text.find('{"delegate"')
+    if start == -1:
+        start = text.find('{ "delegate"')
+    if start >= 0:
+        # Walk forward to find matching closing brace
+        depth = 0
+        for i in range(start, len(text)):
+            if text[i] == '{':
+                depth += 1
+            elif text[i] == '}':
+                depth -= 1
+                if depth == 0:
+                    return text[start:i + 1]
+
+    return None
 
 
 def _update_task_status(tasks: list[dict], task_id: str, status: str, result: str | None = None) -> list[dict]:
