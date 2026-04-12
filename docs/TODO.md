@@ -40,6 +40,7 @@
 - [x] with_fallbacks 重构 — 干掉手写try/except，LLM链自动切换 — 04-12 20:30
 - [x] Supervisor SSE worker_switch 修复 — event.name节点识别+上下文追踪 — 04-12 20:30
 - [x] CopilotChatResponse schema 修复 — mode/tasks字段不再被Pydantic丢弃 — 04-12 20:30
+- [x] Supervisor V2 性能优化 — 去掉3次冗余LLM调用+Worker并行+独立checkpointer — 04-12 21:30
 - [ ] 调研 deepagents 框架最新设计和用法
 - [x] 调研 LangGraph 多 Agent 协作最佳实践 — 04-12 设计完成
 - [x] 设计 Agent 架构（角色划分、协作协议、记忆管理）— 04-12 MULTI_AGENT_DESIGN.md
