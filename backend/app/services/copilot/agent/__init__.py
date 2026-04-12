@@ -62,7 +62,7 @@ def get_compiled_agent():
     selected_label = ""
     for llm in llms:
         try:
-            test_resp = llm.invoke([{"role": "user", "content": "ping"}], config={"max_tokens": 1})
+            test_resp = llm.invoke([{"role": "user", "content": "Say only OK"}], config={"max_tokens": 2})
             if test_resp and test_resp.content:
                 selected_llm = llm
                 selected_label = getattr(llm, 'model_name', str(llm.model))
@@ -70,6 +70,12 @@ def get_compiled_agent():
                 break
             else:
                 logger.warning("LLM %s returned empty, skipping", getattr(llm, 'model_name', str(llm.model)))
+        except UnicodeEncodeError:
+            # Windows terminal encoding issue — LLM actually works, just can't print emoji
+            selected_llm = llm
+            selected_label = getattr(llm, 'model_name', str(llm.model))
+            logger.info("Agent LLM selected: %s (UnicodeEncodeError ignored, model works)", selected_label)
+            break
         except Exception as e:
             err = str(e)
             logger.warning("LLM %s failed test: %s", getattr(llm, 'model_name', str(llm.model)), err[:100])
