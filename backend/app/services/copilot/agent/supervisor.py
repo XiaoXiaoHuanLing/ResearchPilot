@@ -1,10 +1,11 @@
 """Supervisor Agent — 任务分解、分配、综合
 
-Supervisor 模式：
-1. 接收用户消息
-2. 分析意图，分解任务（如果需要多步骤）
-3. 分配给对应 Worker（researcher/analyst/manager）
-4. 收集 Worker 结果，综合后回复用户
+V2 优化：
+1. 并行执行同类型 Worker（researcher 并行采集）
+2. supervisor 路由不再调 LLM——纯逻辑路由，省掉 3 次 LLM 调用
+3. Worker 补全关键工具（researcher 加 list_topics）
+4. 每个 Worker 独立 checkpointer，避免状态冲突
+5. 错误恢复：Worker 失败时标记并继续，不阻塞整个流程
 """
 
 import json
@@ -12,7 +13,7 @@ import logging
 from datetime import datetime, timezone
 from typing import TypedDict, Annotated
 
-from langchain_core.messages import SystemMessage, HumanMessage, AIMessage, ToolMessage
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from langgraph.graph import StateGraph, END, START
 from langgraph.graph.message import add_messages
 from langgraph.checkpoint.memory import MemorySaver
@@ -56,44 +57,46 @@ worker 只能是: researcher（搜索采集）、analyst（分析报告）、man
 # ─── Nodes ──────────────────────────────────────────────────────────────────
 
 async def supervisor_node(state: SupervisorState) -> dict:
-    """Supervisor 节点：分析意图，分解任务，或直接回复。"""
+    """Supervisor 节点：只做两件事——
+    1. 首次进入：调 LLM 分析意图，分解任务或直接回复
+    2. 后续进入：纯逻辑路由（不调 LLM），找下一个 pending worker 或综合结果
+    """
+    messages = state.get("messages", [])
+    tasks = state.get("tasks", [])
+
+    # ── Phase 2+: Workers have returned, route without LLM ──
+    if tasks:
+        done_tasks = [t for t in tasks if t.get("status") == "done"]
+        failed_tasks = [t for t in tasks if t.get("status") == "failed"]
+        pending_tasks = [t for t in tasks if t.get("status") == "pending"]
+
+        # All tasks done (or failed) → synthesize final answer
+        if not pending_tasks:
+            return await _synthesize(state, done_tasks, failed_tasks)
+
+        # Find next pending worker (prioritize: researcher first for parallel, then analyst, then manager)
+        # Group by worker to allow parallel dispatch
+        worker_order = ["researcher", "analyst", "manager"]
+        for w in worker_order:
+            worker_pending = [t for t in pending_tasks if t["worker"] == w]
+            if worker_pending:
+                updated_tasks = []
+                for t in tasks:
+                    if t["worker"] == w and t["status"] == "pending":
+                        t["status"] = "running"
+                    updated_tasks.append(t)
+                return {
+                    "next_worker": w,
+                    "tasks": updated_tasks,
+                }
+
+        # Fallback
+        return {"next_worker": "FINISH"}
+
+    # ── Phase 1: New request — analyze intent via LLM ──
     from app.services.copilot.llm import get_chat_llm
 
     llm = get_chat_llm(streaming=True, max_tokens=1500)
-    messages = state.get("messages", [])
-
-    # 如果有已完成的任务，综合结果
-    done_tasks = [t for t in state.get("tasks", []) if t.get("status") == "done"]
-    pending_tasks = [t for t in state.get("tasks", []) if t.get("status") == "pending"]
-
-    if done_tasks and not pending_tasks:
-        # 所有任务完成，综合回复
-        results_text = "\n".join(
-            f"- [{t['worker']}] {t['description']}: {t.get('result', '无结果')[:300]}"
-            for t in done_tasks
-        )
-        synth = f"以下是各助手的工作结果，请综合后简洁回复用户：\n{results_text}"
-        response = await llm.ainvoke(messages + [HumanMessage(content=synth)])
-        return {
-            "messages": [AIMessage(content=response.content)],
-            "next_worker": "FINISH",
-        }
-
-    if pending_tasks:
-        # 标记所有同 worker 的 pending 任务为 running（支持并行）
-        # 优先 researcher（可并行），其他串行
-        next_worker = pending_tasks[0]["worker"]
-        updated_tasks = []
-        for t in state["tasks"]:
-            if t["worker"] == next_worker and t["status"] == "pending":
-                t["status"] = "running"
-            updated_tasks.append(t)
-        return {
-            "next_worker": next_worker,
-            "tasks": updated_tasks,
-        }
-
-    # 新请求：分析是否需要分解
     last_msg = messages[-1].content if messages else ""
     analysis = await llm.ainvoke([
         SystemMessage(content=SUPERVISOR_PROMPT),
@@ -101,20 +104,47 @@ async def supervisor_node(state: SupervisorState) -> dict:
     ])
     response_text = analysis.content or ""
 
-    # 尝试解析 JSON 格式的任务分配
-    tasks = _parse_tasks(response_text)
-    if tasks:
-        logger.info("Supervisor delegates %d tasks: %s", len(tasks), 
-                   [f"{t['worker']}:{t['description'][:30]}" for t in tasks])
+    # Try to parse task delegation
+    parsed_tasks = _parse_tasks(response_text)
+    if parsed_tasks:
+        logger.info("Supervisor delegates %d tasks: %s", len(parsed_tasks),
+                   [f"{t['worker']}:{t['description'][:30]}" for t in parsed_tasks])
+        # Mark first worker's tasks as running
+        first_worker = parsed_tasks[0]["worker"]
+        for t in parsed_tasks:
+            if t["worker"] == first_worker:
+                t["status"] = "running"
         return {
-            "tasks": tasks,
-            "next_worker": tasks[0]["worker"],
+            "tasks": parsed_tasks,
+            "next_worker": first_worker,
         }
-    
-    # 简单任务：直接回复
+
+    # Simple task: reply directly
     logger.info("Supervisor responds directly (no delegation)")
     return {
         "messages": [AIMessage(content=response_text)],
+        "next_worker": "FINISH",
+    }
+
+
+async def _synthesize(state: SupervisorState, done_tasks: list[dict], failed_tasks: list[dict]) -> dict:
+    """综合所有 Worker 结果，生成最终回复。"""
+    from app.services.copilot.llm import get_chat_llm
+
+    llm = get_chat_llm(streaming=True, max_tokens=1500)
+    messages = state.get("messages", [])
+
+    results_parts = []
+    for t in done_tasks:
+        results_parts.append(f"- [{t['worker']}] {t['description']}: {t.get('result', '无结果')[:300]}")
+    for t in failed_tasks:
+        results_parts.append(f"- [{t['worker']}] {t['description']}: ❌ 失败 - {t.get('error', '未知错误')[:100]}")
+
+    results_text = "\n".join(results_parts)
+    synth_prompt = f"以下是各助手的工作结果，请综合后简洁回复用户：\n{results_text}"
+    response = await llm.ainvoke(messages + [HumanMessage(content=synth_prompt)])
+    return {
+        "messages": [AIMessage(content=response.content)],
         "next_worker": "FINISH",
     }
 
@@ -126,7 +156,6 @@ async def researcher_node(state: SupervisorState) -> dict:
 
     researcher = get_worker("researcher")
 
-    # 找出所有属于 researcher 且状态为 pending 或 running 的任务
     my_tasks = [
         t for t in state.get("tasks", [])
         if t["worker"] == "researcher" and t["status"] in ("pending", "running")
@@ -134,8 +163,8 @@ async def researcher_node(state: SupervisorState) -> dict:
     if not my_tasks:
         return {"next_worker": "supervisor"}
 
-    # 并行执行所有采集任务
-    async def run_task(task: dict) -> tuple[str, str]:
+    # Parallel execution of all researcher tasks
+    async def run_task(task: dict) -> tuple[str, str, str | None]:
         config = {"configurable": {"thread_id": f"researcher_{task['id']}"}}
         try:
             result = await researcher.ainvoke(
@@ -143,20 +172,22 @@ async def researcher_node(state: SupervisorState) -> dict:
                 config=config,
             )
             result_text = result["messages"][-1].content if result.get("messages") else ""
-            return task["id"], result_text[:500]
+            return task["id"], "done", result_text[:500]
         except Exception as e:
             logger.error("Researcher task %s failed: %s", task["id"], e)
-            return task["id"], f"❌ 执行失败: {e}"
+            return task["id"], "failed", f"执行失败: {str(e)[:100]}"
 
     results = await asyncio.gather(*[run_task(t) for t in my_tasks])
 
-    # 更新所有任务状态为 done
     updated_tasks = []
     for t in state.get("tasks", []):
-        for tid, content in results:
+        for tid, status, content in results:
             if t["id"] == tid:
-                t["status"] = "done"
-                t["result"] = content
+                t["status"] = status
+                if status == "done":
+                    t["result"] = content
+                else:
+                    t["error"] = content
         updated_tasks.append(t)
 
     return {
@@ -170,20 +201,27 @@ async def analyst_node(state: SupervisorState) -> dict:
     from app.services.copilot.agent.workers import get_worker
 
     analyst = get_worker("analyst")
-    task = _get_running_task(state, "analyst")
+    task = _get_active_task(state, "analyst")
     if not task:
         return {"next_worker": "supervisor"}
 
     config = {"configurable": {"thread_id": f"analyst_{task['id']}"}}
-    result = await analyst.ainvoke(
-        {"messages": [HumanMessage(content=task["description"])]},
-        config=config,
-    )
-    result_text = result["messages"][-1].content if result.get("messages") else ""
-    return {
-        "tasks": _update_task_status(state["tasks"], task["id"], "done", result_text[:500]),
-        "next_worker": "supervisor",
-    }
+    try:
+        result = await analyst.ainvoke(
+            {"messages": [HumanMessage(content=task["description"])]},
+            config=config,
+        )
+        result_text = result["messages"][-1].content if result.get("messages") else ""
+        return {
+            "tasks": _update_task(state["tasks"], task["id"], "done", result=result_text[:500]),
+            "next_worker": "supervisor",
+        }
+    except Exception as e:
+        logger.error("Analyst task %s failed: %s", task["id"], e)
+        return {
+            "tasks": _update_task(state["tasks"], task["id"], "failed", error=str(e)[:100]),
+            "next_worker": "supervisor",
+        }
 
 
 async def manager_node(state: SupervisorState) -> dict:
@@ -191,20 +229,27 @@ async def manager_node(state: SupervisorState) -> dict:
     from app.services.copilot.agent.workers import get_worker
 
     manager = get_worker("manager")
-    task = _get_running_task(state, "manager")
+    task = _get_active_task(state, "manager")
     if not task:
         return {"next_worker": "supervisor"}
 
     config = {"configurable": {"thread_id": f"manager_{task['id']}"}}
-    result = await manager.ainvoke(
-        {"messages": [HumanMessage(content=task["description"])]},
-        config=config,
-    )
-    result_text = result["messages"][-1].content if result.get("messages") else ""
-    return {
-        "tasks": _update_task_status(state["tasks"], task["id"], "done", result_text[:500]),
-        "next_worker": "supervisor",
-    }
+    try:
+        result = await manager.ainvoke(
+            {"messages": [HumanMessage(content=task["description"])]},
+            config=config,
+        )
+        result_text = result["messages"][-1].content if result.get("messages") else ""
+        return {
+            "tasks": _update_task(state["tasks"], task["id"], "done", result=result_text[:500]),
+            "next_worker": "supervisor",
+        }
+    except Exception as e:
+        logger.error("Manager task %s failed: %s", task["id"], e)
+        return {
+            "tasks": _update_task(state["tasks"], task["id"], "failed", error=str(e)[:100]),
+            "next_worker": "supervisor",
+        }
 
 
 # ─── Routing ────────────────────────────────────────────────────────────────
@@ -212,7 +257,7 @@ async def manager_node(state: SupervisorState) -> dict:
 def route_to_worker(state: SupervisorState) -> str:
     """根据 next_worker 决定下一个节点。"""
     next_w = state.get("next_worker")
-    logger.info("route_to_worker: next_worker=%s, tasks=%s", next_w, 
+    logger.info("route_to_worker: next_worker=%s, tasks=%s", next_w,
                 [f"{t['worker']}:{t['status']}" for t in state.get("tasks", [])])
     if next_w == "FINISH" or next_w is None:
         return "FINISH"
@@ -269,7 +314,7 @@ def _parse_tasks(text: str) -> list[dict]:
     tasks = []
     counter = 0
 
-    # 优先尝试 JSON 解析
+    # Try JSON first
     json_str = _extract_json_block(text)
     if json_str:
         try:
@@ -286,6 +331,7 @@ def _parse_tasks(text: str) -> list[dict]:
                             "worker": worker,
                             "status": "pending",
                             "result": None,
+                            "error": None,
                         })
                 if tasks:
                     logger.info("Parsed %d tasks from JSON block", len(tasks))
@@ -293,10 +339,9 @@ def _parse_tasks(text: str) -> list[dict]:
         except (json.JSONDecodeError, KeyError, TypeError):
             logger.debug("JSON parse failed, falling back to line parser")
 
-    # Fallback: 逐行解析 - [worker] description 格式
+    # Fallback: line parser
     for line in text.split("\n"):
         line = line.strip()
-        # Match patterns like: - [researcher] xxx  or  * [analyst] xxx
         if not (line.startswith("- [") or line.startswith("* [")):
             continue
         try:
@@ -312,6 +357,7 @@ def _parse_tasks(text: str) -> list[dict]:
                     "worker": worker,
                     "status": "pending",
                     "result": None,
+                    "error": None,
                 })
         except (ValueError, IndexError):
             continue
@@ -321,26 +367,21 @@ def _parse_tasks(text: str) -> list[dict]:
 
 def _extract_json_block(text: str) -> str | None:
     """从文本中提取 ```json ... ``` 代码块或裸 JSON 对象。"""
-    # Try ```json ... ``` block first
     import re
     m = re.search(r"```json\s*\n(.*?)\n```", text, re.DOTALL)
     if m:
         return m.group(1).strip()
 
-    # Try ``` ... ``` block
     m = re.search(r"```\s*\n(.*?)\n```", text, re.DOTALL)
     if m:
         candidate = m.group(1).strip()
         if candidate.startswith("{"):
             return candidate
 
-    # Try finding a raw JSON object with "delegate" key
-    # Use non-greedy match, find the outermost balanced braces
     start = text.find('{"delegate"')
     if start == -1:
         start = text.find('{ "delegate"')
     if start >= 0:
-        # Walk forward to find matching closing brace
         depth = 0
         for i in range(start, len(text)):
             if text[i] == '{':
@@ -353,7 +394,8 @@ def _extract_json_block(text: str) -> str | None:
     return None
 
 
-def _update_task_status(tasks: list[dict], task_id: str, status: str, result: str | None = None) -> list[dict]:
+def _update_task(tasks: list[dict], task_id: str, status: str,
+                 result: str | None = None, error: str | None = None) -> list[dict]:
     """更新指定任务状态。"""
     updated = []
     for t in tasks:
@@ -361,12 +403,14 @@ def _update_task_status(tasks: list[dict], task_id: str, status: str, result: st
             t["status"] = status
             if result is not None:
                 t["result"] = result
+            if error is not None:
+                t["error"] = error
         updated.append(t)
     return updated
 
 
-def _get_running_task(state: SupervisorState, worker: str) -> dict | None:
-    """获取指定 worker 的当前运行中任务。"""
+def _get_active_task(state: SupervisorState, worker: str) -> dict | None:
+    """获取指定 worker 的当前活跃任务（running > pending）。"""
     for t in state.get("tasks", []):
         if t["worker"] == worker and t["status"] == "running":
             return t

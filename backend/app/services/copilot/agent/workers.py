@@ -1,6 +1,9 @@
 """多智能体 Worker 定义 — Researcher, Analyst, Manager
 
-每个 Worker 是一个独立的 create_react_agent，拥有专属工具子集。
+V2 优化：
+1. Researcher 补 list_topics 工具（collect_topic 需要 topic_id）
+2. 每个 Worker 独立 checkpointer，避免并行状态冲突
+3. 每个 Worker 带 with_fallbacks LLM
 """
 
 import logging
@@ -17,9 +20,10 @@ RESEARCHER_PROMPT = """你是采集助手，负责搜索和采集信息。
 规则：
 1. 禁止自我介绍，直接执行任务
 2. 只做搜索和采集，不做分析
-3. 返回搜索结果摘要和采集状态
+3. 需要收藏文章到专题时，先用 list_topics 查找专题 ID，再用 collect_topic 收藏
 4. 如果搜索无结果，明确告知
-5. 用中文回复，简洁专业"""
+5. 返回搜索结果摘要和采集状态
+6. 用中文回复，简洁专业"""
 
 ANALYST_PROMPT = """你是分析助手，负责知识库问答、数据分析和报告生成。
 
@@ -39,28 +43,29 @@ MANAGER_PROMPT = """你是管理助手，负责数据CRUD和系统管理。
 4. 用中文回复，简洁专业"""
 
 
-# ─── Worker Agent Instances (lazy) ──────────────────────────────────────────
+# ─── Worker Agent Instances (lazy, each with own checkpointer) ──────────────
 
 _workers: dict[str, object] = {}
-_worker_checkpointer = MemorySaver()
 
 
 def get_researcher():
-    """获取采集 Agent（单例）— 搜索 + 入库 + 采集。"""
+    """获取采集 Agent（单例）— 搜索 + 入库 + 采集 + 查专题。"""
     if "researcher" not in _workers:
         from app.services.copilot.llm import get_chat_llm
         from app.services.copilot.tools.search import TOOLS as search_tools
+        from app.services.copilot.tools.topic import TOOLS as topic_tools
 
         llm = get_chat_llm(streaming=True)
-        tools = search_tools  # search_web + ingest_url + collect_topic
+        # Researcher needs list_topics to find topic_id for collect_topic
+        tools = search_tools + [t for t in topic_tools if t.name == "list_topics"]
 
         _workers["researcher"] = create_react_agent(
             model=llm,
             tools=tools,
-            checkpointer=_worker_checkpointer,
+            checkpointer=MemorySaver(),  # Independent checkpointer
             prompt=RESEARCHER_PROMPT,
-        ).with_config(recursion_limit=30)
-        logger.info("Researcher agent created with %d tools", len(tools))
+        ).with_config(recursion_limit=25)
+        logger.info("Researcher agent created with %d tools: %s", len(tools), [t.name for t in tools])
     return _workers["researcher"]
 
 
@@ -77,10 +82,10 @@ def get_analyst():
         _workers["analyst"] = create_react_agent(
             model=llm,
             tools=tools,
-            checkpointer=_worker_checkpointer,
+            checkpointer=MemorySaver(),  # Independent checkpointer
             prompt=ANALYST_PROMPT,
-        ).with_config(recursion_limit=30)
-        logger.info("Analyst agent created with %d tools", len(tools))
+        ).with_config(recursion_limit=25)
+        logger.info("Analyst agent created with %d tools: %s", len(tools), [t.name for t in tools])
     return _workers["analyst"]
 
 
@@ -100,10 +105,10 @@ def get_manager():
         _workers["manager"] = create_react_agent(
             model=llm,
             tools=tools,
-            checkpointer=_worker_checkpointer,
+            checkpointer=MemorySaver(),  # Independent checkpointer
             prompt=MANAGER_PROMPT,
-        ).with_config(recursion_limit=30)
-        logger.info("Manager agent created with %d tools", len(tools))
+        ).with_config(recursion_limit=25)
+        logger.info("Manager agent created with %d tools: %s", len(tools), [t.name for t in tools])
     return _workers["manager"]
 
 
@@ -121,5 +126,5 @@ def get_worker(name: str):
 
 
 def reset_all_workers():
-    """重置所有 Worker 单例（LLM fallback 时调用）。"""
+    """重置所有 Worker 单例。"""
     _workers.clear()
