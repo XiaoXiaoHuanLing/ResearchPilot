@@ -22,8 +22,8 @@
 - [x] APScheduler 异步采集验证 — async_mode+task进度追踪 — 04-12 00:10
 - [x] Copilot SSE 流式实测 — token级打字机+工具日志+qwen3.5-plus — 04-12 00:15
 - [x] LLM 请求级 Fallback — 3层(flash→plus→proxy)+reset_agent — 04-12 00:15
-- [ ] 前端 citations 适配新字段（published_at, topic）
-- [ ] 前端 QaView 适配 session_id + 聊天历史
+- [ ] 前端 citations 适配新字段（published_at, topic）— 已有字段定义，待 RAG 填充真实值
+- [x] 前端 QaView 适配 session_id + 聊天历史 — 04-12 已有
 
 ## 🤖 P1 — 智能助手模块（进行中）
 
@@ -38,17 +38,17 @@
 - [x] QA hybrid 模式超时优化 — 04-11 23:00
 - [x] LLM 3层 Fallback + 模型切换 — 04-12 00:15
 - [ ] 调研 deepagents 框架最新设计和用法
-- [ ] 调研 LangGraph 多 Agent 协作最佳实践
-- [ ] 设计 Agent 架构（角色划分、协作协议、记忆管理）
+- [x] 调研 LangGraph 多 Agent 协作最佳实践 — 04-12 设计完成
+- [x] 设计 Agent 架构（角色划分、协作协议、记忆管理）— 04-12 MULTI_AGENT_DESIGN.md
 - [ ] 设计虚拟文件系统（Agent 工作空间）
 - [ ] 设计上下文记忆管理策略
-- [ ] 前端新页面 — Agent 对话界面
-- [ ] 后端 Agent 服务实现
+- [x] 前端新页面 — Agent 对话界面 — CopilotView 已有
+- [x] 后端 Agent 服务实现 — supervisor.py + workers.py + SSE
 - [ ] 集成测试
 
 ## 📋 P2 — 功能完善
 
-- [ ] 代码提交 & 变更归档（清理 log/pyc 后 commit）
+- [x] 代码提交 & 变更归档 — 04-12 已分5批提交
 - [ ] PDF 导出
 - [ ] 用户认证系统
 - [ ] 知识库文档预览
@@ -60,7 +60,7 @@
 
 - [x] SSE 流式输出 — 04-10/11 Copilot SSE + QA SSE 均已实现
 - [ ] 采集反爬 403 长期方案
-- [ ] Copilot 子 Agent 协作（并行采集+分析）
+- [x] Copilot 子 Agent 协作（并行采集+分析）— 04-12 researcher 并行已实现
 - [ ] Copilot 上下文压缩（长对话自动摘要）
 - [ ] Copilot Human-in-the-loop（确认破坏性操作）
 - [ ] PDF/DOCX 文档解析
