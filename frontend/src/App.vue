@@ -3,7 +3,7 @@ import { h, ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import {
   NLayout, NLayoutSider, NLayoutHeader, NLayoutContent,
-  NMenu, NIcon, NConfigProvider, darkTheme, type GlobalThemeOverrides,
+  NMenu, NIcon, NConfigProvider, NMessageProvider, NDialogProvider, darkTheme, type GlobalThemeOverrides,
 } from 'naive-ui'
 import {
   HomeOutline,
@@ -11,6 +11,8 @@ import {
   ChatbubbleOutline,
   DocumentTextOutline,
   ListOutline,
+  LibraryOutline,
+  RocketOutline,
 } from '@vicons/ionicons5'
 
 const router = useRouter()
@@ -25,8 +27,10 @@ const menuOptions = [
   { label: '仪表盘', key: 'dashboard', icon: renderIcon(HomeOutline) },
   { label: '专题管理', key: 'topics', icon: renderIcon(ListOutline) },
   { label: '资讯中心', key: 'articles', icon: renderIcon(BookmarkOutline) },
-  { label: '知识问答', key: 'qa', icon: renderIcon(ChatbubbleOutline) },
+  { label: '智能对话', key: 'qa', icon: renderIcon(ChatbubbleOutline) },
   { label: '报告中心', key: 'reports', icon: renderIcon(DocumentTextOutline) },
+  { label: '知识库', key: 'knowledge', icon: renderIcon(LibraryOutline) },
+  { label: '🤖 智能助手', key: 'copilot', icon: renderIcon(RocketOutline) },
 ]
 
 function handleMenuUpdate(key: string) {
@@ -81,6 +85,8 @@ const themeOverrides: GlobalThemeOverrides = {
 
 <template>
   <n-config-provider :theme="darkTheme" :theme-overrides="themeOverrides">
+    <n-message-provider>
+    <n-dialog-provider>
     <n-layout has-sider style="height: 100vh">
       <n-layout-sider
         bordered
@@ -120,5 +126,7 @@ const themeOverrides: GlobalThemeOverrides = {
         </n-layout-content>
       </n-layout>
     </n-layout>
+    </n-dialog-provider>
+    </n-message-provider>
   </n-config-provider>
 </template>

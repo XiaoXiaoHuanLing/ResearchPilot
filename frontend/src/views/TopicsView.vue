@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import {
-  NCard, NButton, NSpace, NModal, NForm, NFormItem, NInput,
-  NTag, NPopconfirm, NSwitch, NSpin, NEmpty, useMessage,
-} from 'naive-ui'
-import { useTopicStore } from '../stores'
+import { onMounted, ref, computed } from 'vue'
+import { NCard, NButton, NSpace, NModal, NForm, NFormItem, NInput, NTag, NPopconfirm, NSwitch, NSpin, NEmpty, useMessage } from 'naive-ui'
+import { useTopicStore, useArticleStore } from '../stores'
 import type { Topic, TopicCreatePayload } from '../types'
 
 const topicStore = useTopicStore()
+const articleStore = useArticleStore()
 const message = useMessage()
 const showModal = ref(false)
 const editingId = ref<number | null>(null)
@@ -52,7 +50,6 @@ async function handleSubmit() {
     message.warning('请填写专题名称、描述和关键词')
     return
   }
-
   saving.value = true
   try {
     if (editingId.value) {
@@ -63,8 +60,8 @@ async function handleSubmit() {
       message.success('专题已创建')
     }
     showModal.value = false
-  } catch (e) {
-    message.error(e instanceof Error ? e.message : '操作失败')
+  } catch (e: any) {
+    message.error(e?.message || '操作失败')
   } finally {
     saving.value = false
   }
@@ -74,20 +71,42 @@ async function handleDelete(id: number) {
   try {
     await topicStore.remove(id)
     message.success('专题已删除')
-  } catch (e) {
-    message.error(e instanceof Error ? e.message : '删除失败')
+  } catch (e: any) {
+    message.error(e?.message || '删除失败')
   }
 }
 
-onMounted(() => {
-  if (topicStore.topics.length === 0) topicStore.load()
+function getArticleCountForTopic(topicName: string): number {
+  return articleStore.articles.filter(a => a.topic === topicName).length
+}
+
+function getBookmarkedCountForTopic(topicName: string): number {
+  return articleStore.articles.filter(a => a.topic === topicName && a.bookmarked).length
+}
+
+const topicStats = computed(() => {
+  const enabled = topicStore.topics.filter(t => t.enabled).length
+  const disabled = topicStore.topics.filter(t => !t.enabled).length
+  return { enabled, disabled, total: topicStore.topics.length }
+})
+
+onMounted(async () => {
+  try {
+    await topicStore.load()
+    if (articleStore.articles.length === 0) await articleStore.loadAll()
+  } catch (e) {
+    console.error('TopicsView mount error:', e)
+  }
 })
 </script>
 
 <template>
   <div>
     <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-bold text-cyan-400">专题管理</h1>
+      <div>
+        <h1 class="text-2xl font-bold text-cyan-400">专题管理</h1>
+        <p class="text-slate-400 text-sm mt-1">共 {{ topicStats.total }} 个专题 · {{ topicStats.enabled }} 运行中 · {{ topicStats.disabled }} 已停用</p>
+      </div>
       <n-button type="primary" @click="openCreate">+ 新增专题</n-button>
     </div>
 
@@ -107,6 +126,14 @@ onMounted(() => {
             <n-tag v-for="kw in topic.keywords" :key="kw" size="small" :bordered="false" type="info">{{ kw }}</n-tag>
           </div>
           <div class="text-xs text-slate-500 mt-2">调度：{{ topic.schedule }}</div>
+
+          <!-- Stats bar -->
+          <div class="mt-3 pt-3 border-t border-slate-700/40">
+            <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
+              <span>资讯 {{ getArticleCountForTopic(topic.name) }} 篇 · 收藏 {{ getBookmarkedCountForTopic(topic.name) }} 篇</span>
+            </div>
+          </div>
+
           <n-space class="mt-3">
             <n-button size="small" ghost @click="openEdit(topic)">编辑</n-button>
             <n-popconfirm @positive-click="handleDelete(topic.id)">
