@@ -7,6 +7,10 @@
 1. 用户消息 → 默认走单 Agent
 2. API 参数 use_supervisor=True → 走 Supervisor
 3. 未来可自动检测复杂度切换
+
+LLM fallback:
+- get_chat_llm() 返回带 with_fallbacks 的 LLM 链
+- 主模型失败时自动切换后备，无需 reset_agent 或手写 try/except
 """
 
 import json
@@ -42,64 +46,32 @@ _compiled_agent = None
 def get_compiled_agent():
     """获取预构建的 ReAct Agent（单例）。
 
-    自动跳过不可用的 LLM，选择第一个能用的。
+    LLM 已带 with_fallbacks，主模型失败自动切换，无需预测试。
     """
     global _compiled_agent
     if _compiled_agent is not None:
         return _compiled_agent
 
-    from app.services.copilot.llm import get_all_chat_llms
+    from app.services.copilot.llm import get_chat_llm
     from app.services.copilot.tools import get_all_tools
 
     all_tools = get_all_tools()
-    llms = get_all_chat_llms(streaming=True)
-
-    if not llms:
-        raise RuntimeError("No LLM available for copilot")
-
-    # Try each LLM with a quick test call; pick the first that works
-    selected_llm = None
-    selected_label = ""
-    for llm in llms:
-        try:
-            test_resp = llm.invoke([{"role": "user", "content": "Say only OK"}], config={"max_tokens": 2})
-            if test_resp and test_resp.content:
-                selected_llm = llm
-                selected_label = getattr(llm, 'model_name', str(llm.model))
-                logger.info("Agent LLM selected: %s (verified working)", selected_label)
-                break
-            else:
-                logger.warning("LLM %s returned empty, skipping", getattr(llm, 'model_name', str(llm.model)))
-        except UnicodeEncodeError:
-            # Windows terminal encoding issue — LLM actually works, just can't print emoji
-            selected_llm = llm
-            selected_label = getattr(llm, 'model_name', str(llm.model))
-            logger.info("Agent LLM selected: %s (UnicodeEncodeError ignored, model works)", selected_label)
-            break
-        except Exception as e:
-            err = str(e)
-            logger.warning("LLM %s failed test: %s", getattr(llm, 'model_name', str(llm.model)), err[:100])
-            continue
-
-    if selected_llm is None:
-        selected_llm = llms[0]
-        selected_label = getattr(selected_llm, 'model_name', str(selected_llm.model))
-        logger.warning("All LLMs failed test, using %s as last resort", selected_label)
+    llm = get_chat_llm(streaming=True)
 
     _compiled_agent = create_react_agent(
-        model=selected_llm,
+        model=llm,
         tools=all_tools,
         checkpointer=_checkpointer,
         prompt=COPILOT_SYSTEM_PROMPT,
     )
     _compiled_agent = _compiled_agent.with_config(recursion_limit=50)
 
-    logger.info("Copilot agent created with %d tools, LLM=%s", len(all_tools), selected_label)
+    logger.info("Copilot agent created with %d tools (LLM with fallbacks)", len(all_tools))
     return _compiled_agent
 
 
 def reset_agent():
-    """重置 agent 单例（LLM fallback 时调用）。"""
+    """重置 agent 单例（配置变更时调用）。"""
     global _compiled_agent
     _compiled_agent = None
 

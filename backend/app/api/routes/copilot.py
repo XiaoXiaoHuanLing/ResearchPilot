@@ -31,6 +31,8 @@ class CopilotChatResponse(BaseModel):
     response: str
     tool_log: list[dict] = []
     thread_id: str
+    mode: str | None = None        # "supervisor" or None (single agent)
+    tasks: list[dict] | None = None  # Supervisor task list
 
 class CopilotSessionInfo(BaseModel):
     thread_id: str
@@ -69,11 +71,6 @@ async def copilot_chat(payload: CopilotChatRequest):
     except Exception as e:
         err_msg = str(e)
         logger.error("Copilot chat error: %s", e, exc_info=True)
-        # LLM quota exhausted — try fallback
-        if "AllocationQuota" in err_msg or "403" in err_msg or "free tier" in err_msg.lower():
-            from app.services.copilot.agent import reset_agent
-            reset_agent()
-            raise HTTPException(status_code=503, detail="当前模型额度已耗尽，已切换到备选模型，请重试")
         raise HTTPException(status_code=500, detail=f"智能助手执行失败: {err_msg[:200]}")
 
 
@@ -97,19 +94,7 @@ async def copilot_chat_stream(payload: CopilotChatRequest):
         except Exception as e:
             err_msg = str(e)
             logger.error("Copilot stream error: %s", e, exc_info=True)
-
-            if "AllocationQuota" in err_msg or "403" in err_msg or "free tier" in err_msg.lower():
-                logger.warning("LLM quota exhausted, resetting agent to try fallback LLM")
-                from app.services.copilot.agent import reset_agent, reset_supervisor
-                reset_agent()
-                reset_supervisor()
-                data = json.dumps({
-                    "type": "error",
-                    "message": "当前模型额度已耗尽，已切换到备选模型。请重新发送消息。",
-                    "retry": True,
-                }, ensure_ascii=False)
-            else:
-                data = json.dumps({"type": "error", "message": err_msg[:300]}, ensure_ascii=False)
+            data = json.dumps({"type": "error", "message": err_msg[:300]}, ensure_ascii=False)
             yield f"event: error\ndata: {data}\n\n"
 
     return StreamingResponse(
@@ -126,7 +111,7 @@ async def copilot_chat_stream(payload: CopilotChatRequest):
 
 async def _single_agent_stream(message: str, thread_id: str):
     """单 Agent SSE 流式生成器。"""
-    from app.services.copilot.agent import get_compiled_agent, reset_agent
+    from app.services.copilot.agent import get_compiled_agent
 
     agent = get_compiled_agent()
     config = {"configurable": {"thread_id": thread_id}}
@@ -172,9 +157,6 @@ async def _single_agent_stream(message: str, thread_id: str):
         _touch_session(thread_id)
 
     except Exception as e:
-        err_msg = str(e)
-        if "AllocationQuota" in err_msg or "403" in err_msg:
-            reset_agent()
         raise
 
 
@@ -189,8 +171,7 @@ async def _supervisor_stream(message: str, thread_id: str):
     - tool_start / tool_end: 工具调用
     - done: 完成
     """
-    from app.services.copilot.agent.supervisor import get_supervisor_graph, reset_supervisor
-    from langgraph.graph.state import CompiledStateGraph
+    from app.services.copilot.agent.supervisor import get_supervisor_graph
 
     graph = get_supervisor_graph()
     config = {"configurable": {"thread_id": f"sv_{thread_id}"}}
@@ -200,17 +181,28 @@ async def _supervisor_stream(message: str, thread_id: str):
         "next_worker": None,
     }
 
+    # Track which worker node is currently active (for tool/token attribution)
+    _current_worker = "supervisor"
+
     try:
         async for event in graph.astream_events(input_msg, config=config, version="v2"):
             kind = event.get("event", "")
-            tags = event.get("tags", [])
-            node_name = ""
+            name = event.get("name", "")
 
-            # Identify which node generated this event
-            for tag in tags:
-                if tag.startswith("langgraph:nodes:"):
-                    node_name = tag.split(":")[-1]
-                    break
+            # Identify node from event name (LangGraph StateGraph uses name, not tags)
+            worker_nodes = {"researcher", "analyst", "manager", "supervisor"}
+
+            # Track worker context: when a worker node starts, remember it
+            if kind == "on_chain_start" and name in worker_nodes:
+                _current_worker = name
+                data = json.dumps({"type": "worker_switch", "worker": name}, ensure_ascii=False)
+                yield f"event: worker_switch\ndata: {data}\n\n"
+                continue
+
+            # When a worker node ends, revert context to supervisor
+            if kind == "on_chain_end" and name in worker_nodes:
+                _current_worker = "supervisor"
+                continue
 
             if kind == "on_chat_model_stream":
                 chunk = event.get("data", {}).get("chunk")
@@ -225,12 +217,20 @@ async def _supervisor_stream(message: str, thread_id: str):
                             elif isinstance(part, str):
                                 text += part
                     if text:
-                        data = json.dumps({"type": "token", "content": text, "node": node_name}, ensure_ascii=False)
+                        data = json.dumps({
+                            "type": "token",
+                            "content": text,
+                            "worker": _current_worker,
+                        }, ensure_ascii=False)
                         yield f"event: token\ndata: {data}\n\n"
 
             elif kind == "on_tool_start":
                 tool_name = event.get("name", "")
-                data = json.dumps({"type": "tool_start", "tool": tool_name, "worker": node_name}, ensure_ascii=False)
+                data = json.dumps({
+                    "type": "tool_start",
+                    "tool": tool_name,
+                    "worker": _current_worker,
+                }, ensure_ascii=False)
                 yield f"event: tool_start\ndata: {data}\n\n"
 
             elif kind == "on_tool_end":
@@ -241,21 +241,18 @@ async def _supervisor_stream(message: str, thread_id: str):
                 else:
                     result_str = str(raw_output)
                 result_preview = result_str.replace("\n", " ")[:200]
-                data = json.dumps({"type": "tool_end", "tool": tool_name, "result": result_preview, "worker": node_name}, ensure_ascii=False)
+                data = json.dumps({
+                    "type": "tool_end",
+                    "tool": tool_name,
+                    "result": result_preview,
+                    "worker": _current_worker,
+                }, ensure_ascii=False)
                 yield f"event: tool_end\ndata: {data}\n\n"
-
-            # Emit worker_switch when we enter a worker node
-            elif kind == "on_chain_start" and node_name in ("researcher", "analyst", "manager", "supervisor"):
-                data = json.dumps({"type": "worker_switch", "worker": node_name}, ensure_ascii=False)
-                yield f"event: worker_switch\ndata: {data}\n\n"
 
         yield f"event: done\ndata: {json.dumps({'type': 'done', 'thread_id': thread_id, 'mode': 'supervisor'}, ensure_ascii=False)}\n\n"
         _touch_session(thread_id)
 
     except Exception as e:
-        err_msg = str(e)
-        if "AllocationQuota" in err_msg or "403" in err_msg:
-            reset_supervisor()
         raise
 
 
