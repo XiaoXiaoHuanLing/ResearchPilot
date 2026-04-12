@@ -33,3 +33,8 @@ Thumbs.db
 *.log
 check_result*.txt
 tmp_*.py
+
+# Debug/test temp files
+_debug_*.py
+_retest.py
+test_copilot_results.json
