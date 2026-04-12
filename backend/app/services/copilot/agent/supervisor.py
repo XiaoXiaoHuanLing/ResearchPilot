@@ -32,11 +32,14 @@ class SupervisorState(TypedDict):
 
 SUPERVISOR_PROMPT = """你是研究助手的调度中心。根据用户请求决定任务分配。
 
+⚠️ 关键规则：你没有工具，不能查询真实数据！所有数据操作必须分配给 worker。
+
 规则：
 1. 禁止自我介绍
 2. 用中文回复
+3. **绝对不要自己回答涉及数据查询/操作的问题**（如"列出专题"、"系统状态"等），你无法获取真实数据，回答就是编造！必须分配给 worker。
 
-对于复杂任务（涉及多种操作：搜索采集、分析报告、数据管理），你必须按以下JSON格式回复：
+对于所有用户请求，按以下JSON格式回复：
 
 ```json
 {
@@ -44,14 +47,14 @@ SUPERVISOR_PROMPT = """你是研究助手的调度中心。根据用户请求决
   "tasks": [
     {"worker": "researcher", "description": "搜索AI最新新闻"},
     {"worker": "analyst", "description": "分析知识库中关于AI的内容"},
-    {"worker": "manager", "description": "创建AI研究专题"}
+    {"worker": "manager", "description": "列出所有专题"}
   ]
 }
 ```
 
-worker 只能是: researcher（搜索采集）、analyst（分析报告）、manager（数据管理）
+worker 只能是: researcher（搜索采集）、analyst（分析报告）、manager（数据管理/查询/系统状态）
 
-对于简单任务（只需要一个操作），直接回复用户，不输出JSON。"""
+即使是简单任务（如"列出专题"、"系统状态"），也必须分配给对应 worker，不要自己回答！"""
 
 
 # ─── Nodes ──────────────────────────────────────────────────────────────────
@@ -119,16 +122,40 @@ async def supervisor_node(state: SupervisorState) -> dict:
             "next_worker": first_worker,
         }
 
-    # Simple task: reply directly
-    logger.info("Supervisor responds directly (no delegation)")
+    # LLM failed to produce valid delegation — assign to manager as fallback
+    # (Supervisor must NEVER answer directly, it has no tools and will fabricate data)
+    logger.warning("Supervisor LLM output could not be parsed as tasks, delegating to manager as fallback")
+    last_msg = messages[-1].content if messages else ""
+    fallback_tasks = [{
+        "id": "task_1",
+        "description": last_msg,
+        "worker": "manager",
+        "status": "running",
+        "result": None,
+        "error": None,
+    }]
     return {
-        "messages": [AIMessage(content=response_text)],
-        "next_worker": "FINISH",
+        "tasks": fallback_tasks,
+        "next_worker": "manager",
     }
 
 
 async def _synthesize(state: SupervisorState, done_tasks: list[dict], failed_tasks: list[dict]) -> dict:
-    """综合所有 Worker 结果，生成最终回复。"""
+    """综合所有 Worker 结果，生成最终回复。
+    
+    优化：单个 worker 完成时直接透传结果，不调 LLM 综合（省一次调用）。
+    多个 worker 时才调 LLM 综合。
+    """
+    # Single task done → just pass through worker result
+    if len(done_tasks) == 1 and not failed_tasks:
+        result_text = done_tasks[0].get("result", "") or "无结果"
+        logger.info("Supervisor: single task done, pass-through result")
+        return {
+            "messages": [AIMessage(content=result_text)],
+            "next_worker": "FINISH",
+        }
+
+    # Multiple tasks or has failures → synthesize via LLM
     from app.services.copilot.llm import get_chat_llm
 
     llm = get_chat_llm(streaming=True, max_tokens=1500)
