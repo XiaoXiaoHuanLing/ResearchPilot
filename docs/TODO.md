@@ -1,7 +1,7 @@
 # TODO.md — 来财的工作待办
 
 > 创建时间：2026-04-10 01:30
-> 最后更新：2026-04-12 00:20
+> 最后更新：2026-04-12 14:35
 > 规则：每完成一项打勾并记录时间；阶段汇报时附截图
 
 ---
@@ -117,3 +117,14 @@
 - 00:15 主模型切换 qwen3.5-flash → qwen3.5-plus（flash免费额度耗尽）
 - 00:20 更新 PROGRESS.md + TODO.md
 - **P0 全部完成（除代码提交），准备进入多智能体协作设计**
+
+- 09:50 代码提交归档：70个未提交文件分5批commit（Copilot模块/后端改进/前端更新/文档清理/gitignore）
+- 09:55 Supervisor 多 Agent SSE 流式支持：copilot.py 拆分为 _single_agent_stream + _supervisor_stream
+- 09:55 Researcher 并行执行：asyncio.gather 同时处理多个采集任务
+- 09:55 前端 Supervisor 模式切换：CopilotView 添加 useSupervisor 开关 + worker_switch SSE 事件
+- 10:00 Supervisor 任务解析改进：prompt 改为 JSON 格式输出，_parse_tasks 支持 JSON + markdown 双解析
+- 10:10 修复 workers.py：Researcher 工具补全（search_tools 已含 ingest_url + collect_topic）
+- 14:25 Supervisor 集成测试失败：qwen3.5-plus 免费额度耗尽(AllocationQuota)，非代码问题
+- 14:30 qwen3.5-27b fallback 也有 UnicodeEncodeError 编码问题
+- 14:35 当前所有阿里云模型额度耗尽，Supervisor 集成测试无法继续，需等额度刷新或切换到 proxy
+- **阶段汇报 4**：多 Agent 架构代码完成，待 LLM 额度恢复后集成测试

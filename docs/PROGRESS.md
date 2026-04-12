@@ -1,6 +1,6 @@
 # ResearchPilot 项目进度文档
 
-> 最后更新：2026-04-12 00:20
+> 最后更新：2026-04-12 14:35
 > 项目路径：`E:\workspace\openclaw_project\ResearchPilot`
 
 ---
@@ -27,12 +27,14 @@ ResearchPilot 是一个面向公开专题研究的 AI 助手平台，核心理�
 | 抓取 | httpx + readability + BeautifulSoup | 网页内容提取 |
 
 ### 当前生效配置
-- **Copilot LLM**: `qwen3.5-flash` via 阿里云 DashScope（优先，快速可靠，支持 tool calling）
-- **QA/Chat LLM**: `qwen3.5-flash` via 阿里云（优先）→ gpt-5.4 via 代理（fallback）
-- **RAG answer LLM**: `qwen3.5-flash` via 阿里云（LangChain ChatOpenAI 合成）
-- **报告 LLM**: gpt-5.4(via 代理) → qwen3.5-flash(阿里云 fallback)
+- **Copilot LLM**: `qwen3.5-plus` via 阿里云 DashScope（flash 额度耗尽后切换）
+- **QA/Chat LLM**: `qwen3.5-plus` via 阿里云（优先）→ gpt-5.4 via 代理（fallback）
+- **RAG answer LLM**: `qwen3.5-plus` via 阿里云
+- **报告 LLM**: gpt-5.4(via 代理) → qwen3.5-plus(阿里云 fallback)
+- **Supervisor Worker LLM**: `qwen3.5-plus` via 阿里云（每个 Worker 独立实例）
 - **Embedding**: `text-embedding-v3` via 阿里云 DashScope
 - **搜索**: Tavily(basic模式) + Serper，均可用
+- ⚠️ 04-12 14:25 qwen3.5-plus 免费额度耗尽(AllocationQuota)，需等刷新或切 proxy
 
 ---
 
@@ -60,7 +62,7 @@ ResearchPilot 是一个面向公开专题研究的 AI 助手平台，核心理�
 - **检索+合成分离**：`as_retriever()` 只做向量检索 → LangChain ChatOpenAI 生成答案
 - **LLM 选择**：RAG answer 优先阿里云 qwen（LlamaIndex 白名单+代理空回答双重问题）
 
-#### Copilot 架构（`services/copilot/` — 2026-04-11 重构）
+#### Copilot 架构（`services/copilot/` — 2026-04-12 多 Agent 升级）
 
 ```
 copilot/
@@ -77,9 +79,21 @@ copilot/
 │   └── context.py            # write/read_context_file
 ├── llm/                      # LLM 配置层
 │   └── __init__.py           # get_chat_llm(), get_rag_llm() — 模型选择解耦
-└── agent/                    # Agent 层（使用 LangGraph prebuilt）
-    └── __init__.py           # create_react_agent + MemorySaver checkpoint
+└── agent/                    # Agent 层（双模式）
+    ├── __init__.py           # 单Agent: create_react_agent | Supervisor: run_copilot(use_supervisor=True)
+    ├── supervisor.py         # Supervisor Graph + 节点定义 + JSON任务解析
+    └── workers.py            # 3个 Worker Agent: Researcher/Analyst/Manager
 ```
+
+**双模式设计**：
+- **单 Agent 模式**（默认）：`create_react_agent` + 24工具 + MemorySaver，快速响应
+- **Supervisor 多 Agent 模式**（`use_supervisor=True`）：Supervisor 分解任务 → Researcher(并行采集) / Analyst(分析报告) / Manager(数据CRUD) → 综合回复
+
+**Supervisor 架构细节**：
+- Supervisor 分析用户意图，输出 JSON 格式任务分配
+- Researcher 支持 `asyncio.gather` 并行执行多个搜索/采集任务
+- 每个 Worker 持有专属工具子集（Researcher:3, Analyst:5, Manager:12）
+- SSE 推送 worker_switch/task_update 事件，前端实时展示 Worker 切换
 
 **设计原则**：
 - **Tool/LLM/Agent 解耦**：工具不依赖 agent，LLM 选择独立于 agent，agent 只编排流程
@@ -126,6 +140,12 @@ copilot/
 | **APScheduler 异步采集** | ✅ async_mode=True 后台采集，task进度追踪正常 |
 | **LLM 请求级 Fallback** | ✅ 首选qwen3.5-flash耗尽→qwen3.5-plus→proxy，自动切换+友好提示 |
 | **LLM 模型切换** | ✅ 主力模型从 qwen3.5-flash 切换到 qwen3.5-plus（额度可用） |
+| **代码提交归档** | ✅ 70文件分5批commit，从1个膨胀commit→7个语义commit |
+| **Supervisor SSE 流式** | ✅ copilot.py 拆分 _single_agent_stream + _supervisor_stream |
+| **Researcher 并行执行** | ✅ asyncio.gather 同时处理多搜索任务 |
+| **Supervisor JSON 任务解析** | ✅ prompt→JSON格式 + _extract_json_block 双解析器 |
+| **前端 Supervisor 开关** | ✅ CopilotView useSupervisor toggle + worker_switch 事件 |
+| **Supervisor 集成测试** | ⏸️ 代码完成，qwen3.5-plus额度耗尽，待恢复后验证 |
 
 ---
 
@@ -161,16 +181,16 @@ copilot/
 ### 6.1 当前缺陷
 - [ ] 报告导出PDF需安装 weasyprint，否则回退HTML
 - [ ] 数据库中文在 PowerShell 中显示乱码（实际数据正确，编码问题）
+- [ ] qwen3.5-plus 免费额度耗尽（AllocationQuota），Supervisor 集成测试受阻
 
 ### 6.2 待完善
 - [ ] 采集异步化 + 前端进度反馈
 - [ ] 前端全局错误处理和加载状态统一管理
-- [ ] Copilot 子 Agent 协作（并行采集+分析）
 - [ ] Copilot 上下文压缩（长对话自动摘要）
 - [ ] Copilot Human-in-the-loop（确认破坏性操作）
-- [ ] 前端 citations 适配新字段（published_at, topic）
-- [ ] 前端 QaView 适配 session_id + 聊天历史
+- [ ] 前端 citations 填充真实 published_at/topic（当前空字符串）
 - [ ] 采集反爬 403 长期方案
+- [ ] Supervisor 集成测试（需 LLM 额度）
 
 ---
 
@@ -184,17 +204,30 @@ copilot/
 | 3 | APScheduler 定时触发验证 | 异步采集+task进度追踪 | ✅ async_mode |
 | 4 | Copilot SSE 流式实测 | token级打字机+工具日志 | ✅ qwen3.5-plus |
 | 5 | LLM 请求级 Fallback | 额度耗尽自动切换备选 | ✅ 3层fallback |
-| 6 | 代码提交 & 变更归档 | 清理后待 commit | 🔲 待开始 |
+| 6 | 代码提交 & 变更归档 | 分5批提交，7个语义commit | ✅ 完成 |
+| 7 | 前端 QaView 适配 session_id | 聊天历史+会话切换 | ✅ 已有 |
 
 ### 优先级 P1
 | # | 任务 | 说明 | 状态 |
 |---|------|------|------|
-| 5 | 前端 citations 适配新字段 | published_at, topic 字段 | 🔲 待开始 |
-| 6 | 前端 QaView 适配 session_id | 聊天历史 + 会话切换 | 🔲 待开始 |
-| 7 | Copilot 子 Agent 协作 | 并行采集+分析 | 🔲 待设计 |
-| 8 | 上下文压缩 | 长对话自动摘要 | 🔲 待设计 |
-| 9 | PDF 导出 | weasyprint 或截图方案 | 🔲 待开始 |
-| 10 | 前端全局错误处理 | 统一 loading/error 状态 | 🔲 待开始 |
+| 1 | Supervisor 多 Agent SSE | _supervisor_stream + worker事件推送 | ✅ 完成 |
+| 2 | Researcher 并行采集 | asyncio.gather 多任务并行 | ✅ 完成 |
+| 3 | Supervisor JSON 任务解析 | prompt→JSON + _extract_json_block | ✅ 完成 |
+| 4 | 前端 Supervisor 开关 | useSupervisor toggle + worker_switch | ✅ 完成 |
+| 5 | Supervisor 集成测试 | 需 LLM 额度恢复 | ⏸️ 阻塞 |
+| 6 | 前端 citations 填充真实值 | RAG返回published_at/topic | 🔲 待做 |
+| 7 | 上下文压缩 | 长对话自动摘要 | 🔲 待设计 |
+| 8 | Human-in-the-loop | 确认破坏性操作 | 🔲 待设计 |
+| 9 | 虚拟文件系统 | Agent 工作空间 | 🔲 待设计 |
+
+### 优先级 P2
+| # | 任务 | 说明 | 状态 |
+|---|------|------|------|
+| 1 | PDF 导出 | weasyprint 或截图方案 | 🔲 |
+| 2 | 用户认证系统 | | 🔲 |
+| 3 | 知识库文档预览 | | 🔲 |
+| 4 | 资讯去重优化 | URL + title 相似度 | 🔲 |
+| 5 | 前端全局错误处理 | | 🔲 |
 
 ---
 
@@ -219,6 +252,10 @@ copilot/
 | 04-12 | **LLM 三层 Fallback** | flash额度耗尽→plus→proxy，请求级自动切换 |
 | 04-12 | **主模型切换 qwen3.5-flash→qwen3.5-plus** | flash 免费额度耗尽，plus 可用 |
 | 04-12 | **recursion_limit=50** | generate_report 嵌套LLM调用超默认25限制 |
+| 04-12 | **Supervisor JSON prompt** | LLM自由文本解析不可靠，改用JSON格式输出+正则提取 |
+| 04-12 | **Researcher asyncio.gather 并行** | 多采集任务串行太慢，同worker任务并行执行 |
+| 04-12 | **SSE split _single/_supervisor** | 两种模式事件类型不同，拆分生成器更清晰 |
+| 04-12 | **前端 useSupervisor toggle** | 先手动切换，未来可根据任务复杂度自动选择 |
 
 ---
 
@@ -251,11 +288,11 @@ copilot/
 │  │  └─────────┘ └─────────┘ └─────────────┘      │          │
 │  └─────────────────────────────────────────────────┘         │
 │  ┌───────────────────────────────────────────────┐           │
-│  │  🤖 Copilot (解耦架构)                         │           │
-│  │  tools/ (8文件,24工具,FUNC_MAP)                │           │
-│  │  llm/   (模型选择,qwen优先)                    │           │
-│  │  agent/ (create_react_agent+MemorySaver)       │           │
-│  │  SSE流式 ✅ (打字机+工具日志) │ 非流式 ✅        │           │
+│  │  🤖 Copilot (双模式架构)                       │           │
+│  │  单Agent: create_react_agent + 24工具          │           │
+│  │  多Agent: Supervisor → Researcher/Analyst/     │           │
+│  │           Manager (并行采集+分析+管理)          │           │
+│  │  SSE流式 ✅ │ 非流式 ✅ │ 任务JSON解析 ✅       │           │
 │  └───────────────────────────────────────────────┘           │
 │  ┌──────────────┐  ┌──────────────────┐                      │
 │  │ SQLite (ORM) │  │ APScheduler      │                      │
@@ -266,19 +303,20 @@ copilot/
 
 ---
 
-## 十、未提交变更清单（截至 2026-04-11 14:04）
+## 十、Git 提交历史（截至 2026-04-12）
 
-> 自 `e9d72b0` (MVP v0.1) 以来的所有未提交变更
+```
+d87892f fix: supervisor JSON task parsing + LLM UnicodeEncodeError fallback
+3d05aaf chore: gitignore integration test temp files
+1406079 fix: supervisor task parsing - JSON + markdown dual parser
+98d3ce8 docs: update TODO with completed items
+d5a3ada feat: Supervisor multi-agent SSE streaming + parallel researcher + frontend toggle
+f016e2b chore: gitignore debug/test temp files
+9893702 docs: add design docs, progress tracking; clean up stale files
+aec4fa6 feat: frontend Copilot & KB views, update existing views
+1e0121f refactor: backend core improvements
+620388d feat: add Copilot, KnowledgeBase, ChatSessions, Tasks modules
+e9d72b0 feat: ResearchPilot MVP v0.1 - RAG + LangGraph + APScheduler + Ingestion
+```
 
-### 修改文件
-- 后端：routes/(articles,health,qa,reports,copilot)、config.py、models/(report,chat)、main.py、schemas/report、services/(ingestion,rag/engine,report_generator,scheduler,seed)、pyproject.toml、.env.example
-- 前端：App.vue、api.ts、router、stores、types、views/(Articles,Dashboard,QA,Reports,Topics,CopilotView)、vite.config.ts
-- 文档：PRODUCT_OVERVIEW.md、TECH_ARCHITECTURE_V1.md
-
-### 新增文件
-- 后端：routes/(chat_sessions, copilot, knowledge_base, tasks)、models/(chat, kb_document, knowledge_base)、schemas/knowledge_base、services/(chat, copilot/, tasks)
-- 前端：views/(CopilotView, KnowledgeBaseView)
-- 文档：AGENT_MODULE_DESIGN.md、ONBOARDING.md、PROGRESS.md、RAG_OPTIMIZATION_LOG.md、TODO.md
-
-### 删除文件
-- docs/(MVP_PROGRESS_REVIEW_2026-04-09.md, NEXT_STEPS.md, PROJECT_INIT_PLAN.md, WORK_LOG.md) — 内容已合并到 PROGRESS.md
+全部代码已提交，工作区干净（仅剩 gitignore 下的调试脚本）。
