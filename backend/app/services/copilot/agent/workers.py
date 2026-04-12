@@ -46,14 +46,13 @@ _worker_checkpointer = MemorySaver()
 
 
 def get_researcher():
-    """获取采集 Agent（单例）。"""
+    """获取采集 Agent（单例）— 搜索 + 入库 + 采集。"""
     if "researcher" not in _workers:
         from app.services.copilot.llm import get_chat_llm
         from app.services.copilot.tools.search import TOOLS as search_tools
-        from app.services.copilot.tools.rag import TOOLS as _  # noqa
 
         llm = get_chat_llm(streaming=True)
-        tools = search_tools
+        tools = search_tools  # search_web + ingest_url + collect_topic
 
         _workers["researcher"] = create_react_agent(
             model=llm,

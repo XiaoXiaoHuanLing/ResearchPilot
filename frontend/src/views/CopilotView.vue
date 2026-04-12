@@ -30,6 +30,7 @@ const threadId = ref<string | null>(null)
 const showToolLog = ref(false)
 const chatContainer = ref<HTMLElement | null>(null)
 const errorMsg = ref('')
+const useSupervisor = ref(false)  // 多 Agent 模式开关
 
 // ─── Persistence ─────────────────────────────────────────────────────────
 
@@ -107,7 +108,7 @@ async function sendMessage() {
     const res = await fetch('/api/copilot/chat/stream', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, thread_id: threadId.value }),
+      body: JSON.stringify({ message: text, thread_id: threadId.value, use_supervisor: useSupervisor.value }),
     })
 
     if (!res.ok) {
@@ -222,6 +223,18 @@ function handleSSEEvent(event: any, assistantMsg: CopilotMessage) {
     }
     const idx = messages.value.findIndex(m => m.id === assistantMsg.id)
     if (idx !== -1) messages.value.splice(idx, 1, { ...assistantMsg })
+  } else if (type === 'worker_switch') {
+    // Show which worker is active
+    const workerNames: Record<string, string> = {
+      supervisor: '🧠 调度中心',
+      researcher: '🔍 采集助手',
+      analyst: '📊 分析助手',
+      manager: '📋 管理助手',
+    }
+    const workerLabel = workerNames[event.worker] || event.worker
+    assistantMsg.content += `\n⟳ ${workerLabel} 开始工作\n`
+    const idx = messages.value.findIndex(m => m.id === assistantMsg.id)
+    if (idx !== -1) messages.value.splice(idx, 1, { ...assistantMsg })
   } else if (type === 'done') {
     assistantMsg.streaming = false
     if (event.thread_id) {
@@ -290,6 +303,15 @@ const toolEmojis: Record<string, string> = {
       <div class="flex items-center gap-2">
         <n-tag v-if="threadId" size="tiny" :bordered="false" type="info">
           {{ threadId.slice(-6) }}
+        </n-tag>
+        <n-tag
+          size="tiny"
+          :bordered="false"
+          :type="useSupervisor ? 'warning' : 'default'"
+          style="cursor:pointer"
+          @click="useSupervisor = !useSupervisor"
+        >
+          {{ useSupervisor ? '🤖 多Agent' : '🤖 单Agent' }}
         </n-tag>
         <n-button size="tiny" quaternary @click="clearChat">清空</n-button>
       </div>

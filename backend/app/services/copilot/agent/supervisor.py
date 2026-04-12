@@ -73,11 +73,17 @@ async def supervisor_node(state: SupervisorState) -> dict:
         }
 
     if pending_tasks:
-        # 还有未完成任务，分配下一个
-        next_task = pending_tasks[0]
+        # 标记所有同 worker 的 pending 任务为 running（支持并行）
+        # 优先 researcher（可并行），其他串行
+        next_worker = pending_tasks[0]["worker"]
+        updated_tasks = []
+        for t in state["tasks"]:
+            if t["worker"] == next_worker and t["status"] == "pending":
+                t["status"] = "running"
+            updated_tasks.append(t)
         return {
-            "next_worker": next_task["worker"],
-            "tasks": _update_task_status(state["tasks"], next_task["id"], "running"),
+            "next_worker": next_worker,
+            "tasks": updated_tasks,
         }
 
     # 新请求：分析是否需要分解
@@ -110,22 +116,47 @@ async def supervisor_node(state: SupervisorState) -> dict:
 
 
 async def researcher_node(state: SupervisorState) -> dict:
-    """Researcher Worker 节点：搜索+采集。"""
+    """Researcher Worker 节点：搜索+采集，支持并行执行多个任务。"""
+    import asyncio
     from app.services.copilot.agent.workers import get_worker
 
     researcher = get_worker("researcher")
-    task = _get_running_task(state, "researcher")
-    if not task:
+
+    # 找出所有属于 researcher 且状态为 pending 或 running 的任务
+    my_tasks = [
+        t for t in state.get("tasks", [])
+        if t["worker"] == "researcher" and t["status"] in ("pending", "running")
+    ]
+    if not my_tasks:
         return {"next_worker": "supervisor"}
 
-    config = {"configurable": {"thread_id": f"researcher_{task['id']}"}}
-    result = await researcher.ainvoke(
-        {"messages": [HumanMessage(content=task["description"])]},
-        config=config,
-    )
-    result_text = result["messages"][-1].content if result.get("messages") else ""
+    # 并行执行所有采集任务
+    async def run_task(task: dict) -> tuple[str, str]:
+        config = {"configurable": {"thread_id": f"researcher_{task['id']}"}}
+        try:
+            result = await researcher.ainvoke(
+                {"messages": [HumanMessage(content=task["description"])]},
+                config=config,
+            )
+            result_text = result["messages"][-1].content if result.get("messages") else ""
+            return task["id"], result_text[:500]
+        except Exception as e:
+            logger.error("Researcher task %s failed: %s", task["id"], e)
+            return task["id"], f"❌ 执行失败: {e}"
+
+    results = await asyncio.gather(*[run_task(t) for t in my_tasks])
+
+    # 更新所有任务状态为 done
+    updated_tasks = []
+    for t in state.get("tasks", []):
+        for tid, content in results:
+            if t["id"] == tid:
+                t["status"] = "done"
+                t["result"] = content
+        updated_tasks.append(t)
+
     return {
-        "tasks": _update_task_status(state["tasks"], task["id"], "done", result_text[:500]),
+        "tasks": updated_tasks,
         "next_worker": "supervisor",
     }
 
