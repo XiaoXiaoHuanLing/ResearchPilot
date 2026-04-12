@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import health, topics, articles, qa, reports
+from app.api.routes import health, topics, articles, qa, reports, knowledge_base, tasks, chat_sessions, copilot
 from app.core.config import settings
 from app.db.base import Base
 from app.db.session import engine, SessionLocal
@@ -37,8 +37,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(health.router)
+app.include_router(health.router, prefix="/api", tags=["system"])
 app.include_router(topics.router, prefix="/api/topics", tags=["topics"])
 app.include_router(articles.router, prefix="/api/articles", tags=["articles"])
 app.include_router(qa.router, prefix="/api/qa", tags=["qa"])
 app.include_router(reports.router, prefix="/api/reports", tags=["reports"])
+app.include_router(knowledge_base.router, prefix="/api/knowledge-bases", tags=["knowledge-bases"])
+app.include_router(tasks.router, prefix="/api/tasks", tags=["tasks"])
+app.include_router(chat_sessions.router, prefix="/api/chat-sessions", tags=["chat-sessions"])
+app.include_router(copilot.router, prefix="/api/copilot", tags=["copilot"])

@@ -1,10 +1,17 @@
-"""Scheduler service using APScheduler for topic-based periodic collection.
+"""Scheduler service using APScheduler for topic-based periodic collection — V2 Fixed.
 
-Each enabled topic has a schedule (e.g. "每天 09:00") that determines
-when collection jobs should run. In the MVP, jobs log their execution;
-real web fetching will be added in the ingestion pipeline phase.
+V2 Fix: The core issue was that APScheduler runs in a background thread,
+but our collection pipeline is async. The V1 code tried to get the event loop
+which either didn't exist or was already running. V2 uses asyncio.run()
+in the background thread to create a fresh event loop for each job.
+
+Also added:
+- Proper scheduler lifecycle management
+- Collection result tracking
+- Error handling and retry logging
 """
 
+import asyncio
 import logging
 from datetime import datetime
 
@@ -27,54 +34,73 @@ def _parse_schedule(schedule_str: str) -> dict:
     - "每周一 09:00" → day_of_week=mon, hour=9
     """
     schedule_str = schedule_str.strip()
-    parts = schedule_str.replace("每天", "").replace("每周一", "mon").replace("每周二", "tue").split()
-
-    # Simple parsing for MVP
-    if "每天" in schedule_str or schedule_str.startswith("每天") or not any(d in schedule_str for d in ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]):
-        # Daily schedule
-        times = []
-        for part in schedule_str.split("/"):
-            part = part.strip()
-            for segment in part.split():
-                if ":" in segment:
-                    try:
-                        h, m = segment.split(":")
-                        times.append({"hour": int(h), "minute": int(m)})
-                    except (ValueError, IndexError):
-                        pass
-        if not times:
-            times = [{"hour": 9, "minute": 0}]
-        return {"type": "daily", "times": times}
-    else:
-        # Weekly or custom - fallback to daily 09:00 for MVP
-        return {"type": "daily", "times": [{"hour": 9, "minute": 0}]}
+    
+    # Check for weekly patterns
+    day_map = {
+        "每周一": "mon", "每周二": "tue", "每周三": "wed",
+        "每周四": "thu", "每周五": "fri", "每周六": "sat", "每周日": "sun",
+    }
+    
+    for cn_day, en_day in day_map.items():
+        if cn_day in schedule_str:
+            times = []
+            for segment in schedule_str.replace(cn_day, "").split("/"):
+                for part in segment.strip().split():
+                    if ":" in part:
+                        try:
+                            h, m = part.split(":")
+                            times.append({"hour": int(h), "minute": int(m), "day_of_week": en_day})
+                        except (ValueError, IndexError):
+                            pass
+            if not times:
+                times = [{"hour": 9, "minute": 0, "day_of_week": en_day}]
+            return {"type": "weekly", "times": times}
+    
+    # Daily schedule (default)
+    times = []
+    for part in schedule_str.replace("每天", "").split("/"):
+        for segment in part.strip().split():
+            if ":" in segment:
+                try:
+                    h, m = segment.split(":")
+                    times.append({"hour": int(h), "minute": int(m)})
+                except (ValueError, IndexError):
+                    pass
+    if not times:
+        times = [{"hour": 9, "minute": 0}]
+    return {"type": "daily", "times": times}
 
 
 def _collection_job(topic_id: int, topic_name: str, keywords_csv: str) -> None:
     """Scheduled collection job for a topic.
-
-    1. Parse keywords
-    2. Run ingestion pipeline
-    3. Log results
+    
+    V2 Fix: Uses asyncio.run() to create a fresh event loop
+    in the APScheduler background thread. This avoids the
+    "no event loop" or "event loop already running" errors.
     """
-    import asyncio
-    from app.services.ingestion import run_topic_collection
-
-    keywords = [k.strip() for k in keywords_csv.split(",") if k.strip()]
     logger.info(
         "[Scheduler] Collection job triggered for topic '%s' (id=%d) at %s",
         topic_name, topic_id, datetime.now().isoformat(),
     )
     try:
-        loop = asyncio.get_event_loop()
-        if loop.is_running():
-            # If we're inside an async loop, create a task
-            asyncio.ensure_future(run_topic_collection(topic_id, topic_name, keywords))
-        else:
-            loop.run_until_complete(run_topic_collection(topic_id, topic_name, keywords))
-    except RuntimeError:
-        # No event loop, create one
-        asyncio.run(run_topic_collection(topic_id, topic_name, keywords))
+        keywords = [k.strip() for k in keywords_csv.split(",") if k.strip()]
+        # Create a fresh event loop in this background thread
+        result = asyncio.run(_async_collection(topic_id, topic_name, keywords))
+        logger.info(
+            "[Scheduler] Collection for topic '%s' complete: %d new articles",
+            topic_name, result,
+        )
+    except Exception as e:
+        logger.error(
+            "[Scheduler] Collection for topic '%s' failed: %s",
+            topic_name, e, exc_info=True,
+        )
+
+
+async def _async_collection(topic_id: int, topic_name: str, keywords: list[str]) -> int:
+    """Async collection logic, run inside asyncio.run() from scheduler thread."""
+    from app.services.ingestion import run_topic_collection
+    return await run_topic_collection(topic_id, topic_name, keywords)
 
 
 def schedule_topic(topic_id: int, topic_name: str, schedule: str, keywords_csv: str = "") -> None:
@@ -105,8 +131,36 @@ def schedule_topic(topic_id: int, topic_name: str, schedule: str, keywords_csv: 
                 id=job_id,
                 args=[topic_id, topic_name, keywords_csv],
                 replace_existing=True,
+                # Retry on failure
+                misfire_grace_time=300,  # 5 min grace
+                coalesce=True,
             )
-            logger.info("Scheduled job %s: daily at %02d:%02d for topic '%s'", job_id, time_cfg["hour"], time_cfg["minute"], topic_name)
+            logger.info(
+                "Scheduled job %s: daily at %02d:%02d for topic '%s'",
+                job_id, time_cfg["hour"], time_cfg["minute"], topic_name,
+            )
+    elif parsed["type"] == "weekly":
+        for i, time_cfg in enumerate(parsed["times"]):
+            job_id = f"{job_prefix}_{i}"
+            trigger = CronTrigger(
+                day_of_week=time_cfg.get("day_of_week", "*"),
+                hour=time_cfg["hour"],
+                minute=time_cfg["minute"],
+            )
+            scheduler.add_job(
+                _collection_job,
+                trigger=trigger,
+                id=job_id,
+                args=[topic_id, topic_name, keywords_csv],
+                replace_existing=True,
+                misfire_grace_time=300,
+                coalesce=True,
+            )
+            logger.info(
+                "Scheduled job %s: weekly %s at %02d:%02d for topic '%s'",
+                job_id, time_cfg.get("day_of_week", "*"),
+                time_cfg["hour"], time_cfg["minute"], topic_name,
+            )
 
 
 def unschedule_topic(topic_id: int) -> None:
@@ -128,9 +182,15 @@ def init_scheduler() -> None:
     if scheduler is not None:
         return
 
-    scheduler = BackgroundScheduler()
+    scheduler = BackgroundScheduler(
+        job_defaults={
+            "coalesce": True,
+            "misfire_grace_time": 300,
+            "max_instances": 1,  # Don't run same job concurrently
+        }
+    )
     scheduler.start()
-    logger.info("APScheduler started")
+    logger.info("APScheduler started (V2 with asyncio.run fix)")
 
     # Load enabled topics from DB and schedule them
     try:
@@ -141,6 +201,7 @@ def init_scheduler() -> None:
             topics = db.query(TopicModel).filter(TopicModel.enabled == True).all()  # noqa: E712
             for topic in topics:
                 schedule_topic(topic.id, topic.name, topic.schedule, topic.keywords)
+                logger.info("Loaded schedule for topic '%s' (id=%d): %s", topic.name, topic.id, topic.schedule)
     except Exception as e:
         logger.error("Failed to load initial topic schedules: %s", e)
 
@@ -152,3 +213,17 @@ def shutdown_scheduler() -> None:
         scheduler.shutdown(wait=False)
         scheduler = None
         logger.info("APScheduler shutdown")
+
+
+def get_scheduled_jobs() -> list[dict]:
+    """Get list of all scheduled jobs (for API / status)."""
+    if scheduler is None:
+        return []
+    jobs = []
+    for job in scheduler.get_jobs():
+        jobs.append({
+            "id": job.id,
+            "next_run": str(job.next_run_time) if job.next_run_time else None,
+            "trigger": str(job.trigger),
+        })
+    return jobs

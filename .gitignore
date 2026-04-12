@@ -7,6 +7,7 @@ build/
 .venv/
 *.db
 vector_store/
+chroma_db/
 
 # Environment
 .env
@@ -27,3 +28,8 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# Runtime logs & temp files
+*.log
+check_result*.txt
+tmp_*.py

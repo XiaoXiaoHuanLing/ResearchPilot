@@ -1,21 +1,22 @@
-"""Source ingestion pipeline: fetch web pages, extract articles, normalize and store.
+"""Source ingestion pipeline: search, fetch, extract, and store articles.
 
 Pipeline:
-1. Fetch: HTTP GET with polite delays and User-Agent
-2. Extract: readability-lxml for main content, BS4 for metadata
-3. Normalize: clean text, standardize date, generate summary
-4. Store: save to DB as ArticleModel, auto-index into RAG if bookmarked
+1. Search: Use Tavily API (or Serper) for web search with keywords
+2. Fetch: HTTP GET with polite delays and User-Agent
+3. Extract: readability-lxml for main content, BS4 for metadata
+4. Normalize: clean text, standardize date, generate summary via LLM
+5. Store: save to DB as ArticleModel, auto-index into RAG if bookmarked
 """
 
 import logging
-import re
 from datetime import datetime, timezone
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urlparse
 
 import httpx
 from bs4 import BeautifulSoup
 from readability import Document
 
+from app.core.config import settings
 from app.db.models import ArticleModel
 from app.db.session import SessionLocal
 
@@ -23,13 +24,13 @@ logger = logging.getLogger(__name__)
 
 # Polite fetching config
 FETCH_TIMEOUT = 30.0
-FETCH_DELAY = 1.0  # seconds between requests (respectful crawling)
-USER_AGENT = "ResearchPilot/0.1.0 (Research Bot; +https://github.com/openclaw/researchpilot)"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
 _client: httpx.AsyncClient | None = None
 
 
-async def _get_client() -> httpx.AsyncClient:
+def _get_client() -> httpx.AsyncClient:
+    """Get or create the shared httpx AsyncClient (sync factory, async usage)."""
     global _client
     if _client is None:
         _client = httpx.AsyncClient(
@@ -40,10 +41,106 @@ async def _get_client() -> httpx.AsyncClient:
     return _client
 
 
+# --- Web Search ---
+
+async def search_web_tavily(query: str, max_results: int = 10) -> list[dict]:
+    """Search the web using Tavily API.
+
+    Returns list of {title, url, snippet}.
+    """
+    if not settings.tavily_api_key:
+        logger.warning("Tavily API key not configured, skipping web search")
+        return []
+
+    try:
+        client = _get_client()
+        resp = await client.post(
+            "https://api.tavily.com/search",
+            json={
+                "api_key": settings.tavily_api_key,
+                "query": query,
+                "max_results": max_results,
+                "search_depth": "basic",  # "advanced" causes 400 errors with CJK queries
+                "include_answer": False,
+                "include_raw_content": False,
+            },
+        )
+        resp.raise_for_status()
+        data = resp.json()
+
+        results = []
+        for item in data.get("results", []):
+            results.append({
+                "title": item.get("title", "无标题"),
+                "url": item.get("url", ""),
+                "snippet": item.get("content", ""),
+                "source": urlparse(item.get("url", "")).netloc or "未知来源",
+            })
+        return results
+
+    except Exception as e:
+        logger.error("Tavily search failed: %s", e)
+        return []
+
+
+async def search_web_serper(query: str, max_results: int = 10) -> list[dict]:
+    """Search the web using Serper API.
+
+    Returns list of {title, url, snippet}.
+    """
+    if not settings.serper_api_key:
+        logger.warning("Serper API key not configured, skipping web search")
+        return []
+
+    try:
+        client = _get_client()
+        resp = await client.post(
+            "https://google.serper.dev/search",
+            headers={"X-API-KEY": settings.serper_api_key},
+            json={
+                "q": query,
+                "num": max_results,
+                "gl": "cn",
+                "hl": "zh-cn",
+            },
+        )
+        resp.raise_for_status()
+        data = resp.json()
+
+        results = []
+        for item in data.get("organic", []):
+            results.append({
+                "title": item.get("title", "无标题"),
+                "url": item.get("link", ""),
+                "snippet": item.get("snippet", ""),
+                "source": urlparse(item.get("link", "")).netloc or "未知来源",
+            })
+        return results
+
+    except Exception as e:
+        logger.error("Serper search failed: %s", e)
+        return []
+
+
+async def search_web(query: str, max_results: int = 10) -> list[dict]:
+    """Search the web using the first available search API.
+
+    Priority: Tavily > Serper > empty
+    """
+    results = await search_web_tavily(query, max_results)
+    if not results:
+        results = await search_web_serper(query, max_results)
+    if not results:
+        logger.info("No search API configured, returning empty results for: %s", query)
+    return results
+
+
+# --- Page Fetch & Extract ---
+
 async def fetch_page(url: str) -> str | None:
     """Fetch a web page and return its HTML content."""
     try:
-        client = await _get_client()
+        client = _get_client()
         resp = await client.get(url)
         resp.raise_for_status()
         return resp.text
@@ -58,19 +155,15 @@ def extract_article(html: str, url: str) -> dict | None:
         doc = Document(html)
         title = doc.title()
 
-        # Get clean content
         summary_html = doc.summary(html_partial=True)
         soup = BeautifulSoup(summary_html, "lxml")
         content_text = soup.get_text(separator="\n", strip=True)
 
-        # Try to extract source name from domain
         parsed = urlparse(url)
         source = parsed.netloc or "未知来源"
 
-        # Try to find publish date
         published_at = _extract_date(html) or datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
 
-        # Generate a brief summary from first 300 chars
         summary = content_text[:300].strip()
         if len(content_text) > 300:
             summary += "..."
@@ -92,11 +185,7 @@ def _extract_date(html: str) -> str | None:
     """Try to extract a publication date from HTML meta tags."""
     soup = BeautifulSoup(html, "lxml")
 
-    # Check common meta tags
-    for tag_name, attr_name in [
-        ("meta", "property"),  # article:published_time
-        ("meta", "name"),      # date, pubdate, DC.date
-    ]:
+    for tag_name, attr_name in [("meta", "property"), ("meta", "name")]:
         for tag in soup.find_all(tag_name):
             prop = tag.get(attr_name, "").lower()
             if any(k in prop for k in ["date", "time", "published"]):
@@ -104,7 +193,6 @@ def _extract_date(html: str) -> str | None:
                 if content:
                     return _normalize_date(content)
 
-    # Check <time> element
     time_tag = soup.find("time")
     if time_tag:
         dt = time_tag.get("datetime") or time_tag.get_text(strip=True)
@@ -117,21 +205,15 @@ def _extract_date(html: str) -> str | None:
 def _normalize_date(date_str: str) -> str:
     """Normalize various date formats to 'YYYY-MM-DD HH:MM'."""
     date_str = date_str.strip()
-
-    # Try ISO format first
     for fmt in [
-        "%Y-%m-%dT%H:%M",
-        "%Y-%m-%dT%H:%M:%S",
-        "%Y-%m-%d %H:%M:%S",
-        "%Y-%m-%d %H:%M",
-        "%Y-%m-%d",
+        "%Y-%m-%dT%H:%M", "%Y-%m-%dT%H:%M:%S",
+        "%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M", "%Y-%m-%d",
     ]:
         try:
             dt = datetime.strptime(date_str[:19], fmt)
             return dt.strftime("%Y-%m-%d %H:%M")
         except ValueError:
             continue
-
     return date_str[:16]
 
 
@@ -144,29 +226,72 @@ def _is_duplicate(url: str, topic_name: str) -> bool:
         ).first() is not None
 
 
+# --- LLM Summary Generation ---
+
+async def generate_llm_summary(title: str, content: str) -> str:
+    """Use LLM to generate a concise summary of the article.
+
+    Falls back to truncation if LLM is not available.
+    """
+    if not settings.openai_api_key:
+        # Fallback: just truncate
+        return content[:300].strip() + ("..." if len(content) > 300 else "")
+
+    try:
+        from openai import OpenAI
+        client = OpenAI(
+            api_key=settings.openai_api_key,
+            base_url=settings.openai_base_url or None,
+        )
+        resp = client.chat.completions.create(
+            model=settings.llm_model,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "你是一位专业的研究资讯摘要助手。请用2-3句话总结以下文章的核心要点，保持客观准确。",
+                },
+                {
+                    "role": "user",
+                    "content": f"标题：{title}\n\n内容：{content[:3000]}",
+                },
+            ],
+            temperature=0.3,
+            max_tokens=300,
+        )
+        return resp.choices[0].message.content or content[:300]
+
+    except Exception as e:
+        logger.warning("LLM summary generation failed: %s", e)
+        return content[:300].strip() + ("..." if len(content) > 300 else "")
+
+
+# --- Main Ingestion Pipeline ---
+
 async def ingest_url(url: str, topic_name: str, auto_bookmark: bool = False) -> ArticleModel | None:
     """Full ingestion pipeline for a single URL.
 
     1. Fetch page
     2. Extract article
     3. Deduplicate
-    4. Store in DB
-    5. Optionally auto-bookmark and index into RAG
+    4. Generate LLM summary
+    5. Store in DB
+    6. Optionally auto-bookmark and index into RAG
     """
-    # Deduplicate
     if _is_duplicate(url, topic_name):
         logger.info("Skipping duplicate: %s for topic '%s'", url, topic_name)
         return None
 
-    # Fetch
     html = await fetch_page(url)
     if not html:
         return None
 
-    # Extract
     article_data = extract_article(html, url)
     if not article_data:
         return None
+
+    # Enhance summary with LLM
+    enhanced_summary = await generate_llm_summary(article_data["title"], article_data["content"])
+    article_data["summary"] = enhanced_summary
 
     # Store
     with SessionLocal() as db:
@@ -192,7 +317,12 @@ async def ingest_url(url: str, topic_name: str, auto_bookmark: bool = False) -> 
         if auto_bookmark and article.content:
             try:
                 from app.services.rag.engine import index_article
-                await index_article(article.id, article.title, article.summary, article.content)
+                await index_article(
+                    article_id=article.id, title=article.title, content=article.content,
+                    kb_id=0, kb_type="bookmarks",
+                    source=article.source, url=article.url,
+                    published_at=article.published_at, topic=article.topic,
+                )
             except Exception as e:
                 logger.warning("RAG indexing failed for article %d: %s", article.id, e)
 
@@ -205,24 +335,37 @@ async def ingest_search_results(
     max_results: int = 10,
     auto_bookmark: bool = False,
 ) -> list[ArticleModel]:
-    """Search and ingest articles for a topic using keywords.
+    """Search the web with keywords and ingest found articles.
 
-    MVP: Uses a simple web search approach.
-    Future: Will integrate with specific source APIs (RSS, APIs, etc.)
+    1. Build search query from keywords
+    2. Search via Tavily/Serper
+    3. For each result, fetch full page and ingest
+    4. Return list of successfully ingested articles
     """
     query = " ".join(keywords)
-    results: list[ArticleModel] = []
+    logger.info("Searching web for topic '%s' with query: %s", topic_name, query)
 
-    # MVP: Ingest from a configurable list of source URLs
-    # Future versions will use real search APIs or RSS feeds
-    logger.info(
-        "Ingestion request for topic '%s' with keywords: %s (max %d results)",
-        topic_name, query, max_results,
-    )
+    search_results = await search_web(query, max_results)
+    ingested: list[ArticleModel] = []
 
-    # For now, this is a placeholder that logs the request
-    # Real implementation will connect to search APIs or RSS feeds
-    return results
+    for result in search_results:
+        url = result.get("url", "")
+        if not url:
+            continue
+
+        try:
+            article = await ingest_url(url, topic_name, auto_bookmark=auto_bookmark)
+            if article is not None:
+                ingested.append(article)
+        except Exception as e:
+            logger.warning("Failed to ingest %s: %s", url, e)
+
+        # Be polite - don't hammer servers
+        import asyncio
+        await asyncio.sleep(1.0)
+
+    logger.info("Ingested %d articles for topic '%s'", len(ingested), topic_name)
+    return ingested
 
 
 async def run_topic_collection(topic_id: int, topic_name: str, keywords: list[str]) -> int:

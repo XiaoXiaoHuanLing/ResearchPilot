@@ -41,16 +41,57 @@ async def toggle_bookmark(article_id: int, payload: ArticleBookmarkUpdate, db: S
     db.commit()
     db.refresh(article)
 
-    # Auto-index into RAG vector store when bookmarked
+    # Auto-index into RAG vector store when bookmarked (bookmarks collection)
     if payload.bookmarked and article.content:
         try:
             from app.services.rag.engine import index_article
-            await index_article(article.id, article.title, article.summary, article.content)
+            from app.db.models import KnowledgeBaseModel
+            # Find the default bookmark KB id
+            bk_kb = db.query(KnowledgeBaseModel).filter(KnowledgeBaseModel.is_default == True).first()
+            kb_id = bk_kb.id if bk_kb else 0
+            await index_article(
+                article_id=article.id, title=article.title, content=article.content,
+                kb_id=kb_id, kb_type="bookmarks",
+                source=article.source, url=article.url,
+                published_at=article.published_at, topic=article.topic,
+            )
         except Exception as e:
             import logging
             logging.getLogger(__name__).warning("Failed to index article %d into RAG: %s", article_id, e)
 
+    # Remove from RAG when un-bookmarked
+    if not payload.bookmarked:
+        try:
+            from app.services.rag.engine import delete_article_from_index
+            await delete_article_from_index(article.id, kb_id=None, kb_type="bookmarks")
+        except Exception as e:
+            import logging
+            logging.getLogger(__name__).warning("Failed to remove article %d from RAG: %s", article_id, e)
+
     return article
+
+
+@router.delete("/{article_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_article(article_id: int, db: Session = Depends(get_db)):
+    """Delete an article. Only allowed for non-bookmarked articles."""
+    article = db.query(ArticleModel).filter(ArticleModel.id == article_id).first()
+    if article is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Article not found")
+    if article.bookmarked:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="已收藏的资讯不能删除，请先取消收藏后再删除",
+        )
+
+    # Remove from RAG index if present (safety check)
+    try:
+        from app.services.rag.engine import delete_article_from_index
+        await delete_article_from_index(article.id)
+    except Exception:
+        pass
+
+    db.delete(article)
+    db.commit()
 
 
 class IngestUrlRequest(BaseModel):
@@ -92,6 +133,7 @@ async def ingest_url(payload: IngestUrlRequest):
 
 class TopicCollectRequest(BaseModel):
     topic_id: int
+    async_mode: bool = False  # If True, run in background and return task_id
 
 
 class TopicCollectResponse(BaseModel):
@@ -100,21 +142,43 @@ class TopicCollectResponse(BaseModel):
     message: str
 
 
-@router.post("/collect", response_model=TopicCollectResponse)
+class TopicCollectAsyncResponse(BaseModel):
+    task_id: str
+    topic_name: str
+    message: str
+
+
+@router.post("/collect")
 async def collect_topic(payload: TopicCollectRequest, db: Session = Depends(get_db)):
-    """Trigger a manual collection run for a topic."""
+    """Trigger a collection run for a topic.
+    
+    If async_mode=True, runs in background and returns task_id for progress tracking.
+    Otherwise, runs synchronously (may timeout for large collections).
+    """
     from app.db.models import TopicModel
 
     topic = db.query(TopicModel).filter(TopicModel.id == payload.topic_id).first()
     if topic is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Topic not found")
 
-    keywords = [k.strip() for k in topic.keywords.split(",") if k.strip()]
-    from app.services.ingestion import run_topic_collection
-    count = await run_topic_collection(topic.id, topic.name, keywords)
+    keywords_csv = topic.keywords
 
-    return TopicCollectResponse(
-        topic_name=topic.name,
-        new_articles=count,
-        message=f"专题「{topic.name}」采集完成，新增 {count} 篇资讯",
-    )
+    if payload.async_mode:
+        # Background execution
+        from app.services.tasks import start_collection_task
+        task = await start_collection_task(topic.id, topic.name, keywords_csv)
+        return TopicCollectAsyncResponse(
+            task_id=task.id,
+            topic_name=topic.name,
+            message=f"专题「{topic.name}」采集已在后台启动，任务ID：{task.id}",
+        )
+    else:
+        # Synchronous execution (original behavior)
+        keywords = [k.strip() for k in keywords_csv.split(",") if k.strip()]
+        from app.services.ingestion import run_topic_collection
+        count = await run_topic_collection(topic.id, topic.name, keywords)
+        return TopicCollectResponse(
+            topic_name=topic.name,
+            new_articles=count,
+            message=f"专题「{topic.name}」采集完成，新增 {count} 篇资讯",
+        )

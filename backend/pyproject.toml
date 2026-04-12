@@ -1,6 +1,6 @@
 [project]
 name = "researchpilot-backend"
-version = "0.1.0"
+version = "0.2.0"
 description = "ResearchPilot FastAPI backend"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -16,6 +16,12 @@ dependencies = [
   "langchain>=1.2.15",
   "langchain-openai>=1.1.12",
   "langgraph>=1.1.6",
+  "llama-index>=0.12.0",
+  "llama-index-core>=0.12.0",
+  "llama-index-llms-openai>=0.3.0",
+  "llama-index-embeddings-openai>=0.3.0",
+  "llama-index-vector-stores-chroma>=0.4.0",
+  "chromadb>=1.5.0",
   "httpx>=0.28.1",
   "beautifulsoup4>=4.14.3",
   "readability-lxml>=0.8.4.1",

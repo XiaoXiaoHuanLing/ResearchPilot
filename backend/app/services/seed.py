@@ -1,9 +1,27 @@
 from sqlalchemy.orm import Session
 
-from app.db.models import ArticleModel, ReportModel, TopicModel
+from app.db.models import ArticleModel, ReportModel, TopicModel, KnowledgeBaseModel
 
 
 def seed_demo_data(db: Session) -> None:
+    # Create default bookmark knowledge base
+    if not db.query(KnowledgeBaseModel).filter(KnowledgeBaseModel.is_default == True).first():
+        db.add(KnowledgeBaseModel(
+            name="收藏资讯知识库",
+            description="由收藏的资讯自动构建的知识库",
+            kb_type="bookmarks",
+            is_default=True,
+            article_count=0,
+            created_at="2026-04-09 20:00",
+        ))
+        db.flush()  # flush so we can count
+
+    # Update bookmark KB article_count
+    bk_kb = db.query(KnowledgeBaseModel).filter(KnowledgeBaseModel.is_default == True).first()
+    if bk_kb:
+        from sqlalchemy import func as sa_func
+        bk_kb.article_count = db.query(ArticleModel).filter(ArticleModel.bookmarked == True).count()  # noqa: E712
+
     if db.query(TopicModel).first() is None:
         db.add_all([
             TopicModel(
