@@ -1,12 +1,12 @@
 # TODO.md — 来财的工作待办
 
 > 创建时间：2026-04-10 01:30
-> 最后更新：2026-04-12 14:35
+> 最后更新：2026-04-13 20:48
 > 规则：每完成一项打勾并记录时间；阶段汇报时附截图
 
 ---
 
-## 🔥 P0 — 核心体验（进行中）
+## 🔥 P0 — 核心体验（已完成 ✅）
 
 - [x] RAG 引擎 V2 重构（语义分块 + 元数据完善 + 查询增强 + HyDE） — 04-10 01:00
 - [x] Chat 服务 V2 重构（意图分类 + 增强提示词 + 统一消息构建） — 04-10 01:00
@@ -22,10 +22,11 @@
 - [x] APScheduler 异步采集验证 — async_mode+task进度追踪 — 04-12 00:10
 - [x] Copilot SSE 流式实测 — token级打字机+工具日志+qwen3.5-plus — 04-12 00:15
 - [x] LLM 请求级 Fallback — 3层(flash→plus→proxy)+reset_agent — 04-12 00:15
-- [ ] 前端 citations 适配新字段（published_at, topic）— 已有字段定义，待 RAG 填充真实值
+- [x] **LLM 模型统一改造** — 去除阿里云 qwen chat，统一 OPENAI_* 配置 + with_fallbacks + SSE 原生流式 — 04-13 18:00
+- [ ] 前端 citations 适配新字段（published_at, topic）— RAG 已返回，前端展示待适配
 - [x] 前端 QaView 适配 session_id + 聊天历史 — 04-12 已有
 
-## 🤖 P1 — 智能助手模块（进行中）
+## 🤖 P1 — 智能助手模块（大部分完成 ✅）
 
 > 核心理念：用户全程自然语言交互，Agent 自主完成所有后端操作
 > 技术方向：LangGraph + deepagents 多智能体 harness 工程
@@ -44,15 +45,17 @@
 - [ ] 调研 deepagents 框架最新设计和用法
 - [x] 调研 LangGraph 多 Agent 协作最佳实践 — 04-12 设计完成
 - [x] 设计 Agent 架构（角色划分、协作协议、记忆管理）— 04-12 MULTI_AGENT_DESIGN.md
+- [x] Supervisor 集成测试 — 简单/复杂任务均通过 + SSE — 04-13
+- [x] **SSE 原生流式** — streaming=True + on_chat_model_stream，删除模拟流式 — 04-13
 - [ ] 设计虚拟文件系统（Agent 工作空间）
 - [ ] 设计上下文记忆管理策略
 - [x] 前端新页面 — Agent 对话界面 — CopilotView 已有
 - [x] 后端 Agent 服务实现 — supervisor.py + workers.py + SSE
-- [ ] 集成测试
+- [x] 集成测试 — Supervisor 非流式+SSE 通过 — 04-13
 
 ## 📋 P2 — 功能完善
 
-- [x] 代码提交 & 变更归档 — 04-12 已分5批提交 + 04-12 20:30 with_fallbacks重构
+- [x] 代码提交 & 变更归档 — 04-12 已分5批提交 + 04-12 20:30 with_fallbacks重构 + 04-13 模型统一改造待提交
 - [ ] PDF 导出
 - [ ] 用户认证系统
 - [ ] 知识库文档预览
@@ -132,3 +135,15 @@
 - 14:30 qwen3.5-27b fallback 也有 UnicodeEncodeError 编码问题
 - 14:35 当前所有阿里云模型额度耗尽，Supervisor 集成测试无法继续，需等额度刷新或切换到 proxy
 - **阶段汇报 4**：多 Agent 架构代码完成，待 LLM 额度恢复后集成测试
+
+
+### 2026-04-13
+- 12:54 LLM 模型统一改造：去除阿里云 qwen chat，统一 OPENAI_* 配置
+- 14:08 发现 Fireworks streaming 返回空，尝试模拟流式
+- 15:41 实测全部 200 OK
+- 17:30 comi 换代理，SSE 原生流式恢复
+- 17:35 彻底删除模拟流式，全部原生 streaming=True
+- 18:00 端到端验证通过
+- 18:15 文档更新：ONBOARDING.md 重写为协作手册，PROGRESS.md 更新
+- 20:48 文档完善：PROGRESS.md 修重复章节+统一模型名，TODO.md 标记04-13完成项，HANDOVER.md 补全
+- **阶段汇报 5**：LLM 统一改造完成，SSE 原生流式恢复

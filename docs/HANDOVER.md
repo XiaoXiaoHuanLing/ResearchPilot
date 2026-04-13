@@ -1,219 +1,257 @@
-# ResearchPilot 项目交接清单
+# ResearchPilot 项目交接文档
 
-> 生成时间：2026-04-11 23:00
-> 交接人：comi / 来财 (AI 助手)
-
----
-
-## 一、30秒概览
-
-ResearchPilot 是一个**面向公开专题研究的 AI 助手平台**：用户定义研究专题 → 系统自动采集互联网资讯 → 用户收藏进入知识库 → 智能问答 + 报告生成。
-
-核心卖点：**自然语言 Copilot** — 用户说一句话，Agent 自主调用24个工具完成所有操作。
+> 最后更新：2026-04-13 21:48 | 交接人：comi
+> 项目路径：`E:\workspace\openclaw_project\ResearchPilot`
 
 ---
 
-## 二、项目结构
+## 📋 一句话说明
+
+ResearchPilot 是一个**公开专题研究 AI 助手**：定义专题→自动采集→收藏入库→智能问答→生成报告→Copilot Agent 全流程自动化。核心闭环已完成，进入功能完善阶段。
+
+---
+
+## 一、项目背景与定位
+
+### 它解决什么问题
+
+研究人员需要持续追踪特定领域公开信息（如舰船动态、武器装备），传统方式是手动搜索→收藏→整理→写报告，耗时且碎片化。ResearchPilot 把这个流程自动化：
+
+1. **主动获取**：专题定时采集 + 手动URL采集 + 对话式搜索
+2. **知识沉淀**：收藏即入向量库，上传文档也入库
+3. **智能问答**：RAG检索+联网搜索+LLM生成，三种模式可选
+4. **报告输出**：选文章+提示词，一键生成结构化研究报告
+5. **Agent 自动化**：Copilot 一条消息完成搜索、采集、问答、报告全流程
+
+### 约束
+- 仅公开、非涉密信息
+- 本地部署，单机运行（SQLite + ChromaDB）
+- 单用户模式，暂无认证
+
+---
+
+## 二、系统架构
 
 ```
-E:\workspace\openclaw_project\ResearchPilot\
-├── backend/           # FastAPI 后端 (Python 3.12)
-│   ├── app/
-│   │   ├── api/routes/    # 9个路由文件: articles/chat_sessions/copilot/health/knowledge_base/qa/reports/tasks/topics
-│   │   ├── core/config.py # 配置: .env → Settings
-│   │   ├── db/             # SQLAlchemy ORM: 7个模型
-│   │   ├── schemas/       # Pydantic 请求/响应
-│   │   └── services/
-│   │       ├── chat.py          # QA 对话（3种模式）
-│   │       ├── copilot/         # 🤖 智能助手（解耦架构）
-│   │       │   ├── agent/       # LangGraph create_react_agent
-│   │       │   ├── llm/         # 模型选择（阿里云优先）
-│   │       │   └── tools/       # 8个文件24工具 + FUNC_MAP
-│   │       ├── ingestion.py     # 搜索+抓取+入库
-│   │       ├── rag/engine.py    # LlamaIndex + ChromaDB
-│   │       ├── report_generator.py
-│   │       ├── scheduler.py     # APScheduler 定时采集
-│   │       ├── seed.py          # 初始演示数据
-│   │       └── tasks.py         # 后台任务管理
-│   ├── .env               # ⚠️ 不入库，包含API密钥
-│   ├── .env.example       # 配置模板
-│   └── pyproject.toml
-├── frontend/          # Vue 3 前端
-│   ├── src/
-│   │   ├── views/    # 7个页面: Articles/Copilot/Dashboard/KB/QA/Reports/Topics
-│   │   ├── api.ts    # API 调用封装
-│   │   ├── types.ts  # TypeScript 类型
-│   │   ├── router/   # 路由
-│   │   ├── stores/   # Pinia 状态
-│   │   └── style.css # Tailwind + 自定义
-│   └── vite.config.ts  # ⚠️ SSE 独立代理配置
-├── docs/              # 项目文档（详见下方）
-└── .gitignore
+┌───────────────────────────────────────────────────────────────────┐
+│  Vue 3 前端 (localhost:5173)                                       │
+│  7页面: 仪表盘│专题│资讯│对话│报告│知识库│🤖Copilot               │
+│  Vite代理: /api→:8000 │ SSE独立代理(不缓冲)                      │
+└──────────────────────────┬────────────────────────────────────────┘
+                           │
+┌──────────────────────────▼────────────────────────────────────────┐
+│                    FastAPI Backend (端口 8000)                     │
+│                                                                   │
+│  ┌─ API Routes ───────────────────────────────────────────────┐   │
+│  │ health│topics│articles│qa│reports│kb│copilot│tasks│chat   │   │
+│  └──────────────────────────┬─────────────────────────────────┘   │
+│                              │                                    │
+│  ┌─ Core Services ──────────▼─────────────────────────────────┐   │
+│  │                                                             │   │
+│  │  🤖 Copilot (双模式)          📄 Report (LangGraph)          │   │
+│  │  单Agent: 24工具+MemorySaver  StateGraph: collect→generate │   │
+│  │  多Agent: Supervisor           fallback: LLM→聚合           │   │
+│  │    → Researcher(并行采集)                                  │   │
+│  │    → Analyst(分析报告)                                      │   │
+│  │    → Manager(数据CRUD)                                     │   │
+│  │                                                             │   │
+│  │  💬 Chat (三模式)             🔍 Ingestion Pipeline          │   │
+│  │  search / knowledge /        Tavily/Serper搜索               │   │
+│  │  hybrid(RAG+搜索并行)        httpx抓取→readability提取      │   │
+│  │                                                             │   │
+│  │  📚 RAG Engine                ⏰ APScheduler                │   │
+│  │  LlamaIndex+ChromaDB          专题定时采集                  │   │
+│  │  CompatibleOpenAIEmbedding                                 │   │
+│  │  as_retriever + LangChain合成                              │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                                                                   │
+│  ┌─ External APIs ─────────────────────────────────────────────┐   │
+│  │ Chat LLM (OPENAI_*)       Embedding (ALIBABA_*)            │   │
+│  │ 搜索: Tavily + Serper      DB: SQLite + ChromaDB           │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+└───────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 三、快速启动
+## 三、技术栈
+
+| 层 | 技术 | 说明 |
+|---|------|------|
+| 前端 | Vue 3 + TypeScript + Vite + Naive UI + Pinia + Tailwind CSS | 暗色主题，7页面 |
+| 后端 | FastAPI + SQLAlchemy + SQLite + pydantic-settings | Python 3.12 |
+| RAG | LlamaIndex + ChromaDB（单集合+metadata） | CompatibleOpenAIEmbedding |
+| LLM | LangChain ChatOpenAI + LangGraph | streaming=True |
+| Agent | LangGraph create_react_agent + MemorySaver | 24工具 + Supervisor |
+| 搜索 | Tavily / Serper API | 联网搜索 |
+| 调度 | APScheduler | 专题定时采集 |
+
+---
+
+## 四、模型配置（04-13 统一改造后）
+
+**聊天模型和嵌入模型彻底分离**：
+
+| 用途 | 环境变量 | 当前值 |
+|------|---------|--------|
+| Chat LLM | `OPENAI_BASE_URL` + `OPENAI_API_KEY` + `OPENAI_MODEL_NAME` | `glm-5.1` via 代理 |
+| Embedding | `ALIBABA_BASE_URL` + `ALIBABA_API_KEY` + `ALIBABA_MODEL_EMBEDDING_NAME` | `text-embedding-v3` via DashScope |
+| Fallback | `OPENAI_MODEL_NAME_FALLBACK`（可选） | 未配置 |
+
+**为什么这么分**：之前阿里云 qwen 做聊天，免费额度经常耗尽且配置散布各处。统一为 OpenAI 兼容 API 后，换模型只改 .env 不碰代码。
+
+---
+
+## 五、当前进度（截至 2026-04-13）
+
+### ✅ P0 — 全部完成
+
+| 任务 | 状态 | 备注 |
+|------|------|------|
+| QA hybrid 模式优化 | ✅ | 34s→14s，RAG+搜索并行 |
+| Copilot 24工具端到端测试 | ✅ | 24/24 通过 |
+| APScheduler 定时触发验证 | ✅ | async_mode 后台采集 |
+| Copilot SSE 流式实测 | ✅ | 原生 streaming 打字机效果 |
+| LLM Fallback 机制 | ✅ | with_fallbacks 自动切换 |
+| 代码提交归档 | ✅ | 7+语义 commit |
+| **LLM 模型统一改造** | ✅ | 去除 qwen chat，统一 OPENAI_* |
+
+### ✅ P1 — 大部分完成
+
+| 任务 | 状态 | 备注 |
+|------|------|------|
+| Supervisor 多 Agent SSE | ✅ | worker_switch + 并行采集 |
+| Supervisor 集成测试 | ✅ | 简单/复杂任务均通过 |
+| SSE 原生流式 | ✅ | streaming=True + on_chat_model_stream |
+| 前端 citations 填充真实值 | 🔲 | RAG 返回 published_at/topic，前端待适配 |
+| 上下文压缩 | 🔲 | 长对话自动摘要 |
+| Human-in-the-loop | 🔲 | 确认破坏性操作 |
+| 虚拟文件系统 | 🔲 | Agent 工作空间 |
+
+### 🔲 P2 — 均未启动
+
+PDF导出 / 用户认证 / 知识库文档预览 / 资讯去重 / 前端全局错误处理
+
+---
+
+## 六、关键决策记录（必须知道）
+
+| 日期 | 决策 | 原因 |
+|------|------|------|
+| 04-09 | CompatibleOpenAIEmbedding | LlamaIndex 白名单拒绝非 OpenAI 模型名 |
+| 04-09 | 单集合+元数据 | 跨库检索统一排序更准确 |
+| 04-10 | as_retriever + LangChain 合成 | LlamaIndex 白名单 + 代理空回答 |
+| 04-11 | tools/llm/agent 解耦重构 | 单文件 1100 行不可维护 |
+| 04-11 | FUNC_MAP 模式 | async @tool 的 .func=None |
+| 04-11 | create_react_agent 替换自定义 Graph | 原生支持 streaming/checkpoint |
+| 04-12 | with_fallbacks 替代手写 fallback | 自动切换，无需 try/except |
+| 04-12 | Supervisor JSON prompt | LLM 自由文本不可靠，强制 JSON 输出 |
+| 04-12 | Researcher asyncio.gather | 并行采集提升效率 |
+| **04-13** | **Chat LLM 统一 OPENAI_\*** | **去除阿里云 qwen chat 依赖** |
+| **04-13** | **Embedding 保留 ALIBABA_\*** | **嵌入模型独立于聊天** |
+| **04-13** | **SSE 全部原生 streaming** | **comi 要求原生流式，删除模拟流式代码** |
+
+---
+
+## 七、已知坑点（踩过的雷）
+
+1. **uvicorn 不要用 --reload**：热更新不生效，必须完全重启
+2. **所有 ChatOpenAI 必须 streaming=True**：某些代理 API 非流式返回 content=None
+3. **Copilot Agent 单例缓存**：修改 LLM 配置后需调 `reset_agent()` / `reset_supervisor()` / `reset_all_workers()`
+4. **ChromaDB 版本**：用 `>=0.4.0`，旧版 API 不兼容
+5. **Workers.py 不要用 PowerShell Set-Content 修改**：会破坏 UTF-8 中文编码，用 Python 或编辑器
+6. **.env 空值行必须注释掉**：`KEY=` 空行会覆盖默认值
+7. **PowerShell 不支持 &&**：用 `;` 代替
+8. **Vite SSE 代理必须独立配置**：默认代理会缓冲 SSE 流，导致不打字机
+
+---
+
+## 八、已修复 Bug 汇总（04-10~04-13，共 15 个）
+
+| Bug | 根因 | 修复 |
+|-----|------|------|
+| LLM 返回空 | 代理 API 非流式 content=None | streaming=True |
+| RAG answer 空 | LlamaIndex 白名单+代理空 | as_retriever+LangChain 合成 |
+| .env 空值覆盖 | `KEY=` 空行覆盖默认 | 注释掉空行 |
+| Tavily 中文 400 | search_depth="advanced" | 改 "basic" |
+| 采集 403/418 | 爬虫 UA | 浏览器 UA |
+| 报告 content 空 | gpt-5.4 不稳定 | LLM 链+聚合 fallback |
+| async @tool func=None | LangChain 已知问题 | FUNC_MAP 模式 |
+| Copilot 回复空 | 条件边没处理 ToolMessage | 修复 should_continue |
+| SSE 不打字机 | Vite proxy 缓冲+Vue 响应式 | 独立代理+splice 重渲染 |
+| QA hybrid 34s | 串行+LLM 两次+ingest 阻塞 | 并行+retrieval_only+ingest 后台 |
+| update_topic 500 | session 脱离后访问属性 | commit 前保存变量 |
+| 递归超限 | recursion_limit=25 不够 | 提升到 50 |
+| LLM 403 无 fallback | 额度耗尽直接报错 | with_fallbacks |
+| 阿里云 chat 耦合 | qwen 优先逻辑散布 6 处 | 统一 OPENAI_* 配置 |
+| workers.py 编码损坏 | PowerShell Set-Content GBK | Python 重写 |
+
+---
+
+## 九、数据状态
+
+- **SQLite**: 4 专题 / 60 文章 / 3 知识库 / 9 报告 / 5 聊天会话
+- **ChromaDB**: 12 chunks（3 篇收藏文章向量索引）
+- **Git**: 最新 commit `8193ddf`（supervisor fix），04-13 模型统一改造**尚未提交**
+
+---
+
+## 十、如何启动
 
 ### 后端
+
 ```bash
 cd E:\workspace\openclaw_project\ResearchPilot\backend
-# 1. 复制 .env.example → .env，填入API密钥（见下方配置说明）
-# 2. 安装依赖（已用 uv 管理，.venv 已存在）
 .venv\Scripts\activate
-# 3. 启动
-uvicorn app.main:app --host 0.0.0.0 --port 8000
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
 ### 前端
+
 ```bash
 cd E:\workspace\openclaw_project\ResearchPilot\frontend
-npm install   # 首次
-npm run dev   # http://localhost:5173
+npm run dev
 ```
 
-### 注意事项
-- **不要用 `--reload`** — uvicorn 热更新不生效，改代码后需完全重启
-- **Vite 代理** — 前端 `/api` 代理到后端 `:8000`，SSE 端点有独立代理规则
-- **PowerShell** — 不支持 `&&`，用 `;` 代替
+### 必须配置的环境变量
+
+```bash
+# Chat LLM
+OPENAI_BASE_URL=https://your-api/v1
+OPENAI_API_KEY=your-key
+OPENAI_MODEL_NAME=glm-5.1
+
+# Embedding
+ALIBABA_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
+ALIBABA_API_KEY=your-key
+ALIBABA_MODEL_EMBEDDING_NAME=text-embedding-v3
+
+# 搜索（至少配一个）
+TAVILY_API_KEY=your-key
+```
 
 ---
 
-## 四、核心配置 (.env)
+## 十一、下一步优先级
 
-| 变量 | 说明 | 当前值 |
-|------|------|--------|
-| `RESEARCHPILOT_OPENAI_API_KEY` | 代理 GPT API key | 有值 |
-| `RESEARCHPILOT_OPENAI_BASE_URL` | 代理 API base URL | 有值 |
-| `RESEARCHPILOT_LLM_MODEL` | 代理模型名 | gpt-5.4 |
-| `RESEARCHPILOT_ALIBABA_API_KEY` | 阿里云 DashScope key | 有值（优先使用） |
-| `RESEARCHPILOT_ALIBABA_BASE_URL` | 阿里云 API base | 有值 |
-| `RESEARCHPILOT_ALIBABA_MODEL_NAME` | 阿里云模型 | qwen3.5-flash |
-| `RESEARCHPILOT_EMBEDDING_API_KEY` | Embedding API key | 阿里云 |
-| `RESEARCHPILOT_EMBEDDING_MODEL` | Embedding 模型 | text-embedding-v3 |
-| `RESEARCHPILOT_TAVILY_API_KEY` | Tavily 搜索 | 有值 |
-| `RESEARCHPILOT_SERPER_API_KEY` | Serper 搜索 | 有值 |
-
-**⚠️ 空值行要注释掉** — `RESEARCHPILOT_OPENAI_API_KEY=` 空值会覆盖有效配置！
+1. **Git commit** — 04-13 模型统一改造代码未提交
+2. **前端 citations 适配** — RAG 已返回 published_at/topic，前端展示待填充
+3. **上下文压缩** — 长对话自动摘要，避免 token 爆炸
+4. **Human-in-the-loop** — 破坏性操作（如删除知识库）需用户确认
+5. **PDF 导出** — 当前只能导出 MD
+6. **资讯去重** — 相似 URL/title 自动合并
 
 ---
 
-## 五、技术决策速查（为什么这样设计）
-
-| 决策 | 原因 |
-|------|------|
-| Copilot 用 `create_react_agent` 而非自定义 StateGraph | 原生支持 streaming + checkpoint + tool calling |
-| FUNC_MAP 模式 | async @tool 的 `.func=None`，需要独立函数映射 |
-| LlamaIndex 只做检索，LangChain 做答案生成 | LlamaIndex 模型白名单拒绝 qwen + 代理非流式返回空 |
-| 所有 ChatOpenAI 加 `streaming=True` | 代理 gpt-5.4 非流式返回 content=None |
-| QA/Copilot LLM 优先阿里云 qwen | 代理太慢(12-16s)，qwen 3-4s |
-| ChromaDB 单集合+元数据 | 跨库检索统一排序更准确 |
-| Vite `/api/copilot/chat/stream` 独立代理 | 防止 SSE 响应被代理缓冲 |
-| `rag_query(retrieval_only=True)` | hybrid 模式只检索不生成，省掉一次 LLM 调用 |
-
----
-
-## 六、文档索引
+## 十二、文档索引
 
 | 文档 | 内容 |
 |------|------|
-| `docs/PROGRESS.md` | **主文档** — 完整进度、架构图、Bug记录、验证结果、决策记录 |
-| `docs/TODO.md` | 待办清单 + 工作日志 |
-| `docs/TECH_ARCHITECTURE_V1.md` | 技术架构总览 |
-| `docs/PRODUCT_OVERVIEW.md` | 产品概览 |
-| `docs/AGENT_MODULE_DESIGN.md` | Copilot 智能助手设计文档 |
-| `docs/RAG_OPTIMIZATION_LOG.md` | RAG 优化过程记录 |
-| `docs/ONBOARDING.md` | 协作上手指南 |
-| `docs/HANDOVER.md` | **本文档** — 交接清单 |
-
----
-
-## 七、未完成工作（按优先级）
-
-### 🔴 P0 — 必须完成
-
-1. **Copilot 24工具端到端测试**
-   - 只验证了 `list_topics` 和 `get_system_status`
-   - 其余22个工具可能有参数/路径问题
-   - 方法：`POST /api/copilot/chat/stream` 逐个触发
-   - 重点测试：`search_web`、`rag_query`、`generate_report`、`ingest_url`
-
-2. **APScheduler 定时触发验证**
-   - 手动触发已通，定时触发未确认
-   - 方法：等一个调度周期看日志，或查 `/api/copilot/tools` 的 `get_scheduler_jobs`
-
-3. **Copilot SSE 流式浏览器实测**
-   - 代码已修（splice重渲染 + Vite代理 + chunk兼容）
-   - 但未在浏览器实测打字机效果
-   - 测试：打开 http://localhost:5173 → Copilot → 发"你好"和"列出所有专题"
-
-4. **代码提交**
-   - 大量未提交变更
-   - 建议：清理 `__pycache__`、`chroma_db/`、`*.db` 后 commit
-
-### 🟡 P1 — 功能完善
-
-5. **前端 citations 适配新字段** — 后端已返回 `published_at`/`topic`，前端没展示
-6. **Copilot 虚拟文件系统是空壳** — `write/read_context_file` 只是 stub
-7. **PDF 导出** — 需 weasyprint，目前回退 HTML
-8. **前端全局错误处理** — API 失败无统一提示
-9. **资讯去重** — URL + title 相似度去重
-
-### 🟢 P2 — 增强优化
-
-10. Copilot 子 Agent 协作（deepagents / LangGraph multi-agent）
-11. Copilot 上下文压缩（长对话自动摘要）
-12. Copilot Human-in-the-loop（破坏性操作确认）
-13. 采集反爬长期方案
-14. PDF/DOCX 文档解析
-15. 用户认证系统
-16. Docker 部署
-17. PostgreSQL 升级
-18. 移动端适配
-
----
-
-## 八、已知坑点 ⚠️
-
-1. **qwen DashScope API 偶尔极慢** — 有时简单调用也要 40s，非代码问题
-2. **代理 gpt-5.4 非流式返回 content=None** — 必须用 `streaming=True`
-3. **uvicorn --reload 不生效** — 必须完全重启
-4. **PowerShell 不支持 `&&`** — 用 `;` 或分开执行
-5. **`.env` 空值行覆盖** — `KEY=` 空值会覆盖之前的有效配置，必须注释掉
-6. **杀进程要看进程树** — Windows 下 uvicorn 有 reloader 子进程，杀父可能连杀子
-7. **Copilot `agent.py` 已删除** — 旧版单体文件，现在用 `agent/__init__.py`
-8. **ChromaDB 数据在 `backend/chroma_db/`** — 已加入 .gitignore
-
----
-
-## 九、数据库状态
-
-- **SQLite**: `backend/researchpilot.db`
-- **7 张表**: articles, topics, reports, knowledge_bases, kb_documents, chat_sessions, chat_messages
-- **演示数据**: 4个专题、60篇文章、3个知识库、9份报告、5个聊天会话
-- **ChromaDB**: 12 chunks（3篇收藏文章的向量索引）
-
----
-
-## 十、API 端点速查
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/health` | 系统状态 |
-| GET/POST/DELETE | `/api/topics` | 专题 CRUD |
-| GET/POST | `/api/articles` | 文章列表/采集 |
-| POST | `/api/articles/{id}/bookmark` | 收藏/取消 |
-| GET/POST/DELETE | `/api/knowledge-bases` | 知识库管理 |
-| POST | `/api/qa/chat` | 智能问答（3种模式） |
-| GET/POST | `/api/reports` | 报告列表/生成 |
-| GET/POST/DELETE | `/api/chat-sessions` | 聊天会话 |
-| POST | `/api/copilot/chat` | Copilot 非流式 |
-| POST | `/api/copilot/chat/stream` | Copilot SSE 流式 |
-| GET | `/api/copilot/tools` | 工具列表(24) |
-| GET | `/api/tasks` | 后台任务 |
-| GET | `/api/rag/stats` | RAG 索引状态 |
-| POST | `/api/rag/reindex` | 重建索引 |
-
----
-
-_祝顺利 🚀_
+| `docs/ONBOARDING.md` | 新人上手指南（30秒了解+技术栈+启动+关键决策） |
+| `docs/PROGRESS.md` | 详细进度（功能/验证/Bug/决策/Git 历史） |
+| `docs/TODO.md` | 工作待办 + 每日工作日志 |
+| `docs/TECH_ARCHITECTURE_V1.md` | 技术架构详解（模型配置/Copilot/RAG/数据模型） |
+| `docs/PRODUCT_OVERVIEW.md` | 产品定义与使用场景 |
+| `docs/AGENT_MODULE_DESIGN.md` | Copilot Agent 设计 |
+| `docs/MULTI_AGENT_DESIGN.md` | 多 Agent 协作设计 |
+| `docs/HANDOVER.md` | 本文档 — 交接清单 |
