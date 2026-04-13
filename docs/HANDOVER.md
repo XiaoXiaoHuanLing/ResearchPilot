@@ -192,7 +192,7 @@ PDF导出 / 用户认证 / 知识库文档预览 / 资讯去重 / 前端全局�
 
 - **SQLite**: 4 专题 / 60 文章 / 3 知识库 / 9 报告 / 5 聊天会话
 - **ChromaDB**: 12 chunks（3 篇收藏文章向量索引）
-- **Git**: 最新 commit `8193ddf`（supervisor fix），04-13 模型统一改造**尚未提交**
+- **Git**: 最新 commit `77284ae`（docs update），04-13 模型统一改造已提交（`0c4a229` refactor + `77284ae` docs）
 
 ---
 
