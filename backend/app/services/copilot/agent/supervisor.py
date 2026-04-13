@@ -99,7 +99,7 @@ async def supervisor_node(state: SupervisorState) -> dict:
     # ── Phase 1: New request — analyze intent via LLM ──
     from app.services.copilot.llm import get_chat_llm
 
-    llm = get_chat_llm(streaming=True, max_tokens=1500)
+    llm = get_chat_llm(max_tokens=1500)
     last_msg = messages[-1].content if messages else ""
     analysis = await llm.ainvoke([
         SystemMessage(content=SUPERVISOR_PROMPT),
@@ -158,7 +158,7 @@ async def _synthesize(state: SupervisorState, done_tasks: list[dict], failed_tas
     # Multiple tasks or has failures → synthesize via LLM
     from app.services.copilot.llm import get_chat_llm
 
-    llm = get_chat_llm(streaming=True, max_tokens=1500)
+    llm = get_chat_llm(max_tokens=1500)
     messages = state.get("messages", [])
 
     results_parts = []

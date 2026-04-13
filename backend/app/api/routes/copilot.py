@@ -1,9 +1,9 @@
 """Copilot API 路由 — 对外接口层。
 
-核心修复：
+核心：
 1. 多轮对话：用 Checkpointer 恢复历史，只传新消息
-2. 流式输出：astream_events token 级流式
-3. 非流式：用 agent.run_copilot() 收集（避免 ainvoke 返回空 messages）
+2. 流式输出：astream_events 原生 streaming 逐 token 推送
+3. 非流式：用 agent.run_copilot() 收集
 """
 
 import json
@@ -13,11 +13,28 @@ from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException, status
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.messages import HumanMessage
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
+
+# ─── Helpers ──────────────────────────────────────────────────────────────
+
+def _extract_chunk_text(content) -> str:
+    """Extract text from a chunk's content field (str or list[dict])."""
+    if isinstance(content, str):
+        return content
+    elif isinstance(content, list):
+        text = ""
+        for part in content:
+            if isinstance(part, dict) and part.get("type") == "text":
+                text += part.get("text", "")
+            elif isinstance(part, str):
+                text += part
+        return text
+    return ""
 
 
 # ─── Schemas ──────────────────────────────────────────────────────────────
@@ -25,14 +42,14 @@ router = APIRouter()
 class CopilotChatRequest(BaseModel):
     message: str
     thread_id: str | None = None
-    use_supervisor: bool = False  # 启用多 Agent Supervisor 模式
+    use_supervisor: bool = False
 
 class CopilotChatResponse(BaseModel):
     response: str
     tool_log: list[dict] = []
     thread_id: str
-    mode: str | None = None        # "supervisor" or None (single agent)
-    tasks: list[dict] | None = None  # Supervisor task list
+    mode: str | None = None
+    tasks: list[dict] | None = None
 
 class CopilotSessionInfo(BaseModel):
     thread_id: str
@@ -76,7 +93,7 @@ async def copilot_chat(payload: CopilotChatRequest):
 
 @router.post("/chat/stream")
 async def copilot_chat_stream(payload: CopilotChatRequest):
-    """Copilot 对话（SSE 流式）— 支持 Supervisor 多 Agent 模式。"""
+    """Copilot 对话（SSE 原生流式）— 支持 Supervisor 多 Agent 模式。"""
     if not payload.message.strip():
         raise HTTPException(status_code=400, detail="消息不能为空")
 
@@ -110,7 +127,7 @@ async def copilot_chat_stream(payload: CopilotChatRequest):
 
 
 async def _single_agent_stream(message: str, thread_id: str):
-    """单 Agent SSE 流式生成器。"""
+    """单 Agent SSE 流式生成器 — 原生 streaming 逐 token 推送。"""
     from app.services.copilot.agent import get_compiled_agent
 
     agent = get_compiled_agent()
@@ -124,15 +141,7 @@ async def _single_agent_stream(message: str, thread_id: str):
             if kind == "on_chat_model_stream":
                 chunk = event.get("data", {}).get("chunk")
                 if chunk and hasattr(chunk, "content") and chunk.content:
-                    text = ""
-                    if isinstance(chunk.content, str):
-                        text = chunk.content
-                    elif isinstance(chunk.content, list):
-                        for part in chunk.content:
-                            if isinstance(part, dict) and part.get("type") == "text":
-                                text += part.get("text", "")
-                            elif isinstance(part, str):
-                                text += part
+                    text = _extract_chunk_text(chunk.content)
                     if text:
                         data = json.dumps({"type": "token", "content": text}, ensure_ascii=False)
                         yield f"event: token\ndata: {data}\n\n"
@@ -161,15 +170,9 @@ async def _single_agent_stream(message: str, thread_id: str):
 
 
 async def _supervisor_stream(message: str, thread_id: str):
-    """Supervisor 多 Agent SSE 流式生成器。
+    """Supervisor 多 Agent SSE 流式生成器 — 原生 streaming 逐 token 推送。
 
-    推送事件类型：
-    - task_plan: 任务分解结果
-    - worker_switch: Worker 切换
-    - task_update: 任务状态变更
-    - token: 文本 token
-    - tool_start / tool_end: 工具调用
-    - done: 完成
+    推送事件：worker_switch / token / tool_start / tool_end / done
     """
     from app.services.copilot.agent.supervisor import get_supervisor_graph
 
@@ -181,7 +184,6 @@ async def _supervisor_stream(message: str, thread_id: str):
         "next_worker": None,
     }
 
-    # Track which worker node is currently active (for tool/token attribution)
     _current_worker = "supervisor"
 
     try:
@@ -189,17 +191,14 @@ async def _supervisor_stream(message: str, thread_id: str):
             kind = event.get("event", "")
             name = event.get("name", "")
 
-            # Identify node from event name (LangGraph StateGraph uses name, not tags)
             worker_nodes = {"researcher", "analyst", "manager", "supervisor"}
 
-            # Track worker context: when a worker node starts, remember it
             if kind == "on_chain_start" and name in worker_nodes:
                 _current_worker = name
                 data = json.dumps({"type": "worker_switch", "worker": name}, ensure_ascii=False)
                 yield f"event: worker_switch\ndata: {data}\n\n"
                 continue
 
-            # When a worker node ends, revert context to supervisor
             if kind == "on_chain_end" and name in worker_nodes:
                 _current_worker = "supervisor"
                 continue
@@ -207,15 +206,7 @@ async def _supervisor_stream(message: str, thread_id: str):
             if kind == "on_chat_model_stream":
                 chunk = event.get("data", {}).get("chunk")
                 if chunk and hasattr(chunk, "content") and chunk.content:
-                    text = ""
-                    if isinstance(chunk.content, str):
-                        text = chunk.content
-                    elif isinstance(chunk.content, list):
-                        for part in chunk.content:
-                            if isinstance(part, dict) and part.get("type") == "text":
-                                text += part.get("text", "")
-                            elif isinstance(part, str):
-                                text += part
+                    text = _extract_chunk_text(chunk.content)
                     if text:
                         data = json.dumps({
                             "type": "token",

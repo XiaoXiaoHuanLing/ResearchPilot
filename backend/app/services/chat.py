@@ -90,20 +90,9 @@ def _should_search_web(question: str, rag_answer: str, intent: dict | None = Non
 def _get_llm() -> ChatOpenAI | None:
     """Get a configured ChatOpenAI instance, or None if not configured.
     
-    Priority: Alibaba qwen (fast, reliable) > proxy gpt (slow, unstable).
-    Uses streaming=True to work around proxy APIs that return content=None
-    in non-streaming mode. LangChain collects all chunks and returns full content.
+    Uses OPENAI_BASE_URL + OPENAI_API_KEY + OPENAI_MODEL_NAME for all chat LLM.
+    Uses OPENAI_BASE_URL + OPENAI_API_KEY + OPENAI_MODEL_NAME for all chat LLM.
     """
-    # Prefer Alibaba qwen (much faster for chat)
-    if settings.alibaba_api_key and settings.alibaba_base_url:
-        return ChatOpenAI(
-            model=settings.alibaba_model_name or "qwen3.5-flash",
-            api_key=settings.alibaba_api_key,
-            base_url=settings.alibaba_base_url,
-            streaming=True,
-            temperature=0.3, max_tokens=2000, timeout=60,
-        )
-    # Fallback to proxy
     if settings.openai_api_key:
         return ChatOpenAI(
             model=settings.llm_model, api_key=settings.openai_api_key,

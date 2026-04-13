@@ -37,8 +37,8 @@ def collect_articles(state: ReportState) -> dict:
 def generate_report(state: ReportState) -> dict:
     """Step 2: Generate report with LLM (or fallback).
 
-    LLM chain: primary (proxy gpt-5.4) → secondary (Alibaba qwen) → aggregation fallback.
-    Proxy API may return empty content, so we retry with Alibaba as secondary.
+    LLM chain: primary → optional fallback model → aggregation fallback.
+    Primary model may return empty content, so we retry with fallback if configured.
     """
     articles = state["articles"]
     if not articles:
@@ -72,22 +72,23 @@ def generate_report(state: ReportState) -> dict:
     # --- LLM attempt chain ---
     llm_configs = []
 
-    # Primary: proxy LLM (gpt-5.4 via tunnel)
+    # Primary: OpenAI-compatible LLM (glm-5.1)
     if settings.openai_api_key:
         llm_configs.append({
             "model": settings.llm_model,
             "api_key": settings.openai_api_key,
             "base_url": settings.openai_base_url or None,
-            "label": "proxy",
+            "label": "primary",
         })
 
-    # Secondary: Alibaba LLM (qwen) — more reliable for non-streaming
-    if settings.alibaba_api_key and settings.alibaba_base_url:
+    # Optional fallback model (if OPENAI_MODEL_NAME_FALLBACK is configured)
+    fallback_model = getattr(settings, "openai_model_name_fallback", "")
+    if fallback_model and settings.openai_api_key:
         llm_configs.append({
-            "model": settings.alibaba_model_name or "qwen3.5-flash",
-            "api_key": settings.alibaba_api_key,
-            "base_url": settings.alibaba_base_url,
-            "label": "alibaba",
+            "model": fallback_model,
+            "api_key": settings.openai_api_key,
+            "base_url": settings.openai_base_url or None,
+            "label": "fallback",
         })
 
     for config in llm_configs:
@@ -96,7 +97,7 @@ def generate_report(state: ReportState) -> dict:
                 model=config["model"],
                 api_key=config["api_key"],
                 base_url=config["base_url"],
-                streaming=True,  # Required: proxy API returns content=None in non-streaming
+                streaming=True,
                 temperature=0.4,
                 max_tokens=3000,
                 timeout=120,

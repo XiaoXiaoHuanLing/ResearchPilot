@@ -56,7 +56,7 @@ def get_compiled_agent():
     from app.services.copilot.tools import get_all_tools
 
     all_tools = get_all_tools()
-    llm = get_chat_llm(streaming=True)
+    llm = get_chat_llm()
 
     _compiled_agent = create_react_agent(
         model=llm,

@@ -397,15 +397,10 @@ async def rag_query(
                 from langchain_openai import ChatOpenAI
                 from langchain_core.messages import SystemMessage, HumanMessage
 
-                # Prefer Alibaba LLM for RAG answer generation (more reliable non-streaming)
-                if settings.alibaba_api_key and settings.alibaba_base_url:
-                    rag_llm_model = settings.alibaba_model_name or "qwen3.5-flash"
-                    rag_llm_key = settings.alibaba_api_key
-                    rag_llm_base = settings.alibaba_base_url
-                else:
-                    rag_llm_model = settings.llm_model
-                    rag_llm_key = settings.openai_api_key
-                    rag_llm_base = settings.openai_base_url
+                # Use unified OpenAI-compatible config for RAG answer generation
+                rag_llm_model = settings.llm_model
+                rag_llm_key = settings.openai_api_key
+                rag_llm_base = settings.openai_base_url
 
                 logger.info(
                     "RAG answer gen: model=%s, base=%s, key=%s..., ctx=%d",
@@ -415,7 +410,7 @@ async def rag_query(
                 llm = ChatOpenAI(
                     model=rag_llm_model, api_key=rag_llm_key,
                     base_url=rag_llm_base,
-                    streaming=True,  # Required for proxy APIs
+                    streaming=True,
                     temperature=0.3, max_tokens=1500, timeout=60,
                 )
                 context_block = "\n\n---\n\n".join(context_texts[:top_k])
@@ -457,7 +452,7 @@ async def _generate_hyde(question: str) -> str:
     llm = ChatOpenAI(
         model=settings.llm_model, api_key=settings.openai_api_key,
         base_url=settings.openai_base_url or None,
-        streaming=True,  # Required: proxy API returns content=None in non-streaming mode
+        streaming=True,
         temperature=0.0, max_tokens=500, timeout=30,
     )
     response = llm.invoke([

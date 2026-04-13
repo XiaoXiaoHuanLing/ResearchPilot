@@ -55,7 +55,7 @@ def get_researcher():
         from app.services.copilot.tools.search import TOOLS as search_tools
         from app.services.copilot.tools.topic import TOOLS as topic_tools
 
-        llm = get_chat_llm(streaming=True)
+        llm = get_chat_llm()
         # Researcher needs list_topics to find topic_id for collect_topic
         tools = search_tools + [t for t in topic_tools if t.name == "list_topics"]
 
@@ -76,7 +76,7 @@ def get_analyst():
         from app.services.copilot.tools.rag import TOOLS as rag_tools
         from app.services.copilot.tools.report import TOOLS as report_tools
 
-        llm = get_chat_llm(streaming=True)
+        llm = get_chat_llm()
         tools = rag_tools + report_tools
 
         _workers["analyst"] = create_react_agent(
@@ -99,7 +99,7 @@ def get_manager():
         from app.services.copilot.tools.system import TOOLS as system_tools
         from app.services.copilot.tools.context import TOOLS as context_tools
 
-        llm = get_chat_llm(streaming=True)
+        llm = get_chat_llm()
         tools = topic_tools + article_tools + kb_tools + system_tools + context_tools
 
         _workers["manager"] = create_react_agent(
