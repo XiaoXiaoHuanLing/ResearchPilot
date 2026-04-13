@@ -197,20 +197,19 @@ copilot/
 ## 九、Git 提交历史
 
 ```
-d87892f fix: supervisor JSON task parsing + LLM UnicodeEncodeError fallback
-3d05aaf chore: gitignore integration test temp files
-1406079 fix: supervisor task parsing - JSON + markdown dual parser
-98d3ce8 docs: update TODO with completed items
+2dc29c8 docs: update HANDOVER git status to reflect committed 04-13 changes
+77284ae docs: update all docs for 04-13 LLM unification + fix PROGRESS duplicate sections + complete HANDOVER
+0c4a229 refactor: unify Chat LLM to OPENAI_* config, remove Alibaba qwen chat dependency
+8193ddf fix: supervisor never self-answers (no tools=fabricated data), always delegate to workers
+5d65944 docs: update TODO with supervisor V2 performance optimization
+f8b1b2b perf: supervisor V2 — 5x faster, fix worker failures
+52475a0 refactor: with_fallbacks LLM chain + fix supervisor SSE worker_switch
 d5a3ada feat: Supervisor multi-agent SSE streaming + parallel researcher + frontend toggle
-f016e2b chore: gitignore debug/test temp files
-9893702 docs: add design docs, progress tracking; clean up stale files
 aec4fa6 feat: frontend Copilot & KB views, update existing views
 1e0121f refactor: backend core improvements
 620388d feat: add Copilot, KnowledgeBase, ChatSessions, Tasks modules
 e9d72b0 feat: ResearchPilot MVP v0.1 - RAG + LangGraph + APScheduler + Ingestion
 ```
-
-04-13 的模型统一改造尚未提交。
 
 ---
 
