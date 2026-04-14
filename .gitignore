@@ -44,3 +44,11 @@ _test_*.py
 _test_*.txt
 test.py
 test_xc_*.py
+
+# Linter/test cache
+.ruff_cache/
+pytest-cache-files*
+*.pyc
+
+# Frontend build output (use `npm run build` to generate)
+frontend/dist/
