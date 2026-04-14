@@ -25,7 +25,7 @@ async def query_qa(payload: QARequest, db: Session = Depends(get_db)):
     """Traditional RAG-powered Q&A endpoint (local knowledge base only)."""
     from app.core.config import settings
 
-    if settings.openai_api_key:
+    if settings.embedding_configured:
         from app.services.rag.engine import rag_query
         return await rag_query(payload.question, top_k=5)
     else:
@@ -55,7 +55,7 @@ async def query_qa(payload: QARequest, db: Session = Depends(get_db)):
 
         return {
             "question": payload.question,
-            "answer": f"（未配置 LLM API，当前为关键词检索模式）\n\n检索到 {len(articles)} 条相关资讯。配置 RESEARCHPILOT_OPENAI_API_KEY 后将启用真实 RAG 问答。",
+            "answer": f"（未配置 LLM API，当前为关键词检索模式）\n\n检索到 {len(articles)} 条相关资讯。配置 DASHSCOPE_API_KEY 后将启用真实 RAG 问答。",
             "citations": citations,
         }
 

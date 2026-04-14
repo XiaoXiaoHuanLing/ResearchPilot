@@ -90,13 +90,12 @@ def _should_search_web(question: str, rag_answer: str, intent: dict | None = Non
 def _get_llm() -> ChatOpenAI | None:
     """Get a configured ChatOpenAI instance, or None if not configured.
     
-    Uses OPENAI_BASE_URL + OPENAI_API_KEY + OPENAI_MODEL_NAME for all chat LLM.
-    Uses OPENAI_BASE_URL + OPENAI_API_KEY + OPENAI_MODEL_NAME for all chat LLM.
+    Uses DashScope (DASHSCOPE_*) for all chat LLM.
     """
-    if settings.openai_api_key:
+    if settings.llm_configured:
         return ChatOpenAI(
-            model=settings.llm_model, api_key=settings.openai_api_key,
-            base_url=settings.openai_base_url or None,
+            model=settings.llm_model, api_key=settings.llm_api_key,
+            base_url=settings.llm_base_url,
             streaming=True,
             temperature=0.3, max_tokens=2000, timeout=120,
         )
@@ -123,7 +122,7 @@ async def chat_with_search(
     
     Returns: {question, answer, citations, search_used, new_articles, mode}
     """
-    if not settings.openai_api_key:
+    if not settings.llm_configured:
         return await _fallback_chat(question, mode)
 
     intent = _classify_query_intent(question)

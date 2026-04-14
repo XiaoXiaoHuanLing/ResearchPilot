@@ -1,4 +1,4 @@
-"""RAG engine using LlamaIndex + ChromaDB — V2 Optimized.
+﻿"""RAG engine using LlamaIndex + ChromaDB — V2 Optimized.
 
 Key improvements over V1:
 1. Semantic chunking via SentenceSplitter (respects sentence boundaries)
@@ -27,7 +27,8 @@ from llama_index.core import VectorStoreIndex, StorageContext, Settings as Llama
 from llama_index.core.embeddings import BaseEmbedding
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.core.vector_stores import MetadataFilter, MetadataFilters
-from llama_index.llms.openai import OpenAI as LlamaOpenAI
+# Note: LlamaOpenAI is not used — we use LangChain ChatOpenAI instead
+# (LlamaIndex's LLM wrapper has a model name whitelist that rejects non-OpenAI models)
 from llama_index.vector_stores.chroma import ChromaVectorStore
 from openai import OpenAI
 from pydantic import PrivateAttr
@@ -93,7 +94,7 @@ _node_parser: SentenceSplitter | None = None
 
 def _configure_llama_settings() -> None:
     global _embed_model, _node_parser
-    if settings.openai_api_key:
+    if settings.embedding_configured:
         # LlamaIndex LLM is NOT used for query answer generation anymore.
         # We use LangChain ChatOpenAI instead (see rag_query), because:
         # 1. LlamaIndex OpenAI wrapper has a model name whitelist that rejects non-OpenAI models
@@ -147,7 +148,7 @@ def _get_vector_store() -> ChromaVectorStore:
 
 def _get_index() -> Optional[VectorStoreIndex]:
     global _index
-    if not settings.openai_api_key:
+    if not settings.llm_configured:
         return None
     if _index is None:
         vs = _get_vector_store()
@@ -248,7 +249,7 @@ async def index_article(
 
     Returns: number of chunks created, or 0 on failure.
     """
-    if not settings.openai_api_key:
+    if not settings.llm_configured:
         logger.warning("No API key configured, skipping index for %s", _doc_id(article_id, kb_type))
         return 0
 
@@ -310,7 +311,7 @@ async def rag_query(
     
     Returns: {question, answer, citations: [{article_id, title, source, url, published_at, relevance_score, snippet}]}
     """
-    if not settings.openai_api_key:
+    if not settings.llm_configured:
         return await _fallback_db_query(question)
 
     try:
@@ -336,7 +337,7 @@ async def rag_query(
 
         # Optional: HyDE (Hypothetical Document Embeddings) for better recall
         query_str = question
-        if use_hyde and settings.openai_api_key:
+        if use_hyde and settings.llm_configured:
             try:
                 query_str = await _generate_hyde(question)
             except Exception as e:
@@ -392,15 +393,15 @@ async def rag_query(
 
         # Generate answer using LangChain (bypasses LlamaIndex model whitelist issue)
         answer = ""
-        if context_texts and settings.openai_api_key:
+        if context_texts and settings.llm_configured:
             try:
                 from langchain_openai import ChatOpenAI
                 from langchain_core.messages import SystemMessage, HumanMessage
 
                 # Use unified OpenAI-compatible config for RAG answer generation
                 rag_llm_model = settings.llm_model
-                rag_llm_key = settings.openai_api_key
-                rag_llm_base = settings.openai_base_url
+                rag_llm_key = settings.llm_api_key
+                rag_llm_base = settings.llm_base_url
 
                 logger.info(
                     "RAG answer gen: model=%s, base=%s, key=%s..., ctx=%d",
@@ -450,8 +451,8 @@ async def _generate_hyde(question: str) -> str:
     from langchain_core.messages import SystemMessage, HumanMessage
     
     llm = ChatOpenAI(
-        model=settings.llm_model, api_key=settings.openai_api_key,
-        base_url=settings.openai_base_url or None,
+        model=settings.llm_model, api_key=settings.llm_api_key,
+        base_url=settings.llm_base_url,
         streaming=True,
         temperature=0.0, max_tokens=500, timeout=30,
     )
@@ -536,7 +537,7 @@ async def reindex_all_articles(db) -> dict:
 
 async def delete_article_from_index(article_id: int, kb_id: int | None = None, kb_type: str = "bookmarks") -> None:
     """Remove a document from the vector store."""
-    if not settings.openai_api_key:
+    if not settings.llm_configured:
         return
     try:
         idx = _get_index()
@@ -552,7 +553,7 @@ async def delete_kb_from_index(kb_id: int) -> None:
 
     Uses ChromaDB's native where filter to delete in bulk.
     """
-    if not settings.openai_api_key:
+    if not settings.llm_configured:
         return
     try:
         client = _get_chroma_client()

@@ -5,27 +5,19 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     app_name: str = "ResearchPilot API"
-    app_version: str = "0.2.0"
+    app_version: str = "0.3.0"
     database_url: str = f"sqlite:///{(Path(__file__).resolve().parents[2] / 'researchpilot.db').as_posix()}"
 
-    # ─── Chat LLM settings (OpenAI-compatible API) ───
-    # Used for all chat/generation tasks: Copilot, QA, Report, HyDE, etc.
-    openai_api_key: str = ""
-    openai_base_url: str = ""
-    openai_model_name: str = ""  # e.g. "glm-5.1"
-    openai_model_name_fallback: str = ""  # Optional fallback model (same API, different model)
-    llm_model: str = ""  # Resolved effective model name
+    # ─── LLM settings (Alibaba DashScope — OpenAI-compatible API) ───
+    # Used for all chat/generation tasks: Copilot, QA, Report, HyDE, Supervisor
+    dashscope_api_key: str = ""
+    dashscope_base_url: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    dashscope_model_name: str = ""  # e.g. "qwen3.5-35b-a3b"
+    dashscope_model_name_fallback: str = ""  # Optional fallback model
 
-    # ─── Embedding settings (separate provider — Alibaba DashScope) ───
-    embedding_api_key: str = ""
-    embedding_base_url: str = ""
-    embedding_model: str = ""
-
-    # Alibaba-specific embedding env vars
-    alibaba_base_url: str = ""
-    alibaba_api_key: str = ""
-    alibaba_model_embedding_name: str = ""
-    alibaba_model_embedding_name_fallback: str = ""
+    # ─── Embedding settings (same DashScope endpoint, separate model) ───
+    dashscope_model_embedding_name: str = ""
+    dashscope_model_embedding_name_fallback: str = ""
 
     # ChromaDB persist directory
     chroma_persist_dir: str = str(Path(__file__).resolve().parents[2] / "chroma_db")
@@ -40,33 +32,47 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    def resolve(self) -> "Settings":
-        """Resolve effective configuration with fallback logic."""
-        # --- Chat LLM ---
-        # model: llm_model > openai_model_name > default
-        if not self.llm_model:
-            if self.openai_model_name:
-                self.llm_model = self.openai_model_name
-            else:
-                self.llm_model = "gpt-4o-mini"
+    # ─── Derived properties ───
 
-        # --- Embedding (Alibaba DashScope) ---
-        # api_key: explicit > alibaba_api_key
-        if not self.embedding_api_key:
-            self.embedding_api_key = self.alibaba_api_key
+    @property
+    def llm_model(self) -> str:
+        """Resolved effective chat model name."""
+        return self.dashscope_model_name or "qwen3.5-35b-a3b"
 
-        # base_url: explicit > alibaba_base_url
-        if not self.embedding_base_url:
-            self.embedding_base_url = self.alibaba_base_url
+    @property
+    def llm_api_key(self) -> str:
+        """API key for chat LLM (same as embedding)."""
+        return self.dashscope_api_key
 
-        # model: explicit > alibaba_model_embedding_name > default
-        if not self.embedding_model:
-            if self.alibaba_model_embedding_name:
-                self.embedding_model = self.alibaba_model_embedding_name
-            else:
-                self.embedding_model = "text-embedding-3-small"
+    @property
+    def llm_base_url(self) -> str:
+        """Base URL for chat LLM (same as embedding)."""
+        return self.dashscope_base_url
 
-        return self
+    @property
+    def embedding_api_key(self) -> str:
+        """API key for embedding model."""
+        return self.dashscope_api_key
+
+    @property
+    def embedding_base_url(self) -> str:
+        """Base URL for embedding model."""
+        return self.dashscope_base_url
+
+    @property
+    def embedding_model(self) -> str:
+        """Resolved effective embedding model name."""
+        return self.dashscope_model_embedding_name or "text-embedding-v3"
+
+    @property
+    def llm_configured(self) -> bool:
+        """Whether chat LLM is configured."""
+        return bool(self.dashscope_api_key)
+
+    @property
+    def embedding_configured(self) -> bool:
+        """Whether embedding is configured."""
+        return bool(self.dashscope_api_key and self.dashscope_model_embedding_name)
 
 
-settings = Settings().resolve()
+settings = Settings()

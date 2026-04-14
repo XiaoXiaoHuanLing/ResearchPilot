@@ -10,7 +10,7 @@ def _get_system_status_impl() -> str:
 
     parts = []
 
-    if settings.openai_api_key:
+    if settings.llm_configured:
         parts.append(f"🟢 LLM: {settings.llm_model}")
     else:
         parts.append("🔴 LLM: 未配置")

@@ -233,15 +233,15 @@ async def generate_llm_summary(title: str, content: str) -> str:
 
     Falls back to truncation if LLM is not available.
     """
-    if not settings.openai_api_key:
+    if not settings.llm_configured:
         # Fallback: just truncate
         return content[:300].strip() + ("..." if len(content) > 300 else "")
 
     try:
         from openai import OpenAI
         client = OpenAI(
-            api_key=settings.openai_api_key,
-            base_url=settings.openai_base_url or None,
+            api_key=settings.llm_api_key,
+            base_url=settings.llm_base_url,
         )
         resp = client.chat.completions.create(
             model=settings.llm_model,

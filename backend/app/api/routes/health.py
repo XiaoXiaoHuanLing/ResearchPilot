@@ -17,11 +17,11 @@ def health_check():
 def system_status():
     """Return system capability status for the frontend."""
     return {
-        "llm_configured": bool(settings.openai_api_key),
+        "llm_configured": settings.llm_configured,
         "search_configured": bool(settings.tavily_api_key or settings.serper_api_key),
-        "rag_available": bool(settings.openai_api_key),
-        "llm_model": settings.llm_model if settings.openai_api_key else None,
-        "embedding_model": settings.embedding_model if settings.openai_api_key else None,
+        "rag_available": settings.embedding_configured,
+        "llm_model": settings.llm_model if settings.llm_configured else None,
+        "embedding_model": settings.embedding_model if settings.embedding_configured else None,
         "search_provider": "tavily" if settings.tavily_api_key else ("serper" if settings.serper_api_key else None),
     }
 

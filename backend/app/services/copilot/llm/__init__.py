@@ -1,10 +1,10 @@
 """Copilot LLM 配置 — 模型选择与实例化。
 
 设计：
-1. 所有 Chat LLM 统一使用 OPENAI_BASE_URL + OPENAI_API_KEY + OPENAI_MODEL_NAME
+1. 所有 Chat LLM 统一使用 DashScope (DASHSCOPE_API_KEY + DASHSCOPE_BASE_URL + DASHSCOPE_MODEL_NAME)
 2. 默认 streaming=True（原生流式输出）
 3. with_fallbacks() 自动处理模型调用失败
-4. 支持可选 fallback 模型（OPENAI_MODEL_NAME_FALLBACK）
+4. 支持可选 fallback 模型（DASHSCOPE_MODEL_NAME_FALLBACK）
 5. 解耦原则：LLM 配置独立于 agent 和 tool
 """
 
@@ -26,13 +26,13 @@ def _build_primary_llm(
     timeout: int = 60,
 ) -> ChatOpenAI | None:
     """构建主 Chat LLM 实例。"""
-    if not settings.openai_api_key:
+    if not settings.llm_configured:
         return None
     try:
         return ChatOpenAI(
             model=settings.llm_model,
-            api_key=settings.openai_api_key,
-            base_url=settings.openai_base_url or None,
+            api_key=settings.llm_api_key,
+            base_url=settings.llm_base_url,
             streaming=streaming,
             temperature=temperature,
             max_tokens=max_tokens,
@@ -50,14 +50,14 @@ def _build_fallback_llm(
     timeout: int = 60,
 ) -> ChatOpenAI | None:
     """构建 fallback Chat LLM 实例（同一 API，不同模型名）。"""
-    fallback_model = settings.openai_model_name_fallback
+    fallback_model = settings.dashscope_model_name_fallback
     if not fallback_model:
         return None
     try:
         return ChatOpenAI(
             model=fallback_model,
-            api_key=settings.openai_api_key,
-            base_url=settings.openai_base_url or None,
+            api_key=settings.llm_api_key,
+            base_url=settings.llm_base_url,
             streaming=streaming,
             temperature=temperature,
             max_tokens=max_tokens,
@@ -88,7 +88,7 @@ def _build_llm_chain(
         llms.append(("fallback", fallback))
 
     if not llms:
-        raise RuntimeError("No LLM available — check OPENAI_API_KEY / OPENAI_BASE_URL in .env")
+        raise RuntimeError("No LLM available — check DASHSCOPE_API_KEY in .env")
 
     head_label, head_llm = llms[0]
     fallbacks = [llm for _, llm in llms[1:]]

@@ -72,22 +72,22 @@ def generate_report(state: ReportState) -> dict:
     # --- LLM attempt chain ---
     llm_configs = []
 
-    # Primary: OpenAI-compatible LLM (glm-5.1)
-    if settings.openai_api_key:
+    # Primary: DashScope LLM
+    if settings.llm_configured:
         llm_configs.append({
             "model": settings.llm_model,
-            "api_key": settings.openai_api_key,
-            "base_url": settings.openai_base_url or None,
+            "api_key": settings.llm_api_key,
+            "base_url": settings.llm_base_url,
             "label": "primary",
         })
 
-    # Optional fallback model (if OPENAI_MODEL_NAME_FALLBACK is configured)
-    fallback_model = getattr(settings, "openai_model_name_fallback", "")
-    if fallback_model and settings.openai_api_key:
+    # Optional fallback model (if DASHSCOPE_MODEL_NAME_FALLBACK is configured)
+    fallback_model = settings.dashscope_model_name_fallback
+    if fallback_model and settings.llm_configured:
         llm_configs.append({
             "model": fallback_model,
-            "api_key": settings.openai_api_key,
-            "base_url": settings.openai_base_url or None,
+            "api_key": settings.llm_api_key,
+            "base_url": settings.llm_base_url,
             "label": "fallback",
         })
 
