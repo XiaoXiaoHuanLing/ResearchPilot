@@ -29,8 +29,9 @@ ResearchPilot 是一个面向公开专题研究的 AI 助手平台。
 | 调度 | APScheduler | 专题定时采集 |
 
 ### 当前生效配置
-- **Chat LLM**: `glm-5.1` via OPENAI 兼容代理（OPENAI_* 环境变量）
-- **Embedding**: `text-embedding-v3` via 阿里云 DashScope（ALIBABA_* 环境变量）
+- **Chat LLM**: `qwen3.5-35b-a3b` via 阿里云 DashScope（DASHSCOPE_* 环境变量，激活3B/总参35B MoE）
+- **Fallback**: `qwen3.5-flash-2026-02-23`（商业轻量版，自动切换）
+- **Embedding**: `text-embedding-v3` via 阿里云 DashScope（同环境变量）
 - **搜索**: Tavily(basic) + Serper
 - **向量库**: ChromaDB `researchpilot_all` 集合
 
@@ -124,6 +125,7 @@ copilot/
 | 04-12 | Researcher asyncio.gather | 并行采集 |
 | **04-13** | **Chat LLM统一OPENAI_*/Embedding统一ALIBABA_*** | **去除qwen chat依赖，简化代码，灵活替换** |
 | 04-13 | 删除模拟流式 | comi要求原生streaming |
+| **04-14** | **全量切换阿里云 DashScope (DASHSCOPE_*)** | **去除OPENAI_*/ALIBABA_*双配置，Chat+Embedding统一入口** |
 
 ---
 
