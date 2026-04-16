@@ -52,3 +52,6 @@ pytest-cache-files*
 
 # Frontend build output (use `npm run build` to generate)
 frontend/dist/
+
+# Docs (local only)
+docs/
