@@ -31,6 +31,7 @@ const showToolLog = ref(false)
 const chatContainer = ref<HTMLElement | null>(null)
 const errorMsg = ref('')
 const useSupervisor = ref(false)  // 多 Agent 模式开关
+const useDeepAgent = ref(false)  // Deep Agent 模式开关
 
 // ─── Persistence ─────────────────────────────────────────────────────────
 
@@ -108,7 +109,7 @@ async function sendMessage() {
     const res = await fetch('/api/copilot/chat/stream', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, thread_id: threadId.value, use_supervisor: useSupervisor.value }),
+      body: JSON.stringify({ message: text, thread_id: threadId.value, use_supervisor: useSupervisor.value, use_deep_agent: useDeepAgent.value }),
     })
 
     if (!res.ok) {
@@ -235,6 +236,56 @@ function handleSSEEvent(event: any, assistantMsg: CopilotMessage) {
     assistantMsg.content += `\n⟳ ${workerLabel} 开始工作\n`
     const idx = messages.value.findIndex(m => m.id === assistantMsg.id)
     if (idx !== -1) messages.value.splice(idx, 1, { ...assistantMsg })
+  } else if (type === 'plan') {
+    // Deep Agent: write_todos 规划事件
+    const todos = event.todos || []
+    const todoTexts = todos.map((t: any, i: number) => `${i + 1}. ${t.content || t}`).join('\n')
+    assistantMsg.content += `\n📝 规划:\n${todoTexts}\n`
+    const idx = messages.value.findIndex(m => m.id === assistantMsg.id)
+    if (idx !== -1) messages.value.splice(idx, 1, { ...assistantMsg })
+  } else if (type === 'plan_updated') {
+    // Deep Agent: todos 状态更新 — 静默处理
+  } else if (type === 'delegate') {
+    // Deep Agent: 委托 Sub Agent
+    const agentNames: Record<string, string> = {
+      researcher: '🔍 采集助手',
+      analyst: '📊 分析助手',
+      manager: '📋 管理助手',
+    }
+    const agentLabel = agentNames[event.agent] || event.agent
+    assistantMsg.content += `\n⟳ ${agentLabel} 开始工作: ${(event.task || '').slice(0, 80)}\n`
+    const idx = messages.value.findIndex(m => m.id === assistantMsg.id)
+    if (idx !== -1) messages.value.splice(idx, 1, { ...assistantMsg })
+  } else if (type === 'delegate_done') {
+    // Deep Agent: Sub Agent 完成 — 显示结果预览
+    const preview = (event.preview || '').replace(/\n/g, ' ').slice(0, 150)
+    assistantMsg.content += `\n✅ Sub Agent 完成: ${preview}\n`
+    const idx = messages.value.findIndex(m => m.id === assistantMsg.id)
+    if (idx !== -1) messages.value.splice(idx, 1, { ...assistantMsg })
+  } else if (type === 'sub_tool_start') {
+    // Deep Agent: Sub Agent 内部工具开始 — 用 toolLog 紧凑展示
+    assistantMsg.toolLog = assistantMsg.toolLog || []
+    const toolLabel = event.tool || '?'
+    const agentLabel = event.agent || ''
+    assistantMsg.toolLog.push({
+      tool: `${agentLabel ? agentLabel + ':' : ''}${toolLabel}`,
+      status: 'executing',
+    })
+    // 只保留最近8条 toolLog，避免太长
+    if (assistantMsg.toolLog.length > 8) {
+      assistantMsg.toolLog = assistantMsg.toolLog.slice(-8)
+    }
+    const idx = messages.value.findIndex(m => m.id === assistantMsg.id)
+    if (idx !== -1) messages.value.splice(idx, 1, { ...assistantMsg })
+  } else if (type === 'sub_tool_end') {
+    // Deep Agent: Sub Agent 内部工具完成 — 更新 toolLog
+    if (assistantMsg.toolLog && assistantMsg.toolLog.length > 0) {
+      const last = assistantMsg.toolLog[assistantMsg.toolLog.length - 1]
+      last.status = 'done'
+      last.result_preview = (event.result || '').replace(/\n/g, ' ').slice(0, 100)
+    }
+    const idx = messages.value.findIndex(m => m.id === assistantMsg.id)
+    if (idx !== -1) messages.value.splice(idx, 1, { ...assistantMsg })
   } else if (type === 'done') {
     assistantMsg.streaming = false
     if (event.thread_id) {
@@ -309,9 +360,18 @@ const toolEmojis: Record<string, string> = {
           :bordered="false"
           :type="useSupervisor ? 'warning' : 'default'"
           style="cursor:pointer"
-          @click="useSupervisor = !useSupervisor"
+          @click="useSupervisor = !useSupervisor; useDeepAgent = false"
         >
           {{ useSupervisor ? '🤖 多Agent' : '🤖 单Agent' }}
+        </n-tag>
+        <n-tag
+          size="tiny"
+          :bordered="false"
+          :type="useDeepAgent ? 'success' : 'default'"
+          style="cursor:pointer"
+          @click="useDeepAgent = !useDeepAgent; useSupervisor = false"
+        >
+          {{ useDeepAgent ? '🧠 DeepAgent' : '🧠 Deep' }}
         </n-tag>
         <n-button size="tiny" quaternary @click="clearChat">清空</n-button>
       </div>

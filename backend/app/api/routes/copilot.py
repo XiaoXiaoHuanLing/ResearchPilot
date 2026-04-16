@@ -43,6 +43,7 @@ class CopilotChatRequest(BaseModel):
     message: str
     thread_id: str | None = None
     use_supervisor: bool = False
+    use_deep_agent: bool = False
 
 class CopilotChatResponse(BaseModel):
     response: str
@@ -82,7 +83,11 @@ async def copilot_chat(payload: CopilotChatRequest):
     _touch_session(thread_id)
 
     try:
-        result = await run_copilot(payload.message, thread_id, use_supervisor=payload.use_supervisor)
+        result = await run_copilot(
+            payload.message, thread_id,
+            use_supervisor=payload.use_supervisor,
+            use_deep_agent=payload.use_deep_agent,
+        )
         _touch_session(result["thread_id"])
         return CopilotChatResponse(**result)
     except Exception as e:
@@ -102,7 +107,10 @@ async def copilot_chat_stream(payload: CopilotChatRequest):
 
     async def event_generator():
         try:
-            if payload.use_supervisor:
+            if payload.use_deep_agent:
+                async for chunk in _deep_agent_stream(payload.message, thread_id):
+                    yield chunk
+            elif payload.use_supervisor:
                 async for chunk in _supervisor_stream(payload.message, thread_id):
                     yield chunk
             else:
@@ -245,6 +253,108 @@ async def _supervisor_stream(message: str, thread_id: str):
 
     except Exception as e:
         raise
+
+
+async def _deep_agent_stream(message: str, thread_id: str):
+    """Deep Agent SSE 流式生成器 — 原生 streaming，按事件类型推送。
+
+    推送事件：
+    - token: 主 Agent 的文本输出
+    - plan: write_todos 规划事件
+    - plan_updated: todos 状态更新
+    - delegate: task 委托 Sub Agent
+    - delegate_done: Sub Agent 返回结果
+    - tool_start / tool_end: 其他工具调用
+    - sub_progress: Sub Agent 正在工作
+    - done: 完成
+    """
+    from app.services.copilot.agent import get_deep_agent
+    from app.services.copilot.agent.memory_tools import set_current_context, clear_current_context
+
+    agent = get_deep_agent()
+    config = {"configurable": {"thread_id": f"da_{thread_id}"}}
+    input_msg = {"messages": [HumanMessage(content=message)]}
+
+    # 设置用户上下文
+    set_current_context(user_id=thread_id, session_id=thread_id)
+
+    try:
+        async for event in agent.astream_events(input_msg, config=config, version="v2"):
+            kind = event.get("event", "")
+            agent_name = event.get("metadata", {}).get("lc_agent_name", "main")
+
+            # LLM 输出 token（仅主 Agent）
+            if kind == "on_chat_model_stream":
+                chunk = event.get("data", {}).get("chunk")
+                if chunk and hasattr(chunk, "content") and chunk.content:
+                    text = _extract_chunk_text(chunk.content)
+                    if text and agent_name == "main":
+                        data = json.dumps({"type": "token", "content": text}, ensure_ascii=False)
+                        yield f"event: token\ndata: {data}\n\n"
+                    # Sub Agent 的 token 不推，避免刷屏
+
+            # 工具调用开始
+            elif kind == "on_tool_start":
+                tool_name = event.get("name", "")
+                tool_input = event.get("data", {}).get("input", {})
+
+                if tool_name == "write_todos":
+                    data = json.dumps({"type": "plan", "todos": tool_input.get("todos", [])}, ensure_ascii=False)
+                    yield f"event: plan\ndata: {data}\n\n"
+                elif tool_name == "task":
+                    data = json.dumps({
+                        "type": "delegate",
+                        "agent": tool_input.get("subagent_type", "?"),
+                        "task": tool_input.get("description", "")[:200],
+                    }, ensure_ascii=False)
+                    yield f"event: delegate\ndata: {data}\n\n"
+                else:
+                    # Sub Agent 内部工具推简化事件，前端用小标签展示
+                    data = json.dumps({
+                        "type": "sub_tool_start",
+                        "tool": tool_name,
+                        "agent": agent_name,
+                    }, ensure_ascii=False)
+                    yield f"event: sub_tool_start\ndata: {data}\n\n"
+
+            # 工具调用结束
+            elif kind == "on_tool_end":
+                tool_name = event.get("name", "")
+                raw_output = event.get("data", {}).get("output", "")
+
+                if tool_name == "task":
+                    if hasattr(raw_output, "content"):
+                        result_str = str(raw_output.content)
+                    else:
+                        result_str = str(raw_output)
+                    preview = result_str.replace("\n", " ")[:200]
+                    data = json.dumps({"type": "delegate_done", "preview": preview}, ensure_ascii=False)
+                    yield f"event: delegate_done\ndata: {data}\n\n"
+                elif tool_name == "write_todos":
+                    data = json.dumps({"type": "plan_updated", "status": "updated"}, ensure_ascii=False)
+                    yield f"event: plan_updated\ndata: {data}\n\n"
+                else:
+                    # Sub Agent 内部工具完成 — 推简化事件
+                    if hasattr(raw_output, "content"):
+                        result_str = str(raw_output.content)
+                    else:
+                        result_str = str(raw_output)
+                    result_preview = result_str.replace("\n", " ")[:100]
+                    data = json.dumps({
+                        "type": "sub_tool_end",
+                        "tool": tool_name,
+                        "result": result_preview,
+                        "agent": agent_name,
+                    }, ensure_ascii=False)
+                    yield f"event: sub_tool_end\ndata: {data}\n\n"
+
+        yield f"event: done\ndata: {json.dumps({'type': 'done', 'thread_id': thread_id, 'mode': 'deep_agent'}, ensure_ascii=False)}\n\n"
+        _touch_session(thread_id)
+
+    except Exception as e:
+        raise
+    finally:
+        clear_current_context()
 
 
 @router.get("/sessions", response_model=list[CopilotSessionInfo])
