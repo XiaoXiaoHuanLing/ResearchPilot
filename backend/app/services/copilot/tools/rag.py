@@ -1,4 +1,4 @@
-"""RAG 工具 — rag_query, rag_stats, rag_reindex"""
+﻿"""RAG 工具 — rag_query, rag_stats, rag_reindex"""
 import logging
 from langchain_core.tools import tool
 
@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 
 async def _rag_query_impl(question: str, knowledge_base_id: int | None = None, use_hyde: bool = True) -> str:
-    from app.services.rag.engine import rag_query as _rag_query
+    from app.services.knowledge.engine import rag_query as _rag_query
     from app.db.models import KnowledgeBaseModel
     from app.db.session import SessionLocal
 
@@ -43,7 +43,7 @@ async def rag_query(question: str, knowledge_base_id: int | None = None, use_hyd
 
 
 def _rag_stats_impl() -> str:
-    from app.services.rag.engine import get_collection_stats
+    from app.services.knowledge.engine import get_collection_stats
     stats = get_collection_stats()
     if "error" in stats:
         return f"⚠️ RAG 状态查询失败：{stats['error']}"
@@ -63,23 +63,27 @@ def rag_stats() -> str:
 
 
 async def _rag_reindex_impl() -> str:
-    from app.services.rag.engine import reindex_all_articles
     from app.db.session import SessionLocal
+    from app.db.models import KbDocumentModel
+    from app.services.knowledge.manager import enqueue_index_task
 
     with SessionLocal() as db:
-        result = await reindex_all_articles(db)
+        docs = db.query(KbDocumentModel).all()
+        for doc in docs:
+            doc.index_status = "pending"
+            doc.index_error = ""
+        db.commit()
+        count = len(docs)
 
-    return (
-        f"🔄 索引重建完成\n"
-        f"  总数: {result['total']}\n"
-        f"  ✅ 成功: {result['success']}\n"
-        f"  ❌ 失败: {result['failed']}"
-    )
+    for doc in docs:
+        await enqueue_index_task(doc.id)
+
+    return f"🔄 已提交 {count} 个知识库文档重新索引"
 
 
 @tool
 async def rag_reindex() -> str:
-    """重建所有已收藏文章的 RAG 索引。耗时操作，慎用。"""
+    """重建所有知识库文档的 RAG 索引。耗时操作，慎用。"""
     return await _rag_reindex_impl()
 
 

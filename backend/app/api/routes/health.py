@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+﻿from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -40,7 +40,7 @@ def rag_stats(db: Session = Depends(get_db)):
     Provides visibility into the health of the RAG pipeline.
     """
     from app.db.models import ArticleModel, KnowledgeBaseModel, KbDocumentModel
-    from app.services.rag.engine import get_collection_stats
+    from app.services.knowledge.engine import get_collection_stats
 
     # Vector store stats
     vector_stats = get_collection_stats()
@@ -50,7 +50,7 @@ def rag_stats(db: Session = Depends(get_db)):
     bookmarked_articles = db.query(ArticleModel).filter(ArticleModel.bookmarked == True).count()  # noqa: E712
     total_kbs = db.query(KnowledgeBaseModel).count()
     total_kb_docs = db.query(KbDocumentModel).count()
-    indexed_kb_docs = db.query(KbDocumentModel).filter(KbDocumentModel.indexed == 1).count()  # noqa: E712
+    indexed_kb_docs = db.query(KbDocumentModel).filter(KbDocumentModel.index_status == "indexed").count()
 
     return {
         "vector_store": vector_stats,
@@ -80,9 +80,18 @@ async def rag_reindex(async_mode: bool = True, db: Session = Depends(get_db)):
             "message": f"索引重建已在后台启动，任务ID：{task.id}。通过 /api/tasks/{task.id} 查看进度。",
         }
     else:
-        from app.services.rag.engine import reindex_all_articles
-        result = await reindex_all_articles(db)
+        from app.db.session import SessionLocal
+        from app.db.models import KbDocumentModel
+        from app.services.knowledge.manager import enqueue_index_task
+        with SessionLocal() as db:
+            docs = db.query(KbDocumentModel).all()
+            for doc in docs:
+                doc.index_status = "pending"
+                doc.index_error = ""
+            db.commit()
+            count = len(docs)
+        for doc in docs:
+            await enqueue_index_task(doc.id)
         return {
-            "message": f"重新索引完成：成功 {result['success']} 篇，失败 {result['failed']} 篇",
-            "result": result,
+            "message": f"已提交 {count} 个文档重新索引",
         }

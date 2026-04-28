@@ -1,10 +1,6 @@
-"""Copilot 智能助手模块。
+"""Copilot — DeepAgents 一主六从架构。
 
-架构：tools/ + llm/ + agent/ 解耦
-
-公开接口（从 agent 层导出）：
-- get_compiled_agent(): 获取预构建 ReAct Agent
-- run_copilot(message, thread_id): 非流式对话
+对外接口：run_copilot(), SSE stream, 工具注册
 """
 
-from app.services.copilot.agent import get_compiled_agent, run_copilot
+from app.services.copilot.agent import get_deep_agent, reset_deep_agent

@@ -1,4 +1,4 @@
-"""Background task manager for async operations.
+﻿"""Background task manager for async operations.
 
 Provides:
 - Task creation and tracking (with status, progress, results)
@@ -109,7 +109,7 @@ async def start_collection_task(topic_id: int, topic_name: str, keywords_csv: st
     task = create_task("collection", f"采集专题「{topic_name}」")
     
     async def _run_collection():
-        from app.services.ingestion import run_topic_collection
+        from app.services.consultation.ingestion import run_topic_collection
         keywords = [k.strip() for k in keywords_csv.split(",") if k.strip()]
         count = await run_topic_collection(topic_id, topic_name, keywords)
         task.message = f"专题「{topic_name}」采集完成，新增 {count} 篇资讯"
@@ -121,16 +121,23 @@ async def start_collection_task(topic_id: int, topic_name: str, keywords_csv: st
 
 
 async def start_reindex_task() -> BackgroundTask:
-    """Start a background reindex task."""
-    task = create_task("reindex", "重建所有收藏文章索引")
+    """Start a background reindex task — reindex all KB documents."""
+    task = create_task("reindex", "重建所有知识库文档索引")
     
     async def _run_reindex():
         from app.db.session import SessionLocal
-        from app.services.rag.engine import reindex_all_articles
+        from app.db.models import KbDocumentModel
+        from app.services.knowledge.manager import enqueue_index_task
         with SessionLocal() as db:
-            result = await reindex_all_articles(db)
-        task.message = f"索引重建完成：成功 {result['success']} 篇，失败 {result['failed']} 篇"
-        return result
+            docs = db.query(KbDocumentModel).all()
+            for doc in docs:
+                doc.index_status = "pending"
+                doc.index_error = ""
+            db.commit()
+        for doc in docs:
+            await enqueue_index_task(doc.id)
+        task.message = f"已提交 {len(docs)} 个文档重新索引"
+        return {"total": len(docs)}
     
     asyncio.create_task(run_background_task(task, _run_reindex))
     return task

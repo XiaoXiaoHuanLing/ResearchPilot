@@ -56,3 +56,11 @@ def cleanup_tasks(max_age_seconds: int = 3600):
     removed = cleanup_old_tasks(max_age_seconds)
     return {"removed": removed}
 
+
+@router.post("/cleanup-expired-articles", response_model=dict)
+async def cleanup_expired_articles():
+    """手动触发过期资讯清理（未收藏且已过期的文章）。"""
+    from app.services.consultation.cleanup import cleanup_expired_articles as _cleanup
+    count = await _cleanup()
+    return {"expired_articles_removed": count}
+

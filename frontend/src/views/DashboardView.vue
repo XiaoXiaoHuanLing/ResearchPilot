@@ -163,7 +163,10 @@ onMounted(() => refresh())
                 <h4 class="text-slate-200 font-medium text-sm">{{ report.title }}</h4>
                 <span class="text-xs text-slate-500">{{ report.created_at }}</span>
               </div>
-              <p class="text-xs text-slate-400 mt-1 line-clamp-3">{{ report.summary }}</p>
+              <p class="text-xs text-slate-400 mt-1 line-clamp-3">
+                <n-tag size="tiny" :bordered="false" :type="report.status === 'ready' ? 'success' : 'warning'">{{ report.status }}</n-tag>
+                <span v-if="report.quality_score" class="ml-1">质量: {{ report.quality_score }}</span>
+              </p>
             </div>
             <n-empty v-if="reportStore.reports.length === 0" description="暂无报告" size="small" />
           </n-card>

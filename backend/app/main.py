@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import health, topics, articles, qa, reports, knowledge_base, tasks, chat_sessions, copilot
+from app.api.routes import health, topics, articles, chat, reports, knowledge_base, tasks, chat_sessions, copilot
 from app.core.config import settings
 from app.db.base import Base
 from app.db.session import engine, SessionLocal
@@ -21,9 +21,41 @@ async def lifespan(app: FastAPI):
     from app.services.scheduler import init_scheduler, shutdown_scheduler
     init_scheduler()
 
+    # Initialize SQLite checkpointers for chat & copilot agents
+    import aiosqlite
+    from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
+    from pathlib import Path
+
+    cp_dir = Path(settings.storage_base_dir) / "checkpoints"
+    cp_dir.mkdir(parents=True, exist_ok=True)
+
+    # Chat checkpointer
+    chat_conn = await aiosqlite.connect(str(cp_dir / "chat.db"))
+    chat_saver = AsyncSqliteSaver(chat_conn)
+    await chat_saver.setup()
+    from app.services.chat import agent as chat_agent_mod
+    chat_agent_mod._checkpointer = chat_saver
+
+    # Copilot checkpointer
+    copilot_conn = await aiosqlite.connect(str(cp_dir / "copilot.db"))
+    copilot_saver = AsyncSqliteSaver(copilot_conn)
+    await copilot_saver.setup()
+    from app.services.copilot import agent as copilot_agent_mod
+    copilot_agent_mod._checkpointer = copilot_saver
+
+    # 预加载 BM25 缓存（避免首次查询降级）
+    try:
+        from app.services.knowledge.bm25 import preload_bm25
+        preload_bm25()
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).warning("BM25 preload skipped: %s", e)
+
     yield
 
     # Shutdown
+    await chat_conn.close()
+    await copilot_conn.close()
     shutdown_scheduler()
 
 
@@ -40,7 +72,7 @@ app.add_middleware(
 app.include_router(health.router, prefix="/api", tags=["system"])
 app.include_router(topics.router, prefix="/api/topics", tags=["topics"])
 app.include_router(articles.router, prefix="/api/articles", tags=["articles"])
-app.include_router(qa.router, prefix="/api/qa", tags=["qa"])
+app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
 app.include_router(reports.router, prefix="/api/reports", tags=["reports"])
 app.include_router(knowledge_base.router, prefix="/api/knowledge-bases", tags=["knowledge-bases"])
 app.include_router(tasks.router, prefix="/api/tasks", tags=["tasks"])

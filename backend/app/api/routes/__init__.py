@@ -1,1 +1,1 @@
-from . import health, topics, articles, qa, reports, knowledge_base, tasks, chat_sessions, copilot
+from . import health, topics, articles, chat, reports, knowledge_base, tasks, chat_sessions, copilot

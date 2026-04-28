@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from 'vue'
 import {
   NCard, NInput, NButton, NSpace, NTag, NSwitch, NSpin, NEmpty,
-  NModal, NFormItem, NCheckbox, NPopconfirm, useMessage,
+  NModal, NFormItem, NPopconfirm, useMessage,
 } from 'naive-ui'
 import { useArticleStore, useTopicStore } from '../stores'
 import type { Article } from '../types'
@@ -20,7 +20,6 @@ const searchDebounce = ref<ReturnType<typeof setTimeout> | null>(null)
 const showIngest = ref(false)
 const ingestUrl = ref('')
 const ingestTopic = ref('')
-const ingestAutoBookmark = ref(true)
 const ingestLoading = ref(false)
 const collectLoadingId = ref<number | null>(null)
 const detailArticle = ref<Article | null>(null)
@@ -37,7 +36,7 @@ async function handleBookmark(article: Article, value: boolean) {
   bookmarkLoading.value = article.id
   try {
     await articleStore.bookmark(article.id, value)
-    message.success(value ? '已收藏（同步写入向量知识库）' : '已取消收藏（同步从向量知识库移除）')
+    message.success(value ? '已收藏' : '已取消收藏')
   } catch (e: any) {
     message.error(e?.message || '操作失败')
   } finally {
@@ -46,10 +45,6 @@ async function handleBookmark(article: Article, value: boolean) {
 }
 
 async function handleDelete(article: Article) {
-  if (article.bookmarked) {
-    message.warning('已收藏的资讯不能删除，请先取消收藏')
-    return
-  }
   try {
     await articleStore.remove(article.id)
     message.success('已删除')
@@ -65,7 +60,7 @@ async function handleIngest() {
   }
   ingestLoading.value = true
   try {
-    const result = await articleStore.ingest(ingestUrl.value, ingestTopic.value, ingestAutoBookmark.value)
+    const result = await articleStore.ingest(ingestUrl.value, ingestTopic.value)
     if (result.id) {
       message.success(result.message)
       showIngest.value = false
@@ -161,6 +156,14 @@ onMounted(async () => {
                 <n-tag size="small" :bordered="false" type="info">{{ article.topic }}</n-tag>
                 <span class="text-xs text-slate-500">{{ article.published_at }}</span>
                 <n-tag v-if="article.bookmarked" size="small" type="warning" :bordered="false">已收藏</n-tag>
+                <!-- V2: quality badge -->
+                <n-tag v-if="article.quality_label === 'high'" size="small" type="success" :bordered="false">高质量</n-tag>
+                <n-tag v-else-if="article.quality_label === 'medium'" size="small" :bordered="false">中等</n-tag>
+                <n-tag v-else-if="article.quality_label === 'low'" size="small" type="error" :bordered="false">低质量</n-tag>
+                <!-- V2: expires indicator -->
+                <n-tag v-if="!article.bookmarked && article.expires_at" size="small" :bordered="false" type="default">
+                  {{ article.expires_at }} 过期
+                </n-tag>
               </div>
               <h3 class="text-base font-semibold text-slate-100 break-words">{{ article.title }}</h3>
               <p class="text-sm text-slate-400 mt-1 break-words">{{ article.summary }}</p>
@@ -175,7 +178,7 @@ onMounted(async () => {
                 @click.stop="handleBookmark(article, !article.bookmarked)">
                 {{ article.bookmarked ? '取消收藏' : '收藏' }}
               </n-button>
-              <n-popconfirm v-if="!article.bookmarked" @positive-click="handleDelete(article)">
+              <n-popconfirm @positive-click="handleDelete(article)">
                 <template #trigger>
                   <n-button size="small" type="error" ghost @click.stop>删除</n-button>
                 </template>
@@ -193,6 +196,7 @@ onMounted(async () => {
         <div class="mb-3 flex items-center gap-2 flex-wrap">
           <n-tag size="small" :bordered="false" type="info">{{ detailArticle.topic }}</n-tag>
           <span class="text-xs text-slate-500">{{ detailArticle.published_at }}</span>
+          <n-tag v-if="detailArticle.bookmarked" size="small" type="warning" :bordered="false">已收藏</n-tag>
         </div>
         <h2 class="text-xl font-bold text-slate-100 mb-3">{{ detailArticle.title }}</h2>
         <div class="text-sm text-slate-500 mb-4">
@@ -210,7 +214,7 @@ onMounted(async () => {
       </template>
     </n-modal>
 
-    <!-- Ingest URL Modal -->
+    <!-- Ingest URL Modal — V2: 收藏≠入KB，去掉auto_bookmark -->
     <n-modal v-model:show="showIngest" title="手动采集URL" preset="card" style="max-width:520px">
       <n-form>
         <n-form-item label="网页URL">
@@ -222,9 +226,6 @@ onMounted(async () => {
               :type="ingestTopic === topic.name ? 'info' : 'default'" style="cursor:pointer"
               @click="ingestTopic = topic.name">{{ topic.name }}</n-tag>
           </n-space>
-        </n-form-item>
-        <n-form-item label="采集后自动收藏">
-          <n-checkbox v-model:checked="ingestAutoBookmark">自动收藏并加入知识库</n-checkbox>
         </n-form-item>
       </n-form>
       <template #footer>

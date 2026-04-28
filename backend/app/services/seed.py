@@ -4,23 +4,25 @@ from app.db.models import ArticleModel, ReportModel, TopicModel, KnowledgeBaseMo
 
 
 def seed_demo_data(db: Session) -> None:
-    # Create default bookmark knowledge base
-    if not db.query(KnowledgeBaseModel).filter(KnowledgeBaseModel.is_default == True).first():
+    # Create default knowledge base (V2: upload type, no is_default)
+    if db.query(KnowledgeBaseModel).count() == 0:
         db.add(KnowledgeBaseModel(
-            name="收藏资讯知识库",
-            description="由收藏的资讯自动构建的知识库",
-            kb_type="bookmarks",
-            is_default=True,
-            article_count=0,
+            name="默认知识库",
+            description="用户上传文档和报告入库的知识库",
+            kb_type="upload",
+            enabled=True,
+            document_count=0,
+            chunk_count=0,
             created_at="2026-04-09 20:00",
+            updated_at="2026-04-09 20:00",
         ))
-        db.flush()  # flush so we can count
+        db.flush()
 
-    # Update bookmark KB article_count
-    bk_kb = db.query(KnowledgeBaseModel).filter(KnowledgeBaseModel.is_default == True).first()
-    if bk_kb:
-        from sqlalchemy import func as sa_func
-        bk_kb.article_count = db.query(ArticleModel).filter(ArticleModel.bookmarked == True).count()  # noqa: E712
+    # Update KB document_count from actual KbDocument count
+    kb = db.query(KnowledgeBaseModel).first()
+    if kb:
+        from app.db.models import KbDocumentModel
+        kb.document_count = db.query(KbDocumentModel).filter(KbDocumentModel.kb_id == kb.id).count()
 
     if db.query(TopicModel).first() is None:
         db.add_all([
@@ -62,6 +64,9 @@ def seed_demo_data(db: Session) -> None:
                         "垂直发射系统和综合电力推进等关键技术方向。该项目预计将在未来数年内持续进展，"
                         "相关供应链和配套体系建设也在同步推进中。值得注意的是，公开信息中多次提及"
                         "模块化设计理念在舰船建造中的应用，这可能对后续维护和升级产生重要影响。",
+                quality_score=75,
+                quality_label="high",
+                expires_at="",
             ),
             ArticleModel(
                 topic="武器装备前沿",
@@ -76,6 +81,9 @@ def seed_demo_data(db: Session) -> None:
                         "进展。在应用层面，公开信息提到了无人系统在边境巡逻、海上监测和应急响应等场景的"
                         "部署计划。技术路线方面，人工智能自主决策、多平台协同和数据链融合成为公开报道中"
                         "频繁出现的关键词。",
+                quality_score=70,
+                quality_label="high",
+                expires_at="2026-04-15 09:00",
             ),
             ArticleModel(
                 topic="无人系统跟踪",
@@ -90,6 +98,9 @@ def seed_demo_data(db: Session) -> None:
                         "环境感知系统、分布式编队控制算法以及海况自适应航迹规划等技术要点。测试结果"
                         "表明，在4级海况下系统仍能保持稳定的编队队形和任务执行能力。后续测试计划将"
                         "扩展到更复杂的协同场景，包括多艇联合探测和自主决策任务分配。",
+                quality_score=80,
+                quality_label="high",
+                expires_at="",
             ),
         ])
 
@@ -97,8 +108,10 @@ def seed_demo_data(db: Session) -> None:
         db.add(
             ReportModel(
                 title="舰船动态周报（示例）",
+                topic="舰船动态追踪",
                 created_at="2026-04-08 21:00",
-                summary="汇总近期公开舰船动态并生成结构化观察结论。信息来源：公开防务资讯站。",
+                updated_at="2026-04-08 21:00",
+                status="ready",
             )
         )
 

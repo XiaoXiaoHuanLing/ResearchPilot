@@ -1,0 +1,164 @@
+{
+  "version": "3.0",
+  "created_at": "2026-04-24",
+  "source_kb_ids": [
+    2
+  ],
+  "qa_pairs": [
+    {
+      "id": "q001",
+      "question": "针对生产环境中 P0 级严重故障，修复完成后依据流程规定需要持续观察多久才能确认闭环？",
+      "user_input": "针对生产环境中 P0 级严重故障，修复完成后依据流程规定需要持续观察多久才能确认闭环？",
+      "question_type": "fact",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "故障验证的时间标准（收窄）",
+      "why_not_common_sense": "属于运维流程中规定的特定观察周期，不同系统标准不同",
+      "dependency_node_ids": [
+        "ccc85e31-e764-411f-95ba-e5c3398f0d46"
+      ],
+      "reference_context_ids": [
+        "ccc85e31-e764-411f-95ba-e5c3398f0d46"
+      ],
+      "reference_contexts": [
+        "## 验证步骤\n1. 确认CPU使用率降到正常水平（<60%）\n2. 检查应用响应时间恢复正常\n3. 确认无新的错误日志产生\n4. 观察30分钟确保问题不再复现"
+      ],
+      "kb_doc_id": 1,
+      "kb_doc_ids": [
+        1
+      ],
+      "source": "generated",
+      "reference": "修复故障后，需要持续观察30分钟才能确认问题不再复现。",
+      "answer_facts": [
+        "验证步骤中包含观察环节。",
+        "观察的持续时长要求为30分钟。",
+        "观察的目的是确保问题不再复现。"
+      ],
+      "key_phrases": [
+        "故障修复，CPU使用率，应用响应时间，错误日志，问题复现"
+      ]
+    },
+    {
+      "id": "q002",
+      "question": "检查依赖服务状态时，需要在日志查询条件中包含哪些下游组件关键词？",
+      "user_input": "检查依赖服务状态时，需要在日志查询条件中包含哪些下游组件关键词？",
+      "question_type": "fact",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "依赖服务排查的关键字范围",
+      "why_not_common_sense": "系统依赖的具体组件列表（如数据库、Redis、MQ）是根据当前架构确定的，不属于通用计算机常识。",
+      "dependency_node_ids": [
+        "dc8cdb6e-fb7b-4558-ae3d-d41be1fc479d"
+      ],
+      "reference_context_ids": [
+        "dc8cdb6e-fb7b-4558-ae3d-d41be1fc479d"
+      ],
+      "reference_contexts": [
+        "### 步骤4: 检查依赖服务状态\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **查询条件**: `downstream_service OR database OR redis OR mq`"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "根据参考上下文，检查依赖服务状态时，需要在日志查询条件中包含的下游组件关键词是 downstream_service、database、redis 和 mq。",
+      "answer_facts": [
+        "检查依赖服务状态对应的是步骤 4。",
+        "该步骤使用的工具是 `query_logs`。",
+        "日志查询条件中必须包含 `downstream_service` 关键词。",
+        "日志查询条件中必须包含 `database`、`redis` 和 `mq` 关键词。"
+      ],
+      "key_phrases": [
+        "依赖服务状态，query_logs，日志查询，下游组件，查询条件"
+      ]
+    },
+    {
+      "id": "q003",
+      "question": "故障发生后的 5 分钟紧急窗口内，需要执行哪些立即操作？",
+      "user_input": "故障发生后的 5 分钟紧急窗口内，需要执行哪些立即操作？",
+      "question_type": "fact",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "故障应急响应流程（5 分钟内）",
+      "why_not_common_sense": "具体的操作步骤组合（扩容、限流等）及严格的时间窗口（5 分钟）是组织内部定义的 SOP，非通用常识。",
+      "dependency_node_ids": [
+        "d0017b3f-5fdf-4189-8145-9f3c088a62f6"
+      ],
+      "reference_context_ids": [
+        "d0017b3f-5fdf-4189-8145-9f3c088a62f6"
+      ],
+      "reference_contexts": [
+        "### 立即操作（5分钟内）\n1. **扩容**: 如果是资源不足，立即增加实例\n2. **限流**: 保护系统不被压垮\n3. **降级**: 关闭非核心功能\n4. **重启**: 如果是内存泄漏等问题，重启受影响实例"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "故障发生后的 5 分钟紧急窗口内，需要执行的立即操作包括：如果是资源不足则立即增加实例，执行限流以保护系统不被压垮，关闭非核心功能进行降级，以及如果是内存泄漏等问题则重启受影响实例。",
+      "answer_facts": [
+        "如果是资源不足，需要立即增加实例。",
+        "需要执行限流以保护系统不被压垮。",
+        "需要关闭非核心功能进行降级。",
+        "如果是内存泄漏等问题，需要重启受影响实例。"
+      ],
+      "key_phrases": [
+        "故障，扩容，限流，降级，重启"
+      ]
+    },
+    {
+      "id": "q004",
+      "question": "发生内存问题后的 5 分钟内，应立即执行哪三个操作？",
+      "user_input": "发生内存问题后的 5 分钟内，应立即执行哪三个操作？",
+      "question_type": "fact",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "内存故障的紧急响应流程",
+      "why_not_common_sense": "具体的应急响应步骤（重启、扩容、限流）及其时间窗口定义属于特定运维 SOP，非通用常识。",
+      "dependency_node_ids": [
+        "359b3dbb-5b28-4d6c-b9de-2962593acc01"
+      ],
+      "reference_context_ids": [
+        "359b3dbb-5b28-4d6c-b9de-2962593acc01"
+      ],
+      "reference_contexts": [
+        "### 立即操作（5分钟内）\n1. **重启高内存实例**: 快速释放内存，恢复服务\n2. **扩容**: 增加实例数量，分散内存压力\n3. **限流**: 如果是流量问题，启用限流保护"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "发生内存问题后的 5 分钟内，应立即执行重启高内存实例、扩容以及如果是流量问题则启用限流保护这三个操作。",
+      "answer_facts": [
+        "立即操作的时间范围限定在 5 分钟内。",
+        "重启高内存实例可以快速释放内存并恢复服务。",
+        "扩容是通过增加实例数量来分散内存压力。",
+        "如果是流量问题，应启用限流保护。"
+      ],
+      "key_phrases": [
+        "内存问题，重启，扩容，限流"
+      ]
+    }
+  ],
+  "stats": {
+    "total": 4,
+    "by_type": {
+      "fact": 4
+    },
+    "by_difficulty": {
+      "easy": 1,
+      "medium": 3
+    },
+    "by_hop_type": {
+      "single": 4
+    },
+    "by_source": {
+      "generated": 4
+    }
+  }
+}

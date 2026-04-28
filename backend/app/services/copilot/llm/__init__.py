@@ -1,10 +1,10 @@
 """Copilot LLM 配置 — 模型选择与实例化。
 
 设计：
-1. 所有 Chat LLM 统一使用 DashScope (DASHSCOPE_API_KEY + DASHSCOPE_BASE_URL + DASHSCOPE_MODEL_NAME)
+1. 所有 Chat LLM 统一使用 DashScope (DASHSCOPE_API_KEY + DASHSCOPE_BASE_URL)
 2. 默认 streaming=True（原生流式输出）
-3. with_fallbacks() 自动处理模型调用失败
-4. 支持可选 fallback 模型（DASHSCOPE_MODEL_NAME_FALLBACK）
+3. with_fallbacks() 自动处理模型调用失败，支持多层 fallback
+4. Fallback 链: primary → fallback_1 → fallback_2 → fallback_3 → fallback_4
 5. 解耦原则：LLM 配置独立于 agent 和 tool
 """
 
@@ -19,18 +19,19 @@ logger = logging.getLogger(__name__)
 
 # ─── Helpers ────────────────────────────────────────────────────────────────
 
-def _build_primary_llm(
+def _build_llm_for_model(
+    model_name: str,
     streaming: bool = True,
     temperature: float = 0.2,
     max_tokens: int = 2000,
     timeout: int = 60,
 ) -> ChatOpenAI | None:
-    """构建主 Chat LLM 实例。"""
-    if not settings.llm_configured:
+    """为指定模型名构建 ChatOpenAI 实例。"""
+    if not model_name:
         return None
     try:
         return ChatOpenAI(
-            model=settings.llm_model,
+            model=model_name,
             api_key=settings.llm_api_key,
             base_url=settings.llm_base_url,
             streaming=streaming,
@@ -39,32 +40,7 @@ def _build_primary_llm(
             timeout=timeout,
         )
     except Exception as e:
-        logger.warning("Failed to init primary LLM (%s): %s", settings.llm_model, e)
-        return None
-
-
-def _build_fallback_llm(
-    streaming: bool = True,
-    temperature: float = 0.2,
-    max_tokens: int = 2000,
-    timeout: int = 60,
-) -> ChatOpenAI | None:
-    """构建 fallback Chat LLM 实例（同一 API，不同模型名）。"""
-    fallback_model = settings.dashscope_model_name_fallback
-    if not fallback_model:
-        return None
-    try:
-        return ChatOpenAI(
-            model=fallback_model,
-            api_key=settings.llm_api_key,
-            base_url=settings.llm_base_url,
-            streaming=streaming,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            timeout=timeout,
-        )
-    except Exception as e:
-        logger.warning("Failed to init fallback LLM (%s): %s", fallback_model, e)
+        logger.warning("Failed to init LLM (%s): %s", model_name, e)
         return None
 
 
@@ -76,19 +52,31 @@ def _build_llm_chain(
     max_tokens: int = 2000,
     timeout: int = 60,
 ) -> ChatOpenAI:
-    """构建带可选 fallback 的 LLM 链。"""
-    llms = []
+    """构建带多层 fallback 的 LLM 链。
 
-    primary = _build_primary_llm(streaming, temperature, max_tokens, timeout)
-    if primary:
-        llms.append(("primary", primary))
+    Fallback 链: primary → fallback_1 → fallback_2 → fallback_3 → fallback_4
+    """
+    if not settings.llm_configured:
+        raise RuntimeError("No LLM available — check DASHSCOPE_API_KEY in .env")
 
-    fallback = _build_fallback_llm(streaming, temperature, max_tokens, timeout)
-    if fallback:
-        llms.append(("fallback", fallback))
+    # 按优先级收集模型名
+    model_names = [
+        ("primary", settings.llm_model),
+        ("fallback_1", settings.dashscope_model_name_fallback),
+        ("fallback_2", settings.dashscope_model_name_fallback_2),
+        ("fallback_3", settings.dashscope_model_name_fallback_3),
+        ("fallback_4", settings.dashscope_model_name_fallback_4),
+    ]
+
+    # 构建实例
+    llms: list[tuple[str, ChatOpenAI]] = []
+    for label, model_name in model_names:
+        llm = _build_llm_for_model(model_name, streaming, temperature, max_tokens, timeout)
+        if llm:
+            llms.append((label, llm))
 
     if not llms:
-        raise RuntimeError("No LLM available — check DASHSCOPE_API_KEY in .env")
+        raise RuntimeError("No LLM available — check DASHSCOPE_MODEL_NAME in .env")
 
     head_label, head_llm = llms[0]
     fallbacks = [llm for _, llm in llms[1:]]
@@ -98,7 +86,7 @@ def _build_llm_chain(
         logger.info(
             "LLM chain: %s(%s) → %s (with_fallbacks)",
             head_label, settings.llm_model,
-            " → ".join(label for label, _ in llms[1:]),
+            " → ".join(f"{label}({model_names[i+1][1]})" for i, (label, _) in enumerate(llms[1:])),
         )
     else:
         chain = head_llm
@@ -115,7 +103,7 @@ def get_chat_llm(
     max_tokens: int = 2000,
     timeout: int = 60,
 ) -> ChatOpenAI:
-    """获取带 fallback 的 ChatOpenAI 实例（默认 streaming=True）。"""
+    """获取带多层 fallback 的 ChatOpenAI 实例（默认 streaming=True）。"""
     return _build_llm_chain(streaming, temperature, max_tokens, timeout)
 
 
@@ -127,12 +115,16 @@ def get_all_chat_llms(
 ) -> list[ChatOpenAI]:
     """获取所有 LLM 实例列表。"""
     llms = []
-    primary = _build_primary_llm(streaming, temperature, max_tokens, timeout)
-    if primary:
-        llms.append(primary)
-    fallback = _build_fallback_llm(streaming, temperature, max_tokens, timeout)
-    if fallback:
-        llms.append(fallback)
+    for model_name in [
+        settings.llm_model,
+        settings.dashscope_model_name_fallback,
+        settings.dashscope_model_name_fallback_2,
+        settings.dashscope_model_name_fallback_3,
+        settings.dashscope_model_name_fallback_4,
+    ]:
+        llm = _build_llm_for_model(model_name, streaming, temperature, max_tokens, timeout)
+        if llm:
+            llms.append(llm)
     return llms
 
 

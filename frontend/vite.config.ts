@@ -9,9 +9,8 @@ export default defineConfig({
     proxy: {
       // SSE endpoint must come BEFORE generic /api to be matched first
       '/api/copilot/chat/stream': {
-        target: 'http://127.0.0.1:8001',
+        target: 'http://127.0.0.1:8000',
         changeOrigin: true,
-        // Force SSE proxy to flush immediately — no buffering
         configure: (proxy) => {
           proxy.on('proxyRes', (proxyRes) => {
             if (proxyRes.headers['content-type']?.includes('text/event-stream')) {
@@ -22,7 +21,7 @@ export default defineConfig({
         },
       },
       '/api': {
-        target: 'http://127.0.0.1:8001',
+        target: 'http://127.0.0.1:8000',
         changeOrigin: true,
       },
     },

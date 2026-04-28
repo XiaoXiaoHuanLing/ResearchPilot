@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { NCard, NButton, NSpace, NTag, NSpin, NEmpty, NModal, NInput, NFormItem, NPopconfirm, useMessage } from 'naive-ui'
+import { NCard, NButton, NSpace, NTag, NSpin, NEmpty, NModal, NInput, NFormItem, NPopconfirm, NSwitch, NSelect, useMessage } from 'naive-ui'
 import { useKbStore } from '../stores'
-import type { KnowledgeBase, KbDocument } from '../types'
+import { fetchReports, indexReportToKb } from '../api/reports'
+import type { KnowledgeBase, ReportItem } from '../types'
 
 const kbStore = useKbStore()
 const message = useMessage()
@@ -19,9 +20,15 @@ const showDocs = ref(false)
 // Upload modal
 const showUpload = ref(false)
 const uploadKbId = ref(0)
-const uploadTitle = ref('')
-const uploadContent = ref('')
 const uploading = ref(false)
+const fileInputRef = ref<HTMLInputElement | null>(null)
+
+// Report-to-KB modal
+const showReportIngest = ref(false)
+const reportIngestKbId = ref(0)
+const availableReports = ref<ReportItem[]>([])
+const selectedReportId = ref<number | null>(null)
+const reportIngestLoading = ref(false)
 
 async function handleCreate() {
   if (!newKbName.value.trim()) { message.warning('请输入知识库名称'); return }
@@ -40,41 +47,82 @@ async function handleDelete(id: number) {
   catch (e: any) { message.error(e?.message || '删除失败') }
 }
 
+async function handleToggle(kb: KnowledgeBase) {
+  try {
+    const res = await fetch(`/api/knowledge-bases/${kb.id}/toggle`, { method: 'PATCH' })
+    if (!res.ok) throw new Error('操作失败')
+    const data = await res.json()
+    kb.enabled = data.enabled
+    message.success(data.enabled ? '已启用' : '已禁用')
+  } catch (e: any) { message.error(e?.message || '操作失败') }
+}
+
 async function openDocs(kb: KnowledgeBase) {
   viewingKb.value = kb
   showDocs.value = true
   await kbStore.loadDocuments(kb.id)
 }
 
-async function openUpload(kb: KnowledgeBase) {
+function openUpload(kb: KnowledgeBase) {
   uploadKbId.value = kb.id
-  uploadTitle.value = ''
-  uploadContent.value = ''
   showUpload.value = true
 }
 
-async function handleUpload() {
-  if (!uploadTitle.value.trim() || !uploadContent.value.trim()) {
-    message.warning('请输入标题和内容'); return
-  }
-  uploading.value = true
+async function openReportIngest(kb: KnowledgeBase) {
+  reportIngestKbId.value = kb.id
+  selectedReportId.value = null
   try {
-    await kbStore.uploadDocument(uploadKbId.value, uploadTitle.value, uploadContent.value)
-    message.success('文档已上传并索引')
-    showUpload.value = false
-  } catch (e: any) { message.error(e?.message || '上传失败') }
-  finally { uploading.value = false }
+    const reports = await fetchReports()
+    // Only show completed reports not yet indexed to this KB
+    availableReports.value = reports.filter(r => r.status === 'ready')
+  } catch (e: any) {
+    message.error('加载报告列表失败')
+    return
+  }
+  showReportIngest.value = true
+}
+
+async function handleReportIngest() {
+  if (!selectedReportId.value) {
+    message.warning('请选择要入库的报告')
+    return
+  }
+  reportIngestLoading.value = true
+  try {
+    const result = await indexReportToKb(selectedReportId.value, reportIngestKbId.value)
+    message.success(result.message)
+    showReportIngest.value = false
+    // Refresh doc list
+    if (viewingKb.value) await kbStore.loadDocuments(viewingKb.value.id)
+    await kbStore.load() // refresh counts
+  } catch (e: any) {
+    message.error(e?.message || '报告入库失败')
+  } finally {
+    reportIngestLoading.value = false
+  }
 }
 
 async function handleFileUpload(event: Event) {
   const target = event.target as HTMLInputElement
   const file = target.files?.[0]
   if (!file) return
+
+  const allowed = ['.txt', '.md', '.pdf', '.docx', '.doc', '.markdown', '.text']
+  const ext = '.' + file.name.split('.').pop()?.toLowerCase()
+  if (!allowed.includes(ext)) {
+    message.warning(`不支持的格式，仅支持：${allowed.join(', ')}`)
+    return
+  }
+
+  uploading.value = true
   try {
     await kbStore.uploadFile(uploadKbId.value, file)
-    message.success(`已上传 ${file.name}`)
+    message.success(`已上传 ${file.name}，正在异步入库索引...`)
     showUpload.value = false
+    if (viewingKb.value) await kbStore.loadDocuments(viewingKb.value.id)
+    await kbStore.load()
   } catch (e: any) { message.error(e?.message || '上传失败') }
+  finally { uploading.value = false; if (event.target) (event.target as HTMLInputElement).value = '' }
 }
 
 async function handleDeleteDoc(kbId: number, docId: number) {
@@ -82,15 +130,12 @@ async function handleDeleteDoc(kbId: number, docId: number) {
   catch (e: any) { message.error(e?.message || '删除失败') }
 }
 
-async function handleUnbookmarkDoc(articleId: number) {
-  try {
-    const { toggleBookmark } = await import('../api')
-    await toggleBookmark(articleId, false)
-    message.success('已取消收藏（同步从向量库移除）')
-    // Refresh docs list
-    if (viewingKb.value) await kbStore.loadDocuments(viewingKb.value.id)
-  } catch (e: any) { message.error(e?.message || '操作失败') }
-}
+const reportOptions = computed(() =>
+  availableReports.value.map(r => ({ label: `${r.title} (${r.created_at})`, value: r.id }))
+)
+
+// Need computed import
+import { computed } from 'vue'
 
 onMounted(() => kbStore.load())
 </script>
@@ -100,7 +145,7 @@ onMounted(() => kbStore.load())
     <div class="flex items-center justify-between mb-6">
       <div>
         <h1 class="text-2xl font-bold text-cyan-400">知识库管理</h1>
-        <p class="text-slate-400 text-sm mt-1">管理 RAG 知识库 · 收藏资讯自动入库 · 支持手动上传文档</p>
+        <p class="text-slate-400 text-sm mt-1">管理 RAG 知识库 · 支持上传文档和报告入库</p>
       </div>
       <n-button type="primary" @click="showCreate = true">+ 新建知识库</n-button>
     </div>
@@ -111,17 +156,23 @@ onMounted(() => kbStore.load())
         <n-card v-for="kb in kbStore.knowledgeBases" :key="kb.id" hoverable>
           <div class="flex items-center justify-between">
             <h3 class="text-lg font-semibold text-slate-100">{{ kb.name }}</h3>
-            <n-tag :type="kb.kb_type === 'bookmarks' ? 'success' : 'info'" size="small" :bordered="false">
-              {{ kb.kb_type === 'bookmarks' ? '收藏资讯' : '用户上传' }}
-            </n-tag>
+            <n-space align="center" :size="8">
+              <n-tag :type="kb.enabled ? 'success' : 'default'" size="small" :bordered="false">
+                {{ kb.enabled ? '已启用' : '已禁用' }}
+              </n-tag>
+              <n-switch :value="kb.enabled" size="small" @update:value="handleToggle(kb)" />
+            </n-space>
           </div>
           <p class="text-slate-400 text-sm mt-2">{{ kb.description }}</p>
-          <div class="text-xs text-slate-500 mt-2">文档数：{{ kb.article_count }} · 创建于 {{ kb.created_at }}</div>
+          <div class="text-xs text-slate-500 mt-2">
+            文档数：{{ kb.document_count }} · 分块数：{{ kb.chunk_count }} · 创建于 {{ kb.created_at }}
+          </div>
 
           <n-space class="mt-3">
             <n-button size="small" ghost @click="openDocs(kb)">查看文档</n-button>
-            <n-button v-if="kb.kb_type === 'upload'" size="small" type="primary" ghost @click="openUpload(kb)">上传文档</n-button>
-            <n-popconfirm v-if="!kb.is_default" @positive-click="handleDelete(kb.id)">
+            <n-button size="small" type="primary" ghost @click="openUpload(kb)">上传文件</n-button>
+            <n-button size="small" type="info" ghost @click="openReportIngest(kb)">报告入库</n-button>
+            <n-popconfirm @positive-click="handleDelete(kb.id)">
               <template #trigger><n-button size="small" type="error" ghost>删除</n-button></template>
               确定删除知识库「{{ kb.name }}」及所有文档？
             </n-popconfirm>
@@ -152,15 +203,17 @@ onMounted(() => kbStore.load())
           class="flex items-center justify-between py-2 px-3 rounded bg-slate-800/30">
           <div class="flex-1 min-w-0">
             <span class="text-slate-200 text-sm">{{ doc.title }}</span>
-            <n-tag v-if="doc.indexed" size="tiny" type="success" :bordered="false" class="ml-2">已索引</n-tag>
-            <n-tag v-else size="tiny" type="warning" :bordered="false" class="ml-2">未索引</n-tag>
-            <div class="text-xs text-slate-500">{{ doc.source }} · {{ doc.created_at }}</div>
+            <n-tag v-if="doc.index_status === 'indexed'" size="tiny" type="success" :bordered="false" class="ml-2">已索引</n-tag>
+            <n-tag v-else-if="doc.index_status === 'indexing'" size="tiny" type="info" :bordered="false" class="ml-2">索引中</n-tag>
+            <n-tag v-else-if="doc.index_status === 'failed'" size="tiny" type="error" :bordered="false" class="ml-2">失败</n-tag>
+            <n-tag v-else size="tiny" type="warning" :bordered="false" class="ml-2">待索引</n-tag>
+            <span v-if="doc.source_type === 'report'" class="text-xs text-cyan-400 ml-2">报告入库</span>
+            <div class="text-xs text-slate-500">
+              {{ doc.source }} · {{ doc.file_type }} · {{ doc.created_at }}
+              <span v-if="doc.chunk_count > 0"> · {{ doc.chunk_count }} 分块</span>
+            </div>
           </div>
-          <!-- For bookmark-type KB: show un-bookmark button -->
-          <n-button v-if="viewingKb && viewingKb.kb_type === 'bookmarks'" size="tiny" type="warning" ghost
-            @click="handleUnbookmarkDoc(doc.id)">取消收藏</n-button>
-          <!-- For upload-type KB: show delete button -->
-          <n-popconfirm v-if="viewingKb && viewingKb.kb_type === 'upload'" @positive-click="handleDeleteDoc(doc.kb_id, doc.id)">
+          <n-popconfirm @positive-click="handleDeleteDoc(doc.kb_id, doc.id)">
             <template #trigger><n-button size="tiny" type="error" ghost>删除</n-button></template>
             确定删除？
           </n-popconfirm>
@@ -168,19 +221,40 @@ onMounted(() => kbStore.load())
       </div>
     </n-modal>
 
-    <!-- Upload Modal -->
-    <n-modal v-model:show="showUpload" title="上传文档" preset="card" style="max-width:520px">
-      <n-form>
-        <n-form-item label="文档标题"><n-input v-model:value="uploadTitle" placeholder="标题" /></n-form-item>
-        <n-form-item label="粘贴内容"><n-input v-model:value="uploadContent" type="textarea" :rows="5" placeholder="粘贴文本内容..." /></n-form-item>
-        <n-form-item label="或上传文件（txt/md）">
-          <input type="file" accept=".txt,.md,.text,.markdown" @change="handleFileUpload" class="text-sm text-slate-400" />
-        </n-form-item>
-      </n-form>
+    <!-- Upload Modal — V2: 仅文件上传，支持多种格式 -->
+    <n-modal v-model:show="showUpload" title="上传文件到知识库" preset="card" style="max-width:520px">
+      <div class="mb-4 text-sm text-slate-400">
+        支持格式：txt、md、pdf、docx、doc 等文档文件。上传后将自动进行向量索引。
+      </div>
+      <div class="border-2 border-dashed border-slate-600 rounded-lg p-8 text-center cursor-pointer hover:border-cyan-400 transition-colors"
+        @click="fileInputRef?.click()">
+        <div class="text-3xl mb-2">📁</div>
+        <div class="text-slate-300">点击选择文件</div>
+        <div class="text-xs text-slate-500 mt-1">txt / md / pdf / docx / doc</div>
+      </div>
+      <input ref="fileInputRef" type="file" accept=".txt,.md,.pdf,.docx,.doc,.markdown,.text" class="hidden"
+        @change="handleFileUpload" />
+      <div v-if="uploading" class="mt-4 text-center text-cyan-400">
+        <n-spin size="small" /> 上传中...
+      </div>
+      <template #footer>
+        <n-button @click="showUpload = false">关闭</n-button>
+      </template>
+    </n-modal>
+
+    <!-- Report Ingest Modal — 选择已有报告入库 -->
+    <n-modal v-model:show="showReportIngest" title="选择报告入库" preset="card" style="max-width:520px">
+      <div class="mb-4 text-sm text-slate-400">
+        将已生成完成的报告入库到当前知识库，报告内容将以 Markdown 格式进行向量索引。
+      </div>
+      <n-empty v-if="availableReports.length === 0" description="暂无可入库的报告（需要已生成完成的报告）" />
+      <n-select v-else v-model:value="selectedReportId" :options="reportOptions" placeholder="选择要入库的报告" />
       <template #footer>
         <n-space justify="end">
-          <n-button @click="showUpload = false">取消</n-button>
-          <n-button type="primary" :loading="uploading" :disabled="!uploadTitle.trim() || !uploadContent.trim()" @click="handleUpload">上传并索引</n-button>
+          <n-button @click="showReportIngest = false">取消</n-button>
+          <n-button type="primary" :loading="reportIngestLoading" :disabled="!selectedReportId" @click="handleReportIngest">
+            入库
+          </n-button>
         </n-space>
       </template>
     </n-modal>

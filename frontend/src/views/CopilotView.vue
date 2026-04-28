@@ -27,7 +27,6 @@ const inputText = ref('')
 const messages = ref<CopilotMessage[]>([])
 const loading = ref(false)
 const threadId = ref<string | null>(null)
-const showToolLog = ref(false)
 const chatContainer = ref<HTMLElement | null>(null)
 const errorMsg = ref('')
 const useSupervisor = ref(false)  // 多 Agent 模式开关
@@ -166,6 +165,9 @@ async function sendMessage() {
         // Combine data lines (SSE spec: multiple data: lines joined by \n)
         const dataStr = dataLines.join('\n')
         if (!dataStr) continue
+
+        // eventType available for future use
+        void eventType
 
         try {
           const data = JSON.parse(dataStr)
@@ -421,7 +423,7 @@ const toolEmojis: Record<string, string> = {
                   <span>{{ toolEmojis[tl.tool] || '🔧' }}</span>
                   <span class="text-slate-400">{{ tl.tool.replace(/_/g, ' ') }}</span>
                   <span v-if="tl.status === 'done'" class="text-green-400">✓</span>
-                  <n-spin v-else size="tiny" />
+                  <n-spin v-else size="small" />
                 </div>
               </div>
 

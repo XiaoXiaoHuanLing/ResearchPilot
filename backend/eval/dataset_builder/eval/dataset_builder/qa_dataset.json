@@ -1,0 +1,3855 @@
+{
+  "version": "3.0",
+  "created_at": "2026-04-28",
+  "source_kb_ids": [
+    2
+  ],
+  "qa_pairs": [
+    {
+      "id": "q001",
+      "question": "CPU 告警触发后，日志查询条件是否只包含 CPU 使用率？",
+      "user_input": "CPU 告警触发后，日志查询条件是否只包含 CPU 使用率？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "CPU 告警处理中日志查询条件的构成要素",
+      "why_not_common_sense": "具体的日志查询语法和组合条件（ERROR OR cpu_usage）是内部系统配置，非通用常识",
+      "dependency_node_ids": [
+        "e130f82b-ceb8-4f2b-9f7b-3e30e0af2a8f",
+        "f7969a4f-5612-4df5-8b90-edc6cf03be0a"
+      ],
+      "reference_context_ids": [
+        "e130f82b-ceb8-4f2b-9f7b-3e30e0af2a8f",
+        "f7969a4f-5612-4df5-8b90-edc6cf03be0a"
+      ],
+      "reference_contexts": [
+        "## 告警名称\n- **告警名**: `HighCPUUsage`\n- **告警级别**: 严重\n- **触发条件**: CPU使用率持续5分钟超过80%",
+        "### 步骤2: 查询系统日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou` (广州)\n- **日志主题**: `system-metrics`\n- **时间范围**: 最近30分钟\n- **查询条件**: `level:ERROR OR cpu_usage:>80`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: system-metrics\n时间范围: 2024-01-20 14:00:00 到 2024-01-20 14:30:00\n查询语句: cpu_usage > 80 AND service_name:*\n```"
+      ],
+      "kb_doc_id": 1,
+      "kb_doc_ids": [
+        1
+      ],
+      "source": "generated",
+      "reference": "不是只包含 CPU 使用率。根据步骤 2 的要求，查询条件设置为 `level:ERROR OR cpu_usage:>80`。这意味着除了监控 CPU 指标外，还必须包含错误级别的日志信息以确保排查全面。",
+      "answer_facts": [
+        "告警名为 HighCPUUsage",
+        "日志查询工具为 query_logs",
+        "查询条件包含 level:ERROR",
+        "查询条件包含 cpu_usage:>80",
+        "两者之间是 OR 逻辑关系"
+      ],
+      "key_phrases": [
+        "查询条件",
+        "level:ERROR",
+        "cpu_usage"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q002",
+      "question": "步骤 1 中 get_current_time 工具的具体目的",
+      "user_input": "步骤 1 中 get_current_time 工具的具体目的",
+      "question_type": "keyword",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "CPU 告警处理方案中第一步工具的功能定义",
+      "why_not_common_sense": "特定工具名及其在该流程中的具体用途属于内部文档信息",
+      "dependency_node_ids": [
+        "7e05ee3e-1e98-4246-8b14-8d8e3b5d353d",
+        "4ba35476-a6e5-4b3b-ae04-aad47d2460a1"
+      ],
+      "reference_context_ids": [
+        "7e05ee3e-1e98-4246-8b14-8d8e3b5d353d",
+        "4ba35476-a6e5-4b3b-ae04-aad47d2460a1"
+      ],
+      "reference_contexts": [
+        "# CPU使用率过高告警处理方案",
+        "### 步骤1: 获取当前时间\n**工具**: `get_current_time`\n**目的**: 确定告警发生的时间范围，用于后续日志查询"
+      ],
+      "kb_doc_id": 1,
+      "kb_doc_ids": [
+        1
+      ],
+      "source": "generated",
+      "reference": "在 CPU 使用率过高告警处理方案中，该工具用于确定告警发生的时间范围。获取到的时间范围将专门用于后续步骤中的日志查询操作。这是排查流程的第一步关键动作。",
+      "answer_facts": [
+        "属于 CPU 告警处理方案",
+        "位于步骤 1",
+        "工具名为 get_current_time",
+        "目的是确定时间范围",
+        "用于后续日志查询"
+      ],
+      "key_phrases": [
+        "get_current_time",
+        "时间范围",
+        "日志查询"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q003",
+      "question": "CPU 持续超 80% 的危害",
+      "user_input": "CPU 持续超 80% 的危害",
+      "question_type": "vague",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "CPU 高使用率告警对应的业务影响与风险",
+      "why_not_common_sense": "具体的雪崩效应及响应变慢等描述基于特定系统文档定义",
+      "dependency_node_ids": [
+        "05382144-de3a-4781-a874-de15c62f99f2",
+        "e130f82b-ceb8-4f2b-9f7b-3e30e0af2a8f"
+      ],
+      "reference_context_ids": [
+        "05382144-de3a-4781-a874-de15c62f99f2",
+        "e130f82b-ceb8-4f2b-9f7b-3e30e0af2a8f"
+      ],
+      "reference_contexts": [
+        "## 问题描述\n当服务器或容器的CPU使用率持续超过80%时，可能导致：\n- 应用响应变慢\n- 请求超时增加\n- 系统负载过高\n- 可能触发雪崩效应",
+        "## 告警名称\n- **告警名**: `HighCPUUsage`\n- **告警级别**: 严重\n- **触发条件**: CPU使用率持续5分钟超过80%"
+      ],
+      "kb_doc_id": 1,
+      "kb_doc_ids": [
+        1
+      ],
+      "source": "generated",
+      "reference": "当 CPU 使用率持续超过 80% 时，会导致应用响应变慢以及请求超时增加。同时系统负载会过高，严重时可能触发雪崩效应。这是告警级别定义为严重的原因。",
+      "answer_facts": [
+        "触发条件为 CPU 超 80%",
+        "导致应用响应变慢",
+        "导致请求超时增加",
+        "系统负载过高",
+        "可能触发雪崩效应"
+      ],
+      "key_phrases": [
+        "响应变慢",
+        "请求超时",
+        "雪崩效应"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q004",
+      "question": "死循环和流量突增这两种原因在 CPU 占用表现上有什么区别？",
+      "user_input": "死循环和流量突增这两种原因在 CPU 占用表现上有什么区别？",
+      "question_type": "fact",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "不同故障原因下的 CPU 占用特征对比",
+      "why_not_common_sense": "这是特定系统内部定义的故障特征分类，普通常识无法区分死循环与流量突增在具体进程 CPU 表现上的差异细节。",
+      "dependency_node_ids": [
+        "7d458c09-1e1c-4d5d-9a87-172c6c2a8edc",
+        "6830f8b8-c1d9-4769-9ceb-a0cd3a19ac22"
+      ],
+      "reference_context_ids": [
+        "7d458c09-1e1c-4d5d-9a87-172c6c2a8edc",
+        "6830f8b8-c1d9-4769-9ceb-a0cd3a19ac22"
+      ],
+      "reference_contexts": [
+        "### 原因1: 死循环或无限递归\n**特征**:\n- 单个进程CPU占用接近100%\n- 应用日志中有大量重复的错误堆栈\n- 内存使用也可能同步增长\n\n**处理方案**:\n1. 立即重启受影响的服务实例\n2. 查看应用日志定位代码问题\n3. 回滚到上一个稳定版本\n4. 通知开发团队修复代码bug",
+        "### 原因2: 流量突增\n**特征**:\n- 多个进程CPU使用率均匀升高\n- 请求量明显增加\n- 响应时间变长但无明显错误\n\n**处理方案**:\n1. 检查是否有营销活动或突发流量\n2. 启动自动扩容机制\n3. 如果是恶意流量，启用限流策略\n4. 监控扩容后的CPU使用率"
+      ],
+      "kb_doc_id": 1,
+      "kb_doc_ids": [
+        1
+      ],
+      "source": "generated",
+      "reference": "死循环表现为单个进程 CPU 占用接近 100%，且内存使用可能同步增长。流量突增则表现为多个进程 CPU 使用率均匀升高，同时请求量明显增加。两者在进程受影响范围和伴随现象上有显著差异。",
+      "answer_facts": [
+        "死循环特征为单个进程 CPU 占用接近 100%",
+        "死循环可能伴随内存使用同步增长",
+        "流量突增特征为多个进程 CPU 使用率均匀升高",
+        "流量突增伴随请求量明显增加",
+        "两者在进程受影响范围上不同"
+      ],
+      "key_phrases": [
+        "死循环",
+        "流量突增",
+        "CPU 占用",
+        "进程"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q005",
+      "question": "排查过程中查询系统日志和应用日志分别需要使用什么日志主题？",
+      "user_input": "排查过程中查询系统日志和应用日志分别需要使用什么日志主题？",
+      "question_type": "keyword",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "日志查询步骤中的主题参数配置",
+      "why_not_common_sense": "日志主题名称是系统内部定义的具体标识符，非公开常识，必须查阅文档才能准确获取。",
+      "dependency_node_ids": [
+        "f7969a4f-5612-4df5-8b90-edc6cf03be0a",
+        "41a03469-efbc-488a-9d1b-35f3f8ff6de1"
+      ],
+      "reference_context_ids": [
+        "f7969a4f-5612-4df5-8b90-edc6cf03be0a",
+        "41a03469-efbc-488a-9d1b-35f3f8ff6de1"
+      ],
+      "reference_contexts": [
+        "### 步骤2: 查询系统日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou` (广州)\n- **日志主题**: `system-metrics`\n- **时间范围**: 最近30分钟\n- **查询条件**: `level:ERROR OR cpu_usage:>80`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: system-metrics\n时间范围: 2024-01-20 14:00:00 到 2024-01-20 14:30:00\n查询语句: cpu_usage > 80 AND service_name:*\n```",
+        "### 步骤4: 查询应用日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **时间范围**: 与告警时间一致\n- **查询条件**: `level:ERROR OR level:WARN`"
+      ],
+      "kb_doc_id": 1,
+      "kb_doc_ids": [
+        1
+      ],
+      "source": "generated",
+      "reference": "查询系统日志需要使用 `system-metrics` 主题，而查询应用日志需要使用 `application-logs` 主题。两者均通过 `query_logs` 工具进行查询，且地域参数一致。",
+      "answer_facts": [
+        "系统日志主题为 system-metrics",
+        "应用日志主题为 application-logs",
+        "均使用 query_logs 工具",
+        "步骤 2 查询系统日志",
+        "步骤 4 查询应用日志"
+      ],
+      "key_phrases": [
+        "system-metrics",
+        "application-logs",
+        "日志主题",
+        "query_logs"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q006",
+      "question": "流量突增场景下是否建议采用立即重启服务的处理方案？",
+      "user_input": "流量突增场景下是否建议采用立即重启服务的处理方案？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "故障处理方案与原因的匹配验证",
+      "why_not_common_sense": "特定故障场景的标准处理流程（SOP）属于内部运维知识，外部常识无法知晓重启是否适用于流量突增场景。",
+      "dependency_node_ids": [
+        "6830f8b8-c1d9-4769-9ceb-a0cd3a19ac22",
+        "7d458c09-1e1c-4d5d-9a87-172c6c2a8edc"
+      ],
+      "reference_context_ids": [
+        "6830f8b8-c1d9-4769-9ceb-a0cd3a19ac22",
+        "7d458c09-1e1c-4d5d-9a87-172c6c2a8edc"
+      ],
+      "reference_contexts": [
+        "### 原因2: 流量突增\n**特征**:\n- 多个进程CPU使用率均匀升高\n- 请求量明显增加\n- 响应时间变长但无明显错误\n\n**处理方案**:\n1. 检查是否有营销活动或突发流量\n2. 启动自动扩容机制\n3. 如果是恶意流量，启用限流策略\n4. 监控扩容后的CPU使用率",
+        "### 原因1: 死循环或无限递归\n**特征**:\n- 单个进程CPU占用接近100%\n- 应用日志中有大量重复的错误堆栈\n- 内存使用也可能同步增长\n\n**处理方案**:\n1. 立即重启受影响的服务实例\n2. 查看应用日志定位代码问题\n3. 回滚到上一个稳定版本\n4. 通知开发团队修复代码bug"
+      ],
+      "kb_doc_id": 1,
+      "kb_doc_ids": [
+        1
+      ],
+      "source": "generated",
+      "reference": "不建议。流量突增的处理方案是启动自动扩容机制或启用限流策略，而立即重启服务是针对死循环原因的处理方案。混淆方案可能导致无法解决流量问题或掩盖代码 bug。",
+      "answer_facts": [
+        "流量突增方案含启动自动扩容机制",
+        "流量突增方案含启用限流策略",
+        "立即重启是死循环原因的处理方案",
+        "两者处理方案不同",
+        "重启不适用于流量突增"
+      ],
+      "key_phrases": [
+        "流量突增",
+        "立即重启",
+        "自动扩容",
+        "处理方案"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q007",
+      "question": "定时任务重叠执行时，是否应该优先启用限流策略？",
+      "user_input": "定时任务重叠执行时，是否应该优先启用限流策略？",
+      "question_type": "negation",
+      "difficulty": "hard",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "定时任务与流量突增的处理方案区别",
+      "why_not_common_sense": "限流策略与定时任务优化的对应关系属于特定系统的运维规范，通用常识无法区分具体故障原因对应的处理方案。",
+      "dependency_node_ids": [
+        "f9892c37-c52f-4618-8768-43fa4442278e",
+        "6830f8b8-c1d9-4769-9ceb-a0cd3a19ac22"
+      ],
+      "reference_context_ids": [
+        "f9892c37-c52f-4618-8768-43fa4442278e",
+        "6830f8b8-c1d9-4769-9ceb-a0cd3a19ac22"
+      ],
+      "reference_contexts": [
+        "### 原因3: 定时任务重叠执行\n**特征**:\n- CPU使用率周期性升高\n- 特定时间点出现\n- 日志中有定时任务执行记录\n\n**处理方案**:\n1. 检查定时任务配置\n2. 调整任务执行时间，避免重叠\n3. 优化任务执行逻辑\n4. 增加任务执行互斥锁",
+        "### 原因2: 流量突增\n**特征**:\n- 多个进程CPU使用率均匀升高\n- 请求量明显增加\n- 响应时间变长但无明显错误\n\n**处理方案**:\n1. 检查是否有营销活动或突发流量\n2. 启动自动扩容机制\n3. 如果是恶意流量，启用限流策略\n4. 监控扩容后的CPU使用率"
+      ],
+      "kb_doc_id": 1,
+      "kb_doc_ids": [
+        1
+      ],
+      "source": "generated",
+      "reference": "不是，限流策略是针对流量突增或恶意流量的处理方案。定时任务重叠应该调整任务执行时间或增加任务执行互斥锁。定时任务重叠的特征是 CPU 使用率周期性升高。",
+      "answer_facts": [
+        "限流策略是流量突增的处理方案",
+        "限流策略是恶意流量的处理方案",
+        "定时任务重叠需调整任务执行时间",
+        "定时任务重叠需增加任务执行互斥锁",
+        "定时任务重叠特征为 CPU 周期性升高"
+      ],
+      "key_phrases": [
+        "限流策略",
+        "定时任务重叠",
+        "互斥锁"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q008",
+      "question": "确认为流量突增故障后，立即操作阶段可以采取哪些措施？",
+      "user_input": "确认为流量突增故障后，立即操作阶段可以采取哪些措施？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "流量突增故障的立即操作手段",
+      "why_not_common_sense": "具体的立即操作手段（如扩容、限流、重启）及其适用场景是内部定义的应急流程，非通用常识。",
+      "dependency_node_ids": [
+        "6830f8b8-c1d9-4769-9ceb-a0cd3a19ac22",
+        "6ec7656b-0f52-4ead-8d76-3ac8987bb1f9"
+      ],
+      "reference_context_ids": [
+        "6830f8b8-c1d9-4769-9ceb-a0cd3a19ac22",
+        "6ec7656b-0f52-4ead-8d76-3ac8987bb1f9"
+      ],
+      "reference_contexts": [
+        "### 原因2: 流量突增\n**特征**:\n- 多个进程CPU使用率均匀升高\n- 请求量明显增加\n- 响应时间变长但无明显错误\n\n**处理方案**:\n1. 检查是否有营销活动或突发流量\n2. 启动自动扩容机制\n3. 如果是恶意流量，启用限流策略\n4. 监控扩容后的CPU使用率",
+        "### 立即操作（5分钟内）\n1. **扩容**: 如果是流量问题，立即增加实例数量\n2. **限流**: 如果怀疑恶意流量，启用限流规则\n3. **重启**: 如果是单个实例问题，重启该实例"
+      ],
+      "kb_doc_id": 1,
+      "kb_doc_ids": [
+        1
+      ],
+      "source": "generated",
+      "reference": "如果是流量问题，应立即增加实例数量进行扩容。如果怀疑是恶意流量，需要启用限流规则。若是单个实例问题，可以选择重启该实例。",
+      "answer_facts": [
+        "流量问题立即操作是增加实例数量",
+        "恶意流量立即操作是启用限流规则",
+        "单个实例问题立即操作是重启该实例",
+        "立即操作要求在 5 分钟内",
+        "流量突增特征包含请求量明显增加"
+      ],
+      "key_phrases": [
+        "流量突增",
+        "立即操作",
+        "扩容",
+        "限流规则"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q009",
+      "question": "在CPU高使用率告警场景下，数据库查询慢的排查特征与处理方案是什么？",
+      "user_input": "在CPU高使用率告警场景下，数据库查询慢的排查特征与处理方案是什么？",
+      "question_type": "vague",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "数据库查询慢的排查与优化方案",
+      "why_not_common_sense": "具体的排查步骤（查慢 SQL 日志、加索引、加缓存）是特定系统的内部运维规范，通用常识无法提供具体步骤。",
+      "dependency_node_ids": [
+        "4a971013-148e-4080-beaa-215ef67ebd69"
+      ],
+      "reference_context_ids": [
+        "4a971013-148e-4080-beaa-215ef67ebd69"
+      ],
+      "reference_contexts": [
+        "### 原因4: 数据库查询慢\n**特征**:\n- 应用CPU高，但实际业务逻辑简单\n- 日志中有慢查询记录\n- 数据库连接池占用高\n\n**处理方案**:\n1. 查询慢SQL日志\n2. 优化SQL语句或添加索引\n3. 检查是否有全表扫描\n4. 考虑增加缓存层"
+      ],
+      "kb_doc_id": 1,
+      "kb_doc_ids": [
+        1
+      ],
+      "source": "generated",
+      "reference": "首先需要查询慢 SQL 日志来定位问题语句。接着优化 SQL 语句或添加索引，并检查是否有全表扫描。最后可以考虑增加缓存层来降低数据库压力。",
+      "answer_facts": [
+        "排查需查询慢 SQL 日志",
+        "排查需优化 SQL 语句或添加索引",
+        "排查需检查是否有全表扫描",
+        "排查可考虑增加缓存层",
+        "特征包含数据库连接池占用高"
+      ],
+      "key_phrases": [
+        "慢 SQL 日志",
+        "全表扫描",
+        "缓存层"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q010",
+      "question": "短期措施是否强制要求代码回滚，且验证时 CPU 阈值是否为 50%？",
+      "user_input": "短期措施是否强制要求代码回滚，且验证时 CPU 阈值是否为 50%？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "短期措施的操作条件与验证阈值准确性验证",
+      "why_not_common_sense": "具体的回滚条件和 CPU 阈值是内部运维流程的特定规定，非通用常识",
+      "dependency_node_ids": [
+        "5be7c002-2184-42ed-8b92-a97b1707d64e",
+        "ccc85e31-e764-411f-95ba-e5c3398f0d46"
+      ],
+      "reference_context_ids": [
+        "5be7c002-2184-42ed-8b92-a97b1707d64e",
+        "ccc85e31-e764-411f-95ba-e5c3398f0d46"
+      ],
+      "reference_contexts": [
+        "### 短期措施（30分钟内）\n1. 分析日志找出根本原因\n2. 如果是代码问题，准备回滚\n3. 如果是配置问题，调整配置\n4. 持续监控CPU使用率变化",
+        "## 验证步骤\n1. 确认CPU使用率降到正常水平（<60%）\n2. 检查应用响应时间恢复正常\n3. 确认无新的错误日志产生\n4. 观察30分钟确保问题不再复现"
+      ],
+      "kb_doc_id": 1,
+      "kb_doc_ids": [
+        1
+      ],
+      "source": "generated",
+      "reference": "短期措施中代码回滚仅在确认为代码问题时才准备，并非所有情况强制要求。此外，验证步骤中 CPU 使用率的正常水平标准是小于 60%，而非 50%。",
+      "answer_facts": [
+        "代码问题时才准备回滚",
+        "配置问题则调整配置",
+        "验证步骤 CPU 标准为<60%",
+        "验证步骤未提及 50% 阈值"
+      ],
+      "key_phrases": [
+        "代码回滚",
+        "验证步骤",
+        "CPU 阈值"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q011",
+      "question": "短期措施监控的 CPU 指标在验证环节的具体阈值标准是什么？",
+      "user_input": "短期措施监控的 CPU 指标在验证环节的具体阈值标准是什么？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "CPU 监控指标在故障处理流程中的阈值定义",
+      "why_not_common_sense": "具体的 CPU 正常水平阈值（<60%）是文档定义的内部标准",
+      "dependency_node_ids": [
+        "5be7c002-2184-42ed-8b92-a97b1707d64e",
+        "ccc85e31-e764-411f-95ba-e5c3398f0d46"
+      ],
+      "reference_context_ids": [
+        "5be7c002-2184-42ed-8b92-a97b1707d64e",
+        "ccc85e31-e764-411f-95ba-e5c3398f0d46"
+      ],
+      "reference_contexts": [
+        "### 短期措施（30分钟内）\n1. 分析日志找出根本原因\n2. 如果是代码问题，准备回滚\n3. 如果是配置问题，调整配置\n4. 持续监控CPU使用率变化",
+        "## 验证步骤\n1. 确认CPU使用率降到正常水平（<60%）\n2. 检查应用响应时间恢复正常\n3. 确认无新的错误日志产生\n4. 观察30分钟确保问题不再复现"
+      ],
+      "kb_doc_id": 1,
+      "kb_doc_ids": [
+        1
+      ],
+      "source": "generated",
+      "reference": "在短期措施中明确要求持续监控 CPU 使用率的变化情况。到了验证步骤，确认 CPU 使用率恢复到正常水平的具体标准是低于 60%。",
+      "answer_facts": [
+        "短期措施需监控 CPU 使用率",
+        "验证步骤需确认 CPU 恢复正常",
+        "正常水平定义为小于 60%"
+      ],
+      "key_phrases": [
+        "CPU 使用率",
+        "验证步骤",
+        "阈值标准"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q012",
+      "question": "查询应用日志时是否可以完全复用系统指标查询的日志主题和查询条件？",
+      "user_input": "查询应用日志时是否可以完全复用系统指标查询的日志主题和查询条件？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "磁盘告警排查中不同日志查询参数的差异性验证",
+      "why_not_common_sense": "不同日志主题的具体名称和查询条件属于系统内部配置规范，无法通过通用常识推断，必须查阅文档确认。",
+      "dependency_node_ids": [
+        "9c85a164-63d0-4e85-8108-8e1421192e87",
+        "4b4def99-35ad-4641-a175-5f79519bf03d"
+      ],
+      "reference_context_ids": [
+        "9c85a164-63d0-4e85-8108-8e1421192e87",
+        "4b4def99-35ad-4641-a175-5f79519bf03d"
+      ],
+      "reference_contexts": [
+        "### 步骤2: 查询系统磁盘使用情况\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-metrics`\n- **时间范围**: 最近30分钟\n- **查询条件**: `disk_usage:>80 OR disk_full:true`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: system-metrics\n时间范围: [当前时间-30分钟] 到 [当前时间]\n查询语句: disk_usage > 80 OR filesystem:full\n```",
+        "### 步骤3: 查询应用日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **查询条件**: `No space left on device OR disk full`"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "不可以完全复用。虽然地域参数都是 ap-guangzhou，但系统指标查询主题是 system-metrics，而应用日志查询主题是 application-logs。此外查询条件也不同，前者关注 disk_usage 指标，后者关注 No space left on device 错误信息。",
+      "answer_facts": [
+        "系统指标查询地域为 ap-guangzhou",
+        "应用日志查询地域为 ap-guangzhou",
+        "系统指标日志主题为 system-metrics",
+        "应用日志日志主题为 application-logs",
+        "系统指标查询条件包含 disk_usage",
+        "应用日志查询条件包含 No space left on device"
+      ],
+      "key_phrases": [
+        "日志主题",
+        "查询条件",
+        "system-metrics",
+        "application-logs"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q013",
+      "question": "故障排查前两步涉及的工具名称及目的分别是什么？",
+      "user_input": "故障排查前两步涉及的工具名称及目的分别是什么？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "磁盘告警排查流程初期的工具链与目标",
+      "why_not_common_sense": "具体的工具函数名称及其在特定排查步骤中的定义属于内部运维规范，非公开常识。",
+      "dependency_node_ids": [
+        "4d83109e-18ae-431f-a376-b30238da57f0",
+        "9c85a164-63d0-4e85-8108-8e1421192e87"
+      ],
+      "reference_context_ids": [
+        "4d83109e-18ae-431f-a376-b30238da57f0",
+        "9c85a164-63d0-4e85-8108-8e1421192e87"
+      ],
+      "reference_contexts": [
+        "### 步骤1: 获取当前时间\n**工具**: `get_current_time`\n**目的**: 记录告警时间，用于日志查询",
+        "### 步骤2: 查询系统磁盘使用情况\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-metrics`\n- **时间范围**: 最近30分钟\n- **查询条件**: `disk_usage:>80 OR disk_full:true`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: system-metrics\n时间范围: [当前时间-30分钟] 到 [当前时间]\n查询语句: disk_usage > 80 OR filesystem:full\n```"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "第一步使用 get_current_time 工具，目的是记录告警时间用于日志查询。第二步使用 query_logs 工具，目的是查询系统磁盘使用情况。这两个步骤是后续分析的基础。",
+      "answer_facts": [
+        "步骤 1 工具名称为 get_current_time",
+        "步骤 1 目的是记录告警时间",
+        "步骤 1 时间用于日志查询",
+        "步骤 2 工具名称为 query_logs",
+        "步骤 2 目的是查询系统磁盘使用情况"
+      ],
+      "key_phrases": [
+        "get_current_time",
+        "query_logs",
+        "记录告警时间",
+        "查询系统磁盘"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q014",
+      "question": "配置logrotate解决日志文件过大问题时，需要设置哪些关键参数？",
+      "user_input": "配置logrotate解决日志文件过大问题时，需要设置哪些关键参数？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "日志轮转工具的核心配置项",
+      "why_not_common_sense": "涉及特定运维文档中针对日志管理的标准化配置要求，非通用Linux常识。",
+      "dependency_node_ids": [
+        "ebe2c5b7-feaa-4ccb-8888-e3687abfa77f"
+      ],
+      "reference_context_ids": [
+        "ebe2c5b7-feaa-4ccb-8888-e3687abfa77f"
+      ],
+      "reference_contexts": [
+        "### 原因1: 日志文件过大\n**特征**:\n- /var/log 目录占用大量空间\n- 应用日志文件持续增长\n- 没有日志轮转或轮转失败\n- 日志级别设置为DEBUG\n\n**处理方案**:\n1. **立即清理**:\n   ```bash\n   # 查找大日志文件\n   find /var/log -type f -size +100M\n   \n   # 清空日志文件（保留文件）\n   > /var/log/application.log\n   \n   # 压缩旧日志\n   gzip /var/log/*.log.1\n   \n   # 删除旧日志\n   find /var/log -name \"*.log.*\" -mtime +7 -delete\n   ```\n\n2. **配置日志轮转**:\n   - 启用logrotate\n   - 设置日志保留天数\n   - 配置日志压缩\n   - 限制单个日志文件大小\n\n3. **优化日志级别**:\n   - 生产环境使用INFO或WARN级别\n   - 避免打印大对象\n   - 减少不必要的日志"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "根据文档指引，启用logrotate时需重点配置日志保留天数、日志压缩策略，并严格限制单个日志文件的最大体积。这些参数协同工作可防止日志无限增长，确保磁盘空间被有效回收。",
+      "answer_facts": [
+        "需启用logrotate工具",
+        "需设置日志保留天数",
+        "需配置日志压缩策略",
+        "需限制单个日志文件体积"
+      ],
+      "key_phrases": [
+        "logrotate",
+        "日志保留天数",
+        "日志压缩",
+        "文件大小限制"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q015",
+      "question": "临时文件堆积怎么办",
+      "user_input": "临时文件堆积怎么办",
+      "question_type": "vague",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "临时文件堆积的应急处理与长期优化",
+      "why_not_common_sense": "需依赖文档中提供的具体命令参数、定时任务策略及架构优化方案（如流式处理），无法仅凭常识给出可落地的运维步骤。",
+      "dependency_node_ids": [
+        "c89efe02-060c-4e18-88eb-6a47f2ea151c"
+      ],
+      "reference_context_ids": [
+        "c89efe02-060c-4e18-88eb-6a47f2ea151c"
+      ],
+      "reference_contexts": [
+        "### 原因2: 临时文件堆积\n**特征**:\n- /tmp 目录占用大量空间\n- 大量临时文件未清理\n- 文件上传临时目录满\n- 缓存文件过多\n\n**处理方案**:\n1. **清理临时文件**:\n   ```bash\n   # 查找大临时文件\n   find /tmp -type f -size +100M\n   \n   # 删除7天前的临时文件\n   find /tmp -type f -mtime +7 -delete\n   \n   # 清理应用临时目录\n   rm -rf /app/temp/*\n   ```\n\n2. **定期清理**:\n   - 设置定时任务清理临时文件\n   - 应用启动时清理旧临时文件\n   - 文件处理完成后立即删除\n\n3. **优化临时文件使用**:\n   - 使用流式处理避免临时文件\n   - 限制临时文件大小\n   - 使用内存缓存替代临时文件"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "面对临时文件堆积，应立即使用find命令清理7天前及超过100M的大文件，并清空应用临时目录。日常需配置定时任务或在应用启动时自动清理，文件处理完毕后即刻删除。长期应通过流式处理、限制大小或改用内存缓存来从源头减少临时文件生成。",
+      "answer_facts": [
+        "立即清理7天前及超大临时文件",
+        "清理应用指定临时目录",
+        "设置定时任务或启动时清理",
+        "处理完成后立即删除",
+        "使用流式处理或内存缓存优化"
+      ],
+      "key_phrases": [
+        "临时文件堆积",
+        "定时清理",
+        "流式处理",
+        "内存缓存"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q016",
+      "question": "生产环境是否推荐将日志级别设置为DEBUG？",
+      "user_input": "生产环境是否推荐将日志级别设置为DEBUG？",
+      "question_type": "negation",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "生产环境日志级别规范",
+      "why_not_common_sense": "文档明确给出了生产环境的日志级别红线及关联的磁盘空间风险，属于内部运维规范，非通用编程常识。",
+      "dependency_node_ids": [
+        "ebe2c5b7-feaa-4ccb-8888-e3687abfa77f"
+      ],
+      "reference_context_ids": [
+        "ebe2c5b7-feaa-4ccb-8888-e3687abfa77f"
+      ],
+      "reference_contexts": [
+        "### 原因1: 日志文件过大\n**特征**:\n- /var/log 目录占用大量空间\n- 应用日志文件持续增长\n- 没有日志轮转或轮转失败\n- 日志级别设置为DEBUG\n\n**处理方案**:\n1. **立即清理**:\n   ```bash\n   # 查找大日志文件\n   find /var/log -type f -size +100M\n   \n   # 清空日志文件（保留文件）\n   > /var/log/application.log\n   \n   # 压缩旧日志\n   gzip /var/log/*.log.1\n   \n   # 删除旧日志\n   find /var/log -name \"*.log.*\" -mtime +7 -delete\n   ```\n\n2. **配置日志轮转**:\n   - 启用logrotate\n   - 设置日志保留天数\n   - 配置日志压缩\n   - 限制单个日志文件大小\n\n3. **优化日志级别**:\n   - 生产环境使用INFO或WARN级别\n   - 避免打印大对象\n   - 减少不必要的日志"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "不推荐。文档明确指出生产环境应使用INFO或WARN级别。开启DEBUG级别会导致日志文件体积急剧膨胀，进而引发磁盘空间耗尽风险。此外，生产环境还需避免打印大对象并减少非必要日志输出。",
+      "answer_facts": [
+        "生产环境不推荐DEBUG级别",
+        "应使用INFO或WARN级别",
+        "DEBUG级别会导致日志文件过大",
+        "需避免打印大对象"
+      ],
+      "key_phrases": [
+        "日志级别",
+        "DEBUG",
+        "INFO",
+        "WARN"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q017",
+      "question": "在文档给出的磁盘空间治理方案中，针对临时文件和数据文件分别提出了哪些“替代”或“分离”类的存储优化手段？",
+      "user_input": "在文档给出的磁盘空间治理方案中，针对临时文件和数据文件分别提出了哪些“替代”或“分离”类的存储优化手段？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "临时文件与数据文件的存储优化替代方案",
+      "why_not_common_sense": "需要依赖文档中针对特定运维场景给出的“内存缓存替代”、“流式处理”、“冷热数据分离”及“对象存储归档”等具体技术建议，非通用IT常识。",
+      "dependency_node_ids": [
+        "dbec22e3-fce2-4b95-8402-aaf7018034d6",
+        "2cfcc6b4-2873-4e95-bacf-7e166c537b81"
+      ],
+      "reference_context_ids": [
+        "dbec22e3-fce2-4b95-8402-aaf7018034d6",
+        "2cfcc6b4-2873-4e95-bacf-7e166c537b81"
+      ],
+      "reference_contexts": [
+        "**优化临时文件使用**:\n   - 使用流式处理避免临时文件\n   - 限制临时文件大小\n   - 使用内存缓存替代临时文件",
+        "### 原因3: 数据文件增长过快\n**特征**:\n- 数据库文件持续增长\n- 业务数据量激增\n- 没有数据归档策略\n- 历史数据未清理\n\n**处理方案**:\n1. **数据清理**:\n   - 删除过期数据\n   - 归档历史数据\n   - 清理测试数据\n   - 优化数据存储\n\n2. **数据归档**:\n   - 建立数据归档策略\n   - 定期归档历史数据\n   - 使用对象存储保存归档数据\n   - 实现冷热数据分离\n\n3. **扩容磁盘**:\n   - 如果是正常业务增长，扩容磁盘\n   - 使用云盘动态扩容\n   - 考虑分布式存储"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "针对临时文件堆积，文档建议使用内存缓存替代传统临时文件，或采用流式处理技术从根本上避免临时文件生成；针对数据文件增长过快，文档推荐实现冷热数据分离策略，并将归档数据迁移至对象存储中保存，从而有效减轻主磁盘压力。",
+      "answer_facts": [
+        "针对临时文件建议使用内存缓存进行替代",
+        "针对临时文件推荐采用流式处理避免生成",
+        "针对数据文件推荐实现冷热数据分离策略",
+        "归档数据建议使用对象存储进行保存"
+      ],
+      "key_phrases": [
+        "内存缓存",
+        "流式处理",
+        "冷热数据分离",
+        "对象存储"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q018",
+      "question": "数据文件增长过快是否只能通过扩容磁盘来解决？",
+      "user_input": "数据文件增长过快是否只能通过扩容磁盘来解决？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "数据文件增长的治理优先级与扩容条件",
+      "why_not_common_sense": "需要依据文档中关于数据治理的明确优先级说明，即必须先尝试数据清理、归档和分离策略，仅在确认为正常业务增长时才考虑扩容，与盲目扩容的常识做法不同。",
+      "dependency_node_ids": [
+        "2cfcc6b4-2873-4e95-bacf-7e166c537b81"
+      ],
+      "reference_context_ids": [
+        "2cfcc6b4-2873-4e95-bacf-7e166c537b81"
+      ],
+      "reference_contexts": [
+        "### 原因3: 数据文件增长过快\n**特征**:\n- 数据库文件持续增长\n- 业务数据量激增\n- 没有数据归档策略\n- 历史数据未清理\n\n**处理方案**:\n1. **数据清理**:\n   - 删除过期数据\n   - 归档历史数据\n   - 清理测试数据\n   - 优化数据存储\n\n2. **数据归档**:\n   - 建立数据归档策略\n   - 定期归档历史数据\n   - 使用对象存储保存归档数据\n   - 实现冷热数据分离\n\n3. **扩容磁盘**:\n   - 如果是正常业务增长，扩容磁盘\n   - 使用云盘动态扩容\n   - 考虑分布式存储"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "不是。文档明确指出扩容磁盘仅适用于确认为正常业务增长的场景。优先处理方案应包括删除过期数据和测试数据、建立数据归档策略定期归档历史数据，以及实现冷热数据分离。只有在优化存储和归档后空间仍不足且确认为业务合理增长时，才建议进行磁盘扩容。",
+      "answer_facts": [
+        "扩容磁盘仅适用于正常业务增长场景",
+        "优先方案包括删除过期数据和测试数据",
+        "需建立数据归档策略定期归档历史数据",
+        "推荐实现冷热数据分离优化存储",
+        "扩容应在优化策略无效且确认为业务增长后实施"
+      ],
+      "key_phrases": [
+        "正常业务增长",
+        "数据归档",
+        "冷热数据分离",
+        "扩容磁盘"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q019",
+      "question": "清理 Maven 缓存是否能解决 Docker 镜像占用空间的问题？",
+      "user_input": "清理 Maven 缓存是否能解决 Docker 镜像占用空间的问题？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "不同原因导致的磁盘空间问题及其对应解决方案的区分",
+      "why_not_common_sense": "需要明确文档中对于应用缓存清理和 Docker 资源清理的具体分类及命令，无法通过通用常识判断特定工具命令的归属范畴",
+      "dependency_node_ids": [
+        "c0ee9b03-47ae-4620-9659-a87b9a22d14d",
+        "ac6f88dc-23d9-4fec-938b-d61307123f5e"
+      ],
+      "reference_context_ids": [
+        "c0ee9b03-47ae-4620-9659-a87b9a22d14d",
+        "ac6f88dc-23d9-4fec-938b-d61307123f5e"
+      ],
+      "reference_contexts": [
+        "### 原因5: 应用缓存文件过多\n**特征**:\n- 缓存目录占用大量空间\n- 缓存文件未过期清理\n- 缓存策略不合理\n- 缓存命中率低\n\n**处理方案**:\n1. **清理缓存**:\n   ```bash\n   # 清理应用缓存\n   rm -rf /app/cache/*\n   \n   # 清理Maven缓存\n   rm -rf ~/.m2/repository\n   \n   # 清理Docker缓存\n   docker system prune -a\n   ```\n\n2. **优化缓存策略**:\n   - 设置缓存过期时间\n   - 限制缓存大小\n   - 实现LRU淘汰策略\n   - 使用Redis等外部缓存",
+        "### 原因6: Docker镜像和容器占用\n**特征**:\n- Docker占用大量磁盘空间\n- 大量未使用的镜像\n- 停止的容器未清理\n- 容器日志过大\n\n**处理方案**:\n1. **清理Docker资源**:\n   ```bash\n   # 清理未使用的镜像\n   docker image prune -a\n   \n   # 清理停止的容器\n   docker container prune\n   \n   # 清理未使用的卷\n   docker volume prune\n   \n   # 清理所有未使用资源\n   docker system prune -a --volumes\n   ```\n\n2. **限制容器日志**:\n   - 配置日志驱动\n   - 限制日志文件大小\n   - 设置日志轮转\n\n3. **优化镜像**:\n   - 使用多阶段构建\n   - 减小镜像体积\n   - 定期清理旧镜像"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "不能，清理 Maven 缓存属于应用缓存文件过多的处理方案，而 Docker 镜像占用需要专门的 Docker 资源清理命令。文档中明确将 Maven 缓存清理归类在应用缓存解决方案下，而 Docker 空间问题需使用 docker image prune 等命令处理。两者属于不同的磁盘占用原因及处理范畴，不可混用。",
+      "answer_facts": [
+        "Maven 缓存清理命令是 rm -rf ~/.m2/repository",
+        "Maven 缓存清理属于应用缓存文件过多的处理方案",
+        "Docker 镜像占用属于独立的磁盘占用原因",
+        "Docker 资源清理需要使用 docker image prune 等命令",
+        "应用缓存方案不包含 Docker 容器或镜像的清理操作"
+      ],
+      "key_phrases": [
+        "Maven 缓存",
+        "Docker 镜像",
+        "应用缓存",
+        "清理命令"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q020",
+      "question": "针对备份文件和 Docker 未使用资源，分别推荐使用什么命令进行清理？",
+      "user_input": "针对备份文件和 Docker 未使用资源，分别推荐使用什么命令进行清理？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "备份文件与 Docker 资源清理的具体命令行操作",
+      "why_not_common_sense": "涉及文档中提供的具体 Bash 命令脚本和参数，属于内部技术文档的特定操作指引，非通用常识",
+      "dependency_node_ids": [
+        "838dd89e-8e1a-49e3-88c4-915a008c8c18",
+        "ac6f88dc-23d9-4fec-938b-d61307123f5e"
+      ],
+      "reference_context_ids": [
+        "838dd89e-8e1a-49e3-88c4-915a008c8c18",
+        "ac6f88dc-23d9-4fec-938b-d61307123f5e"
+      ],
+      "reference_contexts": [
+        "### 原因4: 备份文件占用空间\n**特征**:\n- 备份目录占用大量空间\n- 多个历史备份文件\n- 备份文件未压缩\n- 备份未转移到其他存储\n\n**处理方案**:\n1. **清理旧备份**:\n   ```bash\n   # 查找备份文件\n   find /backup -name \"*.bak\" -mtime +30\n   \n   # 删除30天前的备份\n   find /backup -name \"*.bak\" -mtime +30 -delete\n   ```\n\n2. **优化备份策略**:\n   - 只保留最近N天的备份\n   - 压缩备份文件\n   - 备份到对象存储\n   - 实现增量备份\n\n3. **备份转移**:\n   - 将备份转移到专用存储\n   - 使用云存储服务\n   - 定期清理本地备份",
+        "### 原因6: Docker镜像和容器占用\n**特征**:\n- Docker占用大量磁盘空间\n- 大量未使用的镜像\n- 停止的容器未清理\n- 容器日志过大\n\n**处理方案**:\n1. **清理Docker资源**:\n   ```bash\n   # 清理未使用的镜像\n   docker image prune -a\n   \n   # 清理停止的容器\n   docker container prune\n   \n   # 清理未使用的卷\n   docker volume prune\n   \n   # 清理所有未使用资源\n   docker system prune -a --volumes\n   ```\n\n2. **限制容器日志**:\n   - 配置日志驱动\n   - 限制日志文件大小\n   - 设置日志轮转\n\n3. **优化镜像**:\n   - 使用多阶段构建\n   - 减小镜像体积\n   - 定期清理旧镜像"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "针对备份文件，推荐使用 find 命令配合 -mtime 参数查找并删除 30 天前的 .bak 文件。针对 Docker 未使用资源，推荐使用 docker system prune -a --volumes 命令清理所有未使用的资源及卷。两者分别对应备份文件占用和 Docker 镜像容器占用的特定处理方案。",
+      "answer_facts": [
+        "备份文件清理使用 find 命令查找 .bak 文件",
+        "备份文件清理条件包含 -mtime +30 删除 30 天前文件",
+        "Docker 清理使用 docker system prune -a 命令",
+        "Docker 清理建议包含 --volumes 参数清理未使用卷",
+        "备份清理和 Docker 清理属于不同的处理方案节点"
+      ],
+      "key_phrases": [
+        "find 命令",
+        "docker system prune",
+        "备份文件",
+        "未使用资源"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q021",
+      "question": "针对 Docker 镜像和容器占用问题，具体的清理命令和日志配置方向是什么？",
+      "user_input": "针对 Docker 镜像和容器占用问题，具体的清理命令和日志配置方向是什么？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "Docker 资源清理的具体命令与配置方案",
+      "why_not_common_sense": "具体的 Docker 清理命令参数（如 -a, --volumes）及日志配置方向属于特定运维知识库内容，非通用常识。",
+      "dependency_node_ids": [
+        "140211a6-b490-4b49-8285-44ed6b9f2f81",
+        "5308bca2-9f75-4f83-8257-d5c7a9688bf4"
+      ],
+      "reference_context_ids": [
+        "140211a6-b490-4b49-8285-44ed6b9f2f81",
+        "5308bca2-9f75-4f83-8257-d5c7a9688bf4"
+      ],
+      "reference_contexts": [
+        "### 原因6: Docker镜像和容器占用\n**特征**:\n- Docker占用大量磁盘空间\n- 大量未使用的镜像\n- 停止的容器未清理\n- 容器日志过大\n\n**处理方案**:\n1.",
+        "**清理Docker资源**:\n   ```bash\n   # 清理未使用的镜像\n   docker image prune -a\n   \n   # 清理停止的容器\n   docker container prune\n   \n   # 清理未使用的卷\n   docker volume prune\n   \n   # 清理所有未使用资源\n   docker system prune -a --volumes\n   ```\n\n2. **限制容器日志**:\n   - 配置日志驱动\n   - 限制日志文件大小\n   - 设置日志轮转\n\n3."
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "针对 Docker 占用问题，建议使用 docker image prune -a 清理未使用镜像，使用 docker container prune 清理停止容器。日志方面需配置日志驱动，限制日志文件大小并设置日志轮转来控制空间占用。",
+      "answer_facts": [
+        "Docker 占用特征包括大量未使用镜像和停止容器",
+        "清理未使用镜像命令为 docker image prune -a",
+        "清理停止容器命令为 docker container prune",
+        "日志处理需配置日志驱动",
+        "日志处理需限制文件大小并设置轮转"
+      ],
+      "key_phrases": [
+        "docker image prune",
+        "日志驱动",
+        "日志轮转"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q022",
+      "question": "短期措施（30 分钟内）是否建议进行紧急磁盘扩容？",
+      "user_input": "短期措施（30 分钟内）是否建议进行紧急磁盘扩容？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "短期措施与紧急扩容操作的归属验证",
+      "why_not_common_sense": "紧急扩容属于立即操作还是短期措施是特定文档定义的流程，外部常识无法确定具体分类。",
+      "dependency_node_ids": [
+        "4d91a4c8-2577-455e-b4ff-f7956aa2ed0d",
+        "1d9cac8c-610e-4cb6-a0b8-c91ee8b395c2"
+      ],
+      "reference_context_ids": [
+        "4d91a4c8-2577-455e-b4ff-f7956aa2ed0d",
+        "1d9cac8c-610e-4cb6-a0b8-c91ee8b395c2"
+      ],
+      "reference_contexts": [
+        "### 短期措施（30分钟内）\n1. **系统清理**:\n   - 清理包管理器缓存\n   - 清理系统日志\n   - 清理core dump文件\n\n2. **应用优化**:\n   - 配置日志轮转\n   - 清理应用缓存\n   - 删除过期数据\n\n3. **监控设置**:\n   - 设置磁盘使用率告警\n   - 监控磁盘增长趋势\n   - 定期检查大文件",
+        "### 立即操作（5分钟内）\n1. **快速清理**:\n   - 删除大日志文件\n   - 清理临时文件\n   - 删除不必要的文件\n\n2. **释放空间**:\n   ```bash\n   # 查找最大的10个文件\n   du -ah / | sort -rh | head -n 10\n   \n   # 查找最大的10个目录\n   du -h --max-depth=1 / | sort -rh | head -n 10\n   ```\n\n3. **紧急扩容**:\n   - 如果无法快速清理，立即扩容磁盘"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "否，紧急磁盘扩容属于立即操作（5 分钟内）的建议，而非短期措施。短期措施主要聚焦于系统清理、应用优化和监控设置，不包含扩容操作。",
+      "answer_facts": [
+        "紧急磁盘扩容属于立即操作阶段",
+        "短期措施不包含紧急扩容建议",
+        "短期措施包含系统清理",
+        "短期措施包含应用优化",
+        "短期措施包含监控设置"
+      ],
+      "key_phrases": [
+        "短期措施",
+        "紧急扩容",
+        "立即操作"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q023",
+      "question": "磁盘清理验证步骤",
+      "user_input": "磁盘清理验证步骤",
+      "question_type": "vague",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "磁盘空间清理后的验证流程与执行标准",
+      "why_not_common_sense": "需要严格依据文档中明确列出的5项具体验证动作和指标进行回答，非通用运维常识可覆盖。",
+      "dependency_node_ids": [
+        "6b102c54-62a9-44d8-98da-4c8a8999668d"
+      ],
+      "reference_context_ids": [
+        "6b102c54-62a9-44d8-98da-4c8a8999668d"
+      ],
+      "reference_contexts": [
+        "## 验证步骤\n1. 确认磁盘使用率降到安全水平（<70%）\n2. 检查应用运行正常\n3. 验证日志可以正常写入\n4. 确认数据库运行正常\n5. 持续监控磁盘使用情况"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "清理完成后需按文档要求执行多项验证：首先确认磁盘使用率已降至70%以下的安全水平，其次逐一检查应用与数据库运行状态是否正常，并验证日志服务能否正常写入。最后需确认已建立持续监控机制，以防空间再次被快速占满。",
+      "answer_facts": [
+        "磁盘使用率需降至70%以下",
+        "需检查应用运行状态",
+        "需验证日志可正常写入",
+        "需确认数据库运行正常",
+        "需建立持续监控机制"
+      ],
+      "key_phrases": [
+        "验证步骤",
+        "磁盘使用率",
+        "日志写入",
+        "持续监控"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q024",
+      "question": "`df -i` 命令的具体作用是什么？",
+      "user_input": "`df -i` 命令的具体作用是什么？",
+      "question_type": "keyword",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "磁盘inode使用情况检查命令的用途解析",
+      "why_not_common_sense": "该命令在文档中被明确归类为查看磁盘使用情况的专项工具，其具体排查场景需结合文档上下文理解。",
+      "dependency_node_ids": [
+        "730665b3-9f72-4952-9f6f-cf9d7226b2c5"
+      ],
+      "reference_context_ids": [
+        "730665b3-9f72-4952-9f6f-cf9d7226b2c5"
+      ],
+      "reference_contexts": [
+        "### 查看磁盘使用情况\n```bash\n# 查看磁盘使用率\ndf -h\n\n# 查看目录大小\ndu -sh /var/log\n\n# 查找大文件\nfind / -type f -size +1G\n\n# 查看inode使用情况\ndf -i\n```"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "该命令专门用于查看系统的inode使用情况。在磁盘空间排查中，常规容量检查可能无法发现inode耗尽的问题，因此必须通过此命令确认inode剩余数量，避免文件无法创建。",
+      "answer_facts": [
+        "df -i用于查看inode使用情况",
+        "inode耗尽会导致无法写入新文件",
+        "该命令是查看磁盘使用情况的工具之一",
+        "需结合常规容量检查使用"
+      ],
+      "key_phrases": [
+        "df -i",
+        "inode",
+        "磁盘检查"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q025",
+      "question": "清理大日志文件时，是否推荐使用 `rm` 命令直接删除正在被应用占用的文件？",
+      "user_input": "清理大日志文件时，是否推荐使用 `rm` 命令直接删除正在被应用占用的文件？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "日志文件清理方式与句柄保留规范",
+      "why_not_common_sense": "文档给出了特定的清理语法（重定向清空），与常规直接删除操作不同，需严格遵循文档建议以避免进程异常。",
+      "dependency_node_ids": [
+        "dc956b08-0123-44d8-862d-08a722959b77"
+      ],
+      "reference_context_ids": [
+        "dc956b08-0123-44d8-862d-08a722959b77"
+      ],
+      "reference_contexts": [
+        "### 清理命令\n```bash\n# 清空文件内容（保留文件）\n> /var/log/large.log\n\n# 删除N天前的文件\nfind /path -mtime +N -delete\n\n# 压缩日志文件\ngzip /var/log/*.log\n\n# 清理包管理器缓存\nyum clean all  # CentOS\napt-get clean  # Ubuntu\n```"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "不推荐。文档明确指出应使用 `> /var/log/large.log` 的方式清空文件内容以保留文件句柄。直接删除正在被占用的文件会导致应用句柄失效，可能引发日志丢失或进程异常。",
+      "answer_facts": [
+        "不推荐直接删除正在使用的文件",
+        "文档建议使用 `> 文件路径` 清空内容",
+        "此方法可保留文件句柄",
+        "直接删除可能影响应用正常运行"
+      ],
+      "key_phrases": [
+        "清理命令",
+        "保留文件",
+        "日志清理"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q026",
+      "question": "当监控到DiskReadOnly告警时，应该优先联系哪个团队处理？",
+      "user_input": "当监控到DiskReadOnly告警时，应该优先联系哪个团队处理？",
+      "question_type": "keyword",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "磁盘只读告警的对接团队与处置流程",
+      "why_not_common_sense": "内部告警标识符与特定运维团队的映射关系属于企业自定义的SOP规范，非公开行业常识。",
+      "dependency_node_ids": [
+        "6143d0d5-ee3e-4cdb-9205-19354c7613c0",
+        "821a1c6c-136f-4da4-990c-10df3f9a441d"
+      ],
+      "reference_context_ids": [
+        "6143d0d5-ee3e-4cdb-9205-19354c7613c0",
+        "821a1c6c-136f-4da4-990c-10df3f9a441d"
+      ],
+      "reference_contexts": [
+        "## 相关告警\n- `InodeFull`: inode耗尽\n- `DiskIOHigh`: 磁盘IO过高\n- `DiskReadOnly`: 磁盘只读\n- `FileSystemError`: 文件系统错误",
+        "## 联系方式\n- **运维团队**: ops-team@company.com\n- **存储团队**: storage-team@company.com\n- **紧急电话**: 400-xxx-xxxx"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "当系统触发DiskReadOnly（磁盘只读）告警时，应第一时间联系存储团队（storage-team@company.com）进行排查与恢复。该告警表明磁盘已切换至只读状态，通常涉及底层存储或文件系统异常，需存储专业团队介入处理。",
+      "answer_facts": [
+        "DiskReadOnly告警表示磁盘处于只读状态",
+        "触发该告警时应优先联系存储团队",
+        "存储团队联系邮箱为storage-team@company.com",
+        "该告警通常涉及底层存储或文件系统异常"
+      ],
+      "key_phrases": [
+        "DiskReadOnly",
+        "存储团队",
+        "磁盘只读"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q027",
+      "question": "磁盘临时文件清理必须人工手动执行吗？",
+      "user_input": "磁盘临时文件清理必须人工手动执行吗？",
+      "question_type": "negation",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "日志与临时文件清理的执行方式",
+      "why_not_common_sense": "清理策略的具体执行方式（自动或手动）取决于企业内部系统配置与自动化运维规范，非通用常识。",
+      "dependency_node_ids": [
+        "7e6015ed-d8a5-48fa-85b1-7fc0e25f037e"
+      ],
+      "reference_context_ids": [
+        "7e6015ed-d8a5-48fa-85b1-7fc0e25f037e"
+      ],
+      "reference_contexts": [
+        "## 预防措施\n1. **监控告警**: 设置60%预警，80%严重告警\n2. **定期清理**: 每周自动清理临时文件和旧日志\n3. **容量规划**: 根据增长趋势提前扩容\n4. **日志管理**: 实施统一的日志管理策略\n5. **数据归档**: 建立数据归档和清理机制"
+      ],
+      "kb_doc_id": 2,
+      "kb_doc_ids": [
+        2
+      ],
+      "source": "generated",
+      "reference": "不需要人工手动执行。根据预防策略，系统已配置为每周自动清理临时文件和旧日志，通过自动化机制降低人工干预成本并确保持续释放磁盘空间。运维人员只需监控清理任务是否正常触发即可。",
+      "answer_facts": [
+        "临时文件和旧日志的清理无需人工手动执行",
+        "系统采用每周自动清理机制",
+        "自动清理旨在降低人工干预成本",
+        "清理范围覆盖临时文件与旧日志"
+      ],
+      "key_phrases": [
+        "定期清理",
+        "自动清理",
+        "临时文件"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q028",
+      "question": "触发 ServiceUnavailable 紧急告警的具体条件是什么？该故障一旦发生，会对业务造成哪些直接影响？",
+      "user_input": "触发 ServiceUnavailable 紧急告警的具体条件是什么？该故障一旦发生，会对业务造成哪些直接影响？",
+      "question_type": "fact",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "告警触发阈值与故障业务影响评估",
+      "why_not_common_sense": "涉及内部专属告警名称、精确的错误率阈值以及文档明确定义的业务影响清单，外部常识无法覆盖",
+      "dependency_node_ids": [
+        "825517d2-e7d3-4cee-b69d-124fdea1642f",
+        "ab0bfa6a-56b9-4178-8e35-093883d58f19"
+      ],
+      "reference_context_ids": [
+        "825517d2-e7d3-4cee-b69d-124fdea1642f",
+        "ab0bfa6a-56b9-4178-8e35-093883d58f19"
+      ],
+      "reference_contexts": [
+        "## 告警名称\n- **告警名**: `ServiceUnavailable`\n- **告警级别**: 紧急\n- **触发条件**: 服务健康检查失败或错误率超过50%",
+        "## 问题描述\n服务不可用是最严重的故障，会导致：\n- 用户无法访问服务\n- 业务完全中断\n- 可能造成经济损失\n- 影响公司声誉"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "触发 ServiceUnavailable 告警的条件是服务健康检查失败或错误率超过50%。该故障属于最严重级别，会直接导致用户无法访问服务与业务完全中断，进而可能造成经济损失并影响公司声誉。",
+      "answer_facts": [
+        "告警名为ServiceUnavailable",
+        "告警级别为紧急",
+        "触发条件为健康检查失败或错误率超过50%",
+        "会导致用户无法访问服务",
+        "会导致业务完全中断",
+        "可能造成经济损失和影响公司声誉"
+      ],
+      "key_phrases": [
+        "ServiceUnavailable",
+        "错误率阈值",
+        "业务中断",
+        "告警触发"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q029",
+      "question": "使用 query_logs 工具进行故障排查时，应用日志和系统事件日志的查询主题分别是什么？各自的过滤条件有哪些？",
+      "user_input": "使用 query_logs 工具进行故障排查时，应用日志和系统事件日志的查询主题分别是什么？各自的过滤条件有哪些？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "日志查询主题与过滤条件配置规范",
+      "why_not_common_sense": "需要依赖内部运维文档中定义的特定日志主题名称、地域参数及精确的查询语法表达式",
+      "dependency_node_ids": [
+        "8909afe0-6d0f-4ee6-8705-87918df5ebe3",
+        "68c0454a-12ef-4506-8d0f-1de1560c8ff9"
+      ],
+      "reference_context_ids": [
+        "8909afe0-6d0f-4ee6-8705-87918df5ebe3",
+        "68c0454a-12ef-4506-8d0f-1de1560c8ff9"
+      ],
+      "reference_contexts": [
+        "### 步骤2: 查询服务状态日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **时间范围**: 最近15分钟\n- **查询条件**: `level:ERROR OR level:FATAL OR status:500`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: application-logs\n时间范围: [当前时间-15分钟] 到 [当前时间]\n查询语句: (level:ERROR OR level:FATAL) AND service_name:*\n```",
+        "### 步骤3: 查询系统事件日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-events`\n- **查询条件**: `event:restart OR event:crash OR event:oom_kill`"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "应用日志的主题为 application-logs，过滤条件需匹配 level:ERROR OR level:FATAL OR status:500。系统事件日志的主题为 system-events，过滤条件需匹配 event:restart OR event:crash OR event:oom_kill。",
+      "answer_facts": [
+        "查询工具为query_logs",
+        "应用日志主题为application-logs",
+        "应用日志条件为level:ERROR OR level:FATAL OR status:500",
+        "系统事件日志主题为system-events",
+        "系统事件条件为event:restart OR event:crash OR event:oom_kill"
+      ],
+      "key_phrases": [
+        "query_logs",
+        "application-logs",
+        "system-events",
+        "日志过滤条件"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q030",
+      "question": "服务不可用排查步骤",
+      "user_input": "服务不可用排查步骤",
+      "question_type": "vague",
+      "difficulty": "hard",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "故障排查标准操作流程与工具调用顺序",
+      "why_not_common_sense": "属于内部SOP流程，涉及特定工具调用顺序、时间窗口设定及多类日志的交叉验证逻辑",
+      "dependency_node_ids": [
+        "daf70b3c-d5c3-4f5d-84cb-1aa9c4ea2cbb",
+        "8909afe0-6d0f-4ee6-8705-87918df5ebe3",
+        "68c0454a-12ef-4506-8d0f-1de1560c8ff9"
+      ],
+      "reference_context_ids": [
+        "daf70b3c-d5c3-4f5d-84cb-1aa9c4ea2cbb",
+        "8909afe0-6d0f-4ee6-8705-87918df5ebe3",
+        "68c0454a-12ef-4506-8d0f-1de1560c8ff9"
+      ],
+      "reference_contexts": [
+        "### 步骤1: 获取当前时间\n**工具**: `get_current_time`\n**目的**: 记录故障发生时间，用于后续分析",
+        "### 步骤2: 查询服务状态日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **时间范围**: 最近15分钟\n- **查询条件**: `level:ERROR OR level:FATAL OR status:500`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: application-logs\n时间范围: [当前时间-15分钟] 到 [当前时间]\n查询语句: (level:ERROR OR level:FATAL) AND service_name:*\n```",
+        "### 步骤3: 查询系统事件日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-events`\n- **查询条件**: `event:restart OR event:crash OR event:oom_kill`"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "标准排查流程共分为三步。第一步使用 get_current_time 记录故障发生时间用于后续分析；第二步查询最近15分钟的应用日志，筛选ERROR、FATAL级别或500状态码；第三步查询系统事件日志，排查重启、崩溃或内存溢出事件。",
+      "answer_facts": [
+        "步骤1使用get_current_time记录时间",
+        "步骤2查询application-logs主题日志",
+        "步骤2时间范围为最近15分钟",
+        "步骤3查询system-events主题日志",
+        "步骤3排查重启、崩溃或oom_kill事件"
+      ],
+      "key_phrases": [
+        "排查步骤",
+        "get_current_time",
+        "日志查询",
+        "故障分析"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q031",
+      "question": "应用层处理中提到的'连接重试机制'主要用于解决哪种故障场景？",
+      "user_input": "应用层处理中提到的'连接重试机制'主要用于解决哪种故障场景？",
+      "question_type": "keyword",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "数据库连接失败场景下的应用层恢复措施",
+      "why_not_common_sense": "该问题直接考察内部故障处理文档中特定技术术语的归属场景，答案严格限定于文档列出的故障分类与对应SOP，非公开通用知识。",
+      "dependency_node_ids": [
+        "e6ac0fe0-b5dd-4f8c-a222-a75ac43a9024"
+      ],
+      "reference_context_ids": [
+        "e6ac0fe0-b5dd-4f8c-a222-a75ac43a9024"
+      ],
+      "reference_contexts": [
+        "### 原因2: 数据库连接失败\n**特征**:\n- 日志中有数据库连接错误\n- \"Connection refused\" 或 \"Too many connections\"\n- 数据库服务异常\n- 连接池耗尽\n\n**处理方案**:\n1. **检查数据库状态**:\n   - 确认数据库服务是否运行\n   - 检查数据库连接数\n   - 查看数据库错误日志\n\n2. **恢复数据库连接**:\n   - 重启数据库（如果必要）\n   - 增加最大连接数\n   - 释放僵死连接\n   - 检查网络连通性\n\n3. **应用层处理**:\n   - 重启应用重建连接池\n   - 调整连接池配置\n   - 实现连接重试机制"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "连接重试机制主要用于解决“数据库连接失败”故障。在应用层处理方案中，当出现连接池耗尽或数据库服务异常时，需通过实现该机制来自动尝试重建连接，并与重启应用、调整连接池配置等措施配合，确保应用端能快速适应数据库端的恢复状态。",
+      "answer_facts": [
+        "连接重试机制归属于数据库连接失败故障的处理方案",
+        "属于应用层处理步骤之一",
+        "用于应对连接池耗尽或数据库服务异常",
+        "需与重启应用及调整连接池配置配合使用"
+      ],
+      "key_phrases": [
+        "连接重试机制",
+        "数据库连接失败",
+        "应用层处理",
+        "连接池配置"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q032",
+      "question": "使用query_logs工具查询日志时，是否必须指定时间范围参数？",
+      "user_input": "使用query_logs工具查询日志时，是否必须指定时间范围参数？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "内部日志查询工具的参数规范要求",
+      "why_not_common_sense": "该问题验证特定内部工具的必填参数清单，答案完全依赖于文档中明确列出的参数项，通用日志查询经验无法覆盖该内部规范。",
+      "dependency_node_ids": [
+        "68c0454a-12ef-4506-8d0f-1de1560c8ff9",
+        "dc8cdb6e-fb7b-4558-ae3d-d41be1fc479d"
+      ],
+      "reference_context_ids": [
+        "68c0454a-12ef-4506-8d0f-1de1560c8ff9",
+        "dc8cdb6e-fb7b-4558-ae3d-d41be1fc479d"
+      ],
+      "reference_contexts": [
+        "### 步骤3: 查询系统事件日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-events`\n- **查询条件**: `event:restart OR event:crash OR event:oom_kill`",
+        "### 步骤4: 检查依赖服务状态\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **查询条件**: `downstream_service OR database OR redis OR mq`"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "不需要。根据文档参数要求，使用query_logs工具时仅需指定地域（如ap-guangzhou）、日志主题（如system-events或application-logs）以及查询条件（特定事件或组件名称），并未将时间范围列为必填参数。实际操作中应严格遵循文档列出的三项参数进行查询。",
+      "answer_facts": [
+        "query_logs工具参数要求不包含时间范围",
+        "必需参数为地域、日志主题和查询条件",
+        "文档明确未将时间范围列为必填项",
+        "操作需严格遵循文档参数清单"
+      ],
+      "key_phrases": [
+        "query_logs",
+        "参数要求",
+        "时间范围",
+        "日志主题"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q033",
+      "question": "文件描述符耗尽的清理与优化措施有哪些？",
+      "user_input": "文件描述符耗尽的清理与优化措施有哪些？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "资源耗尽场景下文件描述符问题的应急清理与长效优化方案",
+      "why_not_common_sense": "答案严格依赖文档中针对资源耗尽的三级处理方案（清理资源、扩容资源、优化使用），特别是文件描述符释放、日志轮转机制及ulimit调整等具体运维操作。",
+      "dependency_node_ids": [
+        "26babf77-cd1a-47f7-815e-f78b1149ca2e"
+      ],
+      "reference_context_ids": [
+        "26babf77-cd1a-47f7-815e-f78b1149ca2e"
+      ],
+      "reference_contexts": [
+        "### 原因5: 资源耗尽\n**特征**:\n- 磁盘空间满\n- 文件描述符耗尽\n- 端口被占用\n- 内存不足导致OOM\n\n**处理方案**:\n1. **清理资源**:\n   - 清理磁盘空间（日志、临时文件）\n   - 释放文件描述符\n   - 杀死占用端口的进程\n\n2. **扩容资源**:\n   - 增加磁盘空间\n   - 调整系统限制（ulimit）\n   - 增加内存配置\n\n3. **优化使用**:\n   - 实现日志轮转\n   - 及时关闭文件句柄\n   - 优化内存使用"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "针对文件描述符耗尽，清理资源阶段需直接释放文件描述符。在优化使用方面，应实现日志轮转机制并养成及时关闭文件句柄的习惯。同时可结合扩容资源手段，如调整系统限制ulimit，以彻底解决资源瓶颈。",
+      "answer_facts": [
+        "清理资源阶段需直接释放文件描述符",
+        "优化使用需实现日志轮转并及时关闭文件句柄",
+        "扩容资源需调整系统限制ulimit"
+      ],
+      "key_phrases": [
+        "文件描述符耗尽",
+        "释放文件描述符",
+        "日志轮转",
+        "ulimit"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q034",
+      "question": "依赖服务故障是否应该通过清理磁盘空间或杀死占用端口的进程来解决？",
+      "user_input": "依赖服务故障是否应该通过清理磁盘空间或杀死占用端口的进程来解决？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "依赖服务故障与资源耗尽故障处理方案的边界区分",
+      "why_not_common_sense": "需要严格对照文档中两类不同故障根因的特征与专属处理方案，明确熔断、重试限制属于依赖服务隔离手段，而清理磁盘/杀进程属于资源恢复手段，两者不可混用。",
+      "dependency_node_ids": [
+        "e33ae461-731f-430c-b1b5-46fb89c1ac11",
+        "26babf77-cd1a-47f7-815e-f78b1149ca2e"
+      ],
+      "reference_context_ids": [
+        "e33ae461-731f-430c-b1b5-46fb89c1ac11",
+        "26babf77-cd1a-47f7-815e-f78b1149ca2e"
+      ],
+      "reference_contexts": [
+        "### 原因3: 依赖服务故障\n**特征**:\n- 日志中有调用第三方服务失败\n- Redis、MQ等中间件不可用\n- 网络连接超时\n- 级联故障\n\n**处理方案**:\n1. **快速降级**:\n   - 启用熔断机制\n   - 跳过非关键依赖\n   - 使用缓存数据\n   - 返回降级响应\n\n2. **恢复依赖服务**:\n   - 检查Redis、MQ等服务状态\n   - 重启故障的依赖服务\n   - 修复网络连接问题\n\n3. **隔离故障**:\n   - 防止故障扩散\n   - 限制重试次数\n   - 实现超时控制",
+        "### 原因5: 资源耗尽\n**特征**:\n- 磁盘空间满\n- 文件描述符耗尽\n- 端口被占用\n- 内存不足导致OOM\n\n**处理方案**:\n1. **清理资源**:\n   - 清理磁盘空间（日志、临时文件）\n   - 释放文件描述符\n   - 杀死占用端口的进程\n\n2. **扩容资源**:\n   - 增加磁盘空间\n   - 调整系统限制（ulimit）\n   - 增加内存配置\n\n3. **优化使用**:\n   - 实现日志轮转\n   - 及时关闭文件句柄\n   - 优化内存使用"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "不应该。清理磁盘空间和杀死占用端口进程属于资源耗尽故障的处理方案。依赖服务故障的正确处理应侧重于快速降级（如启用熔断、使用缓存）、恢复依赖服务（检查Redis/MQ状态或重启）以及隔离故障（限制重试次数和实现超时控制）。",
+      "answer_facts": [
+        "清理磁盘空间和杀死占用端口进程属于资源耗尽故障的处理方案",
+        "依赖服务故障需启用熔断机制、跳过非关键依赖或使用缓存数据",
+        "依赖服务故障需检查Redis/MQ等服务状态或重启故障服务",
+        "依赖服务故障需限制重试次数并实现超时控制以隔离故障"
+      ],
+      "key_phrases": [
+        "依赖服务故障",
+        "资源耗尽",
+        "熔断机制",
+        "Redis/MQ"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q035",
+      "question": "故障处理的第一分钟内是否需要立即向用户发布影响公告？",
+      "user_input": "故障处理的第一分钟内是否需要立即向用户发布影响公告？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "应急响应不同阶段的通知时机与操作边界",
+      "why_not_common_sense": "涉及特定系统SOP中严格划分的时间窗口与操作优先级，非通用IT运维常识。",
+      "dependency_node_ids": [
+        "2ea6c0a5-60a0-4bd8-81f0-05b1b516f8e0",
+        "9c7c1df5-c046-4200-acaf-6b01282fa788"
+      ],
+      "reference_context_ids": [
+        "2ea6c0a5-60a0-4bd8-81f0-05b1b516f8e0",
+        "9c7c1df5-c046-4200-acaf-6b01282fa788"
+      ],
+      "reference_contexts": [
+        "### 第一时间（1分钟内）\n1. **确认故障**: 通过监控和日志确认服务确实不可用\n2. **启动应急**: 通知相关人员，启动应急响应流程\n3. **止损措施**: \n   - 如果是部分实例故障，摘除故障实例\n   - 如果是全部故障，启用备用服务或维护页面",
+        "### 30分钟内\n1. **全面验证**: 验证所有功能正常\n2. **通知用户**: 如果影响用户，发布公告\n3. **初步总结**: 记录故障原因和处理过程"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "不需要。第一分钟内仅需进行故障确认、启动应急响应流程以及采取摘除实例或启用维护页面等止损措施。向用户发布公告属于30分钟内的步骤，且仅在确认故障确实影响用户时才执行。",
+      "answer_facts": [
+        "1分钟内不执行用户公告通知",
+        "1分钟核心动作是确认故障、启动应急和止损",
+        "30分钟内才执行通知用户发布公告",
+        "发布公告的前提是确认故障影响用户"
+      ],
+      "key_phrases": [
+        "应急响应",
+        "通知用户",
+        "时间节点"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q036",
+      "question": "处理依赖故障时提到的“降级”策略，在5分钟决策和15分钟恢复中分别如何应用？",
+      "user_input": "处理依赖故障时提到的“降级”策略，在5分钟决策和15分钟恢复中分别如何应用？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "降级策略在故障排查与恢复阶段的落地路径",
+      "why_not_common_sense": "降级策略的具体触发条件、执行时机及后续验证要求属于内部故障处理规范，需依赖文档定义。",
+      "dependency_node_ids": [
+        "00696662-398c-4c67-9b1e-a135156af54e",
+        "19b7eb81-ecab-4525-bc33-1b56f03ffbb7"
+      ],
+      "reference_context_ids": [
+        "00696662-398c-4c67-9b1e-a135156af54e",
+        "19b7eb81-ecab-4525-bc33-1b56f03ffbb7"
+      ],
+      "reference_contexts": [
+        "### 5分钟内\n1. **快速定位**: 查看日志和监控，快速定位问题原因\n2. **决策处理**: \n   - 如果能快速修复，立即修复\n   - 如果无法快速修复，执行回滚\n   - 如果是依赖故障，启用降级",
+        "### 15分钟内\n1. **恢复服务**: 通过回滚、修复或降级恢复服务\n2. **验证功能**: 确认核心功能可用\n3. **监控观察**: 持续监控服务状态"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "在5分钟决策阶段，若排查确认为依赖故障，应直接启用降级策略。进入15分钟阶段后，降级将作为恢复服务的具体手段之一被执行，同时需验证核心功能可用并持续监控服务状态。",
+      "answer_facts": [
+        "5分钟内决策处理中，依赖故障需启用降级",
+        "降级是15分钟内恢复服务的手段之一",
+        "降级后需验证核心功能可用",
+        "降级恢复后需持续监控服务状态"
+      ],
+      "key_phrases": [
+        "依赖故障",
+        "降级策略",
+        "服务恢复"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q037",
+      "question": "什么是`HighErrorRate`告警，以及触发该告警后验证恢复时的错误率阈值标准是什么？",
+      "user_input": "什么是`HighErrorRate`告警，以及触发该告警后验证恢复时的错误率阈值标准是什么？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "HighErrorRate告警定义与恢复验证阈值",
+      "why_not_common_sense": "HighErrorRate是内部自定义告警名称，且<1%的错误率恢复阈值属于该系统的特定运维规范，无法通过通用IT常识推断。",
+      "dependency_node_ids": [
+        "22bd98fb-5a0c-4357-b241-72d7f8a5ff87",
+        "c6ee6aa5-eb4b-490c-bbbd-1cc64f0c7dd5"
+      ],
+      "reference_context_ids": [
+        "22bd98fb-5a0c-4357-b241-72d7f8a5ff87",
+        "c6ee6aa5-eb4b-490c-bbbd-1cc64f0c7dd5"
+      ],
+      "reference_contexts": [
+        "## 相关告警\n- `HighErrorRate`: 错误率过高\n- `HealthCheckFailed`: 健康检查失败\n- `AllInstancesDown`: 所有实例下线\n- `DatabaseConnectionFailed`: 数据库连接失败",
+        "## 验证步骤\n1. **健康检查**: 确认所有实例健康检查通过\n2. **功能测试**: 测试核心业务功能\n3. **性能验证**: 确认响应时间和吞吐量正常\n4. **错误率**: 确认错误率降到正常水平（<1%）\n5. **持续监控**: 观察30分钟确保稳定"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "`HighErrorRate`是系统中用于提示错误率过高的相关告警。当该告警触发且故障处理完毕后，在验证恢复步骤中，必须确认系统的错误率已降至正常水平，具体阈值为低于1%。",
+      "answer_facts": [
+        "HighErrorRate告警表示错误率过高",
+        "验证恢复时需确认错误率降至正常水平",
+        "错误率正常水平的具体阈值为小于1%"
+      ],
+      "key_phrases": [
+        "HighErrorRate",
+        "错误率",
+        "验证阈值"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q038",
+      "question": "故障恢复并验证通过后，是否可以直接关闭事件，无需执行后续复盘流程？",
+      "user_input": "故障恢复并验证通过后，是否可以直接关闭事件，无需执行后续复盘流程？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "故障恢复后是否必须执行复盘流程",
+      "why_not_common_sense": "内部规范明确规定故障恢复后必须进行结构化复盘，包含时间线记录、根因分析等特定动作，非通用常识。",
+      "dependency_node_ids": [
+        "c6ee6aa5-eb4b-490c-bbbd-1cc64f0c7dd5",
+        "82947b28-4c36-46e1-979a-7e508846c6c6"
+      ],
+      "reference_context_ids": [
+        "c6ee6aa5-eb4b-490c-bbbd-1cc64f0c7dd5",
+        "82947b28-4c36-46e1-979a-7e508846c6c6"
+      ],
+      "reference_contexts": [
+        "## 验证步骤\n1. **健康检查**: 确认所有实例健康检查通过\n2. **功能测试**: 测试核心业务功能\n3. **性能验证**: 确认响应时间和吞吐量正常\n4. **错误率**: 确认错误率降到正常水平（<1%）\n5. **持续监控**: 观察30分钟确保稳定",
+        "## 故障复盘\n故障恢复后，必须进行复盘：\n\n1. **故障时间线**: 记录故障发生、发现、处理、恢复的完整时间线\n2. **根因分析**: 深入分析故障根本原因\n3. **影响评估**: 评估故障影响范围和损失\n4. **改进措施**: 制定防止类似故障的改进措施\n5. **文档更新**: 更新运维文档和应急预案"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "不可以直接关闭。根据规范，故障恢复后必须进行故障复盘，不能直接结束流程。复盘工作必须包含记录完整时间线、深入分析根因、评估影响范围和损失、制定防止类似故障的改进措施，以及更新运维文档和应急预案。",
+      "answer_facts": [
+        "故障恢复后必须进行复盘，不能直接结束",
+        "复盘需记录故障发生至恢复的完整时间线",
+        "需深入分析根本原因",
+        "需评估影响范围和损失",
+        "需制定改进措施",
+        "需更新运维文档和应急预案"
+      ],
+      "key_phrases": [
+        "故障复盘",
+        "根因分析",
+        "改进措施",
+        "文档更新"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q039",
+      "question": "故障未恢复时，逐级上报的时间阈值与对应管理层级是什么？",
+      "user_input": "故障未恢复时，逐级上报的时间阈值与对应管理层级是什么？",
+      "question_type": "vague",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "故障未恢复时的逐级上报时间阈值与对应管理层级",
+      "why_not_common_sense": "具体的时间节点（15/30分钟/1小时）与对应升级对象（技术总监/CTO）属于企业内部运维SOP，非公开常识。",
+      "dependency_node_ids": [
+        "ee66cf8f-5ba5-4895-ae64-9dedc1dfa161"
+      ],
+      "reference_context_ids": [
+        "ee66cf8f-5ba5-4895-ae64-9dedc1dfa161"
+      ],
+      "reference_contexts": [
+        "## 升级机制\n- **15分钟未恢复**: 升级到技术总监\n- **30分钟未恢复**: 升级到CTO\n- **1小时未恢复**: 启动最高级别应急响应"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "根据内部升级机制，故障处理按未恢复时长逐级上报。15分钟未恢复需升级到技术总监，30分钟未恢复升级到CTO，若1小时仍未恢复则直接启动最高级别应急响应。",
+      "answer_facts": [
+        "15分钟未恢复升级到技术总监",
+        "30分钟未恢复升级到CTO",
+        "1小时未恢复启动最高级别应急响应"
+      ],
+      "key_phrases": [
+        "升级机制",
+        "技术总监",
+        "CTO",
+        "应急响应"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q040",
+      "question": "故障30分钟未恢复时，是否会直接启动最高级别应急响应？",
+      "user_input": "故障30分钟未恢复时，是否会直接启动最高级别应急响应？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "故障升级时间节点的逻辑验证",
+      "why_not_common_sense": "升级阈值与响应级别的对应关系为企业定制规范，需查阅内部文档确认。",
+      "dependency_node_ids": [
+        "ee66cf8f-5ba5-4895-ae64-9dedc1dfa161"
+      ],
+      "reference_context_ids": [
+        "ee66cf8f-5ba5-4895-ae64-9dedc1dfa161"
+      ],
+      "reference_contexts": [
+        "## 升级机制\n- **15分钟未恢复**: 升级到技术总监\n- **30分钟未恢复**: 升级到CTO\n- **1小时未恢复**: 启动最高级别应急响应"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "不会。根据升级机制规定，30分钟未恢复仅会升级到CTO层级。只有当故障达到1小时仍未恢复时，才会触发最高级别应急响应。",
+      "answer_facts": [
+        "30分钟未恢复的升级对象是CTO",
+        "最高级别应急响应的触发条件是1小时未恢复",
+        "30分钟节点不会直接触发最高级别响应"
+      ],
+      "key_phrases": [
+        "30分钟",
+        "CTO",
+        "1小时",
+        "最高级别应急响应"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q041",
+      "question": "《应急响应流程》这份参考文档的完整路径是什么？",
+      "user_input": "《应急响应流程》这份参考文档的完整路径是什么？",
+      "question_type": "keyword",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "内部参考文档的名称与存储路径查询",
+      "why_not_common_sense": "文档路径为内部知识库专属结构（internal-docs/），外部无法获取或推断。",
+      "dependency_node_ids": [
+        "05661a93-7c98-4105-9461-fb0ff59c2bdf"
+      ],
+      "reference_context_ids": [
+        "05661a93-7c98-4105-9461-fb0ff59c2bdf"
+      ],
+      "reference_contexts": [
+        "## 参考文档\n- [应急响应流程](internal-docs/emergency-response.md)\n- [故障处理手册](internal-docs/incident-handbook.md)\n- [高可用架构设计](internal-docs/ha-architecture.md)"
+      ],
+      "kb_doc_id": 4,
+      "kb_doc_ids": [
+        4
+      ],
+      "source": "generated",
+      "reference": "该参考文档的完整路径为internal-docs/emergency-response.md。在参考文档列表中，它与其他两份内部指南并列存放于该目录下。",
+      "answer_facts": [
+        "《应急响应流程》的路径是internal-docs/emergency-response.md",
+        "参考文档列表包含三份内部指南",
+        "文档统一存放于internal-docs目录下"
+      ],
+      "key_phrases": [
+        "应急响应流程",
+        "internal-docs",
+        "参考文档"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q042",
+      "question": "查询应用性能日志和数据库慢查询日志时，分别使用的日志主题和核心查询条件是什么？",
+      "user_input": "查询应用性能日志和数据库慢查询日志时，分别使用的日志主题和核心查询条件是什么？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "多类日志查询参数配置",
+      "why_not_common_sense": "需要精确匹配内部文档定义的特定日志主题名称及字段过滤语法，无法通过通用运维经验直接推断。",
+      "dependency_node_ids": [
+        "5c8e4cc9-bf8a-44f5-9676-7ed2e98e2d74",
+        "9385e0ac-4d07-446f-a4d6-5a2d2a5a8a66"
+      ],
+      "reference_context_ids": [
+        "5c8e4cc9-bf8a-44f5-9676-7ed2e98e2d74",
+        "9385e0ac-4d07-446f-a4d6-5a2d2a5a8a66"
+      ],
+      "reference_contexts": [
+        "### 步骤2: 查询应用性能日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **时间范围**: 最近30分钟\n- **查询条件**: `response_time:>3000 OR slow_query:true`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: application-logs\n时间范围: [当前时间-30分钟] 到 [当前时间]\n查询语句: response_time > 3000 AND level:WARN\n```",
+        "### 步骤3: 查询数据库慢查询日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `database-slow-query`\n- **时间范围**: 与告警时间一致\n- **查询条件**: `query_time:>1000`"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "查询应用性能日志时，日志主题为application-logs，核心查询条件为response_time:>3000 OR slow_query:true。查询数据库慢查询日志时，日志主题为database-slow-query，核心查询条件为query_time:>1000。两者查询均需指定ap-guangzhou地域。",
+      "answer_facts": [
+        "应用性能日志主题为application-logs",
+        "应用日志查询条件包含response_time:>3000 OR slow_query:true",
+        "数据库慢查询日志主题为database-slow-query",
+        "数据库日志查询条件为query_time:>1000"
+      ],
+      "key_phrases": [
+        "application-logs",
+        "database-slow-query",
+        "查询条件"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q043",
+      "question": "遇到慢响应告警时，标准的排查步骤及每一步使用的工具是什么？",
+      "user_input": "遇到慢响应告警时，标准的排查步骤及每一步使用的工具是什么？",
+      "question_type": "vague",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "故障排查标准流程",
+      "why_not_common_sense": "属于企业内部标准化的运维SOP，包含特定工具调用顺序和日志主题指向，非公开常识。",
+      "dependency_node_ids": [
+        "daaf1dcf-ce7d-48f0-a947-ffb584335e65",
+        "5c8e4cc9-bf8a-44f5-9676-7ed2e98e2d74",
+        "9385e0ac-4d07-446f-a4d6-5a2d2a5a8a66",
+        "3b3ac074-8511-4fb4-93bf-d3e9509d5a62"
+      ],
+      "reference_context_ids": [
+        "daaf1dcf-ce7d-48f0-a947-ffb584335e65",
+        "5c8e4cc9-bf8a-44f5-9676-7ed2e98e2d74",
+        "9385e0ac-4d07-446f-a4d6-5a2d2a5a8a66",
+        "3b3ac074-8511-4fb4-93bf-d3e9509d5a62"
+      ],
+      "reference_contexts": [
+        "### 步骤1: 获取当前时间\n**工具**: `get_current_time`\n**目的**: 确定告警发生的准确时间",
+        "### 步骤2: 查询应用性能日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **时间范围**: 最近30分钟\n- **查询条件**: `response_time:>3000 OR slow_query:true`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: application-logs\n时间范围: [当前时间-30分钟] 到 [当前时间]\n查询语句: response_time > 3000 AND level:WARN\n```",
+        "### 步骤3: 查询数据库慢查询日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `database-slow-query`\n- **时间范围**: 与告警时间一致\n- **查询条件**: `query_time:>1000`",
+        "### 步骤4: 查询系统资源使用情况\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-metrics`\n- **查询条件**: `cpu_usage OR memory_usage OR disk_io`"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "排查共分为四个标准步骤：第一步使用get_current_time工具获取当前时间以定位告警发生时刻；第二步查询应用性能日志；第三步查询数据库慢查询日志；第四步查询系统资源使用情况。整个过程需依次调用query_logs等工具完成数据收集。",
+      "answer_facts": [
+        "步骤1使用get_current_time获取当前时间",
+        "步骤2查询应用性能日志",
+        "步骤3查询数据库慢查询日志",
+        "步骤4查询系统资源使用情况"
+      ],
+      "key_phrases": [
+        "排查步骤",
+        "告警响应",
+        "日志查询"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q044",
+      "question": "导致系统性能下降的四大核心原因及其对应特征分别是什么？",
+      "user_input": "导致系统性能下降的四大核心原因及其对应特征分别是什么？",
+      "question_type": "vague",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "排查系统性能下降的四大核心原因及对应特征",
+      "why_not_common_sense": "答案严格依赖该内部运维文档中明确定义的四种特定故障场景及其专属排查特征（如连接池满载、API下游响应慢、无明显外部依赖、缓存命中率骤降等），属于企业内部SOP范畴，非通用IT常识。",
+      "dependency_node_ids": [
+        "961729f2-cfbc-48ad-be9f-d255913f234c",
+        "26998992-3894-44fb-b643-de7127cdb2de",
+        "1b404172-b32c-451c-b130-acc022bcdf1c",
+        "6daa393b-6bcd-4ed2-beb0-36540c0f420f"
+      ],
+      "reference_context_ids": [
+        "961729f2-cfbc-48ad-be9f-d255913f234c",
+        "26998992-3894-44fb-b643-de7127cdb2de",
+        "1b404172-b32c-451c-b130-acc022bcdf1c",
+        "6daa393b-6bcd-4ed2-beb0-36540c0f420f"
+      ],
+      "reference_contexts": [
+        "### 原因1: 数据库慢查询\n**特征**:\n- 慢查询日志中有大量记录\n- 数据库CPU使用率高\n- 特定SQL执行时间长\n- 数据库连接池接近满载\n\n**处理方案**:\n1. **立即优化**: \n   - 找出最慢的SQL语句\n   - 检查是否缺少索引\n   - 查看执行计划（EXPLAIN）\n   - 临时添加索引或优化SQL\n\n2. **短期措施**:\n   - 增加数据库连接池大小\n   - 启用查询缓存\n   - 考虑读写分离\n\n3. **长期优化**:\n   - 定期分析慢查询日志\n   - 优化数据库表结构\n   - 建立合适的索引策略\n   - 考虑分库分表",
+        "### 原因2: 外部API调用超时\n**特征**:\n- 日志中有第三方API调用记录\n- 特定接口响应时间长\n- 可能有网络超时错误\n- 下游服务响应慢\n\n**处理方案**:\n1. **设置合理超时**:\n   - 调整HTTP客户端超时时间\n   - 避免无限等待\n   - 设置连接超时和读取超时\n\n2. **实施降级策略**:\n   - 启用熔断机制\n   - 返回默认值或缓存数据\n   - 异步处理非关键调用\n\n3. **优化调用方式**:\n   - 并行调用多个API\n   - 使用批量接口减少调用次数\n   - 增加本地缓存",
+        "### 原因3: 代码性能问题\n**特征**:\n- CPU使用率高\n- 特定代码路径执行慢\n- 日志中有性能警告\n- 无明显外部依赖问题\n\n**处理方案**:\n1. **性能分析**:\n   - 使用APM工具定位慢方法\n   - 查看火焰图找出热点\n   - 分析代码执行路径\n\n2. **代码优化**:\n   - 优化循环和递归\n   - 减少不必要的对象创建\n   - 使用更高效的数据结构\n   - 避免重复计算\n\n3. **异步处理**:\n   - 非关键逻辑异步执行\n   - 使用消息队列解耦\n   - 实现异步响应",
+        "### 原因4: 缓存失效或缓存穿透\n**特征**:\n- 缓存命中率突然下降\n- 数据库查询量激增\n- 特定时间点响应变慢\n- 日志中有缓存miss记录\n\n**处理方案**:\n1. **缓存预热**:\n   - 重启后立即预热热点数据\n   - 定时刷新缓存\n   - 避免缓存同时失效\n\n2. **防止缓存穿透**:\n   - 对空值也进行缓存\n   - 使用布隆过滤器\n   - 参数校验防止恶意查询\n\n3. **优化缓存策略**:\n   - 设置合理的过期时间\n   - 使用多级缓存\n   - 实现缓存更新机制"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "系统性能下降通常由四类原因引起：一是数据库慢查询，表现为连接池接近满载和特定SQL执行时间长；二是外部API调用超时，特征为下游服务响应慢及出现网络超时错误；三是代码性能问题，通常无明显外部依赖但CPU使用率高且特定代码路径执行慢；四是缓存失效或穿透，表现为缓存命中率突然下降和数据库查询量激增。",
+      "answer_facts": [
+        "原因1为数据库慢查询，特征包括连接池接近满载和特定SQL执行时间长",
+        "原因2为外部API调用超时，特征包括下游服务响应慢和网络超时错误",
+        "原因3为代码性能问题，特征为无明显外部依赖问题且CPU使用率高",
+        "原因4为缓存失效或缓存穿透，特征为缓存命中率突然下降和数据库查询量激增"
+      ],
+      "key_phrases": [
+        "数据库慢查询",
+        "API调用超时",
+        "代码性能问题",
+        "缓存失效"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q045",
+      "question": "布隆过滤器在缓存场景中的具体作用是什么",
+      "user_input": "布隆过滤器在缓存场景中的具体作用是什么",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "布隆过滤器在防止缓存穿透中的防御机制",
+      "why_not_common_sense": "布隆过滤器在此处的应用方式（结合参数校验拦截恶意查询、防止无效DB查询激增）是该内部缓存策略文档的特定实施方案，需结合文档中的“防止缓存穿透”处理方案作答，非通用计算机科学基础概念的直接复述。",
+      "dependency_node_ids": [
+        "6daa393b-6bcd-4ed2-beb0-36540c0f420f"
+      ],
+      "reference_context_ids": [
+        "6daa393b-6bcd-4ed2-beb0-36540c0f420f"
+      ],
+      "reference_contexts": [
+        "### 原因4: 缓存失效或缓存穿透\n**特征**:\n- 缓存命中率突然下降\n- 数据库查询量激增\n- 特定时间点响应变慢\n- 日志中有缓存miss记录\n\n**处理方案**:\n1. **缓存预热**:\n   - 重启后立即预热热点数据\n   - 定时刷新缓存\n   - 避免缓存同时失效\n\n2. **防止缓存穿透**:\n   - 对空值也进行缓存\n   - 使用布隆过滤器\n   - 参数校验防止恶意查询\n\n3. **优化缓存策略**:\n   - 设置合理的过期时间\n   - 使用多级缓存\n   - 实现缓存更新机制"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "在缓存策略中，布隆过滤器主要用于防止缓存穿透。它通过配合参数校验机制，在请求到达数据库前快速过滤掉恶意查询或不存在的数据请求，从而有效避免缓存miss导致的数据库查询量激增。",
+      "answer_facts": [
+        "布隆过滤器用于防止缓存穿透",
+        "其需配合参数校验机制使用以拦截恶意查询",
+        "核心目的是避免无效请求导致数据库查询量激增"
+      ],
+      "key_phrases": [
+        "布隆过滤器",
+        "缓存穿透",
+        "参数校验"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q046",
+      "question": "遇到数据库慢查询是否只需临时添加索引就能彻底解决？",
+      "user_input": "遇到数据库慢查询是否只需临时添加索引就能彻底解决？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "数据库慢查询的分级处理策略与长期优化必要性",
+      "why_not_common_sense": "该问题答案严格依赖文档中针对数据库慢查询划分的“立即优化、短期措施、长期优化”三阶段处理方案，临时加索引仅是第一步，需结合文档具体步骤判断，非通用DBA常识的简单推断。",
+      "dependency_node_ids": [
+        "961729f2-cfbc-48ad-be9f-d255913f234c"
+      ],
+      "reference_context_ids": [
+        "961729f2-cfbc-48ad-be9f-d255913f234c"
+      ],
+      "reference_contexts": [
+        "### 原因1: 数据库慢查询\n**特征**:\n- 慢查询日志中有大量记录\n- 数据库CPU使用率高\n- 特定SQL执行时间长\n- 数据库连接池接近满载\n\n**处理方案**:\n1. **立即优化**: \n   - 找出最慢的SQL语句\n   - 检查是否缺少索引\n   - 查看执行计划（EXPLAIN）\n   - 临时添加索引或优化SQL\n\n2. **短期措施**:\n   - 增加数据库连接池大小\n   - 启用查询缓存\n   - 考虑读写分离\n\n3. **长期优化**:\n   - 定期分析慢查询日志\n   - 优化数据库表结构\n   - 建立合适的索引策略\n   - 考虑分库分表"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "不是。临时添加索引或优化SQL仅属于“立即优化”阶段的应急手段。彻底解决还需在短期增加连接池大小或启用查询缓存，并在长期定期分析慢查询日志、优化表结构及建立索引策略，必要时考虑分库分表。",
+      "answer_facts": [
+        "临时添加索引仅属于立即优化阶段的应急措施",
+        "短期需增加连接池大小或启用查询缓存",
+        "长期需定期分析日志、优化表结构并考虑分库分表",
+        "彻底解决需分阶段综合处理而非单一步骤"
+      ],
+      "key_phrases": [
+        "数据库慢查询",
+        "立即优化",
+        "分库分表"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q047",
+      "question": "系统响应变慢时，5分钟内的紧急处置操作和30分钟内的短期措施分别是什么？",
+      "user_input": "系统响应变慢时，5分钟内的紧急处置操作和30分钟内的短期措施分别是什么？",
+      "question_type": "vague",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "系统响应变慢时的紧急与短期处置流程",
+      "why_not_common_sense": "需要依赖文档中明确划分的“5分钟内立即操作”和“30分钟内短期措施”的具体步骤与时序要求，非通用IT常识。",
+      "dependency_node_ids": [
+        "d0017b3f-5fdf-4189-8145-9f3c088a62f6",
+        "ad522ea8-c6e8-4279-a4f7-fac9e6047c62"
+      ],
+      "reference_context_ids": [
+        "d0017b3f-5fdf-4189-8145-9f3c088a62f6",
+        "ad522ea8-c6e8-4279-a4f7-fac9e6047c62"
+      ],
+      "reference_contexts": [
+        "### 立即操作（5分钟内）\n1. **扩容**: 如果是资源不足，立即增加实例\n2. **限流**: 保护系统不被压垮\n3. **降级**: 关闭非核心功能\n4. **重启**: 如果是内存泄漏等问题，重启受影响实例",
+        "### 短期措施（30分钟内）\n1. **定位根因**: 通过日志分析找出慢的环节\n2. **临时优化**: \n   - 增加缓存\n   - 优化慢SQL\n   - 调整超时时间\n3. **监控观察**: 持续观察响应时间变化"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "遇到系统响应慢，首先应在5分钟内执行扩容、限流、降级非核心功能或重启受影响实例等立即操作以保护系统不被压垮。随后在30分钟内通过日志分析定位根因，实施增加缓存、优化慢SQL或调整超时时间等临时优化，并持续监控响应时间变化以评估效果。",
+      "answer_facts": [
+        "5分钟内需执行扩容、限流、降级或重启等立即操作",
+        "限流用于保护系统不被压垮",
+        "降级需关闭非核心功能",
+        "30分钟内需通过日志分析定位根因",
+        "短期临时优化包括增加缓存、优化慢SQL和调整超时时间",
+        "处理期间需持续监控响应时间变化"
+      ],
+      "key_phrases": [
+        "立即操作",
+        "短期措施",
+        "限流降级",
+        "日志分析"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q048",
+      "question": "缓存穿透时是否应该直接屏蔽所有空值请求？",
+      "user_input": "缓存穿透时是否应该直接屏蔽所有空值请求？",
+      "question_type": "negation",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "缓存穿透场景下的空值处理策略",
+      "why_not_common_sense": "文档明确给出了针对缓存穿透的防护方案，指出应对空值进行缓存而非直接屏蔽，属于特定缓存架构的规范操作。",
+      "dependency_node_ids": [
+        "6daa393b-6bcd-4ed2-beb0-36540c0f420f"
+      ],
+      "reference_context_ids": [
+        "6daa393b-6bcd-4ed2-beb0-36540c0f420f"
+      ],
+      "reference_contexts": [
+        "### 原因4: 缓存失效或缓存穿透\n**特征**:\n- 缓存命中率突然下降\n- 数据库查询量激增\n- 特定时间点响应变慢\n- 日志中有缓存miss记录\n\n**处理方案**:\n1. **缓存预热**:\n   - 重启后立即预热热点数据\n   - 定时刷新缓存\n   - 避免缓存同时失效\n\n2. **防止缓存穿透**:\n   - 对空值也进行缓存\n   - 使用布隆过滤器\n   - 参数校验防止恶意查询\n\n3. **优化缓存策略**:\n   - 设置合理的过期时间\n   - 使用多级缓存\n   - 实现缓存更新机制"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "不应该。文档明确指出防止缓存穿透的正确做法是对空值也进行缓存，并结合使用布隆过滤器和参数校验来防止恶意查询。直接屏蔽空值请求不符合推荐的缓存防护策略，可能导致正常业务逻辑异常或无法有效拦截恶意请求。",
+      "answer_facts": [
+        "防止缓存穿透不应直接屏蔽空值请求",
+        "正确方案要求对空值也进行缓存",
+        "防护手段需使用布隆过滤器",
+        "需配合参数校验防止恶意查询"
+      ],
+      "key_phrases": [
+        "缓存穿透",
+        "空值缓存",
+        "布隆过滤器",
+        "参数校验"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q049",
+      "question": "限流降级策略主要应用在哪些系统异常场景？",
+      "user_input": "限流降级策略主要应用在哪些系统异常场景？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "限流降级策略的触发场景与执行时机",
+      "why_not_common_sense": "需综合文档中资源不足的长期特征与5分钟紧急操作指南，明确限流降级的具体触发条件和业务保护目标，属于内部运维规范。",
+      "dependency_node_ids": [
+        "9c96dcd9-eae0-40b5-8304-00667fdb5b87",
+        "d0017b3f-5fdf-4189-8145-9f3c088a62f6"
+      ],
+      "reference_context_ids": [
+        "9c96dcd9-eae0-40b5-8304-00667fdb5b87",
+        "d0017b3f-5fdf-4189-8145-9f3c088a62f6"
+      ],
+      "reference_contexts": [
+        "### 原因5: 系统资源不足\n**特征**:\n- CPU或内存使用率高\n- 磁盘IO繁忙\n- 网络带宽占用高\n- 系统负载过高\n\n**处理方案**:\n1. **资源扩容**:\n   - 增加实例数量（水平扩展）\n   - 升级实例规格（垂直扩展）\n   - 优化资源分配\n\n2. **负载均衡**:\n   - 检查负载均衡配置\n   - 确保流量均匀分布\n   - 移除异常实例\n\n3. **限流降级**:\n   - 启用限流保护\n   - 降级非核心功能\n   - 优先保证核心业务",
+        "### 立即操作（5分钟内）\n1. **扩容**: 如果是资源不足，立即增加实例\n2. **限流**: 保护系统不被压垮\n3. **降级**: 关闭非核心功能\n4. **重启**: 如果是内存泄漏等问题，重启受影响实例"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "限流降级主要应用于系统资源不足（如CPU/内存使用率高、负载过高）以及需要立即防止系统被压垮的紧急场景。在5分钟立即操作中需优先启用限流保护并降级非核心功能，以确保核心业务正常运行。",
+      "answer_facts": [
+        "限流降级适用于系统资源不足场景",
+        "资源不足特征包括CPU/内存使用率高和系统负载过高",
+        "5分钟内需启用限流保护防止系统崩溃",
+        "降级操作要求关闭非核心功能",
+        "核心目标是优先保证核心业务"
+      ],
+      "key_phrases": [
+        "限流降级",
+        "资源不足",
+        "系统负载",
+        "核心业务保护"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q050",
+      "question": "针对数据库查询和缓存模块，性能优化检查清单中分别要求排查哪些具体问题，对应的监控指标又应关注哪些数据？",
+      "user_input": "针对数据库查询和缓存模块，性能优化检查清单中分别要求排查哪些具体问题，对应的监控指标又应关注哪些数据？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "数据库与缓存模块的排查项及对应监控指标",
+      "why_not_common_sense": "需要精确对照文档中的性能优化检查清单条目和监控指标定义，不同系统的排查重点和指标口径可能不同，无法凭通用经验直接给出文档限定的具体项。",
+      "dependency_node_ids": [
+        "c4a14e39-2cb8-4354-8226-f3af26f800c6",
+        "5a5d19e9-99fd-431e-b39e-4543c3cc15f8"
+      ],
+      "reference_context_ids": [
+        "c4a14e39-2cb8-4354-8226-f3af26f800c6",
+        "5a5d19e9-99fd-431e-b39e-4543c3cc15f8"
+      ],
+      "reference_contexts": [
+        "## 性能优化检查清单\n- [ ] 数据库查询是否有索引\n- [ ] 是否有N+1查询问题\n- [ ] 缓存策略是否合理\n- [ ] 外部API调用是否有超时设置\n- [ ] 是否有不必要的同步等待\n- [ ] 日志级别是否过于详细\n- [ ] 是否有大对象序列化\n- [ ] 网络调用是否可以批量化",
+        "## 相关监控指标\n- **响应时间**: P50, P90, P99, P999\n- **吞吐量**: QPS, TPS\n- **错误率**: 4xx, 5xx错误比例\n- **资源使用**: CPU, 内存, 网络, 磁盘IO\n- **数据库**: 慢查询数量, 连接池使用率\n- **缓存**: 命中率, 失效率"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "检查清单中要求排查数据库是否存在索引缺失或N+1查询问题，以及缓存策略是否合理。对应的监控指标方面，数据库需重点关注慢查询数量和连接池使用率，缓存则需监控命中率与失效率，以便准确评估模块性能状态。",
+      "answer_facts": [
+        "检查清单要求确认数据库查询是否有索引",
+        "检查清单要求排查是否存在N+1查询问题",
+        "检查清单要求评估缓存策略是否合理",
+        "数据库监控需关注慢查询数量和连接池使用率",
+        "缓存监控需关注命中率和失效率"
+      ],
+      "key_phrases": [
+        "N+1查询",
+        "连接池使用率",
+        "缓存命中率",
+        "慢查询数量"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q051",
+      "question": "性能问题修复后的验证阶段，是否仅确认P99响应时间降到1秒以内就足够，无需关注其他维度？",
+      "user_input": "性能问题修复后的验证阶段，是否仅确认P99响应时间降到1秒以内就足够，无需关注其他维度？",
+      "question_type": "negation",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "故障修复后的多维度验证标准",
+      "why_not_common_sense": "验证标准是文档明确规定的内部流程要求，包含错误率、用户投诉和持续观察时长等特定条件，不属于通用IT运维常识。",
+      "dependency_node_ids": [
+        "78ee916f-39c5-414d-aff4-4506203b5e92"
+      ],
+      "reference_context_ids": [
+        "78ee916f-39c5-414d-aff4-4506203b5e92"
+      ],
+      "reference_contexts": [
+        "## 验证步骤\n1. 确认P99响应时间降到正常水平（<1秒）\n2. 检查错误率是否下降\n3. 观察用户投诉是否减少\n4. 持续监控30分钟确保稳定"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "并非仅确认P99响应时间达标即可。完整的验证步骤还必须检查错误率是否下降、观察用户投诉是否减少，并且需要持续监控30分钟以确保系统运行稳定。",
+      "answer_facts": [
+        "验证需确认P99响应时间降到1秒以内",
+        "验证需检查错误率是否下降",
+        "验证需观察用户投诉是否减少",
+        "验证需持续监控30分钟确保稳定"
+      ],
+      "key_phrases": [
+        "P99响应时间",
+        "错误率",
+        "持续监控30分钟",
+        "用户投诉"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q052",
+      "question": "系统响应慢的短期与长期优化措施分别有哪些？",
+      "user_input": "系统响应慢的短期与长期优化措施分别有哪些？",
+      "question_type": "vague",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "系统响应慢的短期与长期优化措施",
+      "why_not_common_sense": "方案严格依据文档划分的短期（30分钟内）与长期两个阶段的具体操作项，属于该文档特有的应急响应与架构演进流程，非通用常识。",
+      "dependency_node_ids": [
+        "ad522ea8-c6e8-4279-a4f7-fac9e6047c62",
+        "0eb89c70-7773-48f1-b5e3-b7934e0f2e60"
+      ],
+      "reference_context_ids": [
+        "ad522ea8-c6e8-4279-a4f7-fac9e6047c62",
+        "0eb89c70-7773-48f1-b5e3-b7934e0f2e60"
+      ],
+      "reference_contexts": [
+        "### 短期措施（30分钟内）\n1. **定位根因**: 通过日志分析找出慢的环节\n2. **临时优化**: \n   - 增加缓存\n   - 优化慢SQL\n   - 调整超时时间\n3. **监控观察**: 持续观察响应时间变化",
+        "### 长期优化\n1. **性能优化**: 代码层面的性能优化\n2. **架构优化**: 引入缓存、消息队列等\n3. **监控完善**: 增加更细粒度的性能监控\n4. **压力测试**: 定期进行性能压测"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "优化方案分为短期应急和长期演进两类。短期措施需在30分钟内通过日志定位根因，并采取增加缓存、优化慢SQL、调整超时时间等临时优化手段，同时持续观察响应时间变化；长期优化则聚焦代码层性能提升、引入缓存和消息队列等架构改造、完善细粒度监控以及定期进行压力测试。",
+      "answer_facts": [
+        "短期措施要求在30分钟内通过日志分析定位根因",
+        "短期临时优化包括增加缓存、优化慢SQL和调整超时时间",
+        "短期需持续观察响应时间变化",
+        "长期优化包含代码层面的性能优化",
+        "长期架构优化需引入缓存和消息队列",
+        "长期需完善细粒度监控并定期进行压力测试"
+      ],
+      "key_phrases": [
+        "日志分析",
+        "优化慢SQL",
+        "消息队列",
+        "细粒度监控",
+        "压力测试"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q053",
+      "question": "当触发HighErrorRate告警时，具体对应监控指标中的哪类数据？此时应该优先联系哪个团队进行排查？",
+      "user_input": "当触发HighErrorRate告警时，具体对应监控指标中的哪类数据？此时应该优先联系哪个团队进行排查？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "错误率告警的指标映射与对接团队",
+      "why_not_common_sense": "内部告警命名规范（HighErrorRate）与特定团队邮箱的映射关系属于企业内部运维配置，非通用常识。",
+      "dependency_node_ids": [
+        "5a5d19e9-99fd-431e-b39e-4543c3cc15f8",
+        "a4ab44d1-e4ed-40bb-8a39-ca2495ccf133",
+        "2376028b-ba57-42a2-8705-53c5480e9834"
+      ],
+      "reference_context_ids": [
+        "5a5d19e9-99fd-431e-b39e-4543c3cc15f8",
+        "a4ab44d1-e4ed-40bb-8a39-ca2495ccf133",
+        "2376028b-ba57-42a2-8705-53c5480e9834"
+      ],
+      "reference_contexts": [
+        "## 相关监控指标\n- **响应时间**: P50, P90, P99, P999\n- **吞吐量**: QPS, TPS\n- **错误率**: 4xx, 5xx错误比例\n- **资源使用**: CPU, 内存, 网络, 磁盘IO\n- **数据库**: 慢查询数量, 连接池使用率\n- **缓存**: 命中率, 失效率",
+        "## 相关告警\n- `HighCPUUsage`: CPU使用率过高\n- `HighMemoryUsage`: 内存使用率过高\n- `DatabaseSlowQuery`: 数据库慢查询\n- `HighErrorRate`: 错误率过高\n- `ServiceTimeout`: 服务超时",
+        "## 联系方式\n- **运维团队**: ops-team@company.com\n- **开发团队**: dev-team@company.com\n- **DBA团队**: dba-team@company.com\n- **紧急电话**: 400-xxx-xxxx"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "触发HighErrorRate告警时，对应的是监控指标中的错误率数据，具体包含4xx和5xx错误比例。根据内部通讯录配置，此类服务级错误问题应优先联系开发团队（dev-team@company.com）进行代码或逻辑排查。",
+      "answer_facts": [
+        "HighErrorRate告警对应监控指标中的错误率类别",
+        "错误率指标具体包含4xx和5xx错误比例",
+        "该告警的责任对接团队为开发团队",
+        "开发团队内部联系邮箱为dev-team@company.com"
+      ],
+      "key_phrases": [
+        "HighErrorRate",
+        "错误率",
+        "4xx/5xx",
+        "开发团队"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q054",
+      "question": "监控指标中是否包含缓存的写入延迟？相关的优化规范应该参考哪份文档？",
+      "user_input": "监控指标中是否包含缓存的写入延迟？相关的优化规范应该参考哪份文档？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "缓存监控指标范围与优化文档指引",
+      "why_not_common_sense": "特定系统的监控指标清单与内部文档路径属于组织专属知识库内容，无法通过外部常识推断。",
+      "dependency_node_ids": [
+        "5a5d19e9-99fd-431e-b39e-4543c3cc15f8",
+        "62077f97-00fc-4ddb-ba4d-08472436de7a"
+      ],
+      "reference_context_ids": [
+        "5a5d19e9-99fd-431e-b39e-4543c3cc15f8",
+        "62077f97-00fc-4ddb-ba4d-08472436de7a"
+      ],
+      "reference_contexts": [
+        "## 相关监控指标\n- **响应时间**: P50, P90, P99, P999\n- **吞吐量**: QPS, TPS\n- **错误率**: 4xx, 5xx错误比例\n- **资源使用**: CPU, 内存, 网络, 磁盘IO\n- **数据库**: 慢查询数量, 连接池使用率\n- **缓存**: 命中率, 失效率",
+        "## 参考文档\n- [性能优化最佳实践](internal-docs/performance-optimization.md)\n- [数据库优化指南](internal-docs/database-optimization.md)\n- [缓存使用规范](internal-docs/cache-best-practices.md)"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "监控指标中并未包含缓存的写入延迟，当前仅列出了缓存的命中率和失效率两项核心数据。若需了解缓存相关的优化规范，应直接参考《缓存使用规范》（internal-docs/cache-best-practices.md）文档。",
+      "answer_facts": [
+        "当前监控指标列表不包含缓存写入延迟",
+        "缓存监控仅包含命中率和失效率",
+        "缓存优化应参考《缓存使用规范》文档",
+        "该文档的内部路径为internal-docs/cache-best-practices.md"
+      ],
+      "key_phrases": [
+        "缓存写入延迟",
+        "命中率",
+        "失效率",
+        "缓存使用规范"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q055",
+      "question": "数据库慢查询找谁？",
+      "user_input": "数据库慢查询找谁？",
+      "question_type": "vague",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "数据库慢查询告警的责任团队",
+      "why_not_common_sense": "告警类型与内部团队邮箱的绑定规则属于企业自定义运维SOP，不具备通用性。",
+      "dependency_node_ids": [
+        "a4ab44d1-e4ed-40bb-8a39-ca2495ccf133",
+        "2376028b-ba57-42a2-8705-53c5480e9834"
+      ],
+      "reference_context_ids": [
+        "a4ab44d1-e4ed-40bb-8a39-ca2495ccf133",
+        "2376028b-ba57-42a2-8705-53c5480e9834"
+      ],
+      "reference_contexts": [
+        "## 相关告警\n- `HighCPUUsage`: CPU使用率过高\n- `HighMemoryUsage`: 内存使用率过高\n- `DatabaseSlowQuery`: 数据库慢查询\n- `HighErrorRate`: 错误率过高\n- `ServiceTimeout`: 服务超时",
+        "## 联系方式\n- **运维团队**: ops-team@company.com\n- **开发团队**: dev-team@company.com\n- **DBA团队**: dba-team@company.com\n- **紧急电话**: 400-xxx-xxxx"
+      ],
+      "kb_doc_id": 5,
+      "kb_doc_ids": [
+        5
+      ],
+      "source": "generated",
+      "reference": "针对DatabaseSlowQuery告警，应直接联系DBA团队进行排查与优化。该团队的内部联系邮箱为dba-team@company.com，紧急情况下也可拨打400-xxx-xxxx电话协助。",
+      "answer_facts": [
+        "DatabaseSlowQuery告警专门针对数据库慢查询场景",
+        "该告警的责任对接团队为DBA团队",
+        "DBA团队内部联系邮箱为dba-team@company.com",
+        "紧急支援电话为400-xxx-xxxx"
+      ],
+      "key_phrases": [
+        "数据库慢查询",
+        "DBA团队",
+        "DatabaseSlowQuery",
+        "告警对接"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q056",
+      "question": "高内存告警的标准排查流程包含哪些具体步骤和工具调用顺序？",
+      "user_input": "高内存告警的标准排查流程包含哪些具体步骤和工具调用顺序？",
+      "question_type": "vague",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "高内存告警的标准排查流程与工具调用顺序",
+      "why_not_common_sense": "排查步骤依赖内部运维工具名称（如get_current_time、query_logs）、特定的日志主题命名规范以及精确的查询语法，属于企业内部SOP，非通用常识。",
+      "dependency_node_ids": [
+        "767a5455-b571-4a26-b7bc-b0fa50e2eb9d",
+        "e1549642-bc20-4483-ad55-1a645076329f",
+        "f5503f5b-ab11-49b4-afaa-ae00759bc2d4"
+      ],
+      "reference_context_ids": [
+        "767a5455-b571-4a26-b7bc-b0fa50e2eb9d",
+        "e1549642-bc20-4483-ad55-1a645076329f",
+        "f5503f5b-ab11-49b4-afaa-ae00759bc2d4"
+      ],
+      "reference_contexts": [
+        "### 步骤1: 获取当前时间\n**工具**: `get_current_time`\n**目的**: 确定告警发生的时间范围",
+        "### 步骤2: 查询系统监控日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-metrics`\n- **时间范围**: 最近30分钟\n- **查询条件**: `memory_usage:>85 OR event:OOM`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: system-metrics\n时间范围: [当前时间-30分钟] 到 [当前时间]\n查询语句: memory_usage > 85 OR oom_kill:true\n```",
+        "### 步骤3: 查询应用日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **查询条件**: `OutOfMemoryError OR GC overhead`"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "排查内存告警需严格按三步执行：首先调用get_current_time工具获取当前时间以划定告警时间范围；接着使用query_logs查询系统监控日志，地域设为ap-guangzhou，主题选system-metrics，时间范围取最近30分钟，查询条件为memory_usage > 85 OR oom_kill:true；最后查询应用日志，主题选application-logs，查询条件配置为OutOfMemoryError OR GC overhead。",
+      "answer_facts": [
+        "第一步使用get_current_time工具确定告警时间范围",
+        "系统监控日志查询主题为system-metrics，查询条件为memory_usage > 85 OR oom_kill:true",
+        "应用日志查询主题为application-logs，查询条件为OutOfMemoryError OR GC overhead",
+        "所有日志检索均使用query_logs工具且地域固定为ap-guangzhou"
+      ],
+      "key_phrases": [
+        "内存告警排查",
+        "query_logs",
+        "system-metrics",
+        "application-logs"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q057",
+      "question": "system-metrics日志主题在排查内存问题时具体的查询条件是什么？",
+      "user_input": "system-metrics日志主题在排查内存问题时具体的查询条件是什么？",
+      "question_type": "keyword",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "系统监控日志的精确查询语句配置",
+      "why_not_common_sense": "查询条件memory_usage > 85 OR oom_kill:true是内部监控平台自定义的检索语法，日志主题system-metrics也是特定系统的命名约定，无法通过外部常识推导。",
+      "dependency_node_ids": [
+        "e1549642-bc20-4483-ad55-1a645076329f"
+      ],
+      "reference_context_ids": [
+        "e1549642-bc20-4483-ad55-1a645076329f"
+      ],
+      "reference_contexts": [
+        "### 步骤2: 查询系统监控日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-metrics`\n- **时间范围**: 最近30分钟\n- **查询条件**: `memory_usage:>85 OR event:OOM`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: system-metrics\n时间范围: [当前时间-30分钟] 到 [当前时间]\n查询语句: memory_usage > 85 OR oom_kill:true\n```"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "在排查内存问题时，system-metrics日志主题的查询条件需配置为memory_usage > 85 OR oom_kill:true。该条件用于精准定位内存使用率超标或发生OOM杀死的系统级事件，需配合地域ap-guangzhou和最近30分钟的时间范围进行检索。",
+      "answer_facts": [
+        "日志主题名称为system-metrics",
+        "查询条件为memory_usage > 85 OR oom_kill:true",
+        "该条件用于检索内存超标或OOM杀死事件",
+        "查询需限定地域为ap-guangzhou"
+      ],
+      "key_phrases": [
+        "system-metrics",
+        "查询条件",
+        "oom_kill",
+        "memory_usage"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q058",
+      "question": "排查内存告警时，应用日志查询是否必须使用与系统监控日志相同的查询条件？",
+      "user_input": "排查内存告警时，应用日志查询是否必须使用与系统监控日志相同的查询条件？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "系统与应用日志查询条件的差异验证",
+      "why_not_common_sense": "需要对比内部文档中明确规定的两类日志的不同查询参数，涉及具体的错误关键词配置，属于运维规范细节而非通用知识。",
+      "dependency_node_ids": [
+        "e1549642-bc20-4483-ad55-1a645076329f",
+        "f5503f5b-ab11-49b4-afaa-ae00759bc2d4"
+      ],
+      "reference_context_ids": [
+        "e1549642-bc20-4483-ad55-1a645076329f",
+        "f5503f5b-ab11-49b4-afaa-ae00759bc2d4"
+      ],
+      "reference_contexts": [
+        "### 步骤2: 查询系统监控日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-metrics`\n- **时间范围**: 最近30分钟\n- **查询条件**: `memory_usage:>85 OR event:OOM`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: system-metrics\n时间范围: [当前时间-30分钟] 到 [当前时间]\n查询语句: memory_usage > 85 OR oom_kill:true\n```",
+        "### 步骤3: 查询应用日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **查询条件**: `OutOfMemoryError OR GC overhead`"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "不是的，应用日志查询不需要使用与系统监控日志相同的查询条件。系统监控日志的查询条件为memory_usage > 85 OR oom_kill:true，而应用日志的查询条件应配置为OutOfMemoryError OR GC overhead。两者分别针对操作系统层面的内存指标和应用程序层面的错误日志进行定向排查。",
+      "answer_facts": [
+        "应用日志查询条件不同于系统监控日志",
+        "系统监控日志条件为memory_usage > 85 OR oom_kill:true",
+        "应用日志条件为OutOfMemoryError OR GC overhead",
+        "两者分别对应系统级指标和应用级错误排查"
+      ],
+      "key_phrases": [
+        "应用日志",
+        "系统监控日志",
+        "查询条件差异",
+        "OutOfMemoryError"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q059",
+      "question": "当应用日志显示GC能够回收大部分内存时，是否可以判定为内存泄漏？",
+      "user_input": "当应用日志显示GC能够回收大部分内存时，是否可以判定为内存泄漏？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "内存泄漏与流量突增的故障特征区分",
+      "why_not_common_sense": "依赖内部故障排查指南中针对特定内存异常场景的特征对比标准，非通用计算机基础常识。",
+      "dependency_node_ids": [
+        "4a9ef598-d87d-4c03-acfe-2d6dd595070c",
+        "77a2dbe0-e7ed-4ad0-b155-56ad537146e1"
+      ],
+      "reference_context_ids": [
+        "4a9ef598-d87d-4c03-acfe-2d6dd595070c",
+        "77a2dbe0-e7ed-4ad0-b155-56ad537146e1"
+      ],
+      "reference_contexts": [
+        "### 原因1: 内存泄漏\n**特征**:\n- 内存使用率持续缓慢上升\n- Full GC后内存无法释放\n- 应用运行时间越长，内存占用越高\n- 日志中有大量GC记录\n\n**处理方案**:\n1. **紧急措施**: 重启应用释放内存\n2. **获取堆转储**: 在重启前dump内存快照\n3. **分析内存泄漏**: 使用MAT工具分析堆转储文件\n4. **定位代码问题**: 找出持有大量对象引用的代码\n5. **修复并发布**: 修复内存泄漏代码并重新部署",
+        "### 原因2: 流量突增导致对象激增\n**特征**:\n- 内存使用率突然升高\n- 与流量增长同步\n- GC能够回收大部分内存\n- 应用日志显示请求量激增\n\n**处理方案**:\n1. **立即扩容**: 增加应用实例数量\n2. **启用限流**: 保护系统不被压垮\n3. **优化缓存**: 检查缓存策略是否合理\n4. **增加内存**: 如果是合理的业务增长，考虑增加内存配置"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "不可以判定为内存泄漏。根据排查规范，内存泄漏的典型特征是Full GC后内存无法释放，且内存使用率会持续缓慢上升。而GC能够回收大部分内存属于流量突增导致对象激增的特征，此时内存升高通常与请求量增长同步。",
+      "answer_facts": [
+        "内存泄漏的特征是Full GC后内存无法释放",
+        "内存泄漏的内存使用率会持续缓慢上升",
+        "GC能回收大部分内存是流量突增导致对象激增的特征",
+        "流量突增时内存升高与流量增长同步"
+      ],
+      "key_phrases": [
+        "内存泄漏",
+        "GC回收",
+        "流量突增",
+        "故障特征"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q060",
+      "question": "使用`query_logs`工具查询应用日志时，应配置什么查询条件，且分析阶段需提取哪些核心指标？",
+      "user_input": "使用`query_logs`工具查询应用日志时，应配置什么查询条件，且分析阶段需提取哪些核心指标？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "日志查询参数与内存分析指标",
+      "why_not_common_sense": "涉及特定内部运维工具的标准参数配置及定制化分析清单，必须查阅操作手册才能获取。",
+      "dependency_node_ids": [
+        "f5503f5b-ab11-49b4-afaa-ae00759bc2d4",
+        "6acdae6c-9426-45a0-a392-ab6d90d73ed5"
+      ],
+      "reference_context_ids": [
+        "f5503f5b-ab11-49b4-afaa-ae00759bc2d4",
+        "6acdae6c-9426-45a0-a392-ab6d90d73ed5"
+      ],
+      "reference_contexts": [
+        "### 步骤3: 查询应用日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **查询条件**: `OutOfMemoryError OR GC overhead`",
+        "### 步骤4: 分析内存使用情况\n从日志中提取：\n- JVM堆内存使用情况\n- GC频率和耗时\n- 是否有内存泄漏迹象\n- 大对象分配记录"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "查询条件应配置为`OutOfMemoryError OR GC overhead`。在获取日志后，分析阶段需重点提取JVM堆内存使用情况、GC频率和耗时、内存泄漏迹象以及大对象分配记录这四类核心指标。",
+      "answer_facts": [
+        "query_logs的查询条件为OutOfMemoryError OR GC overhead",
+        "分析需提取JVM堆内存使用情况",
+        "分析需提取GC频率和耗时",
+        "分析需检查是否有内存泄漏迹象",
+        "分析需提取大对象分配记录"
+      ],
+      "key_phrases": [
+        "query_logs",
+        "查询条件",
+        "JVM堆内存",
+        "GC频率"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q061",
+      "question": "缓存配置不当的特征有哪些，对应的处理方案是什么？",
+      "user_input": "缓存配置不当的特征有哪些，对应的处理方案是什么？",
+      "question_type": "vague",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "缓存配置不当的修复方案",
+      "why_not_common_sense": "包含具体的内部调优步骤、策略参数要求及监控指标，属于系统专属运维SOP，非通用常识。",
+      "dependency_node_ids": [
+        "dd62ad81-ad0c-46e8-899e-9e04eef30ea2"
+      ],
+      "reference_context_ids": [
+        "dd62ad81-ad0c-46e8-899e-9e04eef30ea2"
+      ],
+      "reference_contexts": [
+        "### 原因3: 缓存配置不当\n**特征**:\n- 缓存占用内存过大\n- 缓存命中率低\n- 缓存数据长时间不过期\n- 日志中有缓存相关警告\n\n**处理方案**:\n1. **调整缓存大小**: 减少缓存容量上限\n2. **优化过期策略**: 设置合理的TTL\n3. **启用LRU淘汰**: 确保缓存能自动淘汰旧数据\n4. **监控缓存指标**: 持续观察缓存命中率和内存占用"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "处理缓存配置不当需执行四项操作：首先调整缓存大小以减少容量上限，其次优化过期策略设置合理的TTL，接着启用LRU淘汰机制确保旧数据自动清除，最后需持续监控缓存命中率与内存占用指标以验证调优效果。",
+      "answer_facts": [
+        "需调整缓存大小减少容量上限",
+        "需优化过期策略设置合理TTL",
+        "需启用LRU淘汰机制自动清除旧数据",
+        "需持续监控缓存命中率和内存占用指标"
+      ],
+      "key_phrases": [
+        "缓存配置不当",
+        "调整大小",
+        "LRU淘汰",
+        "TTL策略"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q062",
+      "question": "高内存突增问题的应急响应流程包含哪些立即操作和短期措施？",
+      "user_input": "高内存突增问题的应急响应流程包含哪些立即操作和短期措施？",
+      "question_type": "vague",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "高内存问题的应急响应流程",
+      "why_not_common_sense": "需要依赖文档中明确划分的“5分钟内立即操作”和“30分钟内短期措施”的具体步骤与时间节点，属于内部运维SOP，非通用常识。",
+      "dependency_node_ids": [
+        "359b3dbb-5b28-4d6c-b9de-2962593acc01",
+        "9c6ce8ac-0dd5-47ca-a066-64cbb6374db5"
+      ],
+      "reference_context_ids": [
+        "359b3dbb-5b28-4d6c-b9de-2962593acc01",
+        "9c6ce8ac-0dd5-47ca-a066-64cbb6374db5"
+      ],
+      "reference_contexts": [
+        "### 立即操作（5分钟内）\n1. **重启高内存实例**: 快速释放内存，恢复服务\n2. **扩容**: 增加实例数量，分散内存压力\n3. **限流**: 如果是流量问题，启用限流保护",
+        "### 短期措施（30分钟内）\n1. **分析日志**: 确定内存增长的根本原因\n2. **dump内存快照**: 保留现场用于后续分析\n3. **调整JVM参数**: 如果是配置问题，临时调整参数\n4. **清理缓存**: 手动清理不必要的缓存数据"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "需分阶段进行应急处理。在5分钟内应立即重启高内存实例以快速释放内存，同时可通过扩容分散压力或启用限流保护。在30分钟内需深入分析日志定位根因，dump内存快照保留现场，并根据情况临时调整JVM参数或手动清理缓存数据。",
+      "answer_facts": [
+        "5分钟内需重启高内存实例快速释放内存",
+        "5分钟内可扩容分散压力或启用限流",
+        "30分钟内需分析日志确定根本原因",
+        "30分钟内需dump内存快照保留现场",
+        "30分钟内可临时调整JVM参数或手动清理缓存"
+      ],
+      "key_phrases": [
+        "立即操作",
+        "短期措施",
+        "重启实例",
+        "内存快照"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q063",
+      "question": "大文件处理完成后内存是否无法释放？",
+      "user_input": "大文件处理完成后内存是否无法释放？",
+      "question_type": "negation",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "大文件处理场景下的内存释放特征",
+      "why_not_common_sense": "需依据文档中针对“大文件或大数据处理”这一特定故障原因的特征描述进行判断，属于内部排查经验，非通用常识。",
+      "dependency_node_ids": [
+        "63d0b5d5-1656-45cc-8c33-d4ba7657b1d3"
+      ],
+      "reference_context_ids": [
+        "63d0b5d5-1656-45cc-8c33-d4ba7657b1d3"
+      ],
+      "reference_contexts": [
+        "### 原因4: 大文件或大数据处理\n**特征**:\n- 特定时间点内存突增\n- 日志中有文件上传或数据导入记录\n- 处理完成后内存可以释放\n- 与定时任务或用户操作相关\n\n**处理方案**:\n1. **优化处理逻辑**: 改为流式处理，避免一次性加载\n2. **限制文件大小**: 设置上传文件大小限制\n3. **分批处理**: 大数据处理改为分批次进行\n4. **异步处理**: 将大数据处理任务放到后台队列"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "不是。文档明确指出该场景下处理完成后内存是可以释放的。此类问题通常表现为特定时间点内存突增，且与定时任务或用户操作相关，日志中会有文件上传或数据导入记录。",
+      "answer_facts": [
+        "大文件处理完成后内存可以释放",
+        "该场景特征包括特定时间点内存突增",
+        "与定时任务或用户操作相关",
+        "日志中有文件上传或数据导入记录"
+      ],
+      "key_phrases": [
+        "大文件处理",
+        "内存释放",
+        "定时任务",
+        "数据导入"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q064",
+      "question": "缓存配置不当时的LRU淘汰策略如何实施？",
+      "user_input": "缓存配置不当时的LRU淘汰策略如何实施？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "缓存配置问题的优化方案",
+      "why_not_common_sense": "需依赖文档中关于“缓存配置不当”原因的具体处理方案，包含TTL设置、容量调整及监控指标等内部运维规范，非通用常识。",
+      "dependency_node_ids": [
+        "dd62ad81-ad0c-46e8-899e-9e04eef30ea2"
+      ],
+      "reference_context_ids": [
+        "dd62ad81-ad0c-46e8-899e-9e04eef30ea2"
+      ],
+      "reference_contexts": [
+        "### 原因3: 缓存配置不当\n**特征**:\n- 缓存占用内存过大\n- 缓存命中率低\n- 缓存数据长时间不过期\n- 日志中有缓存相关警告\n\n**处理方案**:\n1. **调整缓存大小**: 减少缓存容量上限\n2. **优化过期策略**: 设置合理的TTL\n3. **启用LRU淘汰**: 确保缓存能自动淘汰旧数据\n4. **监控缓存指标**: 持续观察缓存命中率和内存占用"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "针对缓存配置不当，应启用LRU淘汰机制以确保缓存能自动淘汰旧数据。同时需调整缓存大小减少容量上限，优化过期策略设置合理的TTL，并持续监控缓存命中率和内存占用指标。",
+      "answer_facts": [
+        "需启用LRU淘汰确保缓存自动淘汰旧数据",
+        "需调整缓存大小减少容量上限",
+        "需优化过期策略设置合理的TTL",
+        "需持续监控缓存命中率和内存占用指标"
+      ],
+      "key_phrases": [
+        "LRU淘汰",
+        "缓存配置",
+        "TTL",
+        "命中率"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q065",
+      "question": "只要内存使用率降到70%以下，就可以直接确认故障已恢复吗？",
+      "user_input": "只要内存使用率降到70%以下，就可以直接确认故障已恢复吗？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "故障恢复的完整验证标准与流程",
+      "why_not_common_sense": "具体的验证维度（GC频率、日志检查、持续监控时长）和阈值标准均属于该文档规定的内部运维SOP，非通用IT常识。",
+      "dependency_node_ids": [
+        "9383bf32-2195-4e15-82a5-dc0d8c5df96a"
+      ],
+      "reference_context_ids": [
+        "9383bf32-2195-4e15-82a5-dc0d8c5df96a"
+      ],
+      "reference_contexts": [
+        "## 验证步骤\n1. 确认内存使用率降到正常水平（<70%）\n2. 观察GC频率和耗时是否正常\n3. 检查应用日志无OOM错误\n4. 持续监控30分钟确保稳定"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "不能仅凭内存使用率降至70%以下就确认故障恢复。完整的验证流程还必须观察GC频率和耗时是否回归正常，检查应用日志中是否彻底消除OOM错误，并且需要持续监控至少30分钟以确认系统状态稳定。",
+      "answer_facts": [
+        "恢复确认需满足内存使用率<70%",
+        "需验证GC频率和耗时正常",
+        "需确认应用日志无OOM错误",
+        "必须持续监控30分钟确保稳定"
+      ],
+      "key_phrases": [
+        "故障恢复",
+        "验证步骤",
+        "GC监控",
+        "持续观察"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q066",
+      "question": "在长期优化和预防措施中，都强调了哪种测试手段来验证内存容量与系统稳定性？",
+      "user_input": "在长期优化和预防措施中，都强调了哪种测试手段来验证内存容量与系统稳定性？",
+      "question_type": "keyword",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "跨阶段的内存测试策略与共性要求",
+      "why_not_common_sense": "该问题要求交叉比对文档中“长期优化”与“预防措施”两个独立章节的具体要求，提取共性的专业测试手段，属于特定知识库的内部规范。",
+      "dependency_node_ids": [
+        "c013fbfc-45c0-49c0-a6a4-fd0a8417af8c",
+        "3f238aec-69b1-4919-97e3-ab4f2c2e8d1c"
+      ],
+      "reference_context_ids": [
+        "c013fbfc-45c0-49c0-a6a4-fd0a8417af8c",
+        "3f238aec-69b1-4919-97e3-ab4f2c2e8d1c"
+      ],
+      "reference_contexts": [
+        "### 长期优化\n1. **代码优化**: 修复内存泄漏，优化对象创建\n2. **监控完善**: 增加内存监控指标和告警\n3. **压力测试**: 定期进行内存压力测试\n4. **容量规划**: 根据业务增长合理规划内存容量",
+        "## 预防措施\n1. **设置合理的内存告警阈值**: 70%预警，85%严重\n2. **定期内存分析**: 每周分析内存使用趋势\n3. **代码审查**: 关注大对象创建和集合使用\n4. **压力测试**: 上线前进行充分的内存压力测试"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "文档在长期优化和预防措施中均明确强调了“压力测试”这一关键手段。长期优化阶段要求定期进行内存压力测试以发现潜在问题，而预防措施则规定在代码上线前必须进行充分的内存压力测试，以此作为容量规划和风险防控的依据。",
+      "answer_facts": [
+        "长期优化包含定期进行内存压力测试",
+        "预防措施要求上线前进行充分的内存压力测试",
+        "压力测试用于验证内存容量与系统稳定性",
+        "该测试手段贯穿优化与预防两个阶段"
+      ],
+      "key_phrases": [
+        "压力测试",
+        "长期优化",
+        "预防措施",
+        "容量规划"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q067",
+      "question": "jmap -dump命令中format=b参数的具体作用是什么？",
+      "user_input": "jmap -dump命令中format=b参数的具体作用是什么？",
+      "question_type": "keyword",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "jmap堆转储命令的参数含义与作用",
+      "why_not_common_sense": "该参数为内部运维文档中明确规定的命令格式规范，用于指导特定排查流程，非通用编程或Linux命令常识。",
+      "dependency_node_ids": [
+        "6ad77166-ba8d-4df1-aac3-37e541d204b0"
+      ],
+      "reference_context_ids": [
+        "6ad77166-ba8d-4df1-aac3-37e541d204b0"
+      ],
+      "reference_contexts": [
+        "### 生成堆转储文件\n```bash\njmap -dump:format=b,file=heap.hprof <pid>\n```"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "该参数用于指定生成的堆转储文件为二进制格式（binary）。在实际内存排查中，必须使用该格式才能确保后续的内存分析工具能够正确读取和解析文件内容，不可省略或更改为其他格式。",
+      "answer_facts": [
+        "format=b参数指定输出二进制格式",
+        "该命令用于生成堆转储文件",
+        "二进制格式是内存分析工具解析的必要条件"
+      ],
+      "key_phrases": [
+        "jmap -dump",
+        "format=b",
+        "堆转储文件",
+        "二进制格式"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q068",
+      "question": "使用jstat -gc命令能否直接导出包含完整对象引用的堆转储文件（.hprof）？",
+      "user_input": "使用jstat -gc命令能否直接导出包含完整对象引用的堆转储文件（.hprof）？",
+      "question_type": "negation",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "jstat与jmap命令的功能边界区分",
+      "why_not_common_sense": "需依据文档中明确区分的两个诊断命令的功能描述进行判断，命令用途的对应关系属于内部SOP规范。",
+      "dependency_node_ids": [
+        "a239628b-0dab-4651-8578-28aa9591baa7",
+        "6ad77166-ba8d-4df1-aac3-37e541d204b0"
+      ],
+      "reference_context_ids": [
+        "a239628b-0dab-4651-8578-28aa9591baa7",
+        "6ad77166-ba8d-4df1-aac3-37e541d204b0"
+      ],
+      "reference_contexts": [
+        "### 查看GC日志\n```bash\njstat -gc <pid> 1000\n```",
+        "### 生成堆转储文件\n```bash\njmap -dump:format=b,file=heap.hprof <pid>\n```"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "不能。jstat -gc命令仅用于按指定间隔实时查看GC日志和统计信息，不具备生成文件的能力。若需获取包含完整对象引用的.hprof堆转储文件，必须切换使用jmap -dump命令。",
+      "answer_facts": [
+        "jstat -gc命令仅用于查看GC日志",
+        "jstat命令无法生成堆转储文件",
+        "生成.hprof文件需使用jmap -dump命令",
+        "jstat命令支持设置刷新间隔"
+      ],
+      "key_phrases": [
+        "jstat -gc",
+        "jmap -dump",
+        "堆转储文件",
+        "GC日志"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q069",
+      "question": "internal-docs/jvm-memory-best-practices.md 文档主要指导解决哪类系统问题？",
+      "user_input": "internal-docs/jvm-memory-best-practices.md 文档主要指导解决哪类系统问题？",
+      "question_type": "keyword",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "参考文档的主题指向与适用范围",
+      "why_not_common_sense": "该文档路径及具体用途属于企业内部知识库的私有映射关系，外部常识无法直接获知其对应的技术场景。",
+      "dependency_node_ids": [
+        "7850c377-838f-4206-afa7-090046372e9c"
+      ],
+      "reference_context_ids": [
+        "7850c377-838f-4206-afa7-090046372e9c"
+      ],
+      "reference_contexts": [
+        "## 参考文档\n- [JVM内存管理最佳实践](internal-docs/jvm-memory-best-practices.md)\n- [内存泄漏排查指南](internal-docs/memory-leak-troubleshooting.md)"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "该文档主要指导解决JVM（Java虚拟机）运行时的内存管理问题。根据参考文档列表的命名规范，它属于内部最佳实践指南，专门用于规范内存分配策略与垃圾回收调优，而非处理网络或数据库层面的通用故障。",
+      "answer_facts": [
+        "参考文档包含JVM内存管理最佳实践",
+        "文档路径为internal-docs/jvm-memory-best-practices.md",
+        "该文档用于指导JVM内存管理",
+        "属于内部参考文档列表"
+      ],
+      "key_phrases": [
+        "JVM内存管理",
+        "内部文档路径",
+        "最佳实践"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q070",
+      "question": "内存泄漏找谁",
+      "user_input": "内存泄漏找谁",
+      "question_type": "vague",
+      "difficulty": "medium",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "内存泄漏问题的排查指引与对接团队",
+      "why_not_common_sense": "问题高度简略，需交叉映射内部知识库的“参考文档”与“联系方式”节点，外部常识无法确定具体对接的运维/开发团队及对应排查手册。",
+      "dependency_node_ids": [
+        "998ab30f-6f49-4da1-94b0-2a90c6e762df",
+        "7850c377-838f-4206-afa7-090046372e9c"
+      ],
+      "reference_context_ids": [
+        "998ab30f-6f49-4da1-94b0-2a90c6e762df",
+        "7850c377-838f-4206-afa7-090046372e9c"
+      ],
+      "reference_contexts": [
+        "## 联系方式\n- **运维团队**: ops-team@company.com\n- **开发团队**: dev-team@company.com\n- **紧急电话**: 400-xxx-xxxx",
+        "## 参考文档\n- [JVM内存管理最佳实践](internal-docs/jvm-memory-best-practices.md)\n- [内存泄漏排查指南](internal-docs/memory-leak-troubleshooting.md)"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "遇到内存泄漏问题时，首先应查阅知识库中的《内存泄漏排查指南》进行初步诊断。若文档步骤无法解决，需立即联系运维团队（ops-team@company.com）或开发团队（dev-team@company.com）获取进一步支持，紧急情况下可拨打400-xxx-xxxx。",
+      "answer_facts": [
+        "参考文档包含《内存泄漏排查指南》",
+        "该指南路径为internal-docs/memory-leak-troubleshooting.md",
+        "运维团队邮箱为ops-team@company.com",
+        "开发团队邮箱为dev-team@company.com",
+        "紧急联系电话为400-xxx-xxxx"
+      ],
+      "key_phrases": [
+        "内存泄漏",
+        "排查指南",
+        "运维团队",
+        "联系方式"
+      ],
+      "used_in_synthesis": true
+    },
+    {
+      "id": "q071",
+      "question": "参考文档列表里是否包含外部公开的GitHub仓库链接？",
+      "user_input": "参考文档列表里是否包含外部公开的GitHub仓库链接？",
+      "question_type": "negation",
+      "difficulty": "easy",
+      "hop_type": "single",
+      "hop_count": 1,
+      "topic": "参考文档的来源属性验证",
+      "why_not_common_sense": "需核实内部文档库的具体链接格式与来源声明，外部无法直接判断该知识库的文档是内部私有还是公开引用。",
+      "dependency_node_ids": [
+        "7850c377-838f-4206-afa7-090046372e9c"
+      ],
+      "reference_context_ids": [
+        "7850c377-838f-4206-afa7-090046372e9c"
+      ],
+      "reference_contexts": [
+        "## 参考文档\n- [JVM内存管理最佳实践](internal-docs/jvm-memory-best-practices.md)\n- [内存泄漏排查指南](internal-docs/memory-leak-troubleshooting.md)"
+      ],
+      "kb_doc_id": 6,
+      "kb_doc_ids": [
+        6
+      ],
+      "source": "generated",
+      "reference": "不包含。参考文档列表中的所有链接均以 internal-docs/ 开头，明确指向公司内部的知识库路径。这些文档均为私有最佳实践与排查指南，并未引用任何外部公开代码托管平台或第三方资源。",
+      "answer_facts": [
+        "参考文档列表仅包含两个内部文档",
+        "所有链接均以internal-docs/开头",
+        "未包含任何外部公开仓库链接",
+        "文档为内部私有资料"
+      ],
+      "key_phrases": [
+        "参考文档",
+        "内部路径",
+        "外部链接"
+      ],
+      "used_in_synthesis": false
+    },
+    {
+      "id": "q072",
+      "question": "在系统故障排查过程中，查询系统日志与应用日志时分别需要配置哪些日志主题和查询条件？这两类日志的查询参数能否直接复用，其背后的配置逻辑与差异化设计原则是什么？",
+      "user_input": "在系统故障排查过程中，查询系统日志与应用日志时分别需要配置哪些日志主题和查询条件？这两类日志的查询参数能否直接复用，其背后的配置逻辑与差异化设计原则是什么？",
+      "question_type": "multi_source",
+      "difficulty": "medium",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "故障排查中系统与应用日志查询参数的配置逻辑与复用策略",
+      "dependency_node_ids": [
+        "9c85a164",
+        "f7969a4f",
+        "4b4def99",
+        "41a03469"
+      ],
+      "reference_context_ids": [
+        "9c85a164",
+        "f7969a4f",
+        "4b4def99",
+        "41a03469"
+      ],
+      "reference_contexts": [
+        "### 步骤2: 查询系统日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou` (广州)\n- **日志主题**: `system-metrics`\n- **时间范围**: 最近30分钟\n- **查询条件**: `level:ERROR OR cpu_usage:>80`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: system-metrics\n时间范围: 2024-01-20 14:00:00 到 2024-01-20 14:30:00\n查询语句: cpu_usage > 80 AND service_name:*\n```",
+        "### 步骤4: 查询应用日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **时间范围**: 与告警时间一致\n- **查询条件**: `level:ERROR OR level:WARN`",
+        "### 步骤2: 查询系统磁盘使用情况\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-metrics`\n- **时间范围**: 最近30分钟\n- **查询条件**: `disk_usage:>80 OR disk_full:true`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: system-metrics\n时间范围: [当前时间-30分钟] 到 [当前时间]\n查询语句: disk_usage > 80 OR filesystem:full\n```",
+        "### 步骤3: 查询应用日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **查询条件**: `No space left on device OR disk full`"
+      ],
+      "reference": "在故障排查中，查询系统日志需使用日志主题 `system-metrics`，查询条件通常基于底层指标阈值或系统状态（如 `cpu_usage > 80` 或 `disk_usage > 80 OR disk_full:true`）；查询应用日志需使用日志主题 `application-logs`，查询条件通常基于日志级别或应用层报错关键字（如 `level:ERROR OR level:WARN` 或 `No space left on device OR disk full`）。这两类日志的查询参数**不可完全复用**。其配置逻辑在于：系统日志侧重于基础设施与资源指标的监控，条件设计需匹配量化阈值；应用日志侧重于业务逻辑与程序运行状态的反馈，条件设计需匹配错误码或特定日志关键字。实际排查时，需根据具体告警场景分别针对两类日志的主题特性定制查询语句，以实现精准定位。",
+      "answer_facts": [
+        "查询系统日志需使用日志主题 system-metrics",
+        "查询应用日志需使用日志主题 application-logs",
+        "系统日志查询条件通常基于指标阈值或系统状态（如 cpu_usage > 80、disk_usage > 80）",
+        "应用日志查询条件通常基于日志级别或应用报错关键字（如 level:ERROR、No space left on device）",
+        "两类日志查询参数不可完全复用，需根据监控层级和告警场景差异化配置"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        1,
+        2
+      ],
+      "key_phrases": [
+        "查询条件",
+        "query_logs",
+        "日志主题",
+        "system-metrics",
+        "application-logs"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q005",
+        "q013"
+      ],
+      "why_multi_source": "文档A提供了系统与应用日志的标准主题名称及通用查询示例，是回答“分别配置什么”的基础；文档B通过具体磁盘告警场景，详细展示了查询条件的具体差异，并直接印证了参数不可复用的结论。只有结合文档A的规范定义与文档B的场景化差异分析，才能完整回答关于主题选择、条件设计及复用策略的综合问题。"
+    },
+    {
+      "id": "q073",
+      "question": "在故障处理的短期措施阶段，针对CPU高负载和磁盘空间不足的场景，各自的验证步骤与关键监控阈值标准是什么？如何结合这些指标确保措施生效且问题不复发？",
+      "user_input": "在故障处理的短期措施阶段，针对CPU高负载和磁盘空间不足的场景，各自的验证步骤与关键监控阈值标准是什么？如何结合这些指标确保措施生效且问题不复发？",
+      "question_type": "multi_source",
+      "difficulty": "medium",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "故障处理短期措施中多资源（CPU/磁盘）验证标准与闭环流程",
+      "dependency_node_ids": [
+        "6b102c54",
+        "5be7c002",
+        "ccc85e31"
+      ],
+      "reference_context_ids": [
+        "6b102c54",
+        "5be7c002",
+        "ccc85e31"
+      ],
+      "reference_contexts": [
+        "### 短期措施（30分钟内）\n1. 分析日志找出根本原因\n2. 如果是代码问题，准备回滚\n3. 如果是配置问题，调整配置\n4. 持续监控CPU使用率变化",
+        "## 验证步骤\n1. 确认CPU使用率降到正常水平（<60%）\n2. 检查应用响应时间恢复正常\n3. 确认无新的错误日志产生\n4. 观察30分钟确保问题不再复现",
+        "## 验证步骤\n1. 确认磁盘使用率降到安全水平（<70%）\n2. 检查应用运行正常\n3. 验证日志可以正常写入\n4. 确认数据库运行正常\n5. 持续监控磁盘使用情况"
+      ],
+      "reference": "在短期措施阶段，CPU与磁盘场景的验证标准与步骤如下：\n1. **CPU高负载场景**：验证核心阈值为CPU使用率降至**<60%**。需同步确认应用响应时间恢复正常、无新增错误日志，并持续观察**30分钟**以确保问题不复发。\n2. **磁盘空间不足场景**：验证核心阈值为磁盘使用率降至安全水平（**<70%**）。需检查应用运行状态、验证日志可正常写入、确认数据库运行正常，并建立持续监控机制。\n3. **闭环保障逻辑**：两类场景均遵循“指标达标+业务恢复+持续监控/观察”的验证范式。短期措施（如回滚、调参、清理）实施后，必须通过上述阈值与业务健康度双重校验，结合30分钟观察期或持续监控，形成完整的故障处理闭环。",
+      "answer_facts": [
+        "CPU验证阈值：使用率需降至<60%",
+        "CPU验证步骤：确认响应时间恢复、无新错误日志、观察30分钟防复发",
+        "磁盘验证阈值：使用率需降至<70%",
+        "磁盘验证步骤：检查应用运行、日志写入、数据库状态、持续监控",
+        "短期措施通用闭环逻辑：指标达标与业务健康度双重校验，结合持续监控或观察期确保问题不复发"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        1,
+        2
+      ],
+      "key_phrases": [
+        "持续监控",
+        "日志写入",
+        "验证步骤",
+        "阈值标准",
+        "磁盘使用率",
+        "CPU 使用率"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q011",
+        "q028"
+      ],
+      "why_multi_source": "单独文档A仅覆盖CPU指标的验证阈值与30分钟观察期要求，单独文档B仅覆盖磁盘清理后的业务与存储验证步骤。只有结合两者，才能完整回答故障处理短期措施阶段跨资源（CPU/磁盘）的验证标准、阈值差异及闭环执行规范，满足多源信息互补的需求。"
+    },
+    {
+      "id": "q074",
+      "question": "在CPU与磁盘告警的初期排查流程中，第一步调用的工具及其核心目的是什么？当流程进入第二步时，针对这两种不同告警类型，工具链的调用逻辑与查询侧重点发生了怎样的变化？",
+      "user_input": "在CPU与磁盘告警的初期排查流程中，第一步调用的工具及其核心目的是什么？当流程进入第二步时，针对这两种不同告警类型，工具链的调用逻辑与查询侧重点发生了怎样的变化？",
+      "question_type": "multi_source",
+      "difficulty": "hard",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "跨告警类型初期排查工具链的共性与差异化调用逻辑",
+      "dependency_node_ids": [
+        "9c85a164",
+        "7e05ee3e",
+        "4d83109e",
+        "4ba35476"
+      ],
+      "reference_context_ids": [
+        "9c85a164",
+        "7e05ee3e",
+        "4d83109e",
+        "4ba35476"
+      ],
+      "reference_contexts": [
+        "# CPU使用率过高告警处理方案",
+        "### 步骤1: 获取当前时间\n**工具**: `get_current_time`\n**目的**: 确定告警发生的时间范围，用于后续日志查询",
+        "### 步骤1: 获取当前时间\n**工具**: `get_current_time`\n**目的**: 记录告警时间，用于日志查询",
+        "### 步骤2: 查询系统磁盘使用情况\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-metrics`\n- **时间范围**: 最近30分钟\n- **查询条件**: `disk_usage:>80 OR disk_full:true`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: system-metrics\n时间范围: [当前时间-30分钟] 到 [当前时间]\n查询语句: disk_usage > 80 OR filesystem:full\n```"
+      ],
+      "reference": "第一步均使用 `get_current_time` 工具，核心目的是确定/记录告警发生的时间范围，为后续日志查询提供时间基准。进入第二步后，工具链根据告警类型发生分化：针对CPU告警（文档A），流程侧重于基于第一步获取的时间范围进行后续指标分析；而针对磁盘告警（文档B），第二步明确使用 `query_logs` 工具，并需严格配置地域（如ap-guangzhou）、日志主题（system-metrics）及精确的查询条件（如disk_usage>80 OR disk_full:true）。整体调用逻辑呈现出从“统一的时间基准获取”向“按告警类型定制的条件过滤查询”演进的特点。",
+      "answer_facts": [
+        "CPU与磁盘告警排查第一步均使用get_current_time工具",
+        "第一步的核心目的是确定/记录告警时间范围以用于后续日志查询",
+        "第二步工具链根据告警类型发生分化",
+        "磁盘告警第二步明确使用query_logs工具",
+        "磁盘告警查询需指定地域、日志主题及disk_usage>80等具体条件",
+        "初期排查逻辑从第一步的时间定位演进为第二步的特定指标条件过滤"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        1,
+        2
+      ],
+      "key_phrases": [
+        "query_logs",
+        "记录告警时间",
+        "日志查询",
+        "时间范围",
+        "查询系统磁盘",
+        "get_current_time"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q002",
+        "q014"
+      ],
+      "why_multi_source": "完整回答需要结合文档A提供的CPU告警第一步工具定义与场景背景，以及文档B提供的磁盘告警前两步完整工具链与参数细节。仅凭单一文档无法完成“第一步共性目的”与“第二步差异化逻辑”的对比分析，必须交叉引用两份文档的排查流程节点才能构建完整答案。"
+    },
+    {
+      "id": "q075",
+      "question": "在系统运维中，`HighCPUUsage`（CPU持续超80%）与 `ServiceUnavailable`（服务不可用）是两类关键告警。请分别说明它们的触发条件，并对比分析这两种故障状态对业务造成的直接影响及风险演进关系。",
+      "user_input": "在系统运维中，`HighCPUUsage`（CPU持续超80%）与 `ServiceUnavailable`（服务不可用）是两类关键告警。请分别说明它们的触发条件，并对比分析这两种故障状态对业务造成的直接影响及风险演进关系。",
+      "question_type": "multi_source",
+      "difficulty": "hard",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "关键系统告警的触发条件与业务影响对比分析",
+      "dependency_node_ids": [
+        "ab0bfa6a",
+        "825517d2",
+        "05382144",
+        "e130f82b"
+      ],
+      "reference_context_ids": [
+        "ab0bfa6a",
+        "825517d2",
+        "05382144",
+        "e130f82b"
+      ],
+      "reference_contexts": [
+        "## 问题描述\n当服务器或容器的CPU使用率持续超过80%时，可能导致：\n- 应用响应变慢\n- 请求超时增加\n- 系统负载过高\n- 可能触发雪崩效应",
+        "## 告警名称\n- **告警名**: `HighCPUUsage`\n- **告警级别**: 严重\n- **触发条件**: CPU使用率持续5分钟超过80%",
+        "## 告警名称\n- **告警名**: `ServiceUnavailable`\n- **告警级别**: 紧急\n- **触发条件**: 服务健康检查失败或错误率超过50%",
+        "## 问题描述\n服务不可用是最严重的故障，会导致：\n- 用户无法访问服务\n- 业务完全中断\n- 可能造成经济损失\n- 影响公司声誉"
+      ],
+      "reference": "**触发条件对比：**\n- `HighCPUUsage`（严重级别）：CPU使用率持续5分钟超过80%。\n- `ServiceUnavailable`（紧急级别）：服务健康检查失败或错误率超过50%。\n\n**业务影响与风险演进：**\n- CPU持续高负载（>80%）会直接导致应用响应变慢、请求超时增加及系统负载过高，若不干预可能触发雪崩效应，属于性能劣化阶段的预警。\n- 服务不可用是最严重的故障状态，会导致用户完全无法访问服务、业务全面中断，进而造成直接经济损失并严重损害公司声誉。\n- 两者存在明显的风险递进关系：CPU资源耗尽引发的性能劣化与雪崩风险，往往是导致服务健康检查失败或错误率突破50%的底层诱因，故障会从底层资源瓶颈逐步演变为上层业务完全中断。",
+      "answer_facts": [
+        "`HighCPUUsage`告警级别为严重，触发条件是CPU使用率持续5分钟超过80%。",
+        "CPU持续超80%会导致应用响应变慢、请求超时增加、系统负载过高，并可能触发雪崩效应。",
+        "`ServiceUnavailable`告警级别为紧急，触发条件是服务健康检查失败或错误率超过50%。",
+        "服务不可用会导致用户无法访问服务、业务完全中断、可能造成经济损失并影响公司声誉。",
+        "CPU高负载引发的性能劣化与雪崩风险是服务不可用故障的重要前兆与底层诱因。"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        1,
+        4
+      ],
+      "key_phrases": [
+        "ServiceUnavailable",
+        "请求超时",
+        "错误率阈值",
+        "响应变慢",
+        "业务中断",
+        "雪崩效应",
+        "告警触发"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q003",
+        "q034"
+      ],
+      "why_multi_source": "问题要求对比分析两类告警的触发条件与业务影响，并探讨其风险演进关系。文档1提供了CPU高负载告警的阈值设定及其对系统性能与稳定性的渐进式危害；文档4提供了服务不可用告警的判定标准及其对业务连续性与商业价值的毁灭性影响。只有结合两份文档，才能完整构建从“资源瓶颈预警”到“业务中断紧急状态”的故障全链路认知，单一文档无法覆盖对比分析与风险递进逻辑。"
+    },
+    {
+      "id": "q076",
+      "question": "在生产环境中，当应用层出现数据库相关异常时，如何根据“CPU高使用率伴随查询慢”与“数据库连接失败/池耗尽”这两类典型特征进行快速排查？针对这两种不同场景，分别应采取哪些底层优化与应用层恢复策略（例如连接重试机制主要适用于哪种故障）？",
+      "user_input": "在生产环境中，当应用层出现数据库相关异常时，如何根据“CPU高使用率伴随查询慢”与“数据库连接失败/池耗尽”这两类典型特征进行快速排查？针对这两种不同场景，分别应采取哪些底层优化与应用层恢复策略（例如连接重试机制主要适用于哪种故障）？",
+      "question_type": "multi_source",
+      "difficulty": "medium",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "数据库性能瓶颈与连接异常的排查特征及分级处理策略",
+      "dependency_node_ids": [
+        "e6ac0fe0",
+        "4a971013"
+      ],
+      "reference_context_ids": [
+        "e6ac0fe0",
+        "4a971013"
+      ],
+      "reference_contexts": [
+        "### 原因4: 数据库查询慢\n**特征**:\n- 应用CPU高，但实际业务逻辑简单\n- 日志中有慢查询记录\n- 数据库连接池占用高\n\n**处理方案**:\n1. 查询慢SQL日志\n2. 优化SQL语句或添加索引\n3. 检查是否有全表扫描\n4. 考虑增加缓存层",
+        "### 原因2: 数据库连接失败\n**特征**:\n- 日志中有数据库连接错误\n- \"Connection refused\" 或 \"Too many connections\"\n- 数据库服务异常\n- 连接池耗尽\n\n**处理方案**:\n1. **检查数据库状态**:\n   - 确认数据库服务是否运行\n   - 检查数据库连接数\n   - 查看数据库错误日志\n\n2. **恢复数据库连接**:\n   - 重启数据库（如果必要）\n   - 增加最大连接数\n   - 释放僵死连接\n   - 检查网络连通性\n\n3. **应用层处理**:\n   - 重启应用重建连接池\n   - 调整连接池配置\n   - 实现连接重试机制"
+      ],
+      "reference": "针对数据库相关异常，需根据日志与系统特征快速区分故障类型，并采取差异化处理策略：\n\n1. **场景一：CPU高使用率伴随查询慢（性能瓶颈）**\n   - **排查特征**：应用CPU占用高但实际业务逻辑简单；日志中明确记录慢查询；数据库连接池占用率偏高。\n   - **处理方案**：优先查询慢SQL日志定位瓶颈语句；优化SQL逻辑或添加合适索引；排查是否存在全表扫描；若读多写少，可考虑引入缓存层减轻数据库压力。\n\n2. **场景二：数据库连接失败/池耗尽（连接异常）**\n   - **排查特征**：日志中出现数据库连接错误；提示“Connection refused”或“Too many connections”；数据库服务状态异常；连接池资源耗尽。\n   - **处理方案**：\n     - **底层排查与恢复**：确认数据库服务是否正常运行，检查当前连接数与错误日志；必要时重启数据库、增加最大连接数、释放僵死连接或排查网络连通性。\n     - **应用层恢复**：重启应用以重建连接池，调整连接池参数配置。\n     - **连接重试机制适用场景**：该机制专门用于应对数据库连接失败、网络瞬断或连接池暂时耗尽等**瞬态故障**，通过自动重试恢复连接，不适用于SQL执行慢等性能类问题。\n\n**总结**：排查时应先通过CPU负载、日志报错类型及连接池状态区分是“查询慢”还是“连不上”。前者侧重SQL优化与架构调优（加索引/缓存），后者侧重服务状态恢复与连接池管理（重试/扩容/重启）。",
+      "answer_facts": [
+        "CPU高但业务逻辑简单、日志有慢查询、连接池占用高是数据库查询慢的典型特征。",
+        "查询慢的处理方案包括查询慢SQL日志、优化SQL或加索引、检查全表扫描、增加缓存层。",
+        "数据库连接失败的典型特征包括日志报错、Connection refused/Too many connections、服务异常及连接池耗尽。",
+        "连接失败的处理需先检查数据库状态（服务运行、连接数、错误日志）并恢复连接（重启、增加最大连接数、释放僵死连接、检查网络）。",
+        "应用层恢复措施包括重启应用重建连接池、调整连接池配置以及实现连接重试机制。",
+        "连接重试机制主要用于解决数据库连接失败或连接池耗尽等瞬态/网络类故障，而非查询慢的性能问题。"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        1,
+        4
+      ],
+      "key_phrases": [
+        "应用层处理",
+        "慢 SQL 日志",
+        "全表扫描",
+        "连接池配置",
+        "连接重试机制",
+        "数据库连接失败",
+        "缓存层"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q009",
+        "q038"
+      ],
+      "why_multi_source": "完整回答需要同时依赖文档A提供的“查询慢导致CPU高”的特征与优化方案，以及文档B提供的“连接失败”的特征、底层恢复步骤与应用层重试机制的适用场景。仅凭单一文档无法覆盖故障特征对比、处理策略区分以及重试机制的边界界定，必须融合两源信息才能形成完整的数据库异常排查与分级响应指南。"
+    },
+    {
+      "id": "q077",
+      "question": "在编写标准化故障排查SOP时，针对CPU过载、应用响应慢和数据库慢查询这三类常见告警，使用 query_logs 工具检索日志应分别指定什么主题？各场景的核心查询条件是如何组合的？",
+      "user_input": "在编写标准化故障排查SOP时，针对CPU过载、应用响应慢和数据库慢查询这三类常见告警，使用 query_logs 工具检索日志应分别指定什么主题？各场景的核心查询条件是如何组合的？",
+      "question_type": "multi_source",
+      "difficulty": "medium",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "多场景故障排查中的日志查询主题与条件配置策略",
+      "dependency_node_ids": [
+        "9385e0ac",
+        "f7969a4f",
+        "5c8e4cc9",
+        "e130f82b"
+      ],
+      "reference_context_ids": [
+        "9385e0ac",
+        "f7969a4f",
+        "5c8e4cc9",
+        "e130f82b"
+      ],
+      "reference_contexts": [
+        "## 告警名称\n- **告警名**: `HighCPUUsage`\n- **告警级别**: 严重\n- **触发条件**: CPU使用率持续5分钟超过80%",
+        "### 步骤2: 查询系统日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou` (广州)\n- **日志主题**: `system-metrics`\n- **时间范围**: 最近30分钟\n- **查询条件**: `level:ERROR OR cpu_usage:>80`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: system-metrics\n时间范围: 2024-01-20 14:00:00 到 2024-01-20 14:30:00\n查询语句: cpu_usage > 80 AND service_name:*\n```",
+        "### 步骤2: 查询应用性能日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **时间范围**: 最近30分钟\n- **查询条件**: `response_time:>3000 OR slow_query:true`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: application-logs\n时间范围: [当前时间-30分钟] 到 [当前时间]\n查询语句: response_time > 3000 AND level:WARN\n```",
+        "### 步骤3: 查询数据库慢查询日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `database-slow-query`\n- **时间范围**: 与告警时间一致\n- **查询条件**: `query_time:>1000`"
+      ],
+      "reference": "在故障排查流程中，针对不同告警场景使用 query_logs 工具时，日志主题与核心查询条件配置如下：\n1. **CPU过载告警**：日志主题为 `system-metrics`。核心查询条件需结合错误级别与阈值，配置为 `level:ERROR OR cpu_usage:>80`（示例中可细化为 `cpu_usage > 80 AND service_name:*`），以精准匹配CPU持续超80%的触发条件。\n2. **应用性能异常**：日志主题为 `application-logs`。核心查询条件聚焦响应耗时与慢查询标记，配置为 `response_time:>3000 OR slow_query:true`（示例中常结合日志级别过滤：`response_time > 3000 AND level:WARN`）。\n3. **数据库慢查询**：日志主题为 `database-slow-query`。核心查询条件直接针对查询耗时，配置为 `query_time:>1000`。\n所有查询均统一使用 `ap-guangzhou` 地域，时间范围通常设定为告警触发前后30分钟。",
+      "answer_facts": [
+        "CPU告警场景日志主题为 system-metrics",
+        "CPU告警场景核心查询条件为 level:ERROR OR cpu_usage:>80",
+        "应用性能场景日志主题为 application-logs",
+        "应用性能场景核心查询条件为 response_time:>3000 OR slow_query:true",
+        "数据库慢查询场景日志主题为 database-slow-query",
+        "数据库慢查询场景核心查询条件为 query_time:>1000",
+        "所有场景查询工具均为 query_logs，地域统一为 ap-guangzhou，时间范围通常为最近30分钟"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        1,
+        5
+      ],
+      "key_phrases": [
+        "查询条件",
+        "database-slow-query",
+        "level:ERROR",
+        "cpu_usage",
+        "application-logs"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q001",
+        "q052"
+      ],
+      "why_multi_source": "问题要求横向对比CPU、应用和数据库三类场景的日志查询配置。文档1仅提供了CPU告警场景的日志主题与条件，文档5仅提供了应用性能和数据库慢查询场景的配置。单一文档无法覆盖问题所需的完整场景矩阵，必须交叉整合两份文档的参数说明，才能形成标准化的多场景日志检索配置指南。"
+    },
+    {
+      "id": "q078",
+      "question": "在排查系统性能下降问题时，如何从宏观层面快速识别四大核心根因及其典型特征？当监控显示CPU占用率异常升高时，又该如何结合微观表现区分是代码死循环还是流量突增，从而制定精准的排查与处理策略？",
+      "user_input": "在排查系统性能下降问题时，如何从宏观层面快速识别四大核心根因及其典型特征？当监控显示CPU占用率异常升高时，又该如何结合微观表现区分是代码死循环还是流量突增，从而制定精准的排查与处理策略？",
+      "question_type": "multi_source",
+      "difficulty": "hard",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "系统性能下降的宏观根因分类与CPU异常微观特征对比排查指南",
+      "dependency_node_ids": [
+        "1b404172",
+        "6830f8b8",
+        "7d458c09",
+        "26998992",
+        "961729f2",
+        "6daa393b"
+      ],
+      "reference_context_ids": [
+        "1b404172",
+        "6830f8b8",
+        "7d458c09",
+        "26998992",
+        "961729f2",
+        "6daa393b"
+      ],
+      "reference_contexts": [
+        "### 原因1: 死循环或无限递归\n**特征**:\n- 单个进程CPU占用接近100%\n- 应用日志中有大量重复的错误堆栈\n- 内存使用也可能同步增长\n\n**处理方案**:\n1. 立即重启受影响的服务实例\n2. 查看应用日志定位代码问题\n3. 回滚到上一个稳定版本\n4. 通知开发团队修复代码bug",
+        "### 原因2: 流量突增\n**特征**:\n- 多个进程CPU使用率均匀升高\n- 请求量明显增加\n- 响应时间变长但无明显错误\n\n**处理方案**:\n1. 检查是否有营销活动或突发流量\n2. 启动自动扩容机制\n3. 如果是恶意流量，启用限流策略\n4. 监控扩容后的CPU使用率",
+        "### 原因1: 数据库慢查询\n**特征**:\n- 慢查询日志中有大量记录\n- 数据库CPU使用率高\n- 特定SQL执行时间长\n- 数据库连接池接近满载\n\n**处理方案**:\n1. **立即优化**: \n   - 找出最慢的SQL语句\n   - 检查是否缺少索引\n   - 查看执行计划（EXPLAIN）\n   - 临时添加索引或优化SQL\n\n2. **短期措施**:\n   - 增加数据库连接池大小\n   - 启用查询缓存\n   - 考虑读写分离\n\n3. **长期优化**:\n   - 定期分析慢查询日志\n   - 优化数据库表结构\n   - 建立合适的索引策略\n   - 考虑分库分表",
+        "### 原因2: 外部API调用超时\n**特征**:\n- 日志中有第三方API调用记录\n- 特定接口响应时间长\n- 可能有网络超时错误\n- 下游服务响应慢\n\n**处理方案**:\n1. **设置合理超时**:\n   - 调整HTTP客户端超时时间\n   - 避免无限等待\n   - 设置连接超时和读取超时\n\n2. **实施降级策略**:\n   - 启用熔断机制\n   - 返回默认值或缓存数据\n   - 异步处理非关键调用\n\n3. **优化调用方式**:\n   - 并行调用多个API\n   - 使用批量接口减少调用次数\n   - 增加本地缓存",
+        "### 原因3: 代码性能问题\n**特征**:\n- CPU使用率高\n- 特定代码路径执行慢\n- 日志中有性能警告\n- 无明显外部依赖问题\n\n**处理方案**:\n1. **性能分析**:\n   - 使用APM工具定位慢方法\n   - 查看火焰图找出热点\n   - 分析代码执行路径\n\n2. **代码优化**:\n   - 优化循环和递归\n   - 减少不必要的对象创建\n   - 使用更高效的数据结构\n   - 避免重复计算\n\n3. **异步处理**:\n   - 非关键逻辑异步执行\n   - 使用消息队列解耦\n   - 实现异步响应",
+        "### 原因4: 缓存失效或缓存穿透\n**特征**:\n- 缓存命中率突然下降\n- 数据库查询量激增\n- 特定时间点响应变慢\n- 日志中有缓存miss记录\n\n**处理方案**:\n1. **缓存预热**:\n   - 重启后立即预热热点数据\n   - 定时刷新缓存\n   - 避免缓存同时失效\n\n2. **防止缓存穿透**:\n   - 对空值也进行缓存\n   - 使用布隆过滤器\n   - 参数校验防止恶意查询\n\n3. **优化缓存策略**:\n   - 设置合理的过期时间\n   - 使用多级缓存\n   - 实现缓存更新机制"
+      ],
+      "reference": "排查系统性能下降需遵循“宏观分类定位→微观特征比对”的RCA路径：\n\n**一、 宏观层面：四大核心根因及特征识别**\n1. **数据库慢查询**：慢查询日志大量记录、数据库CPU使用率高、特定SQL执行时间长、连接池接近满载。\n2. **外部API调用超时**：日志含第三方调用记录、特定接口响应时间长、可能有网络超时错误、下游服务响应慢。\n3. **代码性能问题**：CPU使用率高、特定代码路径执行慢、日志有性能警告、无明显外部依赖问题。\n4. **缓存失效或缓存穿透**：缓存命中率骤降、数据库查询量激增、特定时间点响应变慢、日志有缓存miss记录。\n\n**二、 微观层面：CPU占用异常的精准区分**\n当宏观排查指向负载或代码异常，且CPU成为核心指标时，需对比以下微观特征：\n- **死循环/无限递归**：表现为**单个进程**CPU占用逼近100%，应用日志伴随大量重复错误堆栈，内存可能同步增长。\n- **流量突增**：表现为**多个进程**CPU使用率均匀升高，伴随请求量明显增加与响应时间变长，但通常无明显报错。\n\n**三、 综合处理策略**\n- 若确认为**死循环**：立即重启实例止血，查日志定位代码，回滚稳定版本并通知开发修复。\n- 若确认为**流量突增**：核查营销活动/突发流量，启动自动扩容；若为恶意流量则启用限流，并持续监控扩容后指标。\n- 若属其他宏观根因（如DB慢查询、API超时、缓存失效），则分别采取SQL优化/索引调整、设置超时与熔断降级、缓存预热与防穿透策略。\n\n通过宏观定类与微观比对的结合，可避免误判，实现从现象到根因的快速闭环。",
+      "answer_facts": [
+        "系统性能下降四大核心原因包括：数据库慢查询、外部API调用超时、代码性能问题、缓存失效或缓存穿透。",
+        "数据库慢查询特征：慢查询日志大量记录、DB CPU高、特定SQL执行时间长、连接池接近满载。",
+        "外部API超时特征：日志有第三方调用记录、特定接口响应长、可能有网络超时错误、下游服务响应慢。",
+        "代码性能问题特征：CPU使用率高、特定代码路径执行慢、日志有性能警告、无明显外部依赖问题。",
+        "缓存失效/穿透特征：缓存命中率骤降、DB查询量激增、特定时间点响应变慢、日志有缓存miss记录。",
+        "死循环/无限递归的CPU特征：单个进程CPU占用接近100%，日志有大量重复错误堆栈，内存可能同步增长。",
+        "流量突增的CPU特征：多个进程CPU使用率均匀升高，请求量明显增加，响应时间变长但无明显错误。",
+        "死循环处理方案：立即重启实例、查日志定位代码、回滚稳定版本、通知开发修复。",
+        "流量突增处理方案：检查营销活动/突发流量、启动自动扩容、恶意流量启用限流、监控扩容后CPU。",
+        "宏观分类与微观CPU特征比对结合，可实现从现象到根因的精准RCA排查。"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        1,
+        5
+      ],
+      "key_phrases": [
+        "CPU 占用",
+        "死循环",
+        "进程",
+        "流量突增",
+        "代码性能问题",
+        "缓存失效",
+        "API调用超时",
+        "数据库慢查询"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q004",
+        "q054"
+      ],
+      "why_multi_source": "问题要求同时提供系统性能下降的宏观根因分类框架（依赖文档5的四大原因及特征）以及CPU占用异常时的微观特征对比与处置策略（依赖文档1的死循环与流量突增）。仅凭单一文档无法同时覆盖“宏观定类”与“微观CPU特征区分”两个维度的完整排查逻辑，必须交叉融合两份文档的结构化知识才能形成闭环的根因分析（RCA）指南。"
+    },
+    {
+      "id": "q079",
+      "question": "当系统监控到磁盘只读（DiskReadOnly）告警时，应优先对接哪个团队进行初期处置？若该故障在处置过程中长时间未恢复，应遵循怎样的逐级上报机制与时间阈值？",
+      "user_input": "当系统监控到磁盘只读（DiskReadOnly）告警时，应优先对接哪个团队进行初期处置？若该故障在处置过程中长时间未恢复，应遵循怎样的逐级上报机制与时间阈值？",
+      "question_type": "multi_source",
+      "difficulty": "medium",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "磁盘只读告警的初期对接团队与超时升级上报机制",
+      "dependency_node_ids": [
+        "ee66cf8f",
+        "821a1c6c",
+        "6143d0d5"
+      ],
+      "reference_context_ids": [
+        "ee66cf8f",
+        "821a1c6c",
+        "6143d0d5"
+      ],
+      "reference_contexts": [
+        "## 相关告警\n- `InodeFull`: inode耗尽\n- `DiskIOHigh`: 磁盘IO过高\n- `DiskReadOnly`: 磁盘只读\n- `FileSystemError`: 文件系统错误",
+        "## 联系方式\n- **运维团队**: ops-team@company.com\n- **存储团队**: storage-team@company.com\n- **紧急电话**: 400-xxx-xxxx",
+        "## 升级机制\n- **15分钟未恢复**: 升级到技术总监\n- **30分钟未恢复**: 升级到CTO\n- **1小时未恢复**: 启动最高级别应急响应"
+      ],
+      "reference": "监控到DiskReadOnly告警时，应优先联系存储团队（storage-team@company.com）或运维团队（ops-team@company.com）进行初期排查与处置，紧急情况下可拨打400-xxx-xxxx。若该故障在规定时间内未能恢复，需严格遵循升级上报机制：15分钟未恢复升级至技术总监，30分钟未恢复升级至CTO，1小时未恢复则启动最高级别应急响应。",
+      "answer_facts": [
+        "DiskReadOnly告警初期应优先联系存储团队或运维团队",
+        "紧急联系方式为400-xxx-xxxx",
+        "故障15分钟未恢复需升级到技术总监",
+        "故障30分钟未恢复需升级到CTO",
+        "故障1小时未恢复需启动最高级别应急响应"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        2,
+        4
+      ],
+      "key_phrases": [
+        "DiskReadOnly",
+        "技术总监",
+        "升级机制",
+        "存储团队",
+        "应急响应",
+        "磁盘只读",
+        "CTO"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q031",
+        "q049"
+      ],
+      "why_multi_source": "问题同时考察特定告警的“首响对接”与“超时升级”两个环节。仅凭文档2只能回答初期联系谁，无法提供后续升级路径；仅凭文档4只能回答通用升级阈值，缺乏针对DiskReadOnly告警的具体首接团队信息。必须结合两份文档，才能完整还原从告警触发、初期处置到超时升级的完整应急响应链路。"
+    },
+    {
+      "id": "q080",
+      "question": "监控平台同时上报了“服务不可用”和“接口慢响应”两类告警。请分别给出针对这两种典型故障场景的标准排查SOP，明确每一步的操作目的、使用的工具以及具体的日志/指标查询参数（如时间范围、查询条件等），以便运维团队快速定位根因。",
+      "user_input": "监控平台同时上报了“服务不可用”和“接口慢响应”两类告警。请分别给出针对这两种典型故障场景的标准排查SOP，明确每一步的操作目的、使用的工具以及具体的日志/指标查询参数（如时间范围、查询条件等），以便运维团队快速定位根因。",
+      "question_type": "multi_source",
+      "difficulty": "hard",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "典型故障场景的标准排查流程与工具链对比",
+      "dependency_node_ids": [
+        "8909afe0",
+        "68c0454a",
+        "3b3ac074",
+        "9385e0ac",
+        "daaf1dcf",
+        "daf70b3c",
+        "5c8e4cc9"
+      ],
+      "reference_context_ids": [
+        "8909afe0",
+        "68c0454a",
+        "3b3ac074",
+        "9385e0ac",
+        "daaf1dcf",
+        "daf70b3c",
+        "5c8e4cc9"
+      ],
+      "reference_contexts": [
+        "### 步骤1: 获取当前时间\n**工具**: `get_current_time`\n**目的**: 记录故障发生时间，用于后续分析",
+        "### 步骤2: 查询服务状态日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **时间范围**: 最近15分钟\n- **查询条件**: `level:ERROR OR level:FATAL OR status:500`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: application-logs\n时间范围: [当前时间-15分钟] 到 [当前时间]\n查询语句: (level:ERROR OR level:FATAL) AND service_name:*\n```",
+        "### 步骤3: 查询系统事件日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-events`\n- **查询条件**: `event:restart OR event:crash OR event:oom_kill`",
+        "### 步骤1: 获取当前时间\n**工具**: `get_current_time`\n**目的**: 确定告警发生的准确时间",
+        "### 步骤2: 查询应用性能日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **时间范围**: 最近30分钟\n- **查询条件**: `response_time:>3000 OR slow_query:true`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: application-logs\n时间范围: [当前时间-30分钟] 到 [当前时间]\n查询语句: response_time > 3000 AND level:WARN\n```",
+        "### 步骤3: 查询数据库慢查询日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `database-slow-query`\n- **时间范围**: 与告警时间一致\n- **查询条件**: `query_time:>1000`",
+        "### 步骤4: 查询系统资源使用情况\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-metrics`\n- **查询条件**: `cpu_usage OR memory_usage OR disk_io`"
+      ],
+      "reference": "针对两类典型告警，标准排查SOP如下：\n\n**场景一：服务不可用**\n1. **获取当前时间**：调用 `get_current_time`，目的是记录故障发生时间，用于后续分析。\n2. **查询应用状态日志**：调用 `query_logs`，地域 `ap-guangzhou`，日志主题 `application-logs`，时间范围最近15分钟，查询条件 `level:ERROR OR level:FATAL OR status:500`，用于定位应用层报错。\n3. **查询系统事件日志**：调用 `query_logs`，地域 `ap-guangzhou`，日志主题 `system-events`，查询条件 `event:restart OR event:crash OR event:oom_kill`，用于排查底层系统级异常。\n\n**场景二：慢响应告警**\n1. **获取当前时间**：调用 `get_current_time`，目的是确定告警发生的准确时间。\n2. **查询应用性能日志**：调用 `query_logs`，地域 `ap-guangzhou`，日志主题 `application-logs`，时间范围最近30分钟，查询条件 `response_time:>3000 OR slow_query:true`，用于定位应用层性能瓶颈。\n3. **查询数据库慢查询日志**：调用 `query_logs`，地域 `ap-guangzhou`，日志主题 `database-slow-query`，时间范围与告警时间一致，查询条件 `query_time:>1000`，用于排查数据库层延迟。\n4. **查询系统资源使用情况**：调用 `query_logs`，地域 `ap-guangzhou`，日志主题 `system-metrics`，查询条件 `cpu_usage OR memory_usage OR disk_io`，用于排查基础设施资源瓶颈。",
+      "answer_facts": [
+        "服务不可用排查第一步需调用get_current_time获取当前时间以记录故障发生时刻。",
+        "服务不可用排查第二步需调用query_logs查询应用日志，地域为ap-guangzhou，主题为application-logs，时间范围为最近15分钟，查询条件为level:ERROR OR level:FATAL OR status:500。",
+        "服务不可用排查第三步需调用query_logs查询系统事件日志，地域为ap-guangzhou，主题为system-events，查询条件为event:restart OR event:crash OR event:oom_kill。",
+        "慢响应排查第一步需调用get_current_time获取当前时间以确定告警准确时间。",
+        "慢响应排查第二步需调用query_logs查询应用性能日志，地域为ap-guangzhou，主题为application-logs，时间范围为最近30分钟，查询条件为response_time:>3000 OR slow_query:true。",
+        "慢响应排查第三步需调用query_logs查询数据库慢查询日志，地域为ap-guangzhou，主题为database-slow-query，时间范围与告警时间一致，查询条件为query_time:>1000。",
+        "慢响应排查第四步需调用query_logs查询系统资源使用情况，地域为ap-guangzhou，主题为system-metrics，查询条件为cpu_usage OR memory_usage OR disk_io。"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        4,
+        5
+      ],
+      "key_phrases": [
+        "日志查询",
+        "告警响应",
+        "故障分析",
+        "排查步骤",
+        "get_current_time"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q036",
+        "q053"
+      ],
+      "why_multi_source": "问题明确要求同时提供“服务不可用”和“慢响应”两种不同故障场景的完整排查SOP。文档4仅包含服务不可用的排查步骤与参数，文档5仅包含慢响应的排查步骤与参数。只有交叉融合两份文档的信息，才能构建出覆盖两类典型告警的完整对比矩阵，缺失任一文档都会导致SOP不完整，因此必须依赖多源信息。"
+    },
+    {
+      "id": "q081",
+      "question": "面对系统资源瓶颈或依赖故障时，降级策略的触发边界是什么？在5分钟应急决策与15分钟服务恢复的不同阶段，应如何分场景、分步骤地落地执行该策略？",
+      "user_input": "面对系统资源瓶颈或依赖故障时，降级策略的触发边界是什么？在5分钟应急决策与15分钟服务恢复的不同阶段，应如何分场景、分步骤地落地执行该策略？",
+      "question_type": "multi_source",
+      "difficulty": "hard",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "降级策略的触发场景与分阶段执行路径",
+      "dependency_node_ids": [
+        "00696662",
+        "9c96dcd9",
+        "19b7eb81",
+        "d0017b3f"
+      ],
+      "reference_context_ids": [
+        "00696662",
+        "9c96dcd9",
+        "19b7eb81",
+        "d0017b3f"
+      ],
+      "reference_contexts": [
+        "### 5分钟内\n1. **快速定位**: 查看日志和监控，快速定位问题原因\n2. **决策处理**: \n   - 如果能快速修复，立即修复\n   - 如果无法快速修复，执行回滚\n   - 如果是依赖故障，启用降级",
+        "### 15分钟内\n1. **恢复服务**: 通过回滚、修复或降级恢复服务\n2. **验证功能**: 确认核心功能可用\n3. **监控观察**: 持续监控服务状态",
+        "### 原因5: 系统资源不足\n**特征**:\n- CPU或内存使用率高\n- 磁盘IO繁忙\n- 网络带宽占用高\n- 系统负载过高\n\n**处理方案**:\n1. **资源扩容**:\n   - 增加实例数量（水平扩展）\n   - 升级实例规格（垂直扩展）\n   - 优化资源分配\n\n2. **负载均衡**:\n   - 检查负载均衡配置\n   - 确保流量均匀分布\n   - 移除异常实例\n\n3. **限流降级**:\n   - 启用限流保护\n   - 降级非核心功能\n   - 优先保证核心业务",
+        "### 立即操作（5分钟内）\n1. **扩容**: 如果是资源不足，立即增加实例\n2. **限流**: 保护系统不被压垮\n3. **降级**: 关闭非核心功能\n4. **重启**: 如果是内存泄漏等问题，重启受影响实例"
+      ],
+      "reference": "降级策略的落地需结合故障类型与处理阶段进行动态决策：\n\n1. **触发边界与适用场景**：主要应用于系统资源不足（CPU/内存使用率高、磁盘IO/网络带宽繁忙、系统负载过高）或关键依赖故障等异常场景。核心原则是“保核心、弃非核心”，通过限制或关闭非核心功能，防止系统雪崩。\n\n2. **5分钟应急决策阶段（快速止血）**：\n   - 针对资源瓶颈：立即启用限流保护，同步降级非核心功能，优先保障核心业务流量。\n   - 针对依赖故障：快速定位后若无法立即修复，直接启用降级策略，切断故障传播链。\n   - 此阶段以“快速决策与止损”为主，不追求功能完整，只求系统不崩溃。\n\n3. **15分钟恢复验证阶段（服务重建）**：\n   - 在降级措施生效后，通过降级（或配合回滚/修复）正式恢复服务可用性。\n   - 重点验证核心功能是否正常运行，并持续监控服务状态与资源水位。\n   - 确认降级未引发次生问题且系统稳定后，再按预案逐步恢复非核心功能。\n\n综上，降级策略在5分钟侧重“场景识别与快速触发”，在15分钟侧重“核心验证与状态监控”，两者结合形成完整的故障应对闭环。",
+      "answer_facts": [
+        "降级策略主要适用于系统资源不足（CPU/内存高、磁盘IO/网络繁忙、负载过高）及依赖故障等场景。",
+        "降级核心原则是关闭或限制非核心功能，优先保障核心业务可用性。",
+        "5分钟决策阶段：针对资源瓶颈需立即限流并降级非核心功能；针对依赖故障若无法快速修复则启用降级。",
+        "15分钟恢复阶段：通过降级（或回滚/修复）恢复服务，重点验证核心功能是否可用。",
+        "15分钟阶段需持续监控服务状态，确保降级期间系统稳定且无次生问题。",
+        "降级策略在5分钟侧重快速止损与决策，在15分钟侧重服务恢复与核心验证，形成故障处理闭环。"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        4,
+        5
+      ],
+      "key_phrases": [
+        "系统负载",
+        "降级策略",
+        "服务恢复",
+        "核心业务保护",
+        "依赖故障",
+        "资源不足",
+        "限流降级"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q044",
+        "q059"
+      ],
+      "why_multi_source": "文档5明确了降级的触发条件（资源瓶颈特征）与5分钟立即操作原则（限流+降级非核心），但缺失后续恢复阶段的规范；文档4提供了故障处理的时间轴框架（5分钟决策 vs 15分钟恢复）及依赖故障下的降级落地路径，但未说明降级的具体触发场景与资源水位判断标准。只有融合两者，才能完整回答“何时触发（场景）”、“5分钟怎么决策（应急）”以及“15分钟怎么恢复（验证）”的完整执行链路，单一文档存在明显的信息断层。"
+    },
+    {
+      "id": "q082",
+      "question": "当系统触发HighErrorRate告警时，该告警具体对应哪些底层监控指标？此时应优先对接哪个团队介入排查？在故障处理完毕后，验证服务已完全恢复的具体错误率阈值标准是多少？",
+      "user_input": "当系统触发HighErrorRate告警时，该告警具体对应哪些底层监控指标？此时应优先对接哪个团队介入排查？在故障处理完毕后，验证服务已完全恢复的具体错误率阈值标准是多少？",
+      "question_type": "multi_source",
+      "difficulty": "medium",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "HighErrorRate告警的指标映射、响应协同与恢复验证标准",
+      "dependency_node_ids": [
+        "2376028b",
+        "5a5d19e9",
+        "a4ab44d1",
+        "c6ee6aa5",
+        "22bd98fb"
+      ],
+      "reference_context_ids": [
+        "2376028b",
+        "5a5d19e9",
+        "a4ab44d1",
+        "c6ee6aa5",
+        "22bd98fb"
+      ],
+      "reference_contexts": [
+        "## 相关告警\n- `HighErrorRate`: 错误率过高\n- `HealthCheckFailed`: 健康检查失败\n- `AllInstancesDown`: 所有实例下线\n- `DatabaseConnectionFailed`: 数据库连接失败",
+        "## 验证步骤\n1. **健康检查**: 确认所有实例健康检查通过\n2. **功能测试**: 测试核心业务功能\n3. **性能验证**: 确认响应时间和吞吐量正常\n4. **错误率**: 确认错误率降到正常水平（<1%）\n5. **持续监控**: 观察30分钟确保稳定",
+        "## 相关监控指标\n- **响应时间**: P50, P90, P99, P999\n- **吞吐量**: QPS, TPS\n- **错误率**: 4xx, 5xx错误比例\n- **资源使用**: CPU, 内存, 网络, 磁盘IO\n- **数据库**: 慢查询数量, 连接池使用率\n- **缓存**: 命中率, 失效率",
+        "## 相关告警\n- `HighCPUUsage`: CPU使用率过高\n- `HighMemoryUsage`: 内存使用率过高\n- `DatabaseSlowQuery`: 数据库慢查询\n- `HighErrorRate`: 错误率过高\n- `ServiceTimeout`: 服务超时",
+        "## 联系方式\n- **运维团队**: ops-team@company.com\n- **开发团队**: dev-team@company.com\n- **DBA团队**: dba-team@company.com\n- **紧急电话**: 400-xxx-xxxx"
+      ],
+      "reference": "当触发HighErrorRate告警时，该告警具体对应监控指标中的错误率数据，主要体现为4xx和5xx错误比例。此时应优先联系开发团队（dev-team@company.com）或运维团队（ops-team@company.com）介入排查。在故障处理完毕后，验证服务已完全恢复的具体错误率阈值标准为<1%，同时需结合健康检查、功能测试、性能验证及持续监控30分钟等步骤综合确认服务稳定。",
+      "answer_facts": [
+        "HighErrorRate告警对应监控指标中的错误率数据，具体为4xx和5xx错误比例",
+        "触发该告警时应优先联系开发团队或运维团队进行排查",
+        "验证恢复时的错误率阈值标准为<1%",
+        "恢复验证需结合健康检查、功能测试、性能验证及持续监控30分钟等步骤"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        4,
+        5
+      ],
+      "key_phrases": [
+        "错误率",
+        "HighErrorRate",
+        "验证阈值",
+        "开发团队",
+        "4xx/5xx"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q046",
+        "q063"
+      ],
+      "why_multi_source": "文档A仅提供了告警恢复验证的错误率阈值（<1%）及验证步骤，缺失告警对应的具体底层指标和首联排查团队；文档B仅提供了告警对应的监控指标（4xx/5xx比例）和团队联系方式，缺失恢复验证的具体阈值标准。必须同时结合两份文档，才能完整覆盖该告警从“指标定位”到“责任分工”再到“恢复验证”的全链路处置要求。"
+    },
+    {
+      "id": "q083",
+      "question": "在使用 `query_logs` 工具进行故障排查时，应用日志与系统事件日志的查询主题及基础过滤条件应如何配置？若排查重点转向应用内存异常，应用日志的查询条件需如何调整，且在分析阶段应重点提取哪些核心指标？",
+      "user_input": "在使用 `query_logs` 工具进行故障排查时，应用日志与系统事件日志的查询主题及基础过滤条件应如何配置？若排查重点转向应用内存异常，应用日志的查询条件需如何调整，且在分析阶段应重点提取哪些核心指标？",
+      "question_type": "multi_source",
+      "difficulty": "medium",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "日志查询工具的配置规范与内存异常分析指标",
+      "dependency_node_ids": [
+        "8909afe0",
+        "68c0454a",
+        "6acdae6c",
+        "f5503f5b"
+      ],
+      "reference_context_ids": [
+        "8909afe0",
+        "68c0454a",
+        "6acdae6c",
+        "f5503f5b"
+      ],
+      "reference_contexts": [
+        "### 步骤2: 查询服务状态日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **时间范围**: 最近15分钟\n- **查询条件**: `level:ERROR OR level:FATAL OR status:500`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: application-logs\n时间范围: [当前时间-15分钟] 到 [当前时间]\n查询语句: (level:ERROR OR level:FATAL) AND service_name:*\n```",
+        "### 步骤3: 查询系统事件日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-events`\n- **查询条件**: `event:restart OR event:crash OR event:oom_kill`",
+        "### 步骤3: 查询应用日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **查询条件**: `OutOfMemoryError OR GC overhead`",
+        "### 步骤4: 分析内存使用情况\n从日志中提取：\n- JVM堆内存使用情况\n- GC频率和耗时\n- 是否有内存泄漏迹象\n- 大对象分配记录"
+      ],
+      "reference": "在使用 `query_logs` 进行常规故障排查时，应用日志的查询主题为 `application-logs`，基础过滤条件配置为 `level:ERROR OR level:FATAL OR status:500`；系统事件日志的查询主题为 `system-events`，过滤条件配置为 `event:restart OR event:crash OR event:oom_kill`。若排查重点转向应用内存异常，应用日志的查询条件需调整为 `OutOfMemoryError OR GC overhead`。在分析阶段，需从日志中提取的核心指标包括：JVM堆内存使用情况、GC频率和耗时、是否有内存泄漏迹象，以及大对象分配记录。",
+      "answer_facts": [
+        "应用日志查询主题为 application-logs",
+        "应用日志基础过滤条件为 level:ERROR OR level:FATAL OR status:500",
+        "系统事件日志查询主题为 system-events",
+        "系统事件日志过滤条件为 event:restart OR event:crash OR event:oom_kill",
+        "排查内存异常时应用日志查询条件调整为 OutOfMemoryError OR GC overhead",
+        "内存分析需提取的核心指标包括JVM堆内存使用情况",
+        "内存分析需提取的核心指标包括GC频率和耗时",
+        "内存分析需提取的核心指标包括是否有内存泄漏迹象",
+        "内存分析需提取的核心指标包括大对象分配记录"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        4,
+        6
+      ],
+      "key_phrases": [
+        "查询条件",
+        "system-events",
+        "日志过滤条件",
+        "query_logs",
+        "GC频率",
+        "JVM堆内存",
+        "application-logs"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q035",
+        "q070"
+      ],
+      "why_multi_source": "问题A提供了应用日志与系统日志的主题划分及基础过滤条件，但缺乏针对特定故障（如内存问题）的深入查询配置与分析方法；问题B补充了内存异常场景下的专用查询条件及后续分析需提取的核心指标。只有结合两者，才能完整回答从“常规日志查询配置”到“特定故障深度分析”的全流程要求。"
+    },
+    {
+      "id": "q084",
+      "question": "在处理线上系统故障时，若需快速遵循标准应急流程，同时针对可能涉及的JVM内存异常进行专项排查，我应该分别查阅哪些内部参考文档？请提供应急响应流程的完整存储路径，并说明JVM内存最佳实践文档主要适用于解决哪类系统问题。",
+      "user_input": "在处理线上系统故障时，若需快速遵循标准应急流程，同时针对可能涉及的JVM内存异常进行专项排查，我应该分别查阅哪些内部参考文档？请提供应急响应流程的完整存储路径，并说明JVM内存最佳实践文档主要适用于解决哪类系统问题。",
+      "question_type": "multi_source",
+      "difficulty": "medium",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "内部参考文档的路径定位与场景化用途说明",
+      "dependency_node_ids": [
+        "7850c377",
+        "05661a93"
+      ],
+      "reference_context_ids": [
+        "7850c377",
+        "05661a93"
+      ],
+      "reference_contexts": [
+        "## 参考文档\n- [应急响应流程](internal-docs/emergency-response.md)\n- [故障处理手册](internal-docs/incident-handbook.md)\n- [高可用架构设计](internal-docs/ha-architecture.md)",
+        "## 参考文档\n- [JVM内存管理最佳实践](internal-docs/jvm-memory-best-practices.md)\n- [内存泄漏排查指南](internal-docs/memory-leak-troubleshooting.md)"
+      ],
+      "reference": "应急响应流程的完整存储路径为 internal-docs/emergency-response.md；JVM内存管理最佳实践文档（internal-docs/jvm-memory-best-practices.md）主要指导解决JVM内存管理、调优及相关的内存异常问题。",
+      "answer_facts": [
+        "应急响应流程文档的完整路径是 internal-docs/emergency-response.md",
+        "JVM内存管理最佳实践文档主要指导解决JVM内存管理与调优相关的系统问题"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        4,
+        6
+      ],
+      "key_phrases": [
+        "internal-docs",
+        "应急响应流程",
+        "最佳实践",
+        "JVM内存管理",
+        "内部文档路径",
+        "参考文档"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q051",
+        "q081"
+      ],
+      "why_multi_source": "完整回答需要同时依赖两份文档的信息：文档4的节点提供了应急响应流程的精确文件路径，文档6的节点提供了JVM内存最佳实践文档的列表及标题语义以明确其适用场景。单一文档无法同时满足路径查询与用途说明的双重需求，必须进行跨文档检索与信息整合。"
+    },
+    {
+      "id": "q085",
+      "question": "故障修复后的验证阶段，是否仅确认单一核心指标（如P99响应时间或内存使用率）恢复正常就足够？针对性能瓶颈与内存异常两类故障，完整的恢复验收流程应如何设计，需要综合评估哪些关键维度？",
+      "user_input": "故障修复后的验证阶段，是否仅确认单一核心指标（如P99响应时间或内存使用率）恢复正常就足够？针对性能瓶颈与内存异常两类故障，完整的恢复验收流程应如何设计，需要综合评估哪些关键维度？",
+      "question_type": "multi_source",
+      "difficulty": "medium",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "故障修复后的多维度验证标准与完整验收流程",
+      "dependency_node_ids": [
+        "9383bf32",
+        "78ee916f"
+      ],
+      "reference_context_ids": [
+        "9383bf32",
+        "78ee916f"
+      ],
+      "reference_contexts": [
+        "## 验证步骤\n1. 确认P99响应时间降到正常水平（<1秒）\n2. 检查错误率是否下降\n3. 观察用户投诉是否减少\n4. 持续监控30分钟确保稳定",
+        "## 验证步骤\n1. 确认内存使用率降到正常水平（<70%）\n2. 观察GC频率和耗时是否正常\n3. 检查应用日志无OOM错误\n4. 持续监控30分钟确保稳定"
+      ],
+      "reference": "仅凭单一核心指标达标不足以确认故障完全恢复。完整的故障恢复验收必须采用多维度交叉验证，具体标准因故障类型而异：\n1. **性能类故障验证**：除确认P99响应时间降至正常水平（<1秒）外，还需检查错误率是否同步下降、观察用户投诉是否减少，并持续监控30分钟确保系统稳定。\n2. **内存类故障验证**：除确认内存使用率降至安全阈值（<70%）外，还需重点观察GC频率和耗时是否恢复正常、检查应用日志确认无OOM错误，同样需持续监控30分钟。\n综合来看，故障恢复验证不能“唯单一指标论”，必须结合业务影响（投诉/错误率）、系统底层状态（GC/日志）以及时间维度（30分钟持续监控）进行立体评估，才能确保隐患彻底清除。",
+      "answer_facts": [
+        "故障修复后仅确认单一核心指标达标不足以确认故障完全恢复",
+        "性能故障验证需确认P99响应时间降至正常水平（<1秒）",
+        "性能故障验证需检查错误率是否下降",
+        "性能故障验证需观察用户投诉是否减少",
+        "性能故障验证需持续监控30分钟确保稳定",
+        "内存故障验证需确认内存使用率降至正常水平（<70%）",
+        "内存故障验证需观察GC频率和耗时是否正常",
+        "内存故障验证需检查应用日志无OOM错误",
+        "内存故障验证需持续监控30分钟确保稳定"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        5,
+        6
+      ],
+      "key_phrases": [
+        "错误率",
+        "P99响应时间",
+        "验证步骤",
+        "持续观察",
+        "GC监控",
+        "持续监控30分钟",
+        "故障恢复",
+        "用户投诉"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q061",
+        "q075"
+      ],
+      "why_multi_source": "合并后的问题明确要求对比并整合“性能类”与“内存类”故障的完整验收流程。文档A仅提供了性能/响应时间维度的验证步骤，文档B仅提供了内存/GC/OOM维度的验证步骤。单一文档无法覆盖问题所要求的两类故障场景，必须同时依赖两个文档的信息才能构建出完整的多维度验证框架，因此属于典型的多源依赖问题。"
+    },
+    {
+      "id": "q086",
+      "question": "当线上缓存系统出现命中率骤降且数据库压力激增时，如何快速区分是缓存穿透还是配置不当导致的？针对穿透场景的空值请求，以及配置层面的内存占用与过期策略，应分别采取哪些防御与调优措施来保障系统稳定性？",
+      "user_input": "当线上缓存系统出现命中率骤降且数据库压力激增时，如何快速区分是缓存穿透还是配置不当导致的？针对穿透场景的空值请求，以及配置层面的内存占用与过期策略，应分别采取哪些防御与调优措施来保障系统稳定性？",
+      "question_type": "multi_source",
+      "difficulty": "hard",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "缓存系统故障诊断与综合调优策略（穿透防御与配置优化）",
+      "dependency_node_ids": [
+        "dd62ad81",
+        "6daa393b"
+      ],
+      "reference_context_ids": [
+        "dd62ad81",
+        "6daa393b"
+      ],
+      "reference_contexts": [
+        "### 原因4: 缓存失效或缓存穿透\n**特征**:\n- 缓存命中率突然下降\n- 数据库查询量激增\n- 特定时间点响应变慢\n- 日志中有缓存miss记录\n\n**处理方案**:\n1. **缓存预热**:\n   - 重启后立即预热热点数据\n   - 定时刷新缓存\n   - 避免缓存同时失效\n\n2. **防止缓存穿透**:\n   - 对空值也进行缓存\n   - 使用布隆过滤器\n   - 参数校验防止恶意查询\n\n3. **优化缓存策略**:\n   - 设置合理的过期时间\n   - 使用多级缓存\n   - 实现缓存更新机制",
+        "### 原因3: 缓存配置不当\n**特征**:\n- 缓存占用内存过大\n- 缓存命中率低\n- 缓存数据长时间不过期\n- 日志中有缓存相关警告\n\n**处理方案**:\n1. **调整缓存大小**: 减少缓存容量上限\n2. **优化过期策略**: 设置合理的TTL\n3. **启用LRU淘汰**: 确保缓存能自动淘汰旧数据\n4. **监控缓存指标**: 持续观察缓存命中率和内存占用"
+      ],
+      "reference": "首先通过日志与指标进行故障区分：若表现为命中率突然下降、数据库查询激增、特定时间点响应变慢且日志有大量cache miss，通常为缓存穿透；若表现为缓存占用内存过大、命中率低、数据长时间不过期且日志有缓存警告，通常为配置不当。\n\n针对穿透场景的空值请求，不应直接屏蔽所有空值，而应“对空值也进行缓存（配合较短TTL）”，同时结合布隆过滤器拦截不存在的key，并加强参数校验防止恶意查询。\n\n针对配置不当问题，需调整缓存容量上限，优化TTL设置避免数据长期不过期，启用LRU淘汰机制确保旧数据自动清理，并持续监控缓存命中率与内存占用指标。\n\n综合来看，应先通过特征定位根因，穿透场景侧重空值缓存+布隆过滤器+参数校验，配置场景侧重容量控制+TTL优化+LRU淘汰+监控告警，两者结合可构建完整的缓存防护与调优体系。",
+      "answer_facts": [
+        "缓存穿透特征包括命中率骤降、DB查询激增、响应变慢及cache miss日志",
+        "缓存配置不当特征包括内存占用过大、命中率低、数据长期不过期及缓存警告日志",
+        "应对缓存穿透不应直接屏蔽空值，而应对空值进行缓存并设置较短TTL",
+        "防止缓存穿透需结合布隆过滤器与严格的参数校验",
+        "缓存配置优化需调整容量上限、设置合理TTL、启用LRU淘汰机制",
+        "需持续监控缓存命中率与内存占用指标以保障系统稳定"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        5,
+        6
+      ],
+      "key_phrases": [
+        "缓存配置不当",
+        "空值缓存",
+        "布隆过滤器",
+        "缓存穿透",
+        "TTL策略",
+        "参数校验",
+        "LRU淘汰",
+        "调整大小"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q058",
+        "q071"
+      ],
+      "why_multi_source": "问题A侧重穿透场景下的空值处理与防御手段，问题B侧重配置不当的特征识别与基础调优参数。单独回答任一问题都无法覆盖“故障定位区分”与“完整调优体系”的要求。只有结合A的穿透防御策略（空值缓存/布隆过滤器/参数校验）和B的配置调优方案（容量/TTL/LRU/监控），才能完整回答如何区分故障根因并实施综合防护，符合多源依赖要求。"
+    },
+    {
+      "id": "q087",
+      "question": "近期系统频繁出现性能告警，涉及数据库慢查询和应用层内存泄漏。请梳理这两类专项性能问题的责任归属团队、对应的监控指标，以及推荐的排查指引或参考文档。",
+      "user_input": "近期系统频繁出现性能告警，涉及数据库慢查询和应用层内存泄漏。请梳理这两类专项性能问题的责任归属团队、对应的监控指标，以及推荐的排查指引或参考文档。",
+      "question_type": "multi_source",
+      "difficulty": "medium",
+      "hop_type": "multi_source",
+      "hop_count": 1,
+      "topic": "专项性能问题的责任归属与协同排查机制",
+      "dependency_node_ids": [
+        "998ab30f",
+        "7850c377",
+        "2376028b",
+        "a4ab44d1"
+      ],
+      "reference_context_ids": [
+        "998ab30f",
+        "7850c377",
+        "2376028b",
+        "a4ab44d1"
+      ],
+      "reference_contexts": [
+        "## 相关告警\n- `HighCPUUsage`: CPU使用率过高\n- `HighMemoryUsage`: 内存使用率过高\n- `DatabaseSlowQuery`: 数据库慢查询\n- `HighErrorRate`: 错误率过高\n- `ServiceTimeout`: 服务超时",
+        "## 联系方式\n- **运维团队**: ops-team@company.com\n- **开发团队**: dev-team@company.com\n- **DBA团队**: dba-team@company.com\n- **紧急电话**: 400-xxx-xxxx",
+        "## 联系方式\n- **运维团队**: ops-team@company.com\n- **开发团队**: dev-team@company.com\n- **紧急电话**: 400-xxx-xxxx",
+        "## 参考文档\n- [JVM内存管理最佳实践](internal-docs/jvm-memory-best-practices.md)\n- [内存泄漏排查指南](internal-docs/memory-leak-troubleshooting.md)"
+      ],
+      "reference": "针对数据库慢查询问题，对应监控指标为 DatabaseSlowQuery，主要责任团队为 DBA团队（dba-team@company.com），可同步协同运维与开发团队排查。针对应用层内存泄漏问题，主要对接运维团队（ops-team@company.com）与开发团队（dev-team@company.com），排查时可优先参考《JVM内存管理最佳实践》与《内存泄漏排查指南》。若问题紧急或跨团队协调受阻，均可直接拨打紧急电话 400-xxx-xxxx 进行升级处理。",
+      "answer_facts": [
+        "数据库慢查询对应监控指标为 DatabaseSlowQuery",
+        "数据库慢查询问题主要对接 DBA团队 (dba-team@company.com)",
+        "内存泄漏问题主要对接运维团队 (ops-team@company.com) 和开发团队 (dev-team@company.com)",
+        "内存泄漏排查可参考《JVM内存管理最佳实践》与《内存泄漏排查指南》",
+        "两类性能问题均可通过紧急电话 400-xxx-xxxx 进行升级联系"
+      ],
+      "kb_doc_id": null,
+      "kb_doc_ids": [
+        5,
+        6
+      ],
+      "key_phrases": [
+        "运维团队",
+        "DatabaseSlowQuery",
+        "排查指南",
+        "联系方式",
+        "数据库慢查询",
+        "告警对接",
+        "内存泄漏",
+        "DBA团队"
+      ],
+      "source": "synthesized",
+      "synthesized_from": [
+        "q065",
+        "q082"
+      ],
+      "why_multi_source": "完整回答必须同时依赖文档5提供的数据库慢查询告警类型与DBA团队联系方式，以及文档6提供的内存泄漏对接团队与专项排查参考文档。单一文档仅覆盖单一技术栈的性能问题处理路径，无法构建完整的跨层协同排查矩阵。"
+    }
+  ],
+  "stats": {
+    "total": 87,
+    "by_type": {
+      "negation": 26,
+      "keyword": 28,
+      "vague": 15,
+      "fact": 2,
+      "multi_source": 16
+    },
+    "by_difficulty": {
+      "medium": 55,
+      "easy": 24,
+      "hard": 8
+    },
+    "by_hop_type": {
+      "single": 71,
+      "multi_source": 16
+    },
+    "by_source": {
+      "generated": 71,
+      "synthesized": 16
+    }
+  }
+}

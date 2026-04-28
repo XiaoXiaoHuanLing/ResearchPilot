@@ -11,6 +11,9 @@ class ArticleRead(BaseModel):
     url: str
     bookmarked: bool
     content: str = ""
+    quality_score: int = -1
+    quality_label: str = ""
+    expires_at: str = ""
 
     model_config = {"from_attributes": True}
 

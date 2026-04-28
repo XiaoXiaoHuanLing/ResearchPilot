@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+﻿from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -33,60 +33,51 @@ def list_articles(
 
 @router.post("/{article_id}/bookmark", response_model=ArticleRead)
 async def toggle_bookmark(article_id: int, payload: ArticleBookmarkUpdate, db: Session = Depends(get_db)):
+    """收藏或取消收藏文章。
+
+    V2: 收藏=永久保存+感兴趣标记，不再自动入知识库。
+    取消收藏时设置过期时间（未收藏资讯到期自动清理）。
+    """
+    from app.services.consultation.cleanup import compute_expires_at
+
     article = db.query(ArticleModel).filter(ArticleModel.id == article_id).first()
     if article is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Article not found")
 
     article.bookmarked = payload.bookmarked
+
+    # 收藏/取消收藏时更新过期时间
+    article.expires_at = compute_expires_at(bookmarked=payload.bookmarked)
+
     db.commit()
     db.refresh(article)
 
-    # Auto-index into RAG vector store when bookmarked (bookmarks collection)
-    if payload.bookmarked and article.content:
-        try:
-            from app.services.rag.engine import index_article
-            from app.db.models import KnowledgeBaseModel
-            # Find the default bookmark KB id
-            bk_kb = db.query(KnowledgeBaseModel).filter(KnowledgeBaseModel.is_default == True).first()
-            kb_id = bk_kb.id if bk_kb else 0
-            await index_article(
-                article_id=article.id, title=article.title, content=article.content,
-                kb_id=kb_id, kb_type="bookmarks",
-                source=article.source, url=article.url,
-                published_at=article.published_at, topic=article.topic,
-            )
-        except Exception as e:
-            import logging
-            logging.getLogger(__name__).warning("Failed to index article %d into RAG: %s", article_id, e)
-
-    # Remove from RAG when un-bookmarked
-    if not payload.bookmarked:
-        try:
-            from app.services.rag.engine import delete_article_from_index
-            await delete_article_from_index(article.id, kb_id=None, kb_type="bookmarks")
-        except Exception as e:
-            import logging
-            logging.getLogger(__name__).warning("Failed to remove article %d from RAG: %s", article_id, e)
+    # ⭐ V2: 收藏不再触发入KB，取消收藏不再从KB删除
+    # 知识库入库路径：报告生成后用户手动选择入KB
 
     return article
 
 
 @router.delete("/{article_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_article(article_id: int, db: Session = Depends(get_db)):
-    """Delete an article. Only allowed for non-bookmarked articles."""
+    """删除文章。V2: 收藏的文章也可删除（用户主动操作优先）。"""
     article = db.query(ArticleModel).filter(ArticleModel.id == article_id).first()
     if article is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Article not found")
-    if article.bookmarked:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="已收藏的资讯不能删除，请先取消收藏后再删除",
-        )
 
-    # Remove from RAG index if present (safety check)
+    # V2: 文章不再自动入向量库，此处仅做安全清理（旧数据兼容）
     try:
-        from app.services.rag.engine import delete_article_from_index
-        await delete_article_from_index(article.id)
+        import chromadb
+        from app.core.config import settings
+        client = chromadb.PersistentClient(path=settings.chroma_persist_dir)
+        collection = client.get_or_create_collection("researchpilot_all")
+        # 删除旧格式 article_{id} 的向量
+        old_doc_ids = [f"article_{article.id}"]
+        for did in old_doc_ids:
+            try:
+                collection.delete(where={"doc_id": did})
+            except Exception:
+                pass
     except Exception:
         pass
 
@@ -109,7 +100,7 @@ class IngestUrlResponse(BaseModel):
 @router.post("/ingest/url", response_model=IngestUrlResponse)
 async def ingest_url(payload: IngestUrlRequest):
     """Manually ingest a URL: fetch, extract, and store as an article."""
-    from app.services.ingestion import ingest_url as _ingest
+    from app.services.consultation.ingestion import ingest_url as _ingest
 
     article = await _ingest(
         url=payload.url,
@@ -175,7 +166,7 @@ async def collect_topic(payload: TopicCollectRequest, db: Session = Depends(get_
     else:
         # Synchronous execution (original behavior)
         keywords = [k.strip() for k in keywords_csv.split(",") if k.strip()]
-        from app.services.ingestion import run_topic_collection
+        from app.services.consultation.ingestion import run_topic_collection
         count = await run_topic_collection(topic.id, topic.name, keywords)
         return TopicCollectResponse(
             topic_name=topic.name,

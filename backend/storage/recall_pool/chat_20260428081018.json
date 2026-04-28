@@ -1,0 +1,290 @@
+{
+  "node_758d587f": {
+    "node_id": "node_758d587f",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.551199426174826,
+    "snippet": "### 立即操作（5分钟内）\n1. **扩容**: 如果是资源不足，立即增加实例\n2. **限流**: 保护系统不被压垮\n3. **降级**: 关闭非核心功能\n4. **重启**: 如果是内存泄漏等问题，重启受影响实例",
+    "round": 1
+  },
+  "node_56e3f577": {
+    "node_id": "node_56e3f577",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.5499522213207133,
+    "snippet": "### 原因5: 系统资源不足\n**特征**:\n- CPU或内存使用率高\n- 磁盘IO繁忙\n- 网络带宽占用高\n- 系统负载过高\n\n**处理方案**:\n1. **资源扩容**:\n   - 增加实例数量（水平扩展）\n   - 升级实例规格（垂直扩展）\n   - 优化资源分配\n\n2. **负载均衡**:\n   - 检查负载均衡配置\n   - 确保流量均匀分布\n   - 移除异常实例\n\n3. **限流降级**:\n   - 启用限流保护\n   - 降级非核心功能\n   - 优先保证核心业务",
+    "round": 1
+  },
+  "node_654c6433": {
+    "node_id": "node_654c6433",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.5364509834689982,
+    "snippet": "### 原因4: 缓存失效或缓存穿透\n**特征**:\n- 缓存命中率突然下降\n- 数据库查询量激增\n- 特定时间点响应变慢\n- 日志中有缓存miss记录\n\n**处理方案**:\n1. **缓存预热**:\n   - 重启后立即预热热点数据\n   - 定时刷新缓存\n   - 避免缓存同时失效\n\n2. **防止缓存穿透**:\n   - 对空值也进行缓存\n   - 使用布隆过滤器\n   - 参数校验防止恶意查询\n\n3. **优化缓存策略**:\n   - 设置合理的过期时间\n   - 使用多级缓存\n   - 实现缓存更新机制",
+    "round": 1
+  },
+  "node_e6b893b6": {
+    "node_id": "node_e6b893b6",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.5324444638948509,
+    "snippet": "### 短期措施（30分钟内）\n1. **定位根因**: 通过日志分析找出慢的环节\n2. **临时优化**: \n   - 增加缓存\n   - 优化慢SQL\n   - 调整超时时间\n3. **监控观察**: 持续观察响应时间变化",
+    "round": 1
+  },
+  "node_136f9bef": {
+    "node_id": "node_136f9bef",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.5285475661086376,
+    "snippet": "### 长期优化\n1. **性能优化**: 代码层面的性能优化\n2. **架构优化**: 引入缓存、消息队列等\n3. **监控完善**: 增加更细粒度的性能监控\n4. **压力测试**: 定期进行性能压测",
+    "round": 1
+  },
+  "node_d8662ffe": {
+    "node_id": "node_d8662ffe",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.5264488591927866,
+    "snippet": "### 原因1: 数据库慢查询\n**特征**:\n- 慢查询日志中有大量记录\n- 数据库CPU使用率高\n- 特定SQL执行时间长\n- 数据库连接池接近满载\n\n**处理方案**:\n1. **立即优化**: \n   - 找出最慢的SQL语句\n   - 检查是否缺少索引\n   - 查看执行计划（EXPLAIN）\n   - 临时添加索引或优化SQL\n\n2. **短期措施**:\n   - 增加数据库连接池大小\n   - 启用查询缓存\n   - 考虑读写分离\n\n3. **长期优化**:\n   - 定期分析慢查询日志\n   - 优化数据库表结构\n   - 建立合适的索引策略\n   - 考虑分库分表",
+    "round": 1
+  },
+  "node_2a168d99": {
+    "node_id": "node_2a168d99",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.5242775434914086,
+    "snippet": "### 原因3: 代码性能问题\n**特征**:\n- CPU使用率高\n- 特定代码路径执行慢\n- 日志中有性能警告\n- 无明显外部依赖问题\n\n**处理方案**:\n1. **性能分析**:\n   - 使用APM工具定位慢方法\n   - 查看火焰图找出热点\n   - 分析代码执行路径\n\n2. **代码优化**:\n   - 优化循环和递归\n   - 减少不必要的对象创建\n   - 使用更高效的数据结构\n   - 避免重复计算\n\n3. **异步处理**:\n   - 非关键逻辑异步执行\n   - 使用消息队列解耦\n   - 实现异步响应",
+    "round": 1
+  },
+  "node_4d7f13ff": {
+    "node_id": "node_4d7f13ff",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.5225104074197363,
+    "snippet": "## 告警名称\n- **告警名**: `SlowResponse`\n- **告警级别**: 警告\n- **触发条件**: P99响应时间持续5分钟超过3秒",
+    "round": 1
+  },
+  "node_aa4fe105": {
+    "node_id": "node_aa4fe105",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.6808073831142094,
+    "snippet": "### 步骤2: 查询应用性能日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **时间范围**: 最近30分钟\n- **查询条件**: `response_time:>3000 OR slow_query:true`\n\n**查询示例**:\n```\n地域: ap-guangzhou\n日志主题: application-logs\n时间范围: [当前时间-30分钟] 到 [当前时间]\n查询语句: response_time > 3000 AND level:WARN",
+    "round": 1
+  },
+  "node_c2bae68e": {
+    "node_id": "node_c2bae68e",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.662545347723242,
+    "snippet": "### 步骤3: 查询数据库慢查询日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `database-slow-query`\n- **时间范围**: 与告警时间一致\n- **查询条件**: `query_time:>1000`",
+    "round": 1
+  },
+  "node_8e58ac1f": {
+    "node_id": "node_8e58ac1f",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.6455881676427045,
+    "snippet": "### 步骤4: 查询系统资源使用情况\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-metrics`\n- **查询条件**: `cpu_usage OR memory_usage OR disk_io`",
+    "round": 1
+  },
+  "node_9b064b91": {
+    "node_id": "node_9b064b91",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.6345938896195185,
+    "snippet": "### 短期措施（30分钟内）\n1. **定位根因**: 通过日志分析找出慢的环节\n2. **临时优化**: \n   - 增加缓存\n   - 优化慢SQL\n   - 调整超时时间\n3. **监控观察**: 持续观察响应时间变化",
+    "round": 1
+  },
+  "node_13fed0f5": {
+    "node_id": "node_13fed0f5",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.6309782357893664,
+    "snippet": "### 原因3: 代码性能问题\n**特征**:\n- CPU使用率高\n- 特定代码路径执行慢\n- 日志中有性能警告\n- 无明显外部依赖问题\n\n**处理方案**:\n1. **性能分析**:\n   - 使用APM工具定位慢方法\n   - 查看火焰图找出热点\n   - 分析代码执行路径\n\n2. **代码优化**:\n   - 优化循环和递归\n   - 减少不必要的对象创建\n   - 使用更高效的数据结构\n   - 避免重复计算\n\n3. **异步处理**:\n   - 非关键逻辑异步执行\n   - 使用消息队列解耦\n   - 实现异步响应",
+    "round": 1
+  },
+  "node_b3c37d76": {
+    "node_id": "node_b3c37d76",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.626329941240092,
+    "snippet": "### 原因1: 数据库慢查询\n**特征**:\n- 慢查询日志中有大量记录\n- 数据库CPU使用率高\n- 特定SQL执行时间长\n- 数据库连接池接近满载\n\n**处理方案**:\n1. **立即优化**: \n   - 找出最慢的SQL语句\n   - 检查是否缺少索引\n   - 查看执行计划（EXPLAIN）\n   - 临时添加索引或优化SQL\n\n2. **短期措施**:\n   - 增加数据库连接池大小\n   - 启用查询缓存\n   - 考虑读写分离\n\n3. **长期优化**:\n   - 定期分析慢查询日志\n   - 优化数据库表结构\n   - 建立合适的索引策略\n   - 考虑分库分表",
+    "round": 1
+  },
+  "node_6b5cefaf": {
+    "node_id": "node_6b5cefaf",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.6261078541904674,
+    "snippet": "### 原因4: 缓存失效或缓存穿透\n**特征**:\n- 缓存命中率突然下降\n- 数据库查询量激增\n- 特定时间点响应变慢\n- 日志中有缓存miss记录\n\n**处理方案**:\n1. **缓存预热**:\n   - 重启后立即预热热点数据\n   - 定时刷新缓存\n   - 避免缓存同时失效\n\n2. **防止缓存穿透**:\n   - 对空值也进行缓存\n   - 使用布隆过滤器\n   - 参数校验防止恶意查询\n\n3. **优化缓存策略**:\n   - 设置合理的过期时间\n   - 使用多级缓存\n   - 实现缓存更新机制",
+    "round": 1
+  },
+  "node_10a51362": {
+    "node_id": "node_10a51362",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.6247045577945262,
+    "snippet": "## 相关监控指标\n- **响应时间**: P50, P90, P99, P999\n- **吞吐量**: QPS, TPS\n- **错误率**: 4xx, 5xx错误比例\n- **资源使用**: CPU, 内存, 网络, 磁盘IO\n- **数据库**: 慢查询数量, 连接池使用率\n- **缓存**: 命中率, 失效率",
+    "round": 1
+  },
+  "node_1668656b": {
+    "node_id": "node_1668656b",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.6227743268038378,
+    "snippet": "### 原因5: 系统资源不足\n**特征**:\n- CPU或内存使用率高\n- 磁盘IO繁忙\n- 网络带宽占用高\n- 系统负载过高\n\n**处理方案**:\n1. **资源扩容**:\n   - 增加实例数量（水平扩展）\n   - 升级实例规格（垂直扩展）\n   - 优化资源分配\n\n2. **负载均衡**:\n   - 检查负载均衡配置\n   - 确保流量均匀分布\n   - 移除异常实例\n\n3. **限流降级**:\n   - 启用限流保护\n   - 降级非核心功能\n   - 优先保证核心业务",
+    "round": 1
+  },
+  "node_f21c2f27": {
+    "node_id": "node_f21c2f27",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.6156613713481912,
+    "snippet": "## 性能优化检查清单\n- [ ] 数据库查询是否有索引\n- [ ] 是否有N+1查询问题\n- [ ] 缓存策略是否合理\n- [ ] 外部API调用是否有超时设置\n- [ ] 是否有不必要的同步等待\n- [ ] 日志级别是否过于详细\n- [ ] 是否有大对象序列化\n- [ ] 网络调用是否可以批量化",
+    "round": 1
+  },
+  "node_264c4fbe": {
+    "node_id": "node_264c4fbe",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.4663968029504443,
+    "snippet": "### 长期优化\n1. **性能优化**: 代码层面的性能优化\n2. **架构优化**: 引入缓存、消息队列等\n3. **监控完善**: 增加更细粒度的性能监控\n4. **压力测试**: 定期进行性能压测",
+    "round": 3
+  },
+  "node_77b5b88a": {
+    "node_id": "node_77b5b88a",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.4283784863120475,
+    "snippet": "## 性能优化检查清单\n- [ ] 数据库查询是否有索引\n- [ ] 是否有N+1查询问题\n- [ ] 缓存策略是否合理\n- [ ] 外部API调用是否有超时设置\n- [ ] 是否有不必要的同步等待\n- [ ] 日志级别是否过于详细\n- [ ] 是否有大对象序列化\n- [ ] 网络调用是否可以批量化",
+    "round": 3
+  },
+  "node_52800dfc": {
+    "node_id": "node_52800dfc",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.4276649135610974,
+    "snippet": "## 参考文档\n- [性能优化最佳实践](internal-docs/performance-optimization.md)\n- [数据库优化指南](internal-docs/database-optimization.md)\n- [缓存使用规范](internal-docs/cache-best-practices.md)",
+    "round": 3
+  },
+  "node_01aa23ac": {
+    "node_id": "node_01aa23ac",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.42484522835355387,
+    "snippet": "### 立即操作（5分钟内）\n1. **扩容**: 如果是资源不足，立即增加实例\n2. **限流**: 保护系统不被压垮\n3. **降级**: 关闭非核心功能\n4. **重启**: 如果是内存泄漏等问题，重启受影响实例",
+    "round": 3
+  },
+  "node_109a3ab7": {
+    "node_id": "node_109a3ab7",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.42179287724247755,
+    "snippet": "### 原因3: 代码性能问题\n**特征**:\n- CPU使用率高\n- 特定代码路径执行慢\n- 日志中有性能警告\n- 无明显外部依赖问题\n\n**处理方案**:\n1. **性能分析**:\n   - 使用APM工具定位慢方法\n   - 查看火焰图找出热点\n   - 分析代码执行路径\n\n2. **代码优化**:\n   - 优化循环和递归\n   - 减少不必要的对象创建\n   - 使用更高效的数据结构\n   - 避免重复计算\n\n3. **异步处理**:\n   - 非关键逻辑异步执行\n   - 使用消息队列解耦\n   - 实现异步响应",
+    "round": 3
+  },
+  "node_db721be2": {
+    "node_id": "node_db721be2",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.4170584808027601,
+    "snippet": "### 原因4: 缓存失效或缓存穿透\n**特征**:\n- 缓存命中率突然下降\n- 数据库查询量激增\n- 特定时间点响应变慢\n- 日志中有缓存miss记录\n\n**处理方案**:\n1. **缓存预热**:\n   - 重启后立即预热热点数据\n   - 定时刷新缓存\n   - 避免缓存同时失效\n\n2. **防止缓存穿透**:\n   - 对空值也进行缓存\n   - 使用布隆过滤器\n   - 参数校验防止恶意查询\n\n3. **优化缓存策略**:\n   - 设置合理的过期时间\n   - 使用多级缓存\n   - 实现缓存更新机制",
+    "round": 3
+  },
+  "node_840bbe57": {
+    "node_id": "node_840bbe57",
+    "kb_id": 2,
+    "title": "memory_high_usage.md",
+    "source": "用户上传",
+    "relevance_score": 0.41247907124623034,
+    "snippet": "### 长期优化\n1. **代码优化**: 修复内存泄漏，优化对象创建\n2. **监控完善**: 增加内存监控指标和告警\n3. **压力测试**: 定期进行内存压力测试\n4. **容量规划**: 根据业务增长合理规划内存容量",
+    "round": 3
+  },
+  "node_a8266b84": {
+    "node_id": "node_a8266b84",
+    "kb_id": 2,
+    "title": "slow_response.md",
+    "source": "用户上传",
+    "relevance_score": 0.411238822447598,
+    "snippet": "### 原因5: 系统资源不足\n**特征**:\n- CPU或内存使用率高\n- 磁盘IO繁忙\n- 网络带宽占用高\n- 系统负载过高\n\n**处理方案**:\n1. **资源扩容**:\n   - 增加实例数量（水平扩展）\n   - 升级实例规格（垂直扩展）\n   - 优化资源分配\n\n2. **负载均衡**:\n   - 检查负载均衡配置\n   - 确保流量均匀分布\n   - 移除异常实例\n\n3. **限流降级**:\n   - 启用限流保护\n   - 降级非核心功能\n   - 优先保证核心业务",
+    "round": 3
+  },
+  "node_42296d58": {
+    "node_id": "node_42296d58",
+    "kb_id": 2,
+    "title": "service_unavailable.md",
+    "source": "用户上传",
+    "relevance_score": 0.3842843065599266,
+    "snippet": "## 预防措施\n1. **高可用架构**:\n   - 多实例部署\n   - 多地域容灾\n   - 数据库主从复制\n   - 关键服务冗余\n\n2. **监控告警**:\n   - 完善的健康检查\n   - 实时监控告警\n   - 自动故障转移\n   - 异常自动恢复\n\n3. **发布策略**:\n   - 灰度发布\n   - 蓝绿部署\n   - 金丝雀发布\n   - 快速回滚机制\n\n4. **容错设计**:\n   - 熔断降级\n   - 限流保护\n   - 超时控制\n   - 重试机制\n\n5. **演练测试**:\n   - 定期故障演练\n   - 压力测试\n   - 混沌工程\n   - 应急预案演练",
+    "round": 5
+  },
+  "node_579219de": {
+    "node_id": "node_579219de",
+    "kb_id": 2,
+    "title": "service_unavailable.md",
+    "source": "用户上传",
+    "relevance_score": 0.3835845513848565,
+    "snippet": "## 验证步骤\n1. **健康检查**: 确认所有实例健康检查通过\n2. **功能测试**: 测试核心业务功能\n3. **性能验证**: 确认响应时间和吞吐量正常\n4. **错误率**: 确认错误率降到正常水平（<1%）\n5. **持续监控**: 观察30分钟确保稳定",
+    "round": 5
+  },
+  "node_23239d99": {
+    "node_id": "node_23239d99",
+    "kb_id": 2,
+    "title": "cpu_high_usage.md",
+    "source": "用户上传",
+    "relevance_score": 0.3729926896441272,
+    "snippet": "### 立即操作（5分钟内）\n1. **扩容**: 如果是流量问题，立即增加实例数量\n2. **限流**: 如果怀疑恶意流量，启用限流规则\n3. **重启**: 如果是单个实例问题，重启该实例",
+    "round": 5
+  },
+  "node_ad31dd2e": {
+    "node_id": "node_ad31dd2e",
+    "kb_id": 2,
+    "title": "service_unavailable.md",
+    "source": "用户上传",
+    "relevance_score": 0.3724117287623278,
+    "snippet": "### 步骤3: 查询系统事件日志\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `system-events`\n- **查询条件**: `event:restart OR event:crash OR event:oom_kill`",
+    "round": 5
+  },
+  "node_6ea4e4ef": {
+    "node_id": "node_6ea4e4ef",
+    "kb_id": 2,
+    "title": "service_unavailable.md",
+    "source": "用户上传",
+    "relevance_score": 0.3687865728328455,
+    "snippet": "### 步骤4: 检查依赖服务状态\n**工具**: `query_logs`\n**参数要求**:\n- **地域**: `ap-guangzhou`\n- **日志主题**: `application-logs`\n- **查询条件**: `downstream_service OR database OR redis OR mq`",
+    "round": 5
+  },
+  "node_6302fa64": {
+    "node_id": "node_6302fa64",
+    "kb_id": 2,
+    "title": "service_unavailable.md",
+    "source": "用户上传",
+    "relevance_score": 0.3680490003724713,
+    "snippet": "## 相关告警\n- `HighErrorRate`: 错误率过高\n- `HealthCheckFailed`: 健康检查失败\n- `AllInstancesDown`: 所有实例下线\n- `DatabaseConnectionFailed`: 数据库连接失败",
+    "round": 5
+  }
+}

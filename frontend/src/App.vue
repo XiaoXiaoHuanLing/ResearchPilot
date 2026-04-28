@@ -27,7 +27,7 @@ const menuOptions = [
   { label: '仪表盘', key: 'dashboard', icon: renderIcon(HomeOutline) },
   { label: '专题管理', key: 'topics', icon: renderIcon(ListOutline) },
   { label: '资讯中心', key: 'articles', icon: renderIcon(BookmarkOutline) },
-  { label: '智能对话', key: 'qa', icon: renderIcon(ChatbubbleOutline) },
+  { label: '智能对话', key: 'chat', icon: renderIcon(ChatbubbleOutline) },
   { label: '报告中心', key: 'reports', icon: renderIcon(DocumentTextOutline) },
   { label: '知识库', key: 'knowledge', icon: renderIcon(LibraryOutline) },
   { label: '🤖 智能助手', key: 'copilot', icon: renderIcon(RocketOutline) },

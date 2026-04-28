@@ -1,4 +1,4 @@
-"""Scheduler service using APScheduler for topic-based periodic collection — V2 Fixed.
+﻿"""Scheduler service using APScheduler for topic-based periodic collection — V2 Fixed.
 
 V2 Fix: The core issue was that APScheduler runs in a background thread,
 but our collection pipeline is async. The V1 code tried to get the event loop
@@ -98,9 +98,19 @@ def _collection_job(topic_id: int, topic_name: str, keywords_csv: str) -> None:
 
 
 async def _async_collection(topic_id: int, topic_name: str, keywords: list[str]) -> int:
-    """Async collection logic, run inside asyncio.run() from scheduler thread."""
-    from app.services.ingestion import run_topic_collection
-    return await run_topic_collection(topic_id, topic_name, keywords)
+    """Async collection logic, run inside asyncio.run() from scheduler thread.
+    After collection, also run expired article cleanup.
+    """
+    from app.services.consultation.ingestion import run_topic_collection
+    result = await run_topic_collection(topic_id, topic_name, keywords)
+
+    # ⭐ 采集完成后顺便清理过期资讯
+    from app.services.consultation.cleanup import cleanup_expired_articles
+    expired_count = await cleanup_expired_articles()
+    if expired_count > 0:
+        logger.info("Post-collection cleanup: removed %d expired articles", expired_count)
+
+    return result
 
 
 def schedule_topic(topic_id: int, topic_name: str, schedule: str, keywords_csv: str = "") -> None:
@@ -175,6 +185,22 @@ def unschedule_topic(topic_id: int) -> None:
             scheduler.remove_job(job.id)
 
 
+def _pool_cleanup_job() -> None:
+    """定时清理 RecallPool/SearchPool 过期临时文件。
+
+    由 APScheduler 每小时触发，删除超过 24 小时的临时 JSON 文件。
+    """
+    try:
+        from app.services.chat.tools.reflexive_retriever import RecallPoolManager
+        from app.services.chat.tools.search import SearchPoolManager
+        r = RecallPoolManager.cleanup_stale_files()
+        s = SearchPoolManager.cleanup_stale_files()
+        if r + s > 0:
+            logger.info("[Scheduler] Pool cleanup: removed %d recall + %d search stale files", r, s)
+    except Exception as e:
+        logger.warning("[Scheduler] Pool cleanup failed: %s", e)
+
+
 def init_scheduler() -> None:
     """Initialize and start the background scheduler."""
     global scheduler
@@ -191,6 +217,15 @@ def init_scheduler() -> None:
     )
     scheduler.start()
     logger.info("APScheduler started (V2 with asyncio.run fix)")
+
+    # 每小时清理 RecallPool/SearchPool 过期临时文件
+    scheduler.add_job(
+        _pool_cleanup_job,
+        trigger=CronTrigger(minute=30),  # 每小时的第30分钟
+        id="pool_cleanup_hourly",
+        replace_existing=True,
+    )
+    logger.info("Scheduled pool cleanup job (hourly at :30)")
 
     # Load enabled topics from DB and schedule them
     try:

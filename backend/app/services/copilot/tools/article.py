@@ -46,6 +46,7 @@ def list_articles(topic: str | None = None, keyword: str | None = None,
 def _bookmark_article_impl(article_id: int, bookmarked: bool = True) -> str:
     from app.db.session import SessionLocal
     from app.db.models import ArticleModel
+    from app.services.consultation.cleanup import compute_expires_at
 
     with SessionLocal() as db:
         article = db.query(ArticleModel).filter(ArticleModel.id == article_id).first()
@@ -53,16 +54,17 @@ def _bookmark_article_impl(article_id: int, bookmarked: bool = True) -> str:
             return f"❌ 未找到文章 ID={article_id}"
 
         article.bookmarked = bookmarked
+        article.expires_at = compute_expires_at(bookmarked=bookmarked)
         db.commit()
         title = article.title
 
-    action = "已收藏" if bookmarked else "已取消收藏"
+    action = "已收藏（永久保存）" if bookmarked else "已取消收藏（将过期清理）"
     return f"✅ 「{title}」{action}"
 
 
 @tool
 def bookmark_article(article_id: int, bookmarked: bool = True) -> str:
-    """收藏或取消收藏文章。收藏后自动索引到知识库。"""
+    """收藏或取消收藏文章。收藏=永久保存+感兴趣标记，不会入知识库。"""
     return _bookmark_article_impl(article_id, bookmarked)
 
 
@@ -74,8 +76,6 @@ def _delete_article_impl(article_id: int) -> str:
         article = db.query(ArticleModel).filter(ArticleModel.id == article_id).first()
         if not article:
             return f"❌ 未找到文章 ID={article_id}"
-        if article.bookmarked:
-            return f"⚠️ 文章「{article.title}」已收藏，请先取消收藏再删除"
 
         title = article.title
         db.delete(article)
@@ -86,7 +86,7 @@ def _delete_article_impl(article_id: int) -> str:
 
 @tool
 def delete_article(article_id: int) -> str:
-    """删除文章（仅未收藏的）。⚠️ 收藏的文章需先取消收藏。"""
+    """删除文章。"""
     return _delete_article_impl(article_id)
 
 

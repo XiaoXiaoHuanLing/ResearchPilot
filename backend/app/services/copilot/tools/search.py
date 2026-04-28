@@ -1,4 +1,4 @@
-"""搜索与采集工具 — search_web, ingest_url, collect_topic"""
+﻿"""搜索与采集工具 — search_web, ingest_url, collect_topic"""
 import json
 import logging
 
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 async def _search_web_impl(query: str, max_results: int = 5) -> str:
     """Implementation: search the web."""
-    from app.services.ingestion import search_web as _sw
+    from app.services.consultation.ingestion import search_web as _sw
     results = await _sw(query, max_results=max_results)
     if not results:
         return "未找到搜索结果。"
@@ -37,7 +37,7 @@ async def search_web(query: str, max_results: int = 5) -> str:
 
 async def _ingest_url_impl(url: str, topic_name: str = "对话采集", auto_bookmark: bool = False) -> str:
     """Implementation: ingest a URL."""
-    from app.services.ingestion import ingest_url as _iu
+    from app.services.consultation.ingestion import ingest_url as _iu
     try:
         article = await _iu(url, topic_name=topic_name, auto_bookmark=auto_bookmark)
         if article:
@@ -62,7 +62,7 @@ async def ingest_url(url: str, topic_name: str = "对话采集", auto_bookmark: 
 
 async def _collect_topic_impl(topic_id: int) -> str:
     """Implementation: collect articles for a topic."""
-    from app.services.ingestion import run_topic_collection
+    from app.services.consultation.ingestion import run_topic_collection
     from app.db.session import SessionLocal
     from app.db.models import TopicModel
 

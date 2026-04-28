@@ -5,7 +5,7 @@ import {
 } from 'naive-ui'
 import { useReportStore, useTopicStore, useArticleStore } from '../stores'
 import { getReportExportUrl } from '../api'
-import type { ReportItem, Article } from '../types'
+import type { ReportItem } from '../types'
 
 const reportStore = useReportStore()
 const topicStore = useTopicStore()
@@ -63,9 +63,17 @@ async function handleDelete(id: number) {
   }
 }
 
-function openDetail(report: ReportItem) {
+async function openDetail(report: ReportItem) {
   detailReport.value = report
   showDetail.value = true
+  // Load content from API
+  try {
+    const { getReportContent } = await import('../api/reports')
+    const res = await getReportContent(report.id)
+    ;(detailReport.value as any)._content = res.content
+  } catch (e: any) {
+    console.warn('Failed to load report content:', e)
+  }
 }
 
 function toggleArticleSelection(id: number) {
@@ -83,7 +91,8 @@ function selectNone() {
 }
 
 function copyReportText(report: ReportItem) {
-  const text = '# ' + report.title + '\n\n' + report.summary + '\n\n' + (report.content || '')
+  // V2: content loaded from file via API
+  const text = '# ' + report.title + '\n\n' + ((detailReport.value as any)?._content || '')
   navigator.clipboard.writeText(text).then(() => message.success('已复制')).catch(() => message.error('复制失败'))
 }
 
@@ -128,7 +137,13 @@ onMounted(async () => {
               </n-popconfirm>
             </n-space>
           </div>
-          <p class="text-sm text-slate-400 mt-3 whitespace-pre-line break-words">{{ report.summary }}</p>
+          <p class="text-sm text-slate-400 mt-3">
+            <n-tag v-if="report.status === 'ready'" size="tiny" type="success" :bordered="false">已完成</n-tag>
+            <n-tag v-else-if="report.status === 'generating'" size="tiny" type="info" :bordered="false">生成中</n-tag>
+            <n-tag v-else-if="report.status === 'outline_ready'" size="tiny" type="warning" :bordered="false">待确认大纲</n-tag>
+            <n-tag v-else size="tiny" :bordered="false">草稿</n-tag>
+            <span v-if="report.quality_score" class="ml-2 text-slate-500">质量分: {{ report.quality_score }}</span>
+          </p>
         </n-card>
       </div>
     </n-spin>
@@ -138,13 +153,10 @@ onMounted(async () => {
       <template v-if="detailReport">
         <h2 class="text-xl font-bold text-slate-100 mb-3">{{ detailReport.title }}</h2>
         <div class="text-sm text-slate-500 mb-4">{{ detailReport.created_at }}</div>
-        <div class="bg-slate-800/50 rounded-lg p-5 mb-4">
-          <h3 class="text-sm font-semibold text-cyan-300 mb-2">摘要</h3>
-          <p class="text-slate-300 leading-relaxed whitespace-pre-line">{{ detailReport.summary }}</p>
-        </div>
-        <div v-if="detailReport.content && detailReport.content !== detailReport.summary" class="bg-slate-800/50 rounded-lg p-5">
-          <h3 class="text-sm font-semibold text-cyan-300 mb-2">详细内容</h3>
-          <p class="text-slate-300 leading-relaxed whitespace-pre-line">{{ detailReport.content }}</p>
+        <div class="bg-slate-800/50 rounded-lg p-5">
+          <h3 class="text-sm font-semibold text-cyan-300 mb-2">报告内容</h3>
+          <p v-if="(detailReport as any)?._content" class="text-slate-300 leading-relaxed whitespace-pre-line">{{ (detailReport as any)._content }}</p>
+          <p v-else class="text-slate-500">加载中...</p>
         </div>
       </template>
       <template #footer>

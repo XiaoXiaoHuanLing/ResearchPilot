@@ -17,7 +17,6 @@ import {
   createKnowledgeBase as apiCreateKB,
   deleteKnowledgeBase as apiDeleteKB,
   fetchKbDocuments as apiFetchKbDocs,
-  uploadKbDocument as apiUploadKbDoc,
   uploadKbFile as apiUploadKbFile,
   deleteKbDocument as apiDeleteKbDoc,
 } from '../api'
@@ -85,8 +84,8 @@ export const useArticleStore = defineStore('articles', () => {
     articles.value = articles.value.filter((a) => a.id !== id)
   }
 
-  async function ingest(url: string, topic: string, autoBookmark: boolean = false): Promise<IngestUrlResult> {
-    const result = await apiIngestUrl(url, topic, autoBookmark)
+  async function ingest(url: string, topic: string): Promise<IngestUrlResult> {
+    const result = await apiIngestUrl(url, topic)
     if (result.id) await load()
     return result
   }
@@ -110,7 +109,11 @@ export const useReportStore = defineStore('reports', () => {
   }
 
   async function generate(payload: { title?: string | null; article_ids?: number[] | null; prompt?: string | null }) {
-    const report = await apiGenerateReport(payload)
+    const report = await apiGenerateReport({
+      title: payload.title ?? undefined,
+      article_ids: payload.article_ids ?? undefined,
+      prompt: payload.prompt ?? undefined,
+    })
     reports.value = [report, ...reports.value]
     return report
   }
@@ -148,20 +151,11 @@ export const useKbStore = defineStore('knowledgeBases', () => {
     currentDocs.value = await apiFetchKbDocs(kbId)
   }
 
-  async function uploadDocument(kbId: number, title: string, content: string) {
-    const doc = await apiUploadKbDoc(kbId, title, content)
-    currentDocs.value = [doc, ...currentDocs.value]
-    // Update count
-    const kb = knowledgeBases.value.find(k => k.id === kbId)
-    if (kb) kb.article_count++
-    return doc
-  }
-
   async function uploadFile(kbId: number, file: File) {
     const doc = await apiUploadKbFile(kbId, file)
     currentDocs.value = [doc, ...currentDocs.value]
     const kb = knowledgeBases.value.find(k => k.id === kbId)
-    if (kb) kb.article_count++
+    if (kb) kb.document_count++
     return doc
   }
 
@@ -169,8 +163,8 @@ export const useKbStore = defineStore('knowledgeBases', () => {
     await apiDeleteKbDoc(kbId, docId)
     currentDocs.value = currentDocs.value.filter(d => d.id !== docId)
     const kb = knowledgeBases.value.find(k => k.id === kbId)
-    if (kb) kb.article_count = Math.max(0, kb.article_count - 1)
+    if (kb) kb.document_count = Math.max(0, kb.document_count - 1)
   }
 
-  return { knowledgeBases, loading, currentDocs, load, create, remove, loadDocuments, uploadDocument, uploadFile, removeDocument }
+  return { knowledgeBases, loading, currentDocs, load, create, remove, loadDocuments, uploadFile, removeDocument }
 })

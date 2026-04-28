@@ -12,12 +12,25 @@ class Settings(BaseSettings):
     # Used for all chat/generation tasks: Copilot, QA, Report, HyDE, Supervisor
     dashscope_api_key: str = ""
     dashscope_base_url: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
-    dashscope_model_name: str = ""  # e.g. "qwen3.5-35b-a3b"
-    dashscope_model_name_fallback: str = ""  # Optional fallback model
+    dashscope_model_name: str = ""  # e.g. "qwen3.5-plus"
+    dashscope_model_name_fallback: str = ""  # Fallback 1
+    dashscope_model_name_fallback_2: str = ""  # Fallback 2
+    dashscope_model_name_fallback_3: str = ""  # Fallback 3
+    dashscope_model_name_fallback_4: str = ""  # Fallback 4
 
     # ─── Embedding settings (same DashScope endpoint, separate model) ───
     dashscope_model_embedding_name: str = ""
     dashscope_model_embedding_name_fallback: str = ""
+
+    # ─── 咨询过期配置 ───
+    article_expire_days: int = 7  # 未收藏资讯过期天数，0=永不过期
+
+    # ─── 报告配置 ───
+    report_storage_dir: str = str(Path(__file__).resolve().parents[2] / "storage" / "reports")
+    eval_model_name: str = ""   # 空=用主模型，非空=指定评估模型
+
+    # ─── 存储配置 ───
+    storage_base_dir: str = str(Path(__file__).resolve().parents[2] / "storage")
 
     # ChromaDB persist directory
     chroma_persist_dir: str = str(Path(__file__).resolve().parents[2] / "chroma_db")
