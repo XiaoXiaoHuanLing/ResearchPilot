@@ -10,11 +10,22 @@ uv sync
 
 # Copy and configure environment
 cp .env.example .env
-# Edit .env to add your OpenAI API key (optional but recommended)
+# Edit .env to add your model and embedding configuration
 
 # Start the server
 uv run uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
+
+## Evaluation smoke run
+
+Run the bundled local KB evaluation from the backend root with the uv-managed environment:
+
+```bash
+uv run researchpilot-ragas-eval --kb-id 123 --top-k 5
+uv run researchpilot-ragas-eval --kb-id 123 --top-k 5 --use-ragas
+```
+
+If `--use-ragas` still reports `"scoring_backend": "placeholder"`, first rerun `uv sync` in this directory and then execute the command again with `uv run` so the installed `ragas` and `datasets` packages come from the project environment.
 
 ## API Endpoints
 
@@ -35,19 +46,21 @@ uv run uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 
 ## Configuration
 
-Environment variables (prefix `RESEARCHPILOT_`):
+Environment variables are loaded from `.env` via `app/core/config.py`.
 
-- `OPENAI_API_KEY` — Required for RAG and LLM-powered reports
-- `OPENAI_BASE_URL` — Optional, for proxy or alternative endpoint
-- `EMBEDDING_MODEL` — Default: `text-embedding-3-small`
-- `LLM_MODEL` — Default: `gpt-4o-mini`
-- `DATABASE_URL` — Default: SQLite in project root
+Key settings for the local RAG and evaluation path include:
+
+- `DASHSCOPE_API_KEY` — shared API key for chat and embeddings
+- `DASHSCOPE_BASE_URL` — OpenAI-compatible DashScope endpoint
+- `DASHSCOPE_MODEL_NAME` — chat model name
+- `DASHSCOPE_MODEL_EMBEDDING_NAME` — embedding model name
+- `DATABASE_URL` — defaults to SQLite in project root
 
 ## Architecture
 
 - **FastAPI** — Web framework
 - **SQLAlchemy** — ORM + SQLite (upgrade to PostgreSQL when needed)
-- **RAG Engine** — OpenAI embeddings + numpy cosine similarity
+- **RAG Engine** — OpenAI-compatible embeddings + local vector retrieval
 - **LangGraph** — Stateful report generation workflow
 - **APScheduler** — Background topic collection scheduler
 - **Ingestion** — httpx + readability-lxml + BeautifulSoup4

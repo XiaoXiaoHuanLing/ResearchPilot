@@ -351,11 +351,15 @@ def get_chat_agent():
         llm.profile = {"max_input_tokens": 128000}
 
     # 构建后端
+    offload_dir = Path(settings.storage_base_dir) / "offloaded"
+    offload_dir.mkdir(parents=True, exist_ok=True)
+
+    from deepagents.backends import CompositeBackend, StateBackend, StoreBackend, FilesystemBackend
     backend = CompositeBackend(
         default=StateBackend(),
         routes={
             "/memories/": StoreBackend(namespace=_user_namespace),
-            "/results/": StateBackend(),
+            "/results/": FilesystemBackend(root_dir=str(offload_dir), virtual_mode=True),
         },
     )
 
@@ -363,7 +367,9 @@ def get_chat_agent():
     from app.services.chat.middleware import ResultOffloadMiddleware, EarlyMessageArchiveMiddleware, ToolErrorGuardMiddleware, SubAgentResilienceMiddleware
     input_guard = InputGuardMiddleware()
     tool_limiter = ToolCallLimiterMiddleware()
-    result_offload = ResultOffloadMiddleware()
+    # ResultOffloadMiddleware 需要 backend 引用来写入卸载文件
+    # backend 必须在 CompositeBackend 构建之后创建
+    result_offload = ResultOffloadMiddleware(backend=backend)
     early_archive = EarlyMessageArchiveMiddleware()
     tool_error_guard = ToolErrorGuardMiddleware()
     sub_resilience = SubAgentResilienceMiddleware(llm_with_fallbacks=llm_with_fallbacks)
@@ -409,8 +415,13 @@ def get_chat_agent():
 
             # 文件权限
             permissions=[
+                # 写权限：系统路径禁止写入
                 FilesystemPermission(operations=["write"], paths=["/system/**"], mode="deny"),
+                # 写权限：results 路径允许写入（ResultOffloadMiddleware 卸载大工具结果）
                 FilesystemPermission(operations=["write"], paths=["/results/**"], mode="allow"),
+                # 读权限：results 路径允许读取（Agent 用 read_file 按需读取卸载内容）
+                FilesystemPermission(operations=["read"], paths=["/results/**"], mode="allow"),
+                # 写权限：关键记忆文件
                 FilesystemPermission(operations=["write"], paths=["/memories/AGENTS.md"], mode="allow"),
             ],
 

@@ -55,3 +55,6 @@ frontend/dist/
 
 # Docs (local only)
 docs/
+
+# Local git worktrees
+.worktrees/

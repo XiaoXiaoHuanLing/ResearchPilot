@@ -402,6 +402,10 @@ async def confirm_outline_and_generate(
         if not report:
             return {"error": "报告不存在", "status": "failed"}
 
+        # 状态检查：只有 draft / outline_ready 状态可以继续
+        if report.status not in ("draft", "outline_ready"):
+            return {"error": f"报告状态为 {report.status}，无法操作。只有 draft/outline_ready 状态可以确认大纲。", "status": report.status}
+
         article_ids = json.loads(report.article_ids_json or "[]")
         topic = report.topic
         prompt = getattr(report, 'prompt', '') or ""

@@ -1,6 +1,20 @@
 dataset:
   path: eval/dataset_builder/qa_dataset.json
-  kb_ids: [1]
+  kb_ids: [2]
+
+llm:
+  model: "qwen3.5-plus-2026-02-15"
+  pricing:
+    input_per_1k_tokens: 0.0005
+    output_per_1k_tokens: 0.001
+
+report:
+  suggestion_thresholds:
+    faithfulness: 0.7
+    context_recall: 0.7
+    context_precision: 0.6
+    hybrid_advantage_delta: 0.1
+    latency_ms: 3000
 
 retrieval:
   enabled: true

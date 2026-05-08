@@ -66,9 +66,9 @@ def _build_hybrid_retriever(kb_ids: list[int], auto_merging_thresh: float = 0.5)
         if len(kb_ids) == 1:
             kb_filters = MetadataFilters(filters=[MetadataFilter(key="kb_id", value=kb_ids[0])])
 
-        vector_retriever = idx.as_retriever(similarity_top_k=12, filters=kb_filters)
+        vector_retriever = idx.as_retriever(similarity_top_k=15, filters=kb_filters)
 
-        bm25_retriever = get_cached_bm25_retriever(similarity_top_k=12)
+        bm25_retriever = get_cached_bm25_retriever(similarity_top_k=15)
         if bm25_retriever is None:
             return None
 
@@ -76,7 +76,7 @@ def _build_hybrid_retriever(kb_ids: list[int], auto_merging_thresh: float = 0.5)
         fusion_retriever = QueryFusionRetriever(
             retrievers=[vector_retriever, bm25_retriever],
             num_queries=1,
-            similarity_top_k=20,
+            similarity_top_k=30,
             mode="reciprocal_rerank",
         )
 
@@ -261,7 +261,7 @@ def _build_citations(source_nodes: list, top_k: int) -> list[dict]:
             "source_type": metadata.get("source_type", ""),
             "kb_id": metadata.get("kb_id"),
             "relevance_score": score,
-            "snippet": node.node.text[:300] if node.node.text else "",
+            "snippet": node.node.text if node.node.text else "",
         })
 
     citations.sort(key=lambda c: c.get("relevance_score", 0) or 0, reverse=True)

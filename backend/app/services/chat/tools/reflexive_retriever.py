@@ -1,10 +1,15 @@
-"""Agentic RAG 工具：search_knowledge + get_recall_nodes + RecallPoolManager。
+"""Agentic RAG 工具：search_knowledge + get_recall_nodes + rerank_recall_pool + RecallPoolManager。
 
 核心设计：
 - Agent 自主驱动反思检索循环，工具只提供原子能力
 - search_knowledge: 检索结果存 RecallPool，返回轻量确认（不进 messages）
 - get_recall_nodes: Agent 按需获取指定节点完整内容
+- rerank_recall_pool: 蒸馏前对召回池全部节点精确重排（bge-reranker-v2-m3 交叉编码器）
 - RecallPool: 按 node_id 去重，会话级临时状态
+
+蒸馏流程：
+  多轮检索(search_knowledge) → 去重累积(RecallPool)
+  → 精确重排(rerank_recall_pool) → 蒸馏事实点输出
 """
 
 import json
@@ -43,7 +48,7 @@ class RecalledNode:
     kb_id: int             # 所属知识库ID
     title: str             # 文档标题
     source: str            # 来源文档
-    relevance_score: float # 相关度分数
+    relevance_score: float # 相关度分数（初始为检索分数，rerank后更新为交叉编码器分数）
     snippet: str           # 节点完整内容
     round: int             # 第几轮检索获得
 
@@ -151,6 +156,41 @@ class RecallPoolManager:
         self.clear()
         logger.debug("RecallPool reset for new turn: %s", self.thread_id)
 
+    async def rerank(self, query: str) -> list[RecalledNode]:
+        """对池中所有节点用 BGE-reranker 交叉编码器精确重排。
+
+        重排后节点的 relevance_score 更新为交叉编码器分数，
+        返回按新分数降序排列的节点列表。
+
+        Args:
+            query: 原始查询问题
+
+        Returns:
+            重排后的节点列表（降序）
+        """
+        pool = self._load()
+        if not pool:
+            return []
+
+        from app.services.knowledge.reranker import rerank as _rerank
+
+        nodes = list(pool.values())
+        texts = [n.snippet for n in nodes]
+
+        # 执行 rerank
+        reranked = await _rerank(query, texts)
+
+        # 按重排结果更新节点的 relevance_score
+        for item in reranked:
+            nodes[item.index].relevance_score = item.score
+
+        # 保存更新后的分数
+        self._save()
+
+        # 返回按新分数降序的节点
+        sorted_nodes = sorted(nodes, key=lambda n: n.relevance_score, reverse=True)
+        return sorted_nodes
+
     @staticmethod
     def cleanup_stale_files(max_age_hours: int = 24):
         """清理超过 max_age_hours 的临时文件。
@@ -183,7 +223,7 @@ class RecallPoolManager:
 
 async def _search_knowledge_impl(
     query: str,
-    top_k: int = 5,
+    top_k: int = 8,
     kb_ids: str = "",
     thread_id: str = "",
 ) -> str:
@@ -270,6 +310,39 @@ async def _get_recall_nodes_impl(node_ids: str, thread_id: str = "") -> str:
     return "\n".join(lines)
 
 
+async def _rerank_recall_pool_impl(query: str, thread_id: str = "") -> str:
+    """对召回池全部节点执行 Reranker 交叉编码器重排序。
+
+    蒸馏前必须调用此工具，确保按精确相关性排序。
+    重排后节点分数更新为交叉编码器分数，后续 get_recall_nodes 按新分数排序。
+    """
+    if not thread_id:
+        return "⚠️ 无法访问召回池：缺少会话ID"
+
+    pool = RecallPoolManager(thread_id)
+    total = pool.total_count()
+
+    if total == 0:
+        return "召回池为空，无需重排。请先调用 search_knowledge 检索。"
+
+    # 执行 rerank
+    try:
+        reranked_nodes = await pool.rerank(query)
+    except Exception as e:
+        logger.error("Rerank failed: %s", e)
+        return f"⚠️ 重排失败: {str(e)[:100]}。可跳过重排，直接蒸馏。"
+
+    # 返回重排结果摘要
+    lines = [f"✅ 重排完成，共 {total} 个节点（按交叉编码器精确相关性降序）"]
+    for i, nd in enumerate(reranked_nodes[:15]):
+        lines.append(f"  #{i+1} [{nd.node_id}] {nd.title} | 重排分: {nd.relevance_score:.4f}")
+
+    if total > 15:
+        lines.append(f"  ... 还有 {total - 15} 个节点（分数递减）")
+
+    return "\n".join(lines)
+
+
 # ─── LangChain 工具 ───
 
 # thread_id 通过统一上下文注入
@@ -281,7 +354,7 @@ from app.services.chat.tools.thread_context import (
 
 
 @tool
-async def search_knowledge(query: str, top_k: int = 5, kb_ids: str = "") -> str:
+async def search_knowledge(query: str, top_k: int = 8, kb_ids: str = "") -> str:
     """知识库混合检索：Dense+BM25→RRF→AutoMerging。
 
     检索结果自动追加到召回池（RecallPool），按节点ID去重覆盖。
@@ -307,3 +380,16 @@ async def get_recall_nodes(node_ids: str) -> str:
         node_ids: 节点ID列表，逗号分隔（如"node_7f3a,node_b2c1"）
     """
     return await _get_recall_nodes_impl(node_ids, get_current_thread_id())
+
+
+@tool
+async def rerank_recall_pool(query: str) -> str:
+    """对召回池全部节点进行 Reranker 交叉编码器精确重排序。
+
+    蒸馏前必须调用此工具！将召回池中所有节点按与查询的精确相关性重排，
+    重排后节点分数更新为交叉编码器分数，后续蒸馏应优先关注高分节点。
+
+    Args:
+        query: 原始查询问题（用于交叉编码器计算相关性）
+    """
+    return await _rerank_recall_pool_impl(query, get_current_thread_id())

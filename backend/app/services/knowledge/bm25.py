@@ -57,7 +57,7 @@ def invalidate_bm25_cache():
     logger.info("BM25 cache invalidated (will rebuild on next query)")
 
 
-def get_cached_bm25_retriever(similarity_top_k: int = 12):
+def get_cached_bm25_retriever(similarity_top_k: int = 15):
     """获取缓存的 BM25 检索器（避免每次查询重建）
 
     Args:
@@ -79,7 +79,7 @@ def get_cached_bm25_retriever(similarity_top_k: int = 12):
     return _bm25_retriever_cache
 
 
-def _build_bm25(leaf_nodes: list, similarity_top_k: int = 12):
+def _build_bm25(leaf_nodes: list, similarity_top_k: int = 15):
     """构建 BM25Retriever"""
     if not leaf_nodes:
         return None
@@ -100,7 +100,7 @@ def _build_bm25(leaf_nodes: list, similarity_top_k: int = 12):
         return None
 
 
-def build_bm25_retriever(leaf_nodes: list | None = None, similarity_top_k: int = 12):
+def build_bm25_retriever(leaf_nodes: list | None = None, similarity_top_k: int = 15):
     """构建BM25Retriever（兼容旧接口，优先用缓存）
 
     Args:

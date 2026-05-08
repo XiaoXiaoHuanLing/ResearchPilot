@@ -17,7 +17,7 @@ async def _rag_query_impl(question: str, knowledge_base_id: int | None = None, u
             if kb:
                 kb_type = kb.kb_type
 
-    result = await _rag_query(question, top_k=5, kb_id=knowledge_base_id, kb_type=kb_type, use_hyde=use_hyde)
+    result = await _rag_query(question, top_k=8, kb_id=knowledge_base_id, kb_type=kb_type, use_hyde=use_hyde)
     answer = result.get("answer", "")
     citations = result.get("citations", [])
 

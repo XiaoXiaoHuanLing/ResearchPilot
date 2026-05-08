@@ -385,12 +385,16 @@ def get_deep_agent():
     resilience = SubAgentResilienceMiddleware()
 
     try:
-        # 构建后端
+        # 构建后端（/results/ 走 FilesystemBackend，支持图外写入卸载文件）
+        from deepagents.backends import FilesystemBackend
+        offload_dir = Path(settings.storage_base_dir) / "offloaded_copilot"
+        offload_dir.mkdir(parents=True, exist_ok=True)
+
         backend = CompositeBackend(
             default=StateBackend(),
             routes={
                 "/memories/": StoreBackend(namespace=_user_namespace),
-                "/results/": StateBackend(),
+                "/results/": FilesystemBackend(root_dir=str(offload_dir), virtual_mode=True),
             },
         )
 
@@ -421,6 +425,7 @@ def get_deep_agent():
             permissions=[
                 FilesystemPermission(operations=["write"], paths=["/system/**"], mode="deny"),
                 FilesystemPermission(operations=["write"], paths=["/results/**"], mode="allow"),
+                FilesystemPermission(operations=["read"], paths=["/results/**"], mode="allow"),
                 FilesystemPermission(operations=["write"], paths=["/memories/AGENTS.md"], mode="allow"),
             ],
 
@@ -442,6 +447,21 @@ def get_deep_agent():
         )
 
         logger.info("Copilot Deep Agent created: 1 main + 6 subs (+ Summarization + Memory + InputGuard + ToolLimiter)")
+
+        # 后置修改：自定义框架自动创建的 SummarizationMiddleware 参数
+        try:
+            from deepagents.middleware.summarization import SummarizationMiddleware as SMClass
+            from app.services.chat.agent import SUMMARY_PROMPT  # 复用 Chat Agent 的摘要 prompt
+            for mw in getattr(_deep_agent, 'middleware', []):
+                if isinstance(mw, SMClass):
+                    mw.trigger = [("messages", 20), ("fraction", 0.80)]
+                    mw.keep = ("messages", 10)
+                    mw.summary_prompt = SUMMARY_PROMPT
+                    logger.info("Patched Copilot SummarizationMiddleware with custom trigger/keep/prompt")
+                    break
+        except Exception as e:
+            logger.warning("Could not patch Copilot SummarizationMiddleware: %s", e)
+
     except Exception as e:
         logger.error("Failed to create Copilot Deep Agent: %s", e, exc_info=True)
         raise

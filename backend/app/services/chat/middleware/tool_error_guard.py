@@ -1,37 +1,52 @@
 """Layer: 工具异常守护中间件。
 
-环绕式监控所有工具调用，工具异常自动封装为友好 ToolMessage。
-确保工具错误不会导致 Agent 崩溃，而是以可理解的方式反馈给 Agent。
+通过 awrap_tool_call 环绕式监控所有工具调用，
+工具异常自动封装为友好 ToolMessage，确保工具错误不会导致 Agent 崩溃。
+Agent 收到分类错误+建议动作后可自主决定下一步。
 
-设计参考：docs/specs/2026-04-27-chat-module-redesign.md §四 4.1
+注：on_tool_error 不是 AgentMiddleware 的框架接口，框架不会自动调用。
+必须使用 awrap_tool_call 才能被框架正确执行。
 """
 
 import logging
 
 from langchain.agents.middleware.types import AgentMiddleware
+from langchain.tools.tool_node import ToolCallRequest
+from langchain_core.messages import ToolMessage
 
 logger = logging.getLogger(__name__)
 
 
 class ToolErrorGuardMiddleware(AgentMiddleware):
-    """工具异常守护：环绕式监控，工具异常封装为友好 ToolMessage。"""
+    """工具异常守护：awrap_tool_call 环绕式监控，工具异常封装为友好 ToolMessage。"""
 
-    async def on_tool_error(self, error: Exception, tool_name: str, runtime) -> str:
-        """工具执行出错时，封装为友好错误消息。
+    async def awrap_tool_call(
+        self,
+        request: ToolCallRequest,
+        handler,
+    ) -> ToolMessage:
+        """拦截工具调用，捕获异常后封装为友好提示+建议动作。"""
+        try:
+            result = await handler(request)
+            return result
+        except Exception as e:
+            tool_name = request.tool_call.get("name", "unknown")
+            error_msg = str(e)[:200]
+            logger.warning("ToolErrorGuard: %s error: %s", tool_name, error_msg)
 
-        将技术性错误转换为 Agent 可理解的提示，
-        并附带建议动作，帮助 Agent 自主决定下一步。
-        """
-        error_msg = str(error)[:200]
-        logger.warning("ToolErrorGuard: %s error: %s", tool_name, error_msg)
+            suggestion = self._suggest_action(e, tool_name)
+            friendly_msg = (
+                f"[{tool_name}] 执行出错: {error_msg}\n"
+                f"建议: {suggestion}"
+            )
 
-        # 根据错误类型提供不同建议
-        suggestion = self._suggest_action(error, tool_name)
-
-        return (
-            f"[{tool_name}] 执行出错: {error_msg}\n"
-            f"建议: {suggestion}"
-        )
+            # 封装为 ToolMessage，Agent 可以理解并自主决策下一步
+            return ToolMessage(
+                content=friendly_msg,
+                tool_call_id=request.tool_call.get("id", ""),
+                name=tool_name,
+                status="error",
+            )
 
     def _suggest_action(self, error: Exception, tool_name: str) -> str:
         """根据错误类型和工具名给出建议"""

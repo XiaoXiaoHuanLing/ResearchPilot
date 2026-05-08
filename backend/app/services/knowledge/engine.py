@@ -26,8 +26,8 @@ logger = logging.getLogger(__name__)
 _COLLECTION_NAME = "researchpilot_all"
 
 # --- RAG Configuration ---
-SIMILARITY_TOP_K = 10
-FINAL_TOP_K = 5
+SIMILARITY_TOP_K = 15
+FINAL_TOP_K = 8
 MIN_RELEVANCE_SCORE = 0.3
 
 
@@ -250,7 +250,7 @@ async def rag_query(
                 "source_type": metadata.get("source_type", ""),
                 "kb_id": metadata.get("kb_id"),
                 "relevance_score": score,
-                "snippet": node.node.text[:300] if node.node.text else "",
+                "snippet": node.node.text if node.node.text else "",
             })
             context_texts.append(
                 f"[来源：{metadata.get('source', '未知')}] {metadata.get('title', '未知标题')}\n{node.node.text[:600]}"
