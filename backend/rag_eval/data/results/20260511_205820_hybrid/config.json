@@ -1,0 +1,13 @@
+{
+  "dataset_path": "rag_eval/data/datasets/20260511_134156/dataset.jsonl",
+  "kb_id": 2,
+  "top_k": 8,
+  "retrieval_mode": "hybrid",
+  "eval_model": "qwen3.6-plus-2026-04-02",
+  "metrics": [
+    "ContextPrecision",
+    "ContextRecall",
+    "Faithfulness",
+    "FactualCorrectness"
+  ]
+}

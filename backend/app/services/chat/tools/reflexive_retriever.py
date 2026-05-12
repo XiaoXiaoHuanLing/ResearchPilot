@@ -162,11 +162,14 @@ class RecallPoolManager:
         重排后节点的 relevance_score 更新为交叉编码器分数，
         返回按新分数降序排列的节点列表。
 
+        如果 reranker 不可用，返回空列表（不修改原始分数），
+        调用方应保留原始检索分数作为排序依据。
+
         Args:
             query: 原始查询问题
 
         Returns:
-            重排后的节点列表（降序）
+            重排后的节点列表（降序），reranker不可用时返回空列表
         """
         pool = self._load()
         if not pool:
@@ -179,6 +182,14 @@ class RecallPoolManager:
 
         # 执行 rerank
         reranked = await _rerank(query, texts)
+
+        # 检查rerank是否真正执行（不可用时所有score=0.0）
+        all_zero = all(item.score == 0.0 for item in reranked)
+        if all_zero and len(reranked) > 0:
+            logger.warning("Reranker returned all-zero scores (likely unavailable), preserving original scores")
+            # 不覆盖原始分数，返回按原始分数排序
+            sorted_nodes = sorted(nodes, key=lambda n: n.relevance_score, reverse=True)
+            return sorted_nodes
 
         # 按重排结果更新节点的 relevance_score
         for item in reranked:
@@ -260,7 +271,7 @@ async def _search_knowledge_impl(
             kb_id=c.get("kb_id", 0) or 0,
             title=c.get("title", ""),
             source=c.get("source", ""),
-            relevance_score=c.get("relevance_score", 0) or 0,
+            relevance_score=c.get("relevance_score") if c.get("relevance_score") is not None else 0.0,
             snippet=c.get("snippet", ""),
             round=current_round,
         ))

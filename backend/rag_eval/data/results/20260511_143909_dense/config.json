@@ -1,0 +1,13 @@
+{
+  "dataset_path": "rag_eval/data/datasets/20260511_134156/dataset.jsonl",
+  "kb_id": 2,
+  "top_k": 8,
+  "retrieval_mode": "dense",
+  "eval_model": "qwen3-235b-a22b-thinking-2507",
+  "metrics": [
+    "ContextPrecision",
+    "ContextRecall",
+    "Faithfulness",
+    "FactualCorrectness"
+  ]
+}

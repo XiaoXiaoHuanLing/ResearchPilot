@@ -247,11 +247,19 @@ async def _dense_only_retrieve(
 
 
 def _build_citations(source_nodes: list, top_k: int) -> list[dict]:
-    """从检索结果构建citations"""
+    """从检索结果构建citations（AutoMerging父子chunk去重）"""
     citations = []
+    seen_snippets = set()  # Deduplicate by snippet prefix (handles AutoMerging parent/child overlap)
     for node in source_nodes:
         score = float(node.score) if node.score is not None else 0.0
         metadata = node.node.metadata or {}
+        snippet = node.node.text if node.node.text else ""
+
+        # Skip duplicate snippets (parent chunk and its child chunks overlap heavily)
+        snippet_key = snippet[:80]
+        if snippet_key in seen_snippets:
+            continue
+        seen_snippets.add(snippet_key)
 
         citations.append({
             "node_id": node.node.node_id,
@@ -261,7 +269,7 @@ def _build_citations(source_nodes: list, top_k: int) -> list[dict]:
             "source_type": metadata.get("source_type", ""),
             "kb_id": metadata.get("kb_id"),
             "relevance_score": score,
-            "snippet": node.node.text if node.node.text else "",
+            "snippet": snippet,
         })
 
     citations.sort(key=lambda c: c.get("relevance_score", 0) or 0, reverse=True)

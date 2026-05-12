@@ -1,0 +1,73 @@
+{
+  "timestamp": "20260511_160614",
+  "dataset_path": "rag_eval/data/datasets/20260511_134156/dataset.jsonl",
+  "kb_id": 2,
+  "top_k": 8,
+  "retrieval_mode": "agent",
+  "eval_model": "qwen3-max-2025-09-23",
+  "dataset_size": 135,
+  "rag_elapsed_seconds": 4791.6,
+  "eval_elapsed_seconds": 1131.6551201343536,
+  "ragas_scores": {
+    "context_precision": 0.767,
+    "context_recall": 0.8593,
+    "faithfulness": 0.8245
+  },
+  "metrics_used": [
+    "ContextPrecision",
+    "ContextRecall",
+    "Faithfulness",
+    "FactualCorrectness"
+  ],
+  "type_scores": {
+    "type:negation": {
+      "context_precision": 0.7919,
+      "context_recall": 0.9048,
+      "faithfulness": 0.8513,
+      "factual_correctness": null,
+      "count": 39
+    },
+    "type:keyword": {
+      "context_precision": 0.6078,
+      "context_recall": 0.7821,
+      "faithfulness": 0.7458,
+      "factual_correctness": null,
+      "count": 39
+    },
+    "type:fact": {
+      "context_precision": 0.8958,
+      "context_recall": 1.0,
+      "faithfulness": 0.7992,
+      "factual_correctness": null,
+      "count": 29
+    },
+    "type:vague": {
+      "context_precision": 0.8429,
+      "context_recall": 0.7833,
+      "faithfulness": 0.9101,
+      "factual_correctness": null,
+      "count": 28
+    },
+    "difficulty:easy": {
+      "context_precision": 0.8534,
+      "context_recall": 0.8889,
+      "faithfulness": 0.8224,
+      "factual_correctness": null,
+      "count": 56
+    },
+    "difficulty:hard": {
+      "context_precision": 0.0,
+      "context_recall": 1.0,
+      "faithfulness": 0.4286,
+      "factual_correctness": null,
+      "count": 7
+    },
+    "difficulty:medium": {
+      "context_precision": 0.7137,
+      "context_recall": 0.8261,
+      "faithfulness": 0.8453,
+      "factual_correctness": null,
+      "count": 72
+    }
+  }
+}

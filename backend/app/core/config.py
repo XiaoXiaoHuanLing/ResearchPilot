@@ -20,6 +20,20 @@ class Settings(BaseSettings):
     dashscope_model_name_fallback_3: str = ""  # Fallback 3
     dashscope_model_name_fallback_4: str = ""  # Fallback 4
 
+    # ─── OpenAI-compatible proxy settings (high quota) ───
+    openai_api_key: str = Field(
+        "", validation_alias=AliasChoices("openai_api_key", "OPENAI_API_KEY")
+    )
+    openai_base_url: str = Field(
+        "", validation_alias=AliasChoices("openai_base_url", "OPENAI_BASE_URL")
+    )
+    openai_model_name: str = Field(
+        "", validation_alias=AliasChoices("openai_model_name", "OPENAI_MODEL_NAME")
+    )
+    openai_model_name_2: str = Field(
+        "", validation_alias=AliasChoices("openai_model_name_2", "OPENAI_MODEL_NAME_2")
+    )
+
     # ─── Embedding settings (same DashScope endpoint, separate model) ───
     dashscope_model_embedding_name: str = ""
     dashscope_model_embedding_name_fallback: str = ""
@@ -69,18 +83,18 @@ class Settings(BaseSettings):
 
     @property
     def llm_model(self) -> str:
-        """Resolved effective chat model name."""
-        return self.dashscope_model_name or "qwen3.5-35b-a3b"
+        """Resolved effective chat model name: DASHSCOPE > OPENAI > default."""
+        return self.dashscope_model_name or self.openai_model_name or "qwen3.5-35b-a3b"
 
     @property
     def llm_api_key(self) -> str:
-        """API key for chat LLM (same as embedding)."""
-        return self.dashscope_api_key
+        """API key for chat LLM: DASHSCOPE > OPENAI."""
+        return self.dashscope_api_key or self.openai_api_key
 
     @property
     def llm_base_url(self) -> str:
-        """Base URL for chat LLM (same as embedding)."""
-        return self.dashscope_base_url
+        """Base URL for chat LLM: DASHSCOPE > OPENAI."""
+        return self.dashscope_base_url or self.openai_base_url
 
     @property
     def embedding_api_key(self) -> str:
@@ -111,21 +125,21 @@ class Settings(BaseSettings):
 
     @property
     def eval_llm_model(self) -> str:
-        """Resolved eval model: eval_model_name > DashScope model > default."""
+        """Resolved eval model: eval_model_name > DASHSCOPE > default."""
         if self.eval_model_name:
             return self.eval_model_name
         return self.dashscope_model_name or "qwen3.5-35b-a3b"
 
     @property
     def eval_llm_base_url(self) -> str:
-        """Resolved eval base URL: eval_model_base_url > DashScope URL."""
+        """Resolved eval base URL: eval_model_base_url > DASHSCOPE."""
         if self.eval_model_base_url:
             return self.eval_model_base_url
         return self.dashscope_base_url
 
     @property
     def eval_llm_api_key(self) -> str:
-        """Resolved eval API key: eval_model_api_key > DashScope key."""
+        """Resolved eval API key: eval_model_api_key > DASHSCOPE."""
         if self.eval_model_api_key:
             return self.eval_model_api_key
         return self.dashscope_api_key

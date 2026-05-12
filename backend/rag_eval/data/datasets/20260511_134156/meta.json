@@ -1,0 +1,28 @@
+{
+  "timestamp": "20260511_134156",
+  "testset_size": 200,
+  "actual_size": 135,
+  "source": "kb:2",
+  "chunk_size": 1000,
+  "chunk_overlap": 150,
+  "group_size": 5,
+  "group_overlap": 1,
+  "elapsed_seconds": 4081.1,
+  "method": "custom_llm_prompt_v2",
+  "type_distribution": {
+    "negation": 39,
+    "keyword": 39,
+    "fact": 29,
+    "vague": 28
+  },
+  "difficulty_distribution": {
+    "easy": 56,
+    "hard": 7,
+    "medium": 72
+  },
+  "models_used": [
+    "qwen3.6-plus",
+    "qwen3.6-max-preview",
+    "qwen3.6-27b"
+  ]
+}

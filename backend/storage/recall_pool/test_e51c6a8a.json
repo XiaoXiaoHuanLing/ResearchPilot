@@ -1,0 +1,74 @@
+{
+  "f13fe672-c08b-4449-a115-99e4810cdeb8": {
+    "node_id": "f13fe672-c08b-4449-a115-99e4810cdeb8",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.0102938087657094,
+    "snippet": "健康检查命令用于快速评估 GPU 的健康状态，使用 nvidia-smi --query-gpu 命令可以查询指定的 GPU 指标，并以 CSV 格式输出，便于脚本处理和自动化监控，常用的查询指标包括 GPU 索引、名称、序列号、温度、功耗、显存使用量、GPU 利用率和未纠正的 ECC 错误总数。",
+    "round": 1
+  },
+  "5ba32c02-4b3d-4133-9c5c-d35098c780f5": {
+    "node_id": "5ba32c02-4b3d-4133-9c5c-d35098c780f5",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.6971741318702698,
+    "snippet": "第四是显存泄漏，程序中存在未被正确释放的张量，导致可用显存逐渐减少，最终引发 OOM。第五是显存碎片化，虽然总可用显存足够，但没有足够大的连续内存块来分配新的张量，也会导致 OOM 错误。\n\n排查这个问题首先需要分析显存的使用情况，执行 python -c \"import torch; print (torch.cuda.memory_summary ())\" 命令可以查看 PyTorch 的详细显存使用信息，包括已分配的显存、缓存的显存和最大显存使用量等。执行 watch -n 1 'nvidia-smi --query-gpu=memory.used --format=csv' 命令可以实时监控显存的变化情况，帮助区分是峰值超限还是显存泄漏。峰值超限表现为显存使用在程序启动后迅速达到峰值并 OOM，而显存泄漏表现为显存使用随时间单调上升，即使批处理大小不变。\n\n解决显存不足问题可以从多个方面入手，首先是降低显存需求，减小批处理大小是最直接有效的方法，虽然会稍微增加训练时间，但通常不会影响最终的模型精度。",
+    "round": 1
+  },
+  "0c3ca2ee-2b3f-454e-9808-eabf6319ed6f": {
+    "node_id": "0c3ca2ee-2b3f-454e-9808-eabf6319ed6f",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.05965559929609299,
+    "snippet": "解决这个问题的方法根据原因不同而有所不同，如果是驱动安装失败，应该彻底卸载所有旧版本的驱动和 CUDA，然后重新安装正确版本的驱动，在 Debian/Ubuntu 系统上，可以执行 sudo apt-get purge nvidia* nvidia-driver-命令卸载所有 NVIDIA 相关的软件包，然后执行 sudo apt-get autoremove && sudo apt-get autoclean 命令清理残留文件，再执行 sudo rm -rf /usr/local/cuda命令删除所有 CUDA 安装目录，安装依赖包后添加 graphics-drivers PPA 源，安装推荐版本的驱动，最后重启系统。如果是 Secure Boot 导致的问题，重启服务器进入 BIOS 设置，找到 Secure Boot 选项并设置为 Disabled，保存设置后重启系统，驱动模块应该会自动加载。如果是硬件问题，关闭服务器电源，重新插拔 GPU 卡，检查 GPU 供电线缆是否连接牢固，尝试将 GPU 卡插入其他 PCIe 插槽，或者将 GPU 卡插入其他服务器进行测试，确认是否为 GPU 卡本身损坏。\n\n3.2 驱动版本不兼容问题\n\n驱动版本不兼容问题也是非常常见的故障，表现为运行 CUDA 程序时提示 \"CUDA driver version is insufficient for CUDA runtime version\"，深度学习框架报错 \"GPU not supported\" 或 \"no kernel image is available for execution\"，或者容器内无法使用 GPU，提示 \"Failed to initialize NVML: Unknown Error\"。导致这个问题的原因主要有四个方面，首先是 CUDA Toolkit 版本高于驱动支持的最高版本，根据不向前兼容原则，低版本驱动无法运行高版本 CUDA 编译的程序。其次是驱动版本过低，不支持当前的 GPU 架构，新的 GPU 架构需要对应版本的驱动支持，如果驱动版本过低，就无法识别新的 GPU。第三是系统中存在多个版本的驱动或 CUDA，不同版本的驱动和 CUDA 混用会导致环境混乱，出现各种奇怪的错误。第四是容器镜像中的 CUDA 版本与宿主机驱动不兼容，容器内的 CUDA 版本不能高于宿主机驱动支持的最高版本，否则容器内无法使用 GPU。\n\n解决这个问题首先需要检查当前环境的版本信息，执行 nvidia-smi | grep \"Driver Version\" 命令查看驱动版本，执行 nvcc -V 命令查看系统中安装的 CUDA Toolkit 版本，执行 python -c \"import torch; print (torch.version.cuda)\" 命令查看 PyTorch 使用的 CUDA 版本，注意 nvidia-smi 显示的 CUDA 版本是驱动支持的最高 CUDA 版本，而不是系统中实际安装的 CUDA 版本。如果是 CUDA 版本高于驱动支持的版本，应该升级驱动至兼容的版本，参考 NVIDIA 官方的兼容性矩阵选择合适的驱动版本，优先使用系统包管理器安装驱动，避免使用.run 文件手动安装，因为.run 文件安装的驱动不容易管理和卸载。如果是系统中存在多个版本的驱动或 CUDA，应该彻底卸载所有旧版本的驱动和 CUDA，然后重新安装统一版本的驱动和 CUDA，或者使用 conda 或 docker 隔离不同版本的 CUDA 环境，避免版本冲突。如果是容器环境的兼容性问题，确保容器镜像中的 CUDA 版本不高于宿主机驱动支持的最高版本，优先使用 NVIDIA 官方提供的基础镜像，例如 nvidia/cuda:12.1-base-ubuntu22.04，这些镜像经过了严格的兼容性测试，如果执行 systemctl daemon-reload 后出现容器无法使用 GPU 的问题，执行 sudo systemctl restart docker 命令重启 Docker 服务即可解决。\n\n3.3 显存不足 (OOM) 问题\n\n显存不足（OOM）是 AI 训练和推理中最常见的问题之一，表现为程序抛出 \"torch.cuda.OutOfMemoryError: CUDA out of memory\" 异常，nvidia-smi 显示显存使用率接近 100%，或者程序被系统 OOM Killer 强制终止。导致这个问题的原因主要有五个方面，首先是模型参数或批处理大小过大，大模型的参数本身就占用大量显存，过大的批处理大小会进一步增加显存需求，导致显存不足。其次是中间激活值占用过多显存，在训练过程中，为了进行反向传播，需要保存所有中间层的激活值，这些激活值的显存占用往往比模型参数本身还要大。第三是优化器状态占用显存，例如 Adam 优化器需要为每个参数存储动量和方差两个状态，这会使显存占用增加一倍。第四是显存泄漏，程序中存在未被正确释放的张量，导致可用显存逐渐减少，最终引发 OOM。第五是显存碎片化，虽然总可用显存足够，但没有足够大的连续内存块来分配新的张量，也会导致 OOM 错误。\n\n排查这个问题首先需要分析显存的使用情况，执行 python -c \"import torch; print (torch.cuda.memory_summary ())\" 命令可以查看 PyTorch 的详细显存使用信息，包括已分配的显存、缓存的显存和最大显存使用量等。执行 watch -n 1 'nvidia-smi --query-gpu=memory.used --format=csv' 命令可以实时监控显存的变化情况，帮助区分是峰值超限还是显存泄漏。峰值超限表现为显存使用在程序启动后迅速达到峰值并 OOM，而显存泄漏表现为显存使用随时间单调上升，即使批处理大小不变。\n\n解决显存不足问题可以从多个方面入手，首先是降低显存需求，减小批处理大小是最直接有效的方法，虽然会稍微增加训练时间，但通常不会影响最终的模型精度。使用混合精度训练（FP16/FP8）可以将显存使用量减少一半左右，同时还能提升训练速度，现代 GPU 都支持混合精度训练，PyTorch 和 TensorFlow 也提供了便捷的混合精度训练接口。",
+    "round": 1
+  },
+  "12ca747b-91c2-43ec-b478-183189053232": {
+    "node_id": "12ca747b-91c2-43ec-b478-183189053232",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.43131494522094727,
+    "snippet": "85 以下。\n\nGPU 显存泄漏：显存使用率随时间单调上升，即使无请求也不释放，最终导致 OOM 崩溃，核心原因包括张量引用未释放、计算图未销毁、第三方库 bug、自定义 CUDA 扩展泄漏、KV 缓存未正确回收。首选解决方案是启用 PyTorch 内存快照功能定位泄漏点，使用 del 语句显式释放张量，在推理时使用 torch.",
+    "round": 1
+  },
+  "e6d0b264-4852-4eab-80e3-c051e12fe113": {
+    "node_id": "e6d0b264-4852-4eab-80e3-c051e12fe113",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.1739400029182434,
+    "snippet": "1-base-ubuntu22.04，这些镜像经过了严格的兼容性测试，如果执行 systemctl daemon-reload 后出现容器无法使用 GPU 的问题，执行 sudo systemctl restart docker 命令重启 Docker 服务即可解决。\n\n3.3 显存不足 (OOM) 问题\n\n显存不足（OOM）是 AI 训练和推理中最常见的问题之一，表现为程序抛出 \"torch.cuda.OutOfMemoryError: CUDA out of memory\" 异常，nvidia-smi 显示显存使用率接近 100%，或者程序被系统 OOM Killer 强制终止。导致这个问题的原因主要有五个方面，首先是模型参数或批处理大小过大，大模型的参数本身就占用大量显存，过大的批处理大小会进一步增加显存需求，导致显存不足。其次是中间激活值占用过多显存，在训练过程中，为了进行反向传播，需要保存所有中间层的激活值，这些激活值的显存占用往往比模型参数本身还要大。第三是优化器状态占用显存，例如 Adam 优化器需要为每个参数存储动量和方差两个状态，这会使显存占用增加一倍。",
+    "round": 1
+  },
+  "fb3ba516-b996-44cd-ac99-2b59a952d1cb": {
+    "node_id": "fb3ba516-b996-44cd-ac99-2b59a952d1cb",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.16608268022537231,
+    "snippet": "首选解决方案是先执行 lsmod | grep nvidia 检查内核模块是否加载，若未加载则尝试 sudo modprobe nvidia，若加载失败且 mokutil --sb-state 显示 SecureBoot enabled，重启进入 BIOS 禁用 Secure Boot，若仍无效则彻底卸载旧驱动后通过 apt 安装推荐版本驱动，最后检查 GPU 物理连接。\n\n驱动版本不兼容错误：运行 CUDA 程序提示 \"CUDA driver version is insufficient for CUDA runtime version\" 或容器内无法使用 GPU，核心原因是 CUDA Toolkit 版本高于驱动支持的最高版本、不同节点驱动版本不一致、容器镜像 CUDA 版本与宿主机驱动不匹配。首选解决方案是执行 nvidia-smi 查看驱动支持的最高 CUDA 版本，确保应用使用的 CUDA 版本不高于该值，集群内所有节点统一驱动版本，使用 NVIDIA 官方基础镜像并匹配宿主机驱动版本。\n\nGPU 显存不足（OOM）错误：程序抛出 torch.cuda.OutOfMemoryError 异常或被系统 OOM Killer 终止，核心原因包括批处理大小过大、中间激活值占用过多显存、优化器状态未释放、显存泄漏、显存碎片化。",
+    "round": 1
+  },
+  "8e8b9db2-91c6-4e72-b079-eedc591ca711": {
+    "node_id": "8e8b9db2-91c6-4e72-b079-eedc591ca711",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.3513597249984741,
+    "snippet": "GPU 硬件与驱动运维故障排查手册\n\n版本：v1.0\n更新日期：2026 年 5 月 4 日\n适用范围：NVIDIA A100/H100/A800/V100/T4 数据中心级 GPU\n文档目的：为 AI 运维工程师提供标准化的 GPU 硬件与驱动故障排查流程，覆盖 80% 以上的常见问题，缩短故障恢复时间\n\n一、基本概念与架构\n\n1.1 GPU 硬件核心组件\n\n现代数据中心级 GPU 是高度集成的并行计算设备，其核心组件包括流式多处理器（SM）、显存控制器、高速通信接口、电源管理单元、散热控制系统和错误校验单元。其中流式多处理器是 GPU 的计算核心，负责执行所有 CUDA 核函数，每个 SM 包含多个 CUDA 核心、张量核心和光线追踪核心，能够同时处理数千个线程。显存控制器管理 GPU 专用的高速 GDDR 或 HBM 显存，决定了 GPU 的显存带宽和容量，是大模型训练和推理的关键瓶颈之一。NVLink 和 PCIe 接口负责 GPU 与 GPU 之间以及 GPU 与 CPU 之间的数据传输，NVLink 提供比 PCIe 高得多的带宽和更低的延迟，是多 GPU 分布式训练的基础。电源管理单元动态调节 GPU 的功耗和频率，在保证性能的同时控制功耗和温度。温度传感器与风扇控制器实时监测 GPU 温度并调节风扇转速，防止过热损坏。ECC 控制器提供错误校验与纠正功能，能够检测并纠正单比特内存错误，检测双比特错误，保障长时间运行任务的数据完整性。\n\n1.2 驱动与软件栈架构\n\nNVIDIA GPU 软件栈采用严格的分层设计，从底层到上层依次为 NVIDIA 内核驱动（NVRM）、NVML 管理库、CUDA Toolkit、深度学习加速库和深度学习框架。NVIDIA 内核驱动运行在内核空间，是唯一能够直接与 GPU 硬件交互的软件层，负责管理 GPU 资源、调度任务和处理硬件中断。NVML 库是 NVIDIA 提供的管理库，为上层应用和工具提供了统一的 GPU 监控与管理 API，nvidia-smi 等工具就是基于 NVML 库开发的。CUDA Toolkit 包含 CUDA 编译器 nvcc、CUDA 运行时库和各种数学库，是开发和运行 CUDA 程序的基础。cuDNN 和 TensorRT 是专门针对深度学习优化的加速库，cuDNN 提供了卷积、池化等常用深度学习操作的高效实现，TensorRT 则通过模型优化和推理加速技术大幅提升推理性能。最上层的 PyTorch、TensorFlow 等深度学习框架封装了底层的 CUDA 和加速库接口，为用户提供了便捷的深度学习开发和运行环境。\n\n1.3 版本兼容性原则\n\nNVIDIA GPU 软件栈的版本兼容性遵循四个核心原则，首先是向后兼容原则，高版本驱动通常能够兼容多个旧版本的 CUDA Toolkit，例如 R535 驱动支持 CUDA 11.8 到 12.2 的所有版本，这意味着使用旧版 CUDA 编译的程序可以在新驱动上运行而无需重新编译。其次是不向前兼容原则，低版本驱动无法运行高版本 CUDA 编译的程序，这是因为高版本 CUDA 使用了新的驱动 API，这些 API 在旧驱动中不存在。第三是严格匹配原则，cuDNN 版本必须与 CUDA Toolkit 版本严格对应，不同版本的 cuDNN 针对特定版本的 CUDA 进行了优化，混用版本会导致程序运行错误或性能下降。最后是架构支持原则，新的 GPU 架构需要对应版本的驱动支持，例如 Hopper 架构的 H100 GPU 需要 R525 及以上版本的驱动，Blackwell 架构的 GPU 需要 R550 及以上版本的驱动。\n\n2026 年最新的版本兼容性信息如下，CUDA Toolkit 12.5 版本要求最低 Linux 驱动版本为 550.54.14，推荐使用 550.90.07 版本驱动，支持 Blackwell、Hopper、Ada 和 Ampere 架构的 GPU。CUDA Toolkit 12.1 版本要求最低 Linux 驱动版本为 535.54.03，推荐使用 535.129.03 版本驱动，支持 Hopper、Ada、Ampere 和 Turing 架构的 GPU。CUDA Toolkit 11.8 版本要求最低 Linux 驱动版本为 520.61.05，推荐使用 525.60.13 版本驱动，支持 Ampere、Turing、Volta 和 Pascal 架构的 GPU。\n\n二、核心工具使用方法\n\n2.1 nvidia-smi 基础命令\n\nnvidia-smi 是最常用的 GPU 管理工具，提供了 GPU 状态查询、配置修改和故障诊断功能，几乎所有 GPU 运维操作都会用到这个工具。基本状态查询是最常用的功能，直接执行 nvidia-smi 命令可以显示所有 GPU 的基本信息，包括 GPU 编号、型号、显存使用情况、GPU 利用率、温度和功耗等。使用 watch -n 2 nvidia-smi 命令可以每 2 秒刷新一次 GPU 状态，实现实时监控。执行 nvidia-smi -q 命令可以显示 GPU 的详细信息，包括硬件规格、驱动版本、ECC 状态和 NVLink 状态等。使用 nvidia-smi -i 0 命令可以只显示编号为 0 的 GPU 的信息，在多 GPU 环境下非常有用。\n\n健康检查命令用于快速评估 GPU 的健康状态，使用 nvidia-smi --query-gpu 命令可以查询指定的 GPU 指标，并以 CSV 格式输出，便于脚本处理和自动化监控，常用的查询指标包括 GPU 索引、名称、序列号、温度、功耗、显存使用量、GPU 利用率和未纠正的 ECC 错误总数。",
+    "round": 1
+  },
+  "6735af5e-5d24-4d54-954c-595ab30b55bd": {
+    "node_id": "6735af5e-5d24-4d54-954c-595ab30b55bd",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.6379850506782532,
+    "snippet": "排查这个问题首先需要查看容器的日志和系统日志，确定崩溃的原因，如果日志中显示 OOM 错误，需要增加 GPU 或内存资源，或者使用量化后的模型，减小模型的显存占用。如果是驱动崩溃，需要检查 GPU 驱动的版本，升级到最新的稳定版本，重启 GPU 或服务器。",
+    "round": 1
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "42bed581-58b0-4b83-84e9-2af1ebff463f": {
+    "node_id": "42bed581-58b0-4b83-84e9-2af1ebff463f",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.8459941148757935,
+    "snippet": "AI 运维工程师提供标准化的 Kubernetes GPU 集群运维流程和故障排查方法，覆盖企业级 AI 训练和推理集群 90% 以上的常见问题，保障集群稳定运行，提升 GPU 资源利用率\n\n一、基本概念与架构\n\nKubernetes GPU 集群是专门为 AI 工作负载设计的容器化集群，在标准 Kubernetes 架构基础上增加了 GPU 资源管理、调度和监控能力，能够高效管理大规模",
+    "round": 1
+  },
+  "a3a0e5e5-a8dd-482f-866b-cd2a82ed6923": {
+    "node_id": "a3a0e5e5-a8dd-482f-866b-cd2a82ed6923",
+    "kb_id": 2,
+    "title": "AI 系统安全加固与权限管理规范",
+    "source": "本地文档: AI 系统安全加固与权限管理规范.docx",
+    "relevance_score": 0.0671081691980362,
+    "snippet": "AI 系统安全加固与权限管理规范\n\n版本：v1.0\n更新日期：2026 年 5 月 4 日\n适用范围：企业级 AI 训练与推理集群，覆盖 NVIDIA GPU 基础设施、Kubernetes 容器平台、MLOps 工具链、大模型训练与推理服务全栈，兼容 MLflow 2.10+、DVC 3.0+、vLLM 0.4.0-0.5.0、Triton 24.03-24.05，支持等保 2.0 三级及以上合规要求\n文档目的：建立标准化的 AI 系统安全防护体系，覆盖基础设施、数据、模型、应用全生命周期的安全加固与权限管控，防范数据泄露、模型窃取、对抗攻击、未授权访问等安全风险，保障 AI 系统的机密性、完整性和可用性\n\n一、基本概念与安全原则\n\nAI 系统安全是传统 IT 安全与 AI 特有安全风险的结合，除了传统的基础设施安全、网络安全和应用安全外，还面临数据投毒、模型窃取、对抗样本攻击、prompt 注入、生成内容有害性等 AI 特有的安全挑战。AI 系统安全加固遵循纵深防御原则，在基础设施、平台、数据、模型、应用多个层面构建多层防护体系，任何一层被突破后，其他层仍能提供有效防护。最小权限原则是权限管理的核心，所有用户和服务仅被授予完成其工作所必需的最小权限，避免权限过度集中和滥用。持续监控原则要求对 AI 系统的所有操作和行为进行实时监控和审计，及时发现和响应安全事件。合规性原则确保 AI 系统的建设和运行符合国家法律法规和行业标准的要求，包括数据安全法、个人信息保护法、生成式人工智能服务管理暂行办法等。\n\n完整的 AI 安全体系由安全防护、安全监控、安全审计和应急响应四个部分组成。安全防护通过技术和管理手段预防安全事件的发生，是安全体系的基础；安全监控实时监测系统的运行状态和安全事件，及时发现异常行为；安全审计记录所有的操作和事件，为事后追溯和责任认定提供依据；应急响应在安全事件发生时快速处置，降低事件造成的损失。四个部分相互配合，形成闭环的安全管理体系。\n\n二、基础设施层安全加固\n\n基础设施是 AI 系统的底层支撑，其安全是整个 AI 系统安全的基础。GPU 服务器安全加固首先从硬件和固件层面入手，定期更新服务器 BIOS、BMC 和 GPU 固件，修复已知的安全漏洞。禁用服务器上不必要的硬件接口和服务，如 USB 接口、串口、FTP、Telnet 等，减少攻击面。设置强密码策略和多因素认证，限制 BMC 和 SSH 的访问 IP 范围，仅允许授权的运维人员访问。操作系统层面，使用经过安全加固的 Linux 发行版，如 Ubuntu Server LTS 或 RHEL，关闭不必要的系统服务，删除默认用户和弱密码。配置系统防火墙，只开放必要的端口，如 SSH 的 22 端口、Kubernetes 的 6443 端口等。启用系统日志审计功能，记录所有的系统登录、命令执行和文件操作。\n\nGPU 设备安全是 AI 基础设施特有的安全需求，启用 NVIDIA GPU 的 ECC 错误校验功能，防止内存错误导致的数据篡改。使用 MIG（多实例 GPU）技术将物理 GPU 分割为多个独立的逻辑 GPU 实例，为不同的用户和任务分配独立的 GPU 资源，实现 GPU 资源的隔离，防止不同任务之间的信息泄露和干扰。禁用 GPU 的调试接口和性能计数器，防止攻击者通过这些接口窃取模型参数和敏感数据。定期运行 DCGM 诊断工具检查 GPU 的健康状态和安全漏洞，及时发现和处理硬件级别的安全问题。\n\nKubernetes 集群安全加固覆盖控制平面、节点和 Pod 三个层面。控制平面层面，启用 API Server 的 TLS 加密和认证授权，使用 RBAC（基于角色的访问控制）管理用户和服务账户的权限，禁用匿名访问和不安全的端口。加密 etcd 数据库，存储集群的所有配置和状态信息，防止敏感数据泄露。定期备份 etcd 数据，确保在集群故障时能够快速恢复。节点层面，关闭节点上不必要的端口和服务，配置节点防火墙，限制 Pod 之间的网络通信。启用 Kubernetes 的 Node Restriction 准入控制器，限制 kubelet 的权限，防止节点被攻陷后影响整个集群。使用安全的容器镜像，避免使用带有漏洞的基础镜像，定期扫描容器镜像的安全漏洞。Pod 层面，配置 Pod 的安全上下文，设置非 root 用户运行容器，禁用特权模式，限制容器的系统调用和文件系统访问权限。使用 Network Policy 定义 Pod 之间的网络通信规则，实现 Pod 之间的网络隔离，默认拒绝所有未明确允许的通信。\n\n网络安全加固采用网络分段的方式，将 AI 集群划分为不同的安全区域，包括管理区、训练区、推理区和存储区，不同区域之间通过防火墙进行隔离。管理区仅允许运维人员访问，训练区和推理区之间限制不必要的通信，存储区仅允许授权的服务访问。所有网络通信都采用加密传输，包括 SSH、HTTPS、gRPC 等协议，使用 TLS 1.3 及以上版本，禁用不安全的加密算法和协议。",
+    "round": 1
+  },
+  "88373487-6d1c-4862-b07f-ebdd22a19f1d": {
+    "node_id": "88373487-6d1c-4862-b07f-ebdd22a19f1d",
+    "kb_id": 2,
+    "title": "模型训练性能优化最佳实践",
+    "source": "本地文档: 模型训练性能优化最佳实践.docx",
+    "relevance_score": 0.9296274781227112,
+    "snippet": "export NCCL_NET_GDR_LEVEL=3; export NCCL_IB_HCA=mlx5_0:1\nDeepSpeed ZeRO 配置：\"zero_optimization\": {\"stage\": 2, \"offload_optimizer\": {\"device\": \"cpu\"}}\n\n常用性能分析工具命令\n\nPyTorch Profiler 使用：torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU, torch.profiler.ProfilerActivity.CUDA])\nNsight Systems 命令行：nsys profile -o profile_report python train.py\nnvidia-smi 实时监控：watch -n 1 nvidia-smi\nnvtop 安装与使用：apt install nvtop; nvtop\nnccl-tests 性能测试：mpirun -np 32 -H node1:8,node2:8,node3:8,node4:8 ./all_reduce_perf -b 8 -e 128M -f 2 -g 8\n\n参考资料\n\nGPU 硬件与驱动运维故障排查手册\n\nNCCL 分布式通信故障排查与优化手册\n\nKubernetes GPU 集群运维核心指南\n\nPyTorch 官方性能优化指南：https://pytorch.org/docs/stable/notes/performance.html\n\nDeepSpeed 官方文档：https://www.deepspeed.ai/docs/\n\nMegatron-LM 官方仓库：https://github.com/NVIDIA/Megatron-LM\n\nFlashAttention 官方文档：https://github.com/Dao-AILab/flash-attention",
+    "round": 1
+  },
+  "c7719d90-7fd1-4bf8-a1bc-7182b59384bf": {
+    "node_id": "c7719d90-7fd1-4bf8-a1bc-7182b59384bf",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.8863856792449951,
+    "snippet": "二、Kubernetes GPU 集群层故障（31-50）\n\nGPU 资源无法调度：Pod 一直处于 Pending 状态，事件显示 \"Insufficient nvidia.com/gpu\"，核心原因包括集群无可用 GPU、GPU Operator 部署失败、节点有污点、Pod 资源请求错误、调度器配置错误。首选解决方案是执行 kubectl describe nodes | grep nvidia.",
+    "round": 1
+  },
+  "6ba22357-95fd-41ff-878b-b07f9b7ce143": {
+    "node_id": "6ba22357-95fd-41ff-878b-b07f9b7ce143",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.8952162861824036,
+    "snippet": "排查这个问题首先需要检查集群的 GPU 资源使用情况，执行kubectl describe nodes | grep -A 10 \"Allocatable\"命令查看所有节点的可分配 GPU 资源，执行kubectl describe nodes | grep -A 10 \"Allocated resources\"命令查看已分配的 GPU 资源，确认是否有可用的 GPU 资源。如果有可用的 GPU 资源但 Pod 仍然无法调度，需要检查 GPU Operator 的运行状态，执行kubectl get pods -n gpu-operator命令查看所有 GPU Operator Pod 是否正常运行，如果有 Pod 异常，查看 Pod 日志排查问题。",
+    "round": 1
+  },
+  "33afbcc7-0b0e-48ce-b4dd-70c5726eea51": {
+    "node_id": "33afbcc7-0b0e-48ce-b4dd-70c5726eea51",
+    "kb_id": 2,
+    "title": "模型训练性能优化最佳实践",
+    "source": "本地文档: 模型训练性能优化最佳实践.docx",
+    "relevance_score": 7.49938262742944e-05,
+    "snippet": "export NCCL_NET_GDR_LEVEL=3;",
+    "round": 1
+  },
+  "bfa2a5d3-7f7c-4724-b91a-2a22a0261b68": {
+    "node_id": "bfa2a5d3-7f7c-4724-b91a-2a22a0261b68",
+    "kb_id": 2,
+    "title": "模型训练性能优化最佳实践",
+    "source": "本地文档: 模型训练性能优化最佳实践.docx",
+    "relevance_score": 0.008119015954434872,
+    "snippet": "经过性能分析，发现主要瓶颈是数据预处理速度慢，CPU 利用率达到 100%，而 GPU 大部分时间处于空闲状态。首先将数据预处理操作从 CPU 卸载到 GPU 上，使用 DALI 库实现 GPU 加速的数据增强，数据预处理速度提升了 8 倍。然后启用自动混合精度训练和 torch.compile 编译优化，单卡计算速度提升了 40%。接着优化 DataLoader 配置，将 num_workers 设置为 32，prefetch_factor 设置为 4，进一步减少了数据加载时间。最后启用分布式数据并行的分桶通信优化，调整 bucket_cap_mb 参数为 25，通信与计算重叠效果更好。经过优化后，训练速度提升到 2400 images/sec，GPU 平均利用率达到 92%，训练周期从原来的 7 天缩短到 2 天。\n\n十、附录\n\n常用优化配置参数速查\n\nPyTorch 混合精度训练配置：from torch.cuda.amp import autocast, GradScaler; scaler = GradScaler()\nPyTorch 编译优化：model = torch.compile(model, mode=\"max-autotune\")\nFlashAttention 启用：pip install flash-attn; model.config.use_flash_attention_2 = True\n梯度检查点启用：model.gradient_checkpointing_enable()\nNCCL 环境变量配置：export NCCL_DEBUG=INFO;",
+    "round": 1
+  },
+  "e0faab37-acfa-4ee6-98d4-33caab545199": {
+    "node_id": "e0faab37-acfa-4ee6-98d4-33caab545199",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.49685001373291016,
+    "snippet": "enabled字段来启用或禁用 DCGM 监控。修改 ClusterPolicy 后，GPU Operator 会自动检测配置变化，并更新集群中的相关组件，无需手动干预。\n\n当 GPU 节点加入集群时，GPU Operator 会自动在该节点上部署所有必要的 GPU 组件，包括驱动、容器运行时、设备插件等，这个过程通常需要几分钟时间。可以通过查看节点上的 Pod 状态来监控部署进度，执行kubectl get pods -n gpu-operator --field-selector spec.nodeName=<node-name>命令可以查看指定节点上的 GPU Operator Pod 状态。如果某个组件部署失败，可以查看该 Pod 的日志来排查问题，执行kubectl logs <pod-name> -n gpu-operator命令可以查看 Pod 的详细日志。\n\n2.3 Volcano 调度器使用\n\nVolcano 调度器通过自定义资源定义 (CRD) 来管理 AI 工作负载，提供了 Job、Queue、PodGroup 等多种资源类型，能够满足不同类型 AI 工作负载的调度需求。创建 Volcano Job 是运行分布式训练任务的常用方式，Volcano Job 支持多种任务模式，包括 MPI、TensorFlow、PyTorch 等，能够自动管理分布式训练任务的各个进程。\n\n创建 Volcano Job 时，需要指定任务的副本数、资源请求、调度策略等参数，例如minAvailable字段指定任务需要的最小可用副本数，schedulerName: volcano指定使用 Volcano 调度器进行调度。Volcano 还支持队列管理功能，可以创建多个队列，为不同的用户或项目分配不同的资源配额，实现资源的公平共享。执行kubectl get queues命令可以查看所有队列的状态和资源使用情况，执行kubectl describe queue <queue-name>命令可以查看队列的详细配置和任务列表。\n\n2.4 监控与诊断工具\n\n建立完善的监控体系是保障 GPU 集群稳定运行的关键，常用的监控工具包括 DCGM Exporter、Prometheus 和 Grafana。DCGM Exporter 是 NVIDIA 提供的 GPU 监控工具，能够采集 GPU 的各种性能指标，包括利用率、显存使用率、温度、功耗、ECC 错误等，DCGM Exporter 由 GPU Operator 自动部署，运行在每个 GPU 节点上。\n\nPrometheus 负责收集和存储监控指标，Grafana 负责将监控指标可视化展示，NVIDIA 提供了预定义的 Grafana 仪表盘，包括 GPU 节点概览、GPU 详细信息、集群资源使用情况等，能够直观地展示集群的运行状态。除了基础监控，还可以使用 kubectl-debug、k9s 等工具进行集群诊断，kubectl-debug 可以在运行中的 Pod 中启动一个调试容器，方便排查 Pod 内部的问题，k9s 是一个终端 UI 工具，能够更方便地管理和监控 Kubernetes 集群。\n\n三、常见故障排查与解决方案\n\n3.1 GPU 资源无法调度\n\nGPU 资源无法调度是最常见的集群故障之一，表现为 Pod 一直处于 Pending 状态，事件信息显示 \"0/10 nodes are available: 10 Insufficient nvidia.com/gpu\"。导致这个问题的原因主要有六个方面，首先是集群中确实没有可用的 GPU 资源，所有 GPU 都已经被分配给其他 Pod。其次是 GPU Operator 部署失败，节点上的 GPU 资源没有被正确暴露给 Kubernetes。第三是节点被打上了污点，导致 Pod 无法调度到该节点上。第四是 Pod 的资源请求超过了节点上可用的 GPU 资源。第五是调度器配置错误，没有启用 GPU 调度功能。第六是节点处于不可调度状态，被标记为 SchedulingDisabled。\n\n排查这个问题首先需要检查集群的 GPU 资源使用情况，执行kubectl describe nodes | grep -A 10 \"Allocatable\"命令查看所有节点的可分配 GPU 资源，执行kubectl describe nodes | grep -A 10 \"Allocated resources\"命令查看已分配的 GPU 资源，确认是否有可用的 GPU 资源。如果有可用的 GPU 资源但 Pod 仍然无法调度，需要检查 GPU Operator 的运行状态，执行kubectl get pods -n gpu-operator命令查看所有 GPU Operator Pod 是否正常运行，如果有 Pod 异常，查看 Pod 日志排查问题。\n\n接下来检查节点的污点和标签，执行kubectl describe node <node-name>命令查看节点的污点信息，如果节点上有nvidia.com/gpu=present:NoSchedule之类的污点，需要在 Pod 的配置中添加对应的容忍，或者移除节点上的污点。同时检查 Pod 的资源请求是否正确，确保 GPU 资源请求的单位是nvidia.com/gpu，并且请求的数量不超过节点上可用的 GPU 数量。最后检查调度器的配置，确保 Volcano 或 Kubernetes 默认调度器已经正确配置，能够调度 GPU 资源。\n\n3.2 GPU Pod 启动失败\n\nGPU Pod 启动失败表现为 Pod 处于 CrashLoopBackOff 或 Error 状态，无法正常运行。导致这个问题的原因主要有七个方面，首先是容器镜像中的 CUDA 版本与宿主机驱动版本不兼容，容器内的 CUDA 版本不能高于宿主机驱动支持的最高版本。其次是 NVIDIA Container Toolkit 没有正确安装或配置，导致容器无法访问 GPU 设备。第三是 GPU 设备被其他进程占用，或者 GPU 出现硬件故障。第四是 Pod 的安全上下文配置错误，没有足够的权限访问 GPU 设备。第五是存储卷挂载失败，导致 Pod 无法读取数据或模型文件。第六是环境变量配置错误，导致程序无法找到 GPU 设备。第七是节点内核版本与驱动版本不兼容，导致驱动加载失败。\n\n排查这个问题首先需要查看 Pod 的日志，执行kubectl logs <pod-name>命令查看容器的输出日志，根据错误信息定位问题所在。如果日志中显示 \"CUDA error: no kernel image is available for execution on the device\"，说明 CUDA 版本与驱动版本不兼容，需要更换兼容的容器镜像。如果日志中显示 \"Failed to initialize NVML: Unknown Error\"，说明 NVIDIA Container Toolkit 配置错误，需要检查 GPU Operator 的部署状态，确保 NVIDIA Container Toolkit 已经正确安装和配置。",
+    "round": 1
+  }
+}

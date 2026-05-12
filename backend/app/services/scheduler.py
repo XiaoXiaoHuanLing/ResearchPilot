@@ -1,14 +1,15 @@
-﻿"""Scheduler service using APScheduler for topic-based periodic collection — V2 Fixed.
+﻿"""
+使用 APScheduler 进行基于主题的周期性收集调度服务 — V2 固定版。
 
-V2 Fix: The core issue was that APScheduler runs in a background thread,
-but our collection pipeline is async. The V1 code tried to get the event loop
-which either didn't exist or was already running. V2 uses asyncio.run()
-in the background thread to create a fresh event loop for each job.
+V2修复：核心问题是APScheduler运行在后台线程中，
+但我们的收集流程是异步的。V1代码尝试触发事件循环
+而这些机器要么根本不存在，要么已经在运行。V2 使用 asyncio.run（）
+在后台线程中为每个作业创建一个新的事件循环。
 
-Also added:
-- Proper scheduler lifecycle management
-- Collection result tracking
-- Error handling and retry logging
+还补充了：
+- 正确的调度器生命周期管理
+- 收集结果跟踪
+- 错误处理和重试日志
 """
 
 import asyncio

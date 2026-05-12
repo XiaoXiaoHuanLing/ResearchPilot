@@ -1,0 +1,74 @@
+{
+  "301e987e-b116-4ae5-ade7-8968807b2f53": {
+    "node_id": "301e987e-b116-4ae5-ade7-8968807b2f53",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.9966179728507996,
+    "snippet": "调度组件负责将 AI 工作负载调度到合适的计算节点上，标准的 Kubernetes 调度器只能基于 GPU 数量进行调度，无法感知 GPU 的拓扑结构和网络连接，因此在大规模 GPU 集群中通常需要使用专门的 AI 调度器，如 Volcano 或 Kubeflow Training Operator。",
+    "round": 1
+  },
+  "6d84b3a9-4f17-40a3-96ea-c73dc38e4b32": {
+    "node_id": "6d84b3a9-4f17-40a3-96ea-c73dc38e4b32",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.188404381275177,
+    "snippet": "可以使用 Kubernetes 的调度器扩展，如 Descheduler，定期重新调度集群中的 Pod，将分散的资源整合起来，提高节点的资源利用率。",
+    "round": 1
+  },
+  "9de3017b-78f5-4236-b7b9-55310b29fea2": {
+    "node_id": "9de3017b-78f5-4236-b7b9-55310b29fea2",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.8639784455299377,
+    "snippet": "Kubernetes GPU 集群运维核心指南\n\n版本：v1.0\n更新日期：2026 年 5 月 4 日\n适用范围：Kubernetes 1.25-1.30 稳定版本，NVIDIA GPU Operator v23.9-v24.3，Volcano v1.8-v1.10 调度器，支持 NVIDIA A100/H100/A800/V100/T4 数据中心级 GPU，兼容 InfiniBand HDR/NDR 和 RoCE v2 网络\n文档目的：为 AI 运维工程师提供标准化的 Kubernetes GPU 集群运维流程和故障排查方法，覆盖企业级 AI 训练和推理集群 90% 以上的常见问题，保障集群稳定运行，提升 GPU 资源利用率\n\n一、基本概念与架构\n\nKubernetes GPU 集群是专门为 AI 工作负载设计的容器化集群，在标准 Kubernetes 架构基础上增加了 GPU 资源管理、调度和监控能力，能够高效管理大规模 GPU 资源，支持分布式训练和高并发推理服务。其核心架构由控制平面、计算节点、GPU 资源管理组件、调度组件、存储组件和网络组件组成，各组件协同工作，为 AI 工作负载提供完整的运行环境。",
+    "round": 1
+  },
+  "bc0f2329-a990-4e6d-85ae-19683d1e94fb": {
+    "node_id": "bc0f2329-a990-4e6d-85ae-19683d1e94fb",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.9514816999435425,
+    "snippet": "首先应该启用拓扑感知调度，Volcano 调度器支持基于 GPU 和网络拓扑的调度，能够将同一个训练任务的所有 Pod 调度到网络拓扑相近的节点上，减少跨交换机和跨机架的通信，降低通信延迟。在 Volcano 中，可以通过设置topologyPolicy字段来启用拓扑感知调度，支持best-effort、restricted和single-numa-node等多种策略。",
+    "round": 1
+  },
+  "d160ea08-fde3-4348-83c4-5d7216a1f6be": {
+    "node_id": "d160ea08-fde3-4348-83c4-5d7216a1f6be",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.9940740466117859,
+    "snippet": "控制平面负责集群的全局管理和调度，包括 kube-apiserver、kube-controller-manager、kube-scheduler 和 etcd 等核心组件，其中 kube-scheduler 需要扩展 GPU 感知能力，能够根据 GPU 资源的可用性和拓扑结构进行智能调度。计算节点是运行 AI 工作负载的服务器，每个节点包含多个 GPU 卡、CPU、内存和高速网络接口，节点上运行 kubelet、kube-proxy、容器运行时以及 GPU 相关的驱动和插件。\n\nGPU 资源管理组件是 Kubernetes GPU 集群区别于传统集群的核心，主要包括 NVIDIA GPU Operator 和 NVIDIA 设备插件。NVIDIA GPU Operator 是一个自动化的运维工具，能够在 Kubernetes 集群中自动部署和管理所有 GPU 相关的软件组件，包括 NVIDIA 驱动、CUDA 运行时、容器运行时、设备插件、DCGM 监控工具等，极大简化了 GPU 集群的部署和运维难度。NVIDIA 设备插件负责向 kubelet 暴露 GPU 资源，让 Kubernetes 能够感知和管理节点上的 GPU 资源，实现 GPU 资源的调度和分配。",
+    "round": 1
+  },
+  "b40b4dbd-9429-4bff-b6f2-b35987d49796": {
+    "node_id": "b40b4dbd-9429-4bff-b6f2-b35987d49796",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.18290352821350098,
+    "snippet": "最后检查任务的调度情况，使用 Volcano 的拓扑感知调度功能，将同一个训练任务的所有 Pod 调度到网络拓扑相近的节点上，减少通信延迟。\n\n3.5 存储相关问题\n\n存储相关问题是 AI 集群中常见的故障之一，表现为 Pod 启动时挂载存储卷失败，或者训练过程中数据读取速度慢、写入失败。",
+    "round": 1
+  },
+  "69fe6e7d-176e-4714-b831-00cd67bb6cd0": {
+    "node_id": "69fe6e7d-176e-4714-b831-00cd67bb6cd0",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.014075149782001972,
+    "snippet": "另外应该优化 Kubernetes 的网络配置，使用高性能的网络插件，如 Calico 的 eBPF 模式，提升网络的转发性能。禁用不必要的网络功能，如网络策略、NAT 等，减少网络开销。对于不需要外部访问的 Pod，使用 HostNetwork 模式，直接使用节点的网络栈，降低网络延迟。\n\n4.",
+    "round": 1
+  },
+  "d00930ec-828f-47c9-bda9-b24e8996d7e6": {
+    "node_id": "d00930ec-828f-47c9-bda9-b24e8996d7e6",
+    "kb_id": 2,
+    "title": "NCCL 分布式通信故障排查与优化手册",
+    "source": "本地文档: NCCL 分布式通信故障排查与优化手册.docx",
+    "relevance_score": 0.9869958758354187,
+    "snippet": "4.4 拓扑感知调度\n\n拓扑感知调度是指根据集群的硬件拓扑来调度训练任务，将通信密集的任务调度到网络拓扑相近的节点上，减少跨交换机和跨机架的通信，降低通信延迟。在 Kubernetes 集群中，可以使用 Volcano 或 Kubeflow Training Operator 的拓扑感知调度功能，根据节点的网络拓扑来调度 Pod。",
+    "round": 1
+  }
+}

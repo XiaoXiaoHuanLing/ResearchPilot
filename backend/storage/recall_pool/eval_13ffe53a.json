@@ -1,0 +1,74 @@
+{
+  "91bb0c14-5319-4455-ab8a-d352552dc516": {
+    "node_id": "91bb0c14-5319-4455-ab8a-d352552dc516",
+    "kb_id": 2,
+    "title": "数据与模型版本管理规范",
+    "source": "本地文档: 数据与模型版本管理规范.docx",
+    "relevance_score": 0.04478277063878469,
+    "snippet": "org/doc\n\nMLflow 官方文档：https://mlflow.org/docs/latest/index.html\n\nHugging Face Hub 官方文档：https://huggingface.co/docs/hub/index\n\nKubernetes GPU 集群运维核心指南\n\n大模型推理服务（vLLM/Triton）运维手册",
+    "round": 1
+  },
+  "a586a21b-773f-43ff-a6bf-38634485a135": {
+    "node_id": "a586a21b-773f-43ff-a6bf-38634485a135",
+    "kb_id": 2,
+    "title": "AI 系统安全加固与权限管理规范",
+    "source": "本地文档: AI 系统安全加固与权限管理规范.docx",
+    "relevance_score": 0.016666666666666666,
+    "snippet": "对模型的输出内容进行实时审核，使用内容审核模型检测并过滤生成的有害、违法、暴力、色情和歧视性内容。设置输出内容的长度限制，防止模型生成过长的内容导致服务过载。\n\nvLLM 推理服务安全加固首先启用 vLLM 的 API 认证功能，使用 --api-key 参数设置 API 密钥，只有提供正确密钥的请求才能访问服务。",
+    "round": 1
+  },
+  "781f5b22-595f-424f-aa96-ae9ce5667c99": {
+    "node_id": "781f5b22-595f-424f-aa96-ae9ce5667c99",
+    "kb_id": 2,
+    "title": "P0 级故障应急响应与灾难恢复流程",
+    "source": "本地文档: P0 级故障应急响应与灾难恢复流程.docx",
+    "relevance_score": 0.016666666666666666,
+    "snippet": "25-1.30 容器平台、NCCL 分布式训练环境、vLLM/Triton 推理服务、MLOps 工具链全栈，支持等保 2.",
+    "round": 1
+  },
+  "5263d7c6-d976-4320-a4d2-e6e9e82b0d57": {
+    "node_id": "5263d7c6-d976-4320-a4d2-e6e9e82b0d57",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.01639344262295082,
+    "snippet": "html\nTensorRT-LLM 官方文档：https://github.com/NVIDIA/TensorRT-LLM\nKServe 官方文档：https://kserve.github.io/website/latest/",
+    "round": 1
+  },
+  "1f65da39-1760-40be-90fe-11e5d3f6ed6b": {
+    "node_id": "1f65da39-1760-40be-90fe-11e5d3f6ed6b",
+    "kb_id": 2,
+    "title": "P0 级故障应急响应与灾难恢复流程",
+    "source": "本地文档: P0 级故障应急响应与灾难恢复流程.docx",
+    "relevance_score": 0.01639344262295082,
+    "snippet": "P0 级故障应急响应与灾难恢复流程\n\n版本：v1.0\n更新日期：2026 年 5 月 4 日\n适用范围：企业级 AI 训练与推理集群，覆盖 NVIDIA A100/H100/A800 GPU 基础设施、Kubernetes 1.25-1.30 容器平台、NCCL 分布式训练环境、vLLM/Triton 推理服务、MLOps 工具链全栈，支持等保 2.",
+    "round": 1
+  },
+  "4cc41cea-fd7d-4df5-a516-aab276d15848": {
+    "node_id": "4cc41cea-fd7d-4df5-a516-aab276d15848",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.016129032258064516,
+    "snippet": "首选解决方案是检查模型名称和服务地址是否正确，验证输入数据的格式和形状是否与模型输入匹配，确保有访问 Triton 服务的权限。\n\n推理服务崩溃自动重启：服务频繁崩溃并自动重启，核心原因包括 OOM 错误、驱动崩溃、硬件故障、程序 bug、请求过载。",
+    "round": 1
+  },
+  "f6964ebc-6533-45e2-97da-a2b9990eb56b": {
+    "node_id": "f6964ebc-6533-45e2-97da-a2b9990eb56b",
+    "kb_id": 2,
+    "title": "模型训练性能优化最佳实践",
+    "source": "本地文档: 模型训练性能优化最佳实践.docx",
+    "relevance_score": 0.015873015873015872,
+    "snippet": "然后启用 FP16 混合精度训练和 FlashAttention 算子，单卡计算速度提升了 2 倍。接着优化分布式训练通信配置，启用 GPUDirect RDMA，调整 NCCL 参数，使用拓扑感知调度将所有 GPU 调度到同一个节点上，通信开销减少了 70%。最后启用梯度累积，将有效批处理大小从 32 增加到 128，进一步提升了 GPU 利用率。",
+    "round": 1
+  },
+  "554497ef-3f39-44dc-aff4-930a445c73c4": {
+    "node_id": "554497ef-3f39-44dc-aff4-930a445c73c4",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.015625,
+    "snippet": "首选解决方案是查看服务日志获取详细错误信息，验证输入数据的格式和内容是否符合要求，检查 GPU 显存和内存是否充足，重启服务尝试恢复。\n\nAPI 调用返回 404 错误：调用推理 API 时返回 404 Not Found，核心原因包括模型名称错误、模型未加载、服务地址错误、API 路径错误。首选解决方案是检查模型名称是否正确，验证模型是否已成功加载到服务中，确认服务地址和 API 路径是否正确。\n\nAPI 调用返回 400 错误：调用推理 API 时返回 400 Bad Request，核心原因包括请求参数错误、JSON 格式错误、缺少必要字段、参数值超出范围。首选解决方案是检查请求的 JSON 格式是否正确，确保所有必要字段都已包含，验证参数值是否在允许的范围内，参考 API 文档调整请求参数。\n\n推理结果错误：模型输出结果不符合预期，核心原因包括模型文件损坏、量化精度损失、输入预处理错误、模型版本错误、推理后端 bug。首选解决方案是验证模型文件的完整性，使用 FP16 精度测试对比结果，检查输入预处理和输出后处理代码，确认使用的模型版本正确，升级到最新版本的推理后端。",
+    "round": 1
+  }
+}

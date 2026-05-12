@@ -234,15 +234,24 @@ async def rag_query(
         source_nodes = retriever.retrieve(query_str)
         logger.info("RAG query: retrieved %d nodes", len(source_nodes))
 
-        # Build citations with score filtering
+        # Build citations with score filtering + dedup
         citations = []
         context_texts = []
+        seen_snippets = set()  # Deduplicate by snippet prefix (handles overlapping chunks)
         for node in source_nodes:
             score = float(node.score) if node.score is not None else 0.0
             if score < MIN_RELEVANCE_SCORE:
                 continue
 
             metadata = node.node.metadata or {}
+            snippet = node.node.text if node.node.text else ""
+
+            # Skip duplicate snippets (overlapping chunks from same document)
+            snippet_key = snippet[:80]
+            if snippet_key in seen_snippets:
+                continue
+            seen_snippets.add(snippet_key)
+
             citations.append({
                 "doc_id": metadata.get("doc_id"),
                 "title": metadata.get("title", "未知标题"),
@@ -250,10 +259,10 @@ async def rag_query(
                 "source_type": metadata.get("source_type", ""),
                 "kb_id": metadata.get("kb_id"),
                 "relevance_score": score,
-                "snippet": node.node.text if node.node.text else "",
+                "snippet": snippet,
             })
             context_texts.append(
-                f"[来源：{metadata.get('source', '未知')}] {metadata.get('title', '未知标题')}\n{node.node.text[:600]}"
+                f"[来源：{metadata.get('source', '未知')}] {metadata.get('title', '未知标题')}\n{snippet[:600]}"
             )
 
         citations.sort(key=lambda c: c.get("relevance_score", 0) or 0, reverse=True)

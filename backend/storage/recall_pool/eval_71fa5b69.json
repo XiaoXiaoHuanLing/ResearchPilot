@@ -1,0 +1,47 @@
+{
+  "2ce488aa-cf05-4b86-9ae2-b5e63593d59b": {
+    "node_id": "2ce488aa-cf05-4b86-9ae2-b5e63593d59b",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.03205128205128205,
+    "snippet": "执行 nvidia-smi -q -d ECC 命令可以查看详细的 ECC 错误信息，包括单比特错误和双比特错误的计数。执行 nvidia-smi -q -d NVLINK 命令可以查看 NVLink 的状态和带宽信息。执行 nvidia-smi -q -d PCIE 命令可以查看 PCIe 接口的状态和链路速度。\n\n配置修改命令用于调整 GPU 的运行参数，执行 nvidia-smi -pm 1 命令可以启用 GPU 的持久模式，推荐在所有数据中心环境中启用，持久模式可以防止驱动在没有 GPU 进程运行时被卸载，从而减少 GPU 初始化时间和避免驱动加载问题。执行 nvidia-smi -pl 300 -i 0 命令可以将编号为 0 的 GPU 的功耗限制设置为 300 瓦，适当降低功耗限制可以在不显著影响性能的情况下降低 GPU 温度。执行 nvidia-smi -e 1 命令可以启用 ECC 模式，需要重启系统才能生效。当 GPU 卡死无法响应时，可以执行 nvidia-smi --gpu-reset -i 0 命令重置指定的 GPU，这通常可以解决大多数软件导致的 GPU 卡死问题，而无需重启整个服务器。\n\n2.",
+    "round": 1
+  },
+  "d1b182ef-7911-4c5a-8319-502978fdaaa1": {
+    "node_id": "d1b182ef-7911-4c5a-8319-502978fdaaa1",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.031054405392392875,
+    "snippet": "61.05，推荐使用 525.60.13 版本驱动，支持 Ampere、Turing、Volta 和 Pascal 架构的 GPU。\n\n二、核心工具使用方法\n\n2.1 nvidia-smi 基础命令\n\nnvidia-smi 是最常用的 GPU 管理工具，提供了 GPU 状态查询、配置修改和故障诊断功能，几乎所有 GPU 运维操作都会用到这个工具。基本状态查询是最常用的功能，直接执行 nvidia-smi 命令可以显示所有 GPU 的基本信息，包括 GPU 编号、型号、显存使用情况、GPU 利用率、温度和功耗等。使用 watch -n 2 nvidia-smi 命令可以每 2 秒刷新一次 GPU 状态，实现实时监控。执行 nvidia-smi -q 命令可以显示 GPU 的详细信息，包括硬件规格、驱动版本、ECC 状态和 NVLink 状态等。使用 nvidia-smi -i 0 命令可以只显示编号为 0 的 GPU 的信息，在多 GPU 环境下非常有用。",
+    "round": 1
+  },
+  "f31f99dd-87b0-492c-81ec-a99601079ea0": {
+    "node_id": "f31f99dd-87b0-492c-81ec-a99601079ea0",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.030952380952380953,
+    "snippet": "执行 nvidia-smi -pl 300 -i 0 命令可以将编号为 0 的 GPU 的功耗限制设置为 300 瓦，适当降低功耗限制可以在不显著影响性能的情况下降低 GPU 温度。执行 nvidia-smi -e 1 命令可以启用 ECC 模式，需要重启系统才能生效。",
+    "round": 1
+  },
+  "4c4ccd0b-4e3a-449a-9c24-47d186a53608": {
+    "node_id": "4c4ccd0b-4e3a-449a-9c24-47d186a53608",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.02862400327131466,
+    "snippet": "基本状态查询是最常用的功能，直接执行 nvidia-smi 命令可以显示所有 GPU 的基本信息，包括 GPU 编号、型号、显存使用情况、GPU 利用率、温度和功耗等。使用 watch -n 2 nvidia-smi 命令可以每 2 秒刷新一次 GPU 状态，实现实时监控。执行 nvidia-smi -q 命令可以显示 GPU 的详细信息，包括硬件规格、驱动版本、ECC 状态和 NVLink 状态等。",
+    "round": 1
+  },
+  "e89a2a7a-b760-40c0-adc8-ebcfc1d2d701": {
+    "node_id": "e89a2a7a-b760-40c0-adc8-ebcfc1d2d701",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.027783137179239824,
+    "snippet": "六、附录\n\n6.1 常用命令速查\n\nnvidia-smi 命令用于显示所有 GPU 的基本信息，包括 GPU 编号、型号、显存使用情况、GPU 利用率、温度和功耗等。nvidia-smi -q 命令用于显示 GPU 的详细信息，包括硬件规格、驱动版本、ECC 状态和 NVLink 状态等。nvidia-smi -pm 1 命令用于启用 GPU 的持久模式，推荐在所有数据中心环境中启用。nvidia-smi -pl 300 命令用于将 GPU 的功耗限制设置为 300 瓦，可以根据实际情况调整功耗限制值。nvidia-smi --gpu-reset 命令用于重置 GPU，当 GPU 卡死无法响应时使用。[nvidia-bug-report.sh](nvidia-bug-report.sh) 命令用于生成 NVIDIA 官方的 bug 报告，包含所有系统和 GPU 信息，便于故障分析。lsmod | grep nvidia 命令用于检查 NVIDIA 内核模块是否加载成功。dmesg | grep -i nvidia 命令用于查看内核日志中与 NVIDIA 相关的信息，排查驱动加载和硬件错误。\n\n6.2 错误代码对照\n\nNVRM: Xid 31 错误表示 GPU 内存页面错误，常见原因是显存硬件故障或驱动 bug，出现这个错误时应该运行 DCGM 诊断工具检查 GPU 硬件状态，如果错误频繁发生，需要更换 GPU。NVRM: Xid 43 错误表示 GPU 已停止响应，常见原因是驱动崩溃或硬件故障，可以尝试重置 GPU，如果问题仍然存在，需要重启服务器或更换 GPU。NVRM: Xid 79 错误表示 GPU 已掉电，常见原因是电源故障或温度过高，应该检查电源模块和散热系统，确保 GPU 供电正常和温度在合理范围内。CUDA error 2 错误表示内存不足，常见原因是 OOM 或显存泄漏，需要减小批处理大小、优化显存管理或排查显存泄漏问题。CUDA error 35 错误表示驱动版本不足，常见原因是 CUDA 版本高于驱动支持的版本，需要升级驱动至兼容的版本。\n\n6.3 参考资料\n\nNVIDIA 官方 GPU 调试指南：https://docs.nvidia.com/deploy/pdf/GPU_Debug_Guidelines.pdf\nCUDA 兼容性指南：https://docs.nvidia.com/cuda/cuda-compatibility-guide/index.html\nNVIDIA Container Toolkit 文档：https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html\nPyTorch CUDA 语义文档：https://pytorch.org/docs/stable/notes/cuda.html#memory-profiling",
+    "round": 1
+  }
+}
