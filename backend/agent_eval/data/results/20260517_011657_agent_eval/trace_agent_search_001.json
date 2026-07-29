@@ -1,0 +1,373 @@
+{
+  "sample_id": "agent_search_001",
+  "scenario": "search_simple",
+  "start_time": 1778951660.7291968,
+  "end_time": 1778951812.298305,
+  "first_token_time": 1778951782.56229,
+  "tool_calls": [
+    {
+      "tool_name": "get_current_time",
+      "timestamp": 2032.958984375,
+      "duration_ms": 2.9,
+      "input_preview": "{}",
+      "output_preview": "当前时间：2026-05-17 01:14:22 时区：Asia/Shanghai (UTC+8) 星期：日 地区：中国",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "list_active_kbs",
+      "timestamp": 2032.9668521881104,
+      "duration_ms": 3.3,
+      "input_preview": "{}",
+      "output_preview": "可用知识库： - KB#2 AI运维知识库 (类型:upload, 文档:10, chunks:1212)",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 12124.045848846436,
+      "duration_ms": 0.5,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索NVIDIA 2026年最新GPU型号信息\", \"status\": \"in_progress\"}, {\"content\": \"搜索AMD 2026年最新GPU型号信息\", \"status\": \"pending\"}, {\"content\": \"搜索Intel 2026年最新GPU型号信息\", \"status\": \"pending\"}, {\"cont",
+      "output_preview": "Command(update={'todos': [{'content': '搜索NVIDIA 2026年最新GPU型号信息', 'status': 'in_progress'}, {'content': '搜索AMD 2026年最新GPU型号信息', 'status': 'pending'}, {'content': '搜索Intel 2026年最新GPU型号信息', 'status': 'pe",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 16285.54368019104,
+      "duration_ms": 2605.5,
+      "input_preview": "{\"query\": \"AMD 2026 new GPU release latest models\", \"max_results\": 10}",
+      "output_preview": "搜索到 10 条结果，新增 10 条（去重后），搜索池累计 10 条。   [1] AMD's RDNA 4 focus for 2026 will reportedly be one GPU, the ... | 来源: www.tweaktown.com       TL;DR: AMD is shifting its Radeon GPU focus to 8GB models like t",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 16285.550832748413,
+      "duration_ms": 2647.1,
+      "input_preview": "{\"query\": \"Intel 2026 new GPU release latest models\", \"max_results\": 10}",
+      "output_preview": "搜索到 10 条结果，新增 9 条（去重后），搜索池累计 19 条。   [1] This is the GPU I'm most excited for in 2026 — and it's not by AMD or ... | 来源: www.reddit.com       Exciting upcoming Intel GPU for 2026. Intel Crescent Islan",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 16285.530805587769,
+      "duration_ms": 2761.7,
+      "input_preview": "{\"query\": \"NVIDIA 2026 new GPU release latest models\", \"max_results\": 10}",
+      "output_preview": "搜索到 9 条结果，新增 7 条（去重后），搜索池累计 26 条。   [1] Report claims Nvidia will not be releasing any new RTX gaming ... | 来源: www.reddit.com       Report claims Nvidia will not be releasing any new RTX gaming GPUs ",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 25554.37183380127,
+      "duration_ms": 306.1,
+      "input_preview": "{\"url\": \"https://overclock3d.net/news/gpu-displays/nvidia-crafts-new-very-high-end-rtx-50-series-gpu-model-rtx-5090-ti-or-titan-blackwell/\"}",
+      "output_preview": "无法访问页面: https://overclock3d.net/news/gpu-displays/nvidia-crafts-new-very-high-end-rtx-50-series-gpu-model-rtx-5090-ti-or-titan-blackwell/",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 25554.370164871216,
+      "duration_ms": 574.4,
+      "input_preview": "{\"url\": \"https://www.tweaktown.com/news/110017/amds-rdna-4-focus-for-2026-will-reportedly-be-one-gpu-the-radeon-rx-9060-xt-8gb/index.html\"}",
+      "output_preview": "已抓取页面: \"AMD's RDNA 4 focus for 2026 will reportedly be one GPU, the Radeon RX 9060 XT 8GB\" | 来源: www.tweaktown.com | 约 1533 字 核心发现: According to new information from the China-based Board Channels for",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 25554.361820220947,
+      "duration_ms": 1258.7,
+      "input_preview": "{\"url\": \"https://www.techpowerup.com/340852/nvidia-geforce-rtx-50-series-super-gpus-could-arrive-at-ces-2026\"}",
+      "output_preview": "已抓取页面: \"NVIDIA GeForce RTX 50-Series SUPER GPUs Could Arrive at CES 2026 | TechPowerUp\" | 来源: www.techpowerup.com | 约 1328 字 核心发现: Widespread speculation surrounding the possible launch of the NVIDIA ",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 25554.37397956848,
+      "duration_ms": 1401.8,
+      "input_preview": "{\"url\": \"https://www.techpowerup.com/review/future-hardware-releases/\"}",
+      "output_preview": "已抓取页面: \"Upcoming Hardware Launches 2026 (Updated Apr 2026) | TechPowerUp\" | 来源: www.techpowerup.com | 约 40731 字 核心发现: Introduction In this article, which our team will regularly update, we will mainta",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 25554.367303848267,
+      "duration_ms": 3327.6,
+      "input_preview": "{\"url\": \"https://www.elevenforum.com/t/ces-2026-new-geforce-rtx-50-series-graphics-cards-and-laptops-powered-by-nvidia-blackwell.43555/\"}",
+      "output_preview": "无法访问页面: https://www.elevenforum.com/t/ces-2026-new-geforce-rtx-50-series-graphics-cards-and-laptops-powered-by-nvidia-blackwell.43555/",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 32153.26189994812,
+      "duration_ms": 1.1,
+      "input_preview": "{\"urls\": \"https://www.techpowerup.com/340852/nvidia-geforce-rtx-50-series-super-gpus-could-arrive-at-ces-2026,https://www.tweaktown.com/news/110017/amds-rdna-4-focus-for-2026-will-reportedly-be-one-gp",
+      "output_preview": "[https://www.techpowerup.com/340852/nvidia-geforce-rtx-50-series-super-gpus-could-arrive-at-ces-2026] NVIDIA GeForce RTX 50-Series SUPER GPUs Could Arrive at CES 2026 | TechPowerUp | 来源: www.techpower",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 37359.081745147705,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索NVIDIA 2026年最新GPU型号信息\", \"status\": \"completed\"}, {\"content\": \"搜索AMD 2026年最新GPU型号信息\", \"status\": \"completed\"}, {\"content\": \"搜索Intel 2026年最新GPU型号信息\", \"status\": \"completed\"}, {\"co",
+      "output_preview": "Command(update={'todos': [{'content': '搜索NVIDIA 2026年最新GPU型号信息', 'status': 'completed'}, {'content': '搜索AMD 2026年最新GPU型号信息', 'status': 'completed'}, {'content': '搜索Intel 2026年最新GPU型号信息', 'status': 'co",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 42868.80135536194,
+      "duration_ms": 1779.4,
+      "input_preview": "{\"max_results\": 10, \"query\": \"Intel Arc B770 Battlemage 2026 release date specifications\"}",
+      "output_preview": "搜索到 9 条结果，新增 9 条（去重后），搜索池累计 35 条。   [1] Intel Arc B770 - Specs, Price, & Release Date - YouTube | 来源: www.youtube.com       ... Intel Confirms GPU: videocardz.com/newz/intel-formally-confirms-arc-batt",
+      "success": true,
+      "error": null,
+      "round": 6
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 42868.79825592041,
+      "duration_ms": 1932.2,
+      "input_preview": "{\"max_results\": 10, \"query\": \"AMD Radeon RX 9070 XT 9060 XT 2026 specifications RDNA 4\"}",
+      "output_preview": "搜索到 10 条结果，新增 9 条（去重后），搜索池累计 44 条。   [1] AMD's RDNA 4 focus for 2026 will reportedly be one GPU, the ... | 来源: www.tweaktown.com       # AMD's RDNA 4 focus for 2026 will reportedly be one GPU, the Rad",
+      "success": true,
+      "error": null,
+      "round": 6
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 42868.79229545593,
+      "duration_ms": 2014.5,
+      "input_preview": "{\"max_results\": 10, \"query\": \"NVIDIA RTX 5060 5060 Ti 5050 2026 release date specifications\"}",
+      "output_preview": "搜索到 10 条结果，新增 10 条（去重后），搜索池累计 54 条。   [1] Nvidia RTX 5060 Ti final specs and launch day allegedly leaked | 来源: www.tomshardware.com       According to a well-known hardware leaker, wxnod, Nvidia and g",
+      "success": true,
+      "error": null,
+      "round": 6
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 50832.714557647705,
+      "duration_ms": 402.1,
+      "input_preview": "{\"url\": \"https://en.wikipedia.org/wiki/Radeon_RX_9000_series\"}",
+      "output_preview": "无法访问页面: https://en.wikipedia.org/wiki/Radeon_RX_9000_series",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 50832.709312438965,
+      "duration_ms": 427.8,
+      "input_preview": "{\"url\": \"https://en.wikipedia.org/wiki/GeForce_RTX_50_series\"}",
+      "output_preview": "无法访问页面: https://en.wikipedia.org/wiki/GeForce_RTX_50_series",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 50832.72123336792,
+      "duration_ms": 1069.5,
+      "input_preview": "{\"url\": \"https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9070xt.html\"}",
+      "output_preview": "已抓取页面: \"Radeon™ RX 9070 XT\" | 来源: www.amd.com | 约 117 字 核心发现: 76 FPS Dragon Age: The Veilguard 98 FPS Assassin's Creed Mirage 87 FPS Resident Evil 4 (RT) 144 FPS DOOM Eternal (RT)... 链接: https://www.a",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 50832.717180252075,
+      "duration_ms": 1420.8,
+      "input_preview": "{\"url\": \"https://www.tomshardware.com/pc-components/gpus/intels-upcoming-arc-b770-discrete-gpu-leaks-out-on-github-launch-appears-imminent-reportedly-featuring-the-bmg-g31-gpu-16gb-vram-32-xe2-cores-a",
+      "output_preview": "已抓取页面: \"Intel's upcoming Arc B770 discrete GPU leaks out on GitHub, launch appears imminent - Reportedly featuring the BMG-G31 GPU, 16GB+ VRAM, 32 Xe2 cores, and 300W TDP | Tom's Hardware\" | 来源: www.t",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 50832.71908760071,
+      "duration_ms": 2538.2,
+      "input_preview": "{\"url\": \"https://www.nvidia.com/en-us/geforce/news/rtx-5060-desktop-family-laptop-5060-coming-soon/\"}",
+      "output_preview": "已抓取页面: \"Announcing The GeForce RTX 5060 Desktop Family: DLSS 4 Multi Frame Generation, Neural Rendering & Blackwell Innovations For Every Gamer, Starting At $299; Plus RTX 5060 Laptops Available In Ma",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 57780.8895111084,
+      "duration_ms": 1.1,
+      "input_preview": "{\"urls\": \"https://www.tomshardware.com/pc-components/gpus/intels-upcoming-arc-b770-discrete-gpu-leaks-out-on-github-launch-appears-imminent-reportedly-featuring-the-bmg-g31-gpu-16gb-vram-32-xe2-cores-",
+      "output_preview": "[https://www.tomshardware.com/pc-components/gpus/intels-upcoming-arc-b770-discrete-gpu-leaks-out-on-github-launch-appears-imminent-reportedly-featuring-the-bmg-g31-gpu-16gb-vram-32-xe2-cores-and-300w-",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 63637.537717819214,
+      "duration_ms": 1207.1,
+      "input_preview": "{\"url\": \"https://www.techpowerup.com/347550/intel-arc-pro-b70-b65-battlemage-gpus-to-launch-march-25-with-32-gb-ecc-vram\"}",
+      "output_preview": "已抓取页面: \"Intel Arc Pro B70, B65 Battlemage GPUs To Launch March 25 With 32 GB ECC VRAM | TechPowerUp\" | 来源: www.techpowerup.com | 约 1022 字 核心发现: Intel's Battlemage BGM-G31 GPUs have shown up in leaks a",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 63637.53318786621,
+      "duration_ms": 1221.9,
+      "input_preview": "{\"url\": \"https://www.techpowerup.com/gpu-specs/radeon-rx-9070-xt.c4229\"}",
+      "output_preview": "已抓取页面: \"AMD Radeon RX 9070 XT Specs | TechPowerUp GPU Database\" | 来源: www.techpowerup.com | 约 275 字 核心发现: Automated bot check in progress Your browser must support Javascript This should only take a f",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 63637.52722740173,
+      "duration_ms": 1239.5,
+      "input_preview": "{\"url\": \"https://www.techpowerup.com/gpu-specs/geforce-rtx-5060.c4219\"}",
+      "output_preview": "已抓取页面: \"NVIDIA GeForce RTX 5060 Specs | TechPowerUp GPU Database\" | 来源: www.techpowerup.com | 约 275 字 核心发现: Automated bot check in progress Your browser must support Javascript This should only take a",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 63637.53581047058,
+      "duration_ms": 1368.5,
+      "input_preview": "{\"url\": \"https://www.techpowerup.com/gpu-specs/geforce-rtx-5060-ti-8-gb.c4246\"}",
+      "output_preview": "已抓取页面: \"NVIDIA GeForce RTX 5060 Ti 8 GB Specs | TechPowerUp GPU Database\" | 来源: www.techpowerup.com | 约 275 字 核心发现: Automated bot check in progress Your browser must support Javascript This should onl",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 68657.65619277954,
+      "duration_ms": 1.4,
+      "input_preview": "{\"urls\": \"https://www.techpowerup.com/347550/intel-arc-pro-b70-b65-battlemage-gpus-to-launch-march-25-with-32-gb-ecc-vram\"}",
+      "output_preview": "[https://www.techpowerup.com/347550/intel-arc-pro-b70-b65-battlemage-gpus-to-launch-march-25-with-32-gb-ecc-vram] Intel Arc Pro B70, B65 Battlemage GPUs To Launch March 25 With 32 GB ECC VRAM | TechPo",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 73315.8106803894,
+      "duration_ms": 1855.4,
+      "input_preview": "{\"max_results\": 10, \"query\": \"AMD RDNA 5 Radeon RX 8000 series 2026 release rumors\"}",
+      "output_preview": "搜索到 10 条结果，新增 9 条（去重后），搜索池累计 63 条。   [1] AMD RDNA 5 \"Next-Gen Radeon\" GPUs To Launch In Mid 2027 ... | 来源: wccftech.com       Rumors Point Towards Mid-2027 Launch For RDNA 5 \"Next-Gen Radeon\" GPUs, Ta",
+      "success": true,
+      "error": null,
+      "round": 8
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 73315.8164024353,
+      "duration_ms": 2072.6,
+      "input_preview": "{\"max_results\": 10, \"query\": \"NVIDIA RTX 5080 Super 5070 Ti Super 2026 specifications release\"}",
+      "output_preview": "搜索到 10 条结果，新增 9 条（去重后），搜索池累计 72 条。   [1] Nvidia GeForce RTX 5070 Super - the latest leaks and rumours | Club386 | 来源: www.club386.com       # Nvidia GeForce RTX 5070 Super – the latest leaks and rumou",
+      "success": true,
+      "error": null,
+      "round": 8
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 82714.23292160034,
+      "duration_ms": 663.9,
+      "input_preview": "{\"url\": \"https://www.tweaktown.com/news/107546/heres-the-full-leaked-details-on-rtx-5080-super-rtx-5070-ti-super-rtx-5070-super-in-october/index.html\"}",
+      "output_preview": "已抓取页面: \"Here's the full leaked details on RTX 5080 SUPER, RTX 5070 Ti SUPER, RTX 5070 SUPER in October\" | 来源: www.tweaktown.com | 约 2519 字 核心发现: NVIDIA will be launching its new GeForce RTX 50 SUPER s",
+      "success": true,
+      "error": null,
+      "round": 17
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 82714.22624588013,
+      "duration_ms": 3056.2,
+      "input_preview": "{\"url\": \"https://www.club386.com/nvidia-rtx-5070-super-release-date-specs-price-and-performance/\"}",
+      "output_preview": "已抓取页面: \"Nvidia GeForce RTX 5070 Super - the latest leaks and rumours | Club386\" | 来源: www.club386.com | 约 5382 字 核心发现: While the GeForce RTX 5070 has its merits, there’s no denying this graphics card ",
+      "success": true,
+      "error": null,
+      "round": 17
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 82714.23554420471,
+      "duration_ms": 4243.2,
+      "input_preview": "{\"url\": \"https://www.xda-developers.com/nvidia-wont-release-a-single-new-gaming-gpu-this-year-and-thats-actually-good-for-gamers/\"}",
+      "output_preview": "已抓取页面: \"Nvidia won't release a single new gaming GPU this year, and that's actually good for gamers\" | 来源: www.xda-developers.com | 约 6493 字 核心发现: If you've been keeping tabs on GPU news lately, you'v",
+      "success": true,
+      "error": null,
+      "round": 17
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 97094.2599773407,
+      "duration_ms": 1.5,
+      "input_preview": "{\"urls\": \"https://www.club386.com/nvidia-rtx-5070-super-release-date-specs-price-and-performance/,https://www.tweaktown.com/news/107546/heres-the-full-leaked-details-on-rtx-5080-super-rtx-5070-ti-supe",
+      "output_preview": "[https://www.club386.com/nvidia-rtx-5070-super-release-date-specs-price-and-performance/] Nvidia GeForce RTX 5070 Super - the latest leaks and rumours | Club386 | 来源: www.club386.com --- While the GeF",
+      "success": true,
+      "error": null,
+      "round": 4
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 111467.7586555481,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索NVIDIA 2026年最新GPU型号信息\", \"status\": \"completed\"}, {\"content\": \"搜索AMD 2026年最新GPU型号信息\", \"status\": \"completed\"}, {\"content\": \"搜索Intel 2026年最新GPU型号信息\", \"status\": \"completed\"}, {\"co",
+      "output_preview": "Command(update={'todos': [{'content': '搜索NVIDIA 2026年最新GPU型号信息', 'status': 'completed'}, {'content': '搜索AMD 2026年最新GPU型号信息', 'status': 'completed'}, {'content': '搜索Intel 2026年最新GPU型号信息', 'status': 'co",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "task",
+      "timestamp": 8747.289180755615,
+      "duration_ms": 131497.3,
+      "input_preview": "{\"description\": \"搜索2026年最新发布的GPU型号信息。需要覆盖以下内容：\\n1. NVIDIA在2026年发布的最新GPU型号（包括消费级和专业级）\\n2. AMD在2026年发布的最新GPU型号\\n3. Intel在2026年发布的最新GPU型号\\n4. 各型号的核心规格（架构、显存、性能定位等）\\n5. 发布时间和上市状态\\n\\n请搜索多个来源，确保信息准确、全面。返回结构",
+      "output_preview": "Command(update={'messages': [ToolMessage(content='# 2026年最新GPU型号汇总报告\\n\\n> 数据来源：TechPowerUp、Tom\\'s Hardware、TweakTown、Club386、XDA Developers、NVIDIA/AMD/Intel 官方等\\n> 报告更新截止：2026年4月\\n\\n---\\n\\n## 一、NVIDIA",
+      "success": true,
+      "error": null,
+      "round": 1
+    }
+  ],
+  "sub_agents_used": [
+    "retriever",
+    "searcher"
+  ],
+  "routing_correct": false,
+  "final_answer": "## 2026年最新GPU型号汇总\n\n当前时间：2026年5月17日。以下是截至2026年5月各家的最新GPU动态：\n\n---\n\n### 一、NVIDIA\n\n#### ✅ 已上市（Blackwell架构，2025年发布，2026年持续在售）\n\n| 型号 | CUDA核心 | 显存 | 显存类型 |\n|------|---------|------|---------|\n| **RTX 5090** | 21,760 | 32GB GDDR7 | 512-bit |\n| **RTX 5080** | 10,752 | 16GB GDDR7 | 256-bit |\n| **RTX 5070 Ti** | 8,960 | 16GB GDDR7 | 256-bit |\n| **RTX 5070** | 6,144 | 12GB GDDR7 | 192-bit |\n| **RTX 5060 Ti** | 4,608 | 8GB/16GB GDDR7 | 128-bit |\n| **RTX 5060** | 3,840 | 8GB GDDR7 | 128-bit |\n| **RTX 5050** | 2,560 | 8GB GDDR7 | 128-bit |\n\n#### 🔄 2026年动态/传闻\n\n- **RTX 50 SUPER系列** — 原计划CES 2026发布，因GDDR7短缺**已无限期推迟**，可能延至2027年\n- **RTX 5060/5050 9GB变体** — 预计2026年5~6月（Computex期间）推出，改用3GB GDDR7芯片\n- **RTX 3060 12GB重制版** — 2026年3月/6月，三星8nm工艺重制，节省TSMC产能\n- **RTX TITAN Blackwell** — 可能2026年底，完整GB202核心（24,576 CUDA），512-bit GDDR7\n- **RTX 60系列（Rubin架构）** — 预计2027年，TSMC 3nm\n\n---\n\n### 二、AMD\n\n#### ✅ 已上市（RDNA 4架构）\n\n| 型号 | 流处理器 | 显存 | 总线 |\n|------|---------|------|------|\n| **RX 9070 XT** | 4,096 | 16GB GDDR6 | 256-bit |\n| **RX 9070** | 3,584 | 16GB GDDR6 | 256-bit |\n| **RX 9060 XT 16GB** | 2,048 | 16GB GDDR6 | 128-bit |\n| **RX 9060 XT 8GB** | 2,048 | 8GB GDDR6 | 128-bit |\n\n#### 🔄 2026年动态\n\n- **RX 9060 XT 8GB** 成为AMD 2026年出货主力（DRAM涨价影响）\n- **RX 9070（非XT）** 产量已显著减少\n- **RDNA 5** — 预计2027年中，非2026年产品\n- **Instinct MI450**（企业级）— 2026年，HBM4显存，与Meta合作部署\n\n---\n\n### 三、Intel\n\n#### 🔄 2026年动态\n\n| 型号 | 架构 | 核心 | 显存 | 状态 |\n|------|------|------|------|------|\n| **Arc B770 (Battlemage)** | Xe2 | 32 Xe2核心 (4,096 FP32) | 16GB+ GDDR6 256-bit | 预计CES 2026发布，已在GitHub代码中出现 |\n| **Arc Pro B70** | Xe2 | — | — | **2026年3月25日已发布**（专业级） |\n\n- **Arc B770** 定位对标RTX 5060 / RX 9060系列，TSMC N5工艺，最高300W TDP\n\n---\n\n### 总结\n\n2026年消费级GPU市场整体偏\"静\"——NVIDIA的SUPER系列因显存短缺推迟，AMD重心转向中低端8GB型号，Intel的B770是今年最值得关注的新品之一。**真正的大换代（RTX 60系列/RDNA 5）预计要到2027年。**",
+  "task_completed": true,
+  "error": null,
+  "total_tokens": 0,
+  "reranker_called": false,
+  "reranker_succeeded": false,
+  "fallback_triggered": false,
+  "fallback_reason": "",
+  "raw_events": null
+}

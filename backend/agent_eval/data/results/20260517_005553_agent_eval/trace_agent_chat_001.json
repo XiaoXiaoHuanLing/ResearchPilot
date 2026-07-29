@@ -1,0 +1,19 @@
+{
+  "sample_id": "agent_chat_001",
+  "scenario": "chitchat",
+  "start_time": 1778950548.9027696,
+  "end_time": 1778950550.7423046,
+  "first_token_time": null,
+  "tool_calls": [],
+  "sub_agents_used": [],
+  "routing_correct": null,
+  "final_answer": "",
+  "task_completed": false,
+  "error": "Error code: 429 - {'error': {'message': 'rpm exhausted', 'type': 'quota_exceeded_error', 'code': '8'}}",
+  "total_tokens": 0,
+  "reranker_called": false,
+  "reranker_succeeded": false,
+  "fallback_triggered": false,
+  "fallback_reason": "",
+  "raw_events": null
+}

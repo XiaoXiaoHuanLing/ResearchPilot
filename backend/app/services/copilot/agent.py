@@ -143,8 +143,15 @@ COLLECTOR_PROMPT = """资讯采集专家。负责URL采集、专题批量采集�
 
 
 RETRIEVER_PROMPT = """知识库检索专家。采用Agentic RAG策略，自主驱动检索循环。
-用 search_knowledge 检索（结果存RecallPool）、get_recall_nodes 阅读节点完整内容、list_active_kbs 了解可用知识库。
-检索后自主判断充分性，不充分则改写query/调top_k，最多3次迭代。用中文回复，简洁专业。不要自我介绍。"""
+用 search_knowledge 检索（结果存RecallPool）、get_recall_nodes 阅读节点完整内容、
+rerank_recall_pool 精确重排（蒸馏前必须调用）、list_active_kbs 了解可用知识库。
+检索后自主判断充分性，不充分则改写query/调top_k，最多3次迭代。
+蒸馏前必须调用 rerank_recall_pool 重排，然后按编号事实点格式输出：
+事实1: [原文段落]
+事实2: [原文段落]
+...
+至少3条，保留原文200-500字，不概括不改写不推理，不相关不输出。
+用中文回复，简洁专业。不要自我介绍。"""
 
 
 KB_MANAGER_PROMPT = """知识库管理专家。负责知识库的创建、删除、启用禁用、文档上传入库。
@@ -182,10 +189,10 @@ def _get_collector_tools():
     return tools
 
 def _get_retriever_tools():
-    # 新版 Agentic RAG 3工具（替代旧版5工具）
-    from app.services.chat.tools.reflexive_retriever import search_knowledge, get_recall_nodes
+    # Agentic RAG 4工具：检索 + 阅读 + 重排 + KB列表
+    from app.services.chat.tools.reflexive_retriever import search_knowledge, get_recall_nodes, rerank_recall_pool
     from app.services.chat.tools.base import list_active_kbs
-    return [search_knowledge, get_recall_nodes, list_active_kbs]
+    return [search_knowledge, get_recall_nodes, rerank_recall_pool, list_active_kbs]
 
 def _get_kb_manager_tools():
     from app.services.copilot.tools.knowledge_base import TOOLS as kb_tools

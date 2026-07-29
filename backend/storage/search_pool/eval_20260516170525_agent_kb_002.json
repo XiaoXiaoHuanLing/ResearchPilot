@@ -1,0 +1,173 @@
+{
+  "https://oneuptime.com/blog/post/2026-02-20-kubernetes-network-policies-deny-all/view": {
+    "url": "https://oneuptime.com/blog/post/2026-02-20-kubernetes-network-policies-deny-all/view",
+    "title": "How to Implement Default Deny Network Policies in Kubernetes",
+    "source": "oneuptime.com",
+    "snippet": "# How to Implement Default Deny Network Policies in Kubernetes. Learn how to implement default deny network policies in Kubernetes to create a zero-trust network model for your cluster. ## Deny All Ingress Traffic. # deny-all-ingress.yaml # Block all incoming traffic to every pod in this namespace apiVersion: networking.k8s.io/v1 kind: NetworkPolicy metadata: name: deny-all-ingress namespace: production spec: # Empty selector matches ALL pods in the namespace podSelector: {} policyTypes: - Ingress # No ingress rules means no traffic is allowed in. # deny-all-egress.yaml # Block all outgoing traffic from every pod in this namespace apiVersion: networking.k8s.io/v1 kind: NetworkPolicy metadata: name: deny-all-egress namespace: production spec: # Empty selector matches ALL pods podSelector: {} policyTypes: - Egress # No egress rules means no outbound traffic is allowed. ## Deny All Ingress and Egress. # deny-all-traffic.yaml # Block all traffic in both directions for every pod apiVersion: networking.k8s.io/v1 kind: NetworkPolicy metadata: name: deny-all-traffic namespace: production spec: podSelector: {} policyTypes: - Ingress - Egress # No rules at all - everything is blocked.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://stackoverflow.com/questions/50425229/kubernetes-network-policy-deny-all-with-allow-all": {
+    "url": "https://stackoverflow.com/questions/50425229/kubernetes-network-policy-deny-all-with-allow-all",
+    "title": "Kubernetes: Network policy - deny all with allow all - Stack Overflow",
+    "source": "stackoverflow.com",
+    "snippet": "By creating a \"default deny\" policy you are able to isolate all pods as they're not targeted by any policy without it (no policy = no isolation)",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://pauldally.medium.com/networkpolicy-best-practices-9a388e41c7c9": {
+    "url": "https://pauldally.medium.com/networkpolicy-best-practices-9a388e41c7c9",
+    "title": "NetworkPolicy Best Practices. Create a default deny (and possibly…",
+    "source": "pauldally.medium.com",
+    "snippet": "Create a “default deny” NetworkPolicy, that selects all Pods and specifies both Ingress and Egress types, Kubernetes will start behaving in a least-privilege",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://github.com/ahmetb/kubernetes-network-policy-recipes/blob/master/03-deny-all-non-whitelisted-traffic-in-the-namespace.md": {
+    "url": "https://github.com/ahmetb/kubernetes-network-policy-recipes/blob/master/03-deny-all-non-whitelisted-traffic-in-the-namespace.md",
+    "title": "DENY all non-whitelisted traffic to a namespace - GitHub",
+    "source": "github.com",
+    "snippet": "Best Practice: This policy will give you a default \"deny all\" functionality. This way, you can clearly identify which components have dependency on which",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://kodekloud.com/community/t/k8s-network-policy-default-deny-default-allow/467363": {
+    "url": "https://kodekloud.com/community/t/k8s-network-policy-default-deny-default-allow/467363",
+    "title": "K8s Network Policy - Default Deny / Default Allow - KodeKloud",
+    "source": "kodekloud.com",
+    "snippet": "Hi Kubernetes documentation for network policy page mentions default deny and allow policy types. Default deny all - the “ingress:” section",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://kubernetes.io/docs/concepts/services-networking/network-policies/": {
+    "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/",
+    "title": "Network Policies | Kubernetes",
+    "source": "kubernetes.io",
+    "snippet": "If you want to control traffic flow at the IP address or port level for TCP, UDP, and SCTP protocols,. pod is allowed to communicate with various network. NetworkPolicies apply to a connection with a pod on one or both ends, and are not relevant to. When defining a pod- or namespace-based NetworkPolicy, you use a. By default, a pod is non-isolated for egress; all outbound connections are allowed. A pod is isolated for egress if there is any NetworkPolicy that both selects the pod and has. When a pod is isolated for egress, the only allowed connections from the pod are those allowed by. the `egress` list of some NetworkPolicy that applies to the pod for egress. When a pod is isolated for ingress, the only allowed connections into the pod are those from. For a connection from a source pod to a destination pod to be allowed, both the egress policy on.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://github.com/ahmetb/kubernetes-network-policy-recipes/blob/master/01-deny-all-traffic-to-an-application.md": {
+    "url": "https://github.com/ahmetb/kubernetes-network-policy-recipes/blob/master/01-deny-all-traffic-to-an-application.md",
+    "title": "kubernetes-network-policy-recipes/01-deny-all-traffic-to-an ... - GitHub",
+    "source": "github.com",
+    "snippet": "DENY all traffic to an application. This NetworkPolicy will drop all traffic to pods of an application, selected using Pod Selectors. Use Cases:.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://kubeops.net/kubernetes-security-library/measures/7-implementing-network-policies-with-deny-all-rules": {
+    "url": "https://kubeops.net/kubernetes-security-library/measures/7-implementing-network-policies-with-deny-all-rules",
+    "title": "Implementing Network Policies with Deny-All Rules - KubeOps",
+    "source": "kubeops.net",
+    "snippet": "The Deny-All rule ensures that no communication is allowed unless explicitly permitted, greatly reducing the attack surface.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://www.reddit.com/r/kubernetes/comments/18dft3w/whos_actually_using_network_policies_in_their/": {
+    "url": "https://www.reddit.com/r/kubernetes/comments/18dft3w/whos_actually_using_network_policies_in_their/",
+    "title": "Who's actually using network policies in their clusters? Why/why not?",
+    "source": "www.reddit.com",
+    "snippet": "Followup: if the default posture was to deny any traffic which is not explicitly allowed, would you use it then?",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://juejin.cn/post/7486679848533016639": {
+    "url": "https://juejin.cn/post/7486679848533016639",
+    "title": "k8s中Network Policy的实现原理 - 稀土掘金",
+    "source": "juejin.cn",
+    "snippet": "一旦应用了任何Network Policy，默认的行为变为拒绝所有流量，除非显式地允许流量。这意味着如果没有规则指定某些流量，可以访问某个Pod，则该流量将被拒绝。",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://www.hao.kim/archives/kubernetes/CKS/NetworkPolicy.html": {
+    "url": "https://www.hao.kim/archives/kubernetes/CKS/NetworkPolicy.html",
+    "title": "CKS 题库3、默认网络策略 - Hao DevSecOps",
+    "source": "www.hao.kim",
+    "snippet": "Context一个默认拒绝（default-deny）的NetworkPolicy可避免在未定义任何其他NetworkPolicy的namespace中意外公开Pod。 Task为所有类型为Ingress+Egress",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/cni-network-policy.html": {
+    "url": "https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/cni-network-policy.html",
+    "title": "通过Kubernetes 网络策略限制容器组（pod）流量- Amazon EKS",
+    "source": "docs.aws.amazon.com",
+    "snippet": "默认拒绝（如果没有匹配的策略）：这种默认拒绝行为可确保仅允许明确允许的连接，从而保持稳固的安全状况。 迁移. 如果集群当前使用第三方解决方案来管理Kubernetes",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://people.wikimedia.org/~jayme/k8s-docs/v1.16/zh/docs/concepts/services-networking/network-policies/": {
+    "url": "https://people.wikimedia.org/~jayme/k8s-docs/v1.16/zh/docs/concepts/services-networking/network-policies/",
+    "title": "网络策略- Kubernetes",
+    "source": "people.wikimedia.org",
+    "snippet": "默认拒绝所有出口流量 ... 您可以通过创建选择所有容器但不允许来自这些容器的任何出口流量的NetworkPolicy 来为名称空间创建“default” egress 隔离策略。",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://bbs.sangfor.com.cn/forum.php?mod=viewthread&tid=238673": {
+    "url": "https://bbs.sangfor.com.cn/forum.php?mod=viewthread&tid=238673",
+    "title": "Kubernetes NetworkPolicy网络策略零接触到应用 - 深信服社区",
+    "source": "bbs.sangfor.com.cn",
+    "snippet": "默认情况下，一个Pod的出口是非隔离的，即所有出口连接都是允许的。如果有任何的NetworkPolicy选择该Pod并在其policyTypes中包含“Egress”，则该Pod是出口隔离的， 我们称这样的",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/": {
+    "url": "https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/",
+    "title": "网络策略 | Kubernetes",
+    "source": "kubernetes.io",
+    "snippet": "NetworkPolicy 适用于一端或两端与 Pod 的连接，与其他连接无关。. 在定义基于 Pod 或名字空间的 NetworkPolicy 时，. ## Pod 隔离的两种类型. 默认情况下，一个 Pod 的出口是非隔离的，即所有外向连接都是被允许的。如果有任何的 NetworkPolicy. 唯一允许的来自 Pod 的连接是适用于出口的 Pod 的某个 NetworkPolicy 的 `egress` 列表所允许的连接。. 默认情况下，一个 Pod 对入口是非隔离的，即所有入站连接都是被允许的。如果有任何的 NetworkPolicy. 我们称这种策略适用于该 Pod 的入口。当一个 Pod 的入口被隔离时，唯一允许进入该 Pod. 的连接是来自该 Pod 节点的连接和适用于入口的 Pod 的某个 NetworkPolicy 的 `ingress`. 隔离 `default` 名字空间下 `role=db` 的 Pod （如果它们不是已经被隔离的话）。. 标签的所有 Pod 的 6379 TCP 端口：. （Egress 规则）允许 `default` 名字空间中任何带有标签 `role=db` 的 Pod 到 CIDR. 对于出站流量而言，这意味着从 Pod 到被重写为集群外部 IP 的 `Service` IP. 你可以通过创建选择所有 Pod 但不允许任何进入这些 Pod 的入站流量的 NetworkPolicy. 这确保即使没有被任何其他 NetworkPolicy 选择的 Pod 仍将被隔离以进行入口。. 此策略可以确保即使没有被其他任何 NetworkPolicy 选择的 Pod 也不会被允许流出流量。. 此策略可以确保即使没有被其他任何 NetworkPolicy 选择的 Pod 也不会被允许入站或出站流量。. `service/networking/networkpolicy-multiport-egress.yaml`. 上面的规则允许名字空间 `default` 中所有带有标签 `role=db` 的 Pod 使用 TCP 协议与. ## Pod 生命周期. 如果受到 NetworkPolicy 影响的 Pod 在网络插件完成 NetworkPolicy 处理之前就被创建了，. 那么该 Pod 可能会最初处于无保护状态，而在 NetworkPolicy 处理完成后被应用隔离规则。. 用户所创建的每个 NetworkPolicy 最终都会被网络插件处理，但无法使用 Kubernetes API. 每个 NetworkPolicy 最终都会被应用到所选定的所有 Pod 之上。. ## NetworkPolicy 和 `hostNetwork` Pod. 针对 `hostNetwork` Pod 的 NetworkPolicy 行为是未定义的，但应限制为以下两种可能：. `hostNetwork` Pod 在 `ingress` 或 `egress` 规则中被 `podSelector` 或. 同时，由于 `hostNetwork` Pod 具有与其所在节点相同的 IP 地址，所以它们的连接将被视为节点连接。. 如果你对 Kubernetes 中的网络安全性还不太了解，了解使用 NetworkPolicy API.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://zhuanlan.zhihu.com/p/621176481": {
+    "url": "https://zhuanlan.zhihu.com/p/621176481",
+    "title": "k8s NetworkPolicy 网络策略是怎么样的 - 知乎专栏",
+    "source": "zhuanlan.zhihu.com",
+    "snippet": "Kubernetes 中的NetworkPolicy 定义了一组规则，这些规则允许或者拒绝特定流量的传输。通过使用NetworkPolicy，Kubernetes 管理员能够更好地掌控容器",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://imroc.cc/tke/networking/cilium/networkpolicy": {
+    "url": "https://imroc.cc/tke/networking/cilium/networkpolicy",
+    "title": "NetworkPolicy 应用实践| TKE 实践指南 - roc 云原生",
+    "source": "imroc.cc",
+    "snippet": "NetworkPolicy 采用白名单模式，未匹配的流量默认拒绝，但无法显式拒绝特定流量。 CiliumNetworkPolicy 支持 egressDeny / ingressDeny ，可以在允许大部分",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://www.cnblogs.com/renshengdezheli/p/17479289.html": {
+    "url": "https://www.cnblogs.com/renshengdezheli/p/17479289.html",
+    "title": "Kubernetes(k8s)网络策略NetworkPolicy - 人生的哲理- 博客园",
+    "source": "www.cnblogs.com",
+    "snippet": "Kubernetes网络策略(NetworkPolicy)是一个资源对象，主要用于定义Pod之间的流量控制，其实现了一个基于标签的选择器模型，允许管理员通过网络策略规则限制对",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://blog.csdn.net/zihuxinyu/article/details/144186372": {
+    "url": "https://blog.csdn.net/zihuxinyu/article/details/144186372",
+    "title": "全面理解Kubernetes中的网络策略原创 - CSDN博客",
+    "source": "blog.csdn.net",
+    "snippet": "在Kubernetes集群中，如果想要在IP地址或端口级别（OSI层3或4）控制流量，NetworkPolicies能够让用户指定集群内流量流向的规则，以及Pod与外部世界之间的流量",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  }
+}

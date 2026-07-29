@@ -1,0 +1,353 @@
+{
+  "sample_id": "agent_search_001",
+  "scenario": "search_simple",
+  "start_time": 1778949634.4776285,
+  "end_time": 1778949776.3122957,
+  "first_token_time": 1778949658.6329987,
+  "tool_calls": [
+    {
+      "tool_name": "get_current_time",
+      "timestamp": 4725.389242172241,
+      "duration_ms": 255.5,
+      "input_preview": "{}",
+      "output_preview": "当前时间：2026-05-17 00:40:39 时区：Asia/Shanghai (UTC+8) 星期：日 地区：中国",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "list_active_kbs",
+      "timestamp": 4725.672483444214,
+      "duration_ms": 333.9,
+      "input_preview": "{}",
+      "output_preview": "可用知识库： - KB#2 AI运维知识库 (类型:upload, 文档:10, chunks:1212)",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 21882.56597518921,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索NVIDIA 2026年GPU型号信息\", \"status\": \"in_progress\"}, {\"content\": \"搜索AMD 2026年GPU型号信息\", \"status\": \"pending\"}, {\"content\": \"搜索Intel 2026年GPU型号信息\", \"status\": \"pending\"}, {\"content\": ",
+      "output_preview": "Command(update={'todos': [{'content': '搜索NVIDIA 2026年GPU型号信息', 'status': 'in_progress'}, {'content': '搜索AMD 2026年GPU型号信息', 'status': 'pending'}, {'content': '搜索Intel 2026年GPU型号信息', 'status': 'pending'",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 25452.293872833252,
+      "duration_ms": 3834.9,
+      "input_preview": "{\"query\": \"Intel 2026 GPU Arc Battlemage Celestial release\", \"max_results\": 8}",
+      "output_preview": "搜索到 8 条结果，新增 8 条（去重后），搜索池累计 8 条。   [1] Intel's Next Gen GPUs Are Wild - Celestial Specs & Release | 来源: www.youtube.com       It's unfortunate B is so early in the alphabet and Arc's progression, beca",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 25452.289819717407,
+      "duration_ms": 4055.7,
+      "input_preview": "{\"query\": \"AMD 2026 GPU Radeon RX 9000 series release\", \"max_results\": 8}",
+      "output_preview": "搜索到 8 条结果，新增 8 条（去重后），搜索池累计 16 条。   [1] First AMD Radeon RX 9000 Series GPU Appears in Steam Survey Rankings | TechPowerUp | 来源: www.techpowerup.com       # First AMD Radeon RX 9000 Series GPU Appears",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 25452.2807598114,
+      "duration_ms": 4355.9,
+      "input_preview": "{\"query\": \"NVIDIA 2026 GPU RTX 50 series Blackwell release\", \"max_results\": 8}",
+      "output_preview": "搜索到 8 条结果，新增 8 条（去重后），搜索池累计 24 条。   [1] CES 2026 New GeForce RTX 50 Series Graphics Cards and Laptops Powered By NVIDIA Blackwell | Windows 11 Forum | 来源: www.elevenforum.com       # CES 2026 New GeFo",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 36439.24260139465,
+      "duration_ms": 409.2,
+      "input_preview": "{\"url\": \"https://en.wikipedia.org/wiki/GeForce_RTX_50_series\"}",
+      "output_preview": "无法访问页面: https://en.wikipedia.org/wiki/GeForce_RTX_50_series",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 36439.2511844635,
+      "duration_ms": 415.0,
+      "input_preview": "{\"url\": \"https://en.wikipedia.org/wiki/Radeon_RX_9000_series\"}",
+      "output_preview": "无法访问页面: https://en.wikipedia.org/wiki/Radeon_RX_9000_series",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 36439.258098602295,
+      "duration_ms": 1416.3,
+      "input_preview": "{\"url\": \"https://www.techpowerup.com/346123/nvidia-reportedly-developing-extra-powerful-geforce-rtx-50-series-flagship-model\"}",
+      "output_preview": "已抓取页面: \"NVIDIA Reportedly Developing Extra Powerful GeForce RTX 50-series Flagship Model | TechPowerUp\" | 来源: www.techpowerup.com | 约 2111 字 核心发现: Last Friday, an Overclocking.com article made an extr",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 36439.25499916077,
+      "duration_ms": 1923.5,
+      "input_preview": "{\"url\": \"https://www.tomshardware.com/pc-components/gpus/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028\"}",
+      "output_preview": "已抓取页面: \"Report claims Nvidia will not be releasing any new RTX gaming GPUs in 2026, RTX 60 series likely debuting in 2028 | Tom's Hardware\" | 来源: www.tomshardware.com | 约 3187 字 核心发现: It was disappoin",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 36439.260721206665,
+      "duration_ms": 3045.7,
+      "input_preview": "{\"url\": \"https://www.tomshardware.com/pc-components/gpus/intel-has-reportedly-killed-discrete-gaming-gpus-for-the-upcoming-xe3p-arc-celestial-family-gaming-gpu-remains-uncertain-even-for-the-next-gen-",
+      "output_preview": "已抓取页面: \"Intel has reportedly cancelled discrete gaming GPUs for the upcoming Xe3P Arc \"Celestial\" family - gaming GPU remains uncertain even for the next-gen Xe4 \"Druid\" lineup that lands in 2027 | To",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 43415.51661491394,
+      "duration_ms": 1.0,
+      "input_preview": "{\"urls\": \"https://www.tomshardware.com/pc-components/gpus/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028,https://www.techpowerup.com/3",
+      "output_preview": "[https://www.tomshardware.com/pc-components/gpus/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028] Report claims Nvidia will not be rele",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 48121.60897254944,
+      "duration_ms": 1632.1,
+      "input_preview": "{\"max_results\": 8, \"query\": \"Intel Arc B580 B770 Battlemage 2026 release specs\"}",
+      "output_preview": "搜索到 8 条结果，新增 8 条（去重后），搜索池累计 32 条。   [1] Intel Arc B770 Specs | TechPowerUp GPU Database | 来源: www.techpowerup.com       The Arc B770 will be a graphics card by Intel, that is expected to launch in 202",
+      "success": true,
+      "error": null,
+      "round": 6
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 48121.61707878113,
+      "duration_ms": 2058.0,
+      "input_preview": "{\"max_results\": 8, \"query\": \"NVIDIA RTX 5090 Ti TITAN Blackwell 2026 release specs\"}",
+      "output_preview": "搜索到 8 条结果，新增 8 条（去重后），搜索池累计 40 条。   [1] GeForce RTX 5090 Ti or Titan Blackwell to be released in summer | heise online | 来源: www.heise.de       ## heise+ Das Beste aus heise+. ## heise online Top-Beit",
+      "success": true,
+      "error": null,
+      "round": 6
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 48121.61445617676,
+      "duration_ms": 2196.8,
+      "input_preview": "{\"max_results\": 8, \"query\": \"AMD Radeon RX 9060 RX 9070 RX 9080 RDNA 4 specs 2026\"}",
+      "output_preview": "搜索到 8 条结果，新增 6 条（去重后），搜索池累计 46 条。   [1] AMD's RDNA 4 focus for 2026 will reportedly be one GPU, the ... | 来源: www.tweaktown.com       # AMD's RDNA 4 focus for 2026 will reportedly be one GPU, the Rade",
+      "success": true,
+      "error": null,
+      "round": 6
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 56147.367000579834,
+      "duration_ms": 1232.1,
+      "input_preview": "{\"url\": \"https://www.techpowerup.com/gpu-specs/arc-b770.c4376\"}",
+      "output_preview": "已抓取页面: \"Intel Arc B770 Specs | TechPowerUp GPU Database\" | 来源: www.techpowerup.com | 约 275 字 核心发现: Automated bot check in progress Your browser must support Javascript This should only take a few seco",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 56147.35817909241,
+      "duration_ms": 1404.7,
+      "input_preview": "{\"url\": \"https://www.tomshardware.com/pc-components/gpus/intels-upcoming-arc-b770-discrete-gpu-leaks-out-on-github-launch-appears-imminent-reportedly-featuring-the-bmg-g31-gpu-16gb-vram-32-xe2-cores-a",
+      "output_preview": "已抓取页面: \"Intel's upcoming Arc B770 discrete GPU leaks out on GitHub, launch appears imminent - Reportedly featuring the BMG-G31 GPU, 16GB+ VRAM, 32 Xe2 cores, and 300W TDP | Tom's Hardware\" | 来源: www.t",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 56147.361755371094,
+      "duration_ms": 1491.4,
+      "input_preview": "{\"url\": \"https://www.amd.com/en/newsroom/press-releases/2025-2-28-amd-unveils-next-generation-amd-rdna-4-architectu.html\"}",
+      "output_preview": "已抓取页面: \"AMD Unveils Next-Generation AMD RDNA™ 4 Architecture with the Launch of AMD Radeon™ RX 9000 Series Graphics Cards\" | 来源: www.amd.com | 约 20918 字 核心发现: – The new AMD Radeon™ RX 9000 Series grap",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 56147.36461639404,
+      "duration_ms": 1682.2,
+      "input_preview": "{\"url\": \"https://www.heise.de/en/news/GeForce-RTX-5090-Ti-or-Titan-Blackwell-to-be-released-in-summer-11186502.html\"}",
+      "output_preview": "已抓取页面: \"GeForce RTX 5090 Ti or Titan Blackwell to be released in summer | heise online\" | 来源: www.heise.de | 约 2988 字 核心发现: The GeForce RTX 5090 could receive an even faster sister model in the summer",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 56147.35221862793,
+      "duration_ms": 3508.5,
+      "input_preview": "{\"url\": \"https://www.tweaktown.com/news/110017/amds-rdna-4-focus-for-2026-will-reportedly-be-one-gpu-the-radeon-rx-9060-xt-8gb/index.html\"}",
+      "output_preview": "已抓取页面: \"AMD's RDNA 4 focus for 2026 will reportedly be one GPU, the Radeon RX 9060 XT 8GB\" | 来源: www.tweaktown.com | 约 1533 字 核心发现: According to new information from the China-based Board Channels for",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 66222.15032577515,
+      "duration_ms": 1.3,
+      "input_preview": "{\"urls\": \"https://www.tomshardware.com/pc-components/gpus/intels-upcoming-arc-b770-discrete-gpu-leaks-out-on-github-launch-appears-imminent-reportedly-featuring-the-bmg-g31-gpu-16gb-vram-32-xe2-cores-",
+      "output_preview": "[https://www.tomshardware.com/pc-components/gpus/intels-upcoming-arc-b770-discrete-gpu-leaks-out-on-github-launch-appears-imminent-reportedly-featuring-the-bmg-g31-gpu-16gb-vram-32-xe2-cores-and-300w-",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 71187.10160255432,
+      "duration_ms": 1703.3,
+      "input_preview": "{\"max_results\": 8, \"query\": \"AMD RX 9080 XT RDNA 4 flagship 2026 specs GDDR7\"}",
+      "output_preview": "搜索到 8 条结果，新增 7 条（去重后），搜索池累计 53 条。   [1] AMD rumored Radeon RX 9080 XT: up to 32GB of faster GDDR7, up to 4GHz GPU clocks, 450W power | 来源: www.tweaktown.com       Latest NewsAIBusinessCases, Cooling &",
+      "success": true,
+      "error": null,
+      "round": 9
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 71187.09659576416,
+      "duration_ms": 1703.4,
+      "input_preview": "{\"max_results\": 8, \"query\": \"AMD Radeon RX 9060 XT 16GB launch June 2026 price\"}",
+      "output_preview": "搜索到 8 条结果，新增 8 条（去重后），搜索池累计 61 条。   [1] AMD Radeon RX 9060 XT official: $299 for 8GB and $349 for 16GB model, launching June 5 - VideoCardz.com | 来源: videocardz.com       # AMD Radeon RX 9060 XT offic",
+      "success": true,
+      "error": null,
+      "round": 9
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 71187.10422515869,
+      "duration_ms": 1804.3,
+      "input_preview": "{\"max_results\": 8, \"query\": \"NVIDIA RTX 50 SUPER series cancelled 2026 memory shortage\"}",
+      "output_preview": "搜索到 8 条结果，新增 8 条（去重后），搜索池累计 69 条。   [1] Did Nvidia Cancel the RTX 50 Super? | 来源: www.pcmag.com       Nvidia's long-expected RTX 50 Super series might be cancelled amidst shortages of the next-generat",
+      "success": true,
+      "error": null,
+      "round": 9
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 79345.42632102966,
+      "duration_ms": 1053.9,
+      "input_preview": "{\"url\": \"https://www.tweaktown.com/news/105554/amd-rumored-radeon-rx-9080-xt-up-to-32gb-of-faster-gddr7-4ghz-gpu-clocks-450w-power/index.html\"}",
+      "output_preview": "已抓取页面: \"AMD rumored Radeon RX 9080 XT: up to 32GB of faster GDDR7, up to 4GHz GPU clocks, 450W power\" | 来源: www.tweaktown.com | 约 1659 字 核心发现: AMD is reportedly preparing a new enthusiast graphics car",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 79346.67992591858,
+      "duration_ms": 3264.6,
+      "input_preview": "{\"url\": \"https://overclock3d.net/news/gpu-displays/nvidia-rtx-5090-ti-titan-blackwell-gpu-specifications-leak/\"}",
+      "output_preview": "无法访问页面: https://overclock3d.net/news/gpu-displays/nvidia-rtx-5090-ti-titan-blackwell-gpu-specifications-leak/",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 79345.42965888977,
+      "duration_ms": 3498.3,
+      "input_preview": "{\"url\": \"https://www.notebookcheck.net/AMD-RX-9080-XT-ES-engineering-sample-could-rival-RTX-5080-Super.1027707.0.html\"}",
+      "output_preview": "已抓取页面: \"AMD RX 9080 XT ES engineering sample could rival RTX 5080 Super - Notebookcheck News\" | 来源: www.notebookcheck.net | 约 2470 字 核心发现: Internal AMD lab tests reportedly show the card running game ",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 79345.41440010071,
+      "duration_ms": 4071.4,
+      "input_preview": "{\"url\": \"https://videocardz.com/newz/amd-radeon-rx-9060-xt-official-299-for-8gb-and-349-for-16gb-model-launching-june-5\"}",
+      "output_preview": "无法访问页面: https://videocardz.com/newz/amd-radeon-rx-9060-xt-official-299-for-8gb-and-349-for-16gb-model-launching-june-5",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "task",
+      "timestamp": 18075.520038604736,
+      "duration_ms": 66224.7,
+      "input_preview": "{\"description\": \"搜索2026年最新发布的GPU型号信息。请搜索以下内容：\\n\\n1. NVIDIA在2026年发布或计划发布的GPU型号（如RTX 50系列、数据中心GPU等）\\n2. AMD在2026年发布或计划发布的GPU型号（如Radeon RX 9000系列等）\\n3. Intel在2026年发布或计划发布的GPU型号（如Arc Battlemage系列等）\\n4. 各厂",
+      "output_preview": "Command(update={'messages': [ToolMessage(content='你好，我无法给到相关内容。', tool_call_id='call_8c35ecd45ccd4eb3b8494810')]})",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "get_current_time",
+      "timestamp": 92112.55192756653,
+      "duration_ms": 3.4,
+      "input_preview": "{}",
+      "output_preview": "当前时间：2026-05-17 00:42:06 时区：Asia/Shanghai (UTC+8) 星期：日 地区：中国",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "list_active_kbs",
+      "timestamp": 92112.55812644958,
+      "duration_ms": 3.8,
+      "input_preview": "{}",
+      "output_preview": "可用知识库： - KB#2 AI运维知识库 (类型:upload, 文档:10, chunks:1212)",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 105529.59132194519,
+      "duration_ms": 0.5,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索NVIDIA 2026年GPU型号信息（RTX 50系列、数据中心GPU等）\", \"status\": \"in_progress\"}, {\"content\": \"搜索AMD 2026年GPU型号信息（Radeon RX 9000系列等）\", \"status\": \"pending\"}, {\"content\": \"搜索Intel 2026年GPU型号信",
+      "output_preview": "Command(update={'todos': [{'content': '搜索NVIDIA 2026年GPU型号信息（RTX 50系列、数据中心GPU等）', 'status': 'in_progress'}, {'content': '搜索AMD 2026年GPU型号信息（Radeon RX 9000系列等）', 'status': 'pending'}, {'content': '搜索In",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "grep",
+      "timestamp": 137300.42433738708,
+      "duration_ms": 4.2,
+      "input_preview": "{\"pattern\": \"GPU\", \"path\": \"/\", \"glob\": \"*.md\"}",
+      "output_preview": "No matches found",
+      "success": true,
+      "error": null,
+      "round": 1
+    }
+  ],
+  "sub_agents_used": [
+    "retriever",
+    "searcher"
+  ],
+  "routing_correct": null,
+  "final_answer": "你好，我无法给到相关内容。",
+  "task_completed": false,
+  "error": "Recursion limit of 25 reached without hitting a stop condition. You can increase the limit by setting the `recursion_limit` config key.\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langgraph/errors/GRAPH_RECURSION_LIMIT",
+  "total_tokens": 0,
+  "reranker_called": false,
+  "reranker_succeeded": false,
+  "fallback_triggered": true,
+  "fallback_reason": "api_quota",
+  "raw_events": null
+}

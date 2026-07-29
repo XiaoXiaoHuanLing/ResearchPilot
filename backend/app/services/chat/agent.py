@@ -205,7 +205,59 @@ SEARCH_AGENT_PROMPT = """你是深度联网搜索专家。采用 Agentic Search 
 """
 
 
-KB_AGENT_PROMPT = """你是知识库检索专家。采用 Agentic RAG 策略，自主驱动检索循环。\n\n## 核心流程\n\n### Step 1: 了解可用知识库\n调用 list_active_kbs，了解当前启用的知识库。只有启用的知识库才参与检索。\n\n### Step 2: 首轮检索\n根据问题特征自主决定参数：\n- query: 原问题或提炼后的核心查询词\n- top_k: 简单事实问题 3-5，复杂/宽泛问题 8-12\n- kb_ids: 如果问题与特定知识库相关则指定，否则留空\n\n### Step 3: 阅读与评估\n调用 get_recall_nodes 阅读感兴趣的节点完整内容。\n自主判断召回信息是否充分：\n- 充分 → 蒸馏回答\n- 部分充分 → 改写查询词/调 top_k/换 kb_ids → 回到 Step 2\n- 不足 → 策略调整后继续 → 回到 Step 2\n- 完全无结果 → 坦白声明"当前知识库中未找到与该问题相关的参考上下文"\n\n### Step 4: 迭代约束\n- search_knowledge 最多调用 3 次\n- 达到上限必须基于已有内容回答\n\n### Step 5: 回答生成\n- 蒸馏第一目标: 去除不相关内容，保留与问题直接相关的原文描述\n- 不造事实，不润色，标注来源\n- 尽量完整概括相关的原文内容描述\n\n## 重要约束\n- 不编造: 知识库没有的信息绝不编造\n- 不遗漏: 已召回的有用信息要充分利用\n- 不冗余: 迭代时避免重复检索同一内容\n- 要坦白: 知识库无相关内容时明确说明\n- 用中文回复，简洁专业，不要自我介绍\n"""
+KB_AGENT_PROMPT = """你是知识库检索专家。采用 Agentic RAG 策略，自主驱动检索循环。
+
+## 核心流程
+
+### Step 1: 了解可用知识库
+调用 list_active_kbs，了解当前启用的知识库。只有启用的知识库才参与检索。
+
+### Step 2: 首轮检索
+根据问题特征自主决定参数：
+- query: 原问题或提炼后的核心查询词
+- top_k: 简单事实问题 3-5，复杂/宽泛问题 8-12
+- kb_ids: 如果问题与特定知识库相关则指定，否则留空
+
+### Step 3: 阅读与评估
+调用 get_recall_nodes 阅读感兴趣的节点完整内容。
+自主判断召回信息是否充分：
+- 充分 → 进入 Step 4 重排
+- 部分充分 → 改写查询词/调 top_k/换 kb_ids → 回到 Step 2
+- 不足 → 策略调整后继续 → 回到 Step 2
+- 完全无结果 → 坦白声明"当前知识库中未找到与该问题相关的参考上下文"
+
+### Step 4: 精确重排（必须执行）
+检索充分后、蒸馏前，必须调用 rerank_recall_pool(query) 对召回池精确重排。
+重排后节点按交叉编码器精确相关性降序排列，后续蒸馏优先关注高分节点。
+如果 rerank 失败可跳过，直接基于原始检索分数蒸馏。
+
+### Step 5: 迭代约束
+- search_knowledge 最多调用 3 次
+- 达到上限必须基于已有内容回答
+
+### Step 6: 蒸馏输出格式
+严格按编号事实点格式输出，分离蒸馏与回答：
+
+事实1: [相关原文段落，尽量完整保留]
+事实2: [相关原文段落]
+事实3: [相关原文段落]
+...
+
+要求：
+- 至少3条事实点（信息不足时尽可能多给）
+- 保留原文（200-500字/条），不概括不改写不推理
+- 不相关的不要输出
+- 知识库没有的信息绝不编造
+- 标注来源（文档标题）
+
+## 重要约束
+- 不编造: 知识库没有的信息绝不编造
+- 不遗漏: 已召回的有用信息要充分利用
+- 不冗余: 迭代时避免重复检索同一内容
+- 要坦白: 知识库无相关内容时明确说明
+- 必须调用 rerank_recall_pool 重排后再蒸馏
+- 用中文回复，简洁专业，不要自我介绍
+"""
 
 
 # ─── Tool Loading ───
@@ -224,10 +276,10 @@ def _get_search_tools():
 
 
 def _get_kb_tools():
-    """知识库Agent工具集（Agentic RAG）"""
-    from app.services.chat.tools.reflexive_retriever import search_knowledge, get_recall_nodes
+    """知识库Agent工具集（Agentic RAG + Reranker）"""
+    from app.services.chat.tools.reflexive_retriever import search_knowledge, get_recall_nodes, rerank_recall_pool
     from app.services.chat.tools.base import list_active_kbs
-    return [search_knowledge, get_recall_nodes, list_active_kbs]
+    return [search_knowledge, get_recall_nodes, rerank_recall_pool, list_active_kbs]
 
 
 # ─── Sub Agent Specs ───

@@ -1,0 +1,363 @@
+{
+  "timestamp": "20260517_011657",
+  "dataset_size": 5,
+  "kb_id": 1,
+  "agent_elapsed_seconds": 870.1,
+  "metrics": {
+    "efficiency": {
+      "tool_call_count": {
+        "mean": 31.0,
+        "min": 19,
+        "max": 46,
+        "p50": 23,
+        "p90": 35
+      },
+      "iteration_rounds": {
+        "mean": 3.4,
+        "min": 1,
+        "max": 7
+      },
+      "llm_tokens_used": {
+        "mean": null,
+        "total": 0
+      },
+      "retrieval_distill_rate": {
+        "mean": 0.2311
+      },
+      "tool_redundancy_rate": {
+        "mean": 0.1599
+      },
+      "tool_call_distribution": {
+        "fetch_page": 46,
+        "write_todos": 25,
+        "search_web": 25,
+        "search_knowledge": 16,
+        "get_recall_nodes": 13,
+        "get_search_content": 10,
+        "list_active_kbs": 9,
+        "get_current_time": 4,
+        "task": 4,
+        "rerank_recall_pool": 2,
+        "grep": 1
+      }
+    },
+    "robustness": {
+      "task_completion_rate": 0.8,
+      "task_completed": 4,
+      "task_total": 5,
+      "tool_error_recovery_rate": null,
+      "tool_error_count": 0,
+      "fallback_trigger_rate": 0.6,
+      "fallback_count": 3,
+      "timeout_rate": 0.0,
+      "timeout_count": 0,
+      "reranker_availability_rate": 1.0,
+      "reranker_called": 2,
+      "reranker_succeeded": 2,
+      "error_rate": 0.6
+    },
+    "ux": {
+      "ttft_ms": {
+        "mean": 61463.5377,
+        "p50": 22512.83,
+        "p90": 110391.84,
+        "min": 20363.255262374878,
+        "max": 121833.09316635132
+      },
+      "e2e_latency_ms": {
+        "mean": 167569.7391,
+        "p50": 130907.41,
+        "p90": 166304.41,
+        "min": 114490.94200134277,
+        "max": 274576.8311023712
+      },
+      "retrieval_phase_ms": {
+        "mean": 64985.9626,
+        "p50": 51783.41
+      },
+      "generation_phase_ms": {
+        "mean": 102583.7765,
+        "p50": 63804.73
+      }
+    },
+    "e2e": {
+      "answer_accuracy": 0.8,
+      "citation_coverage_rate": 0.2,
+      "routing_accuracy": 0.6,
+      "multi_source_quality": {
+        "total_multi_source": 4,
+        "completed": 3,
+        "completion_rate": 0.75
+      }
+    },
+    "sample_count": 5,
+    "grouped": {
+      "kb_simple": {
+        "efficiency": {
+          "tool_call_count": {
+            "mean": 27.5,
+            "min": 23,
+            "max": 32,
+            "p50": 23,
+            "p90": 23
+          },
+          "iteration_rounds": {
+            "mean": 5.0,
+            "min": 3,
+            "max": 7
+          },
+          "llm_tokens_used": {
+            "mean": null,
+            "total": 0
+          },
+          "retrieval_distill_rate": {
+            "mean": 0.0455
+          },
+          "tool_redundancy_rate": {
+            "mean": 0.1338
+          },
+          "tool_call_distribution": {
+            "write_todos": 10,
+            "search_knowledge": 10,
+            "fetch_page": 10,
+            "get_recall_nodes": 8,
+            "search_web": 6,
+            "list_active_kbs": 4,
+            "get_current_time": 2,
+            "get_search_content": 2,
+            "grep": 1,
+            "rerank_recall_pool": 1,
+            "task": 1
+          }
+        },
+        "robustness": {
+          "task_completion_rate": 0.5,
+          "task_completed": 1,
+          "task_total": 2,
+          "tool_error_recovery_rate": null,
+          "tool_error_count": 0,
+          "fallback_trigger_rate": 1.0,
+          "fallback_count": 2,
+          "timeout_rate": 0.0,
+          "timeout_count": 0,
+          "reranker_availability_rate": 1.0,
+          "reranker_called": 1,
+          "reranker_succeeded": 1,
+          "error_rate": 1.0
+        },
+        "ux": {
+          "ttft_ms": {
+            "mean": 71304.2551,
+            "p50": 32216.67,
+            "p90": 32216.67,
+            "min": 32216.670036315918,
+            "max": 110391.84021949768
+          },
+          "e2e_latency_ms": {
+            "mean": 148605.9071,
+            "p50": 130907.41,
+            "p90": 130907.41,
+            "min": 130907.40585327148,
+            "max": 166304.40831184387
+          },
+          "retrieval_phase_ms": {
+            "mean": 54798.6202,
+            "p50": 42494.57
+          },
+          "generation_phase_ms": {
+            "mean": 93807.2869,
+            "p50": 63804.73
+          }
+        },
+        "e2e": {
+          "answer_accuracy": 0.5,
+          "citation_coverage_rate": 0.5,
+          "routing_accuracy": 0.5,
+          "multi_source_quality": {
+            "total_multi_source": 2,
+            "completed": 1,
+            "completion_rate": 0.5
+          }
+        },
+        "sample_count": 2
+      },
+      "kb_complex": {
+        "efficiency": {
+          "tool_call_count": {
+            "mean": 32.5,
+            "min": 19,
+            "max": 46,
+            "p50": 19,
+            "p90": 19
+          },
+          "iteration_rounds": {
+            "mean": 3.0,
+            "min": 2,
+            "max": 4
+          },
+          "llm_tokens_used": {
+            "mean": null,
+            "total": 0
+          },
+          "retrieval_distill_rate": {
+            "mean": 0.4167
+          },
+          "tool_redundancy_rate": {
+            "mean": 0.2231
+          },
+          "tool_call_distribution": {
+            "fetch_page": 19,
+            "write_todos": 12,
+            "search_web": 11,
+            "search_knowledge": 6,
+            "get_recall_nodes": 5,
+            "list_active_kbs": 4,
+            "get_search_content": 4,
+            "task": 2,
+            "get_current_time": 1,
+            "rerank_recall_pool": 1
+          }
+        },
+        "robustness": {
+          "task_completion_rate": 1.0,
+          "task_completed": 2,
+          "task_total": 2,
+          "tool_error_recovery_rate": null,
+          "tool_error_count": 0,
+          "fallback_trigger_rate": 0.5,
+          "fallback_count": 1,
+          "timeout_rate": 0.0,
+          "timeout_count": 0,
+          "reranker_availability_rate": 1.0,
+          "reranker_called": 1,
+          "reranker_succeeded": 1,
+          "error_rate": 0.5
+        },
+        "ux": {
+          "ttft_ms": {
+            "mean": 21438.0425,
+            "p50": 20363.26,
+            "p90": 20363.26,
+            "min": 20363.255262374878,
+            "max": 22512.829780578613
+          },
+          "e2e_latency_ms": {
+            "mean": 194533.8866,
+            "p50": 114490.94,
+            "p90": 114490.94,
+            "min": 114490.94200134277,
+            "max": 274576.8311023712
+          },
+          "retrieval_phase_ms": {
+            "mean": 72330.3404,
+            "p50": 51783.41
+          },
+          "generation_phase_ms": {
+            "mean": 122203.5462,
+            "p50": 62707.53
+          }
+        },
+        "e2e": {
+          "answer_accuracy": 1.0,
+          "citation_coverage_rate": 0.0,
+          "routing_accuracy": 0.75,
+          "multi_source_quality": {
+            "total_multi_source": 1,
+            "completed": 1,
+            "completion_rate": 1.0
+          }
+        },
+        "sample_count": 2
+      },
+      "search_simple": {
+        "efficiency": {
+          "tool_call_count": {
+            "mean": 35.0,
+            "min": 35,
+            "max": 35,
+            "p50": 35,
+            "p90": 35
+          },
+          "iteration_rounds": {
+            "mean": 1.0,
+            "min": 1,
+            "max": 1
+          },
+          "llm_tokens_used": {
+            "mean": null,
+            "total": 0
+          },
+          "retrieval_distill_rate": {
+            "mean": null
+          },
+          "tool_redundancy_rate": {
+            "mean": 0.0857
+          },
+          "tool_call_distribution": {
+            "fetch_page": 17,
+            "search_web": 8,
+            "get_search_content": 4,
+            "write_todos": 3,
+            "get_current_time": 1,
+            "list_active_kbs": 1,
+            "task": 1
+          }
+        },
+        "robustness": {
+          "task_completion_rate": 1.0,
+          "task_completed": 1,
+          "task_total": 1,
+          "tool_error_recovery_rate": null,
+          "tool_error_count": 0,
+          "fallback_trigger_rate": 0.0,
+          "fallback_count": 0,
+          "timeout_rate": 0.0,
+          "timeout_count": 0,
+          "reranker_availability_rate": null,
+          "reranker_called": 0,
+          "reranker_succeeded": 0,
+          "error_rate": 0.0
+        },
+        "ux": {
+          "ttft_ms": {
+            "mean": 121833.0932,
+            "p50": 121833.09,
+            "p90": 121833.09,
+            "min": 121833.09316635132,
+            "max": 121833.09316635132
+          },
+          "e2e_latency_ms": {
+            "mean": 151569.1082,
+            "p50": 151569.11,
+            "p90": 151569.11,
+            "min": 151569.10824775696,
+            "max": 151569.10824775696
+          },
+          "retrieval_phase_ms": {
+            "mean": 70671.8919,
+            "p50": 70671.89
+          },
+          "generation_phase_ms": {
+            "mean": 80897.2164,
+            "p50": 80897.22
+          }
+        },
+        "e2e": {
+          "answer_accuracy": 1.0,
+          "citation_coverage_rate": 0.0,
+          "routing_accuracy": 0.5,
+          "multi_source_quality": {
+            "total_multi_source": 1,
+            "completed": 1,
+            "completion_rate": 1.0
+          }
+        },
+        "sample_count": 1
+      }
+    }
+  },
+  "baselines": {
+    "dense": [],
+    "hybrid": []
+  }
+}

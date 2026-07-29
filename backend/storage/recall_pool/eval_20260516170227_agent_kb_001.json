@@ -1,0 +1,254 @@
+{
+  "5889f981-4989-41cc-844f-fbf1611d1206": {
+    "node_id": "5889f981-4989-41cc-844f-fbf1611d1206",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.032423490488006614,
+    "snippet": "运维工程师查看节点的 GPU 使用情况，发现多个服务同时运行时，GPU 显存经常被占满，导致 OOM 错误。同时，GPU 利用率波动很大，有时高达 100%，有时又很低。解决方案是使用 NVIDIA MIG 技术将每个 A100 GPU 分割成 2 个 20GB 的 MIG 实例，为每个推理服务分配一个独立的 MIG 实例，实现资源隔离。同时，使用 Kubernetes 的资源配额功能，限制每个服务能够使用的 CPU 和内存资源。优化后，各个服务之间不再相互干扰，服务的稳定性和性能都得到了大幅提升，延迟波动从原来的 ±500 毫秒降低到 ±50 毫秒。这个案例的经验总结是，多模型部署必须实施资源隔离，避免资源竞争，MIG 技术是实现 GPU 资源隔离的有效方式。\n\n六、附录\n\n6.1 常用命令速查\n\ndocker run --gpus all -p 8000:8000 vllm/vllm-openai:v0.4.",
+    "round": 2
+  },
+  "faa5a0d5-e2fc-43d5-9f3a-2f5295783410": {
+    "node_id": "faa5a0d5-e2fc-43d5-9f3a-2f5295783410",
+    "kb_id": 2,
+    "title": "AI 系统安全加固与权限管理规范",
+    "source": "本地文档: AI 系统安全加固与权限管理规范.docx",
+    "relevance_score": 0.032018442622950824,
+    "snippet": "使用 MIG（多实例 GPU）技术将物理 GPU 分割为多个独立的逻辑 GPU 实例，为不同的用户和任务分配独立的 GPU 资源，实现 GPU 资源的隔离，防止不同任务之间的信息泄露和干扰。禁用 GPU 的调试接口和性能计数器，防止攻击者通过这些接口窃取模型参数和敏感数据。",
+    "round": 2
+  },
+  "dfae2b03-a028-4c9d-aa29-31484bde7fb4": {
+    "node_id": "dfae2b03-a028-4c9d-aa29-31484bde7fb4",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.03149801587301587,
+    "snippet": "同时可以使用 GPU 共享技术，如 NVIDIA MPS 或 vGPU，将一个 GPU 卡共享给多个低负载的 Pod，提高 GPU 的利用率。\n\n4.2 资源管理优化\n\n建立完善的资源管理体系，能够有效提升集群的资源利用率，降低运营成本。首先应该启用 Kubernetes 的资源配额和限制范围功能，在命名空间级别设置资源配额，限制每个命名空间能够使用的 CPU、内存和 GPU 资源总量。",
+    "round": 1
+  },
+  "e1671db7-2971-47f7-9e57-6966b3cbe7a1": {
+    "node_id": "e1671db7-2971-47f7-9e57-6966b3cbe7a1",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.03128054740957967,
+    "snippet": "解决这个问题首先需要为每个服务分配独立的端口，避免端口冲突。对于资源竞争问题，可以使用 Kubernetes 的资源限制功能，为每个模型分配固定的 GPU 和 CPU 资源，确保每个模型都有足够的资源运行。对于显存资源，可以使用 MIG 技术将一个 GPU 分割成多个实例，每个模型使用一个 MIG 实例，实现资源隔离。",
+    "round": 2
+  },
+  "7de6da8a-4d76-4d86-957f-1abab6bdc0f9": {
+    "node_id": "7de6da8a-4d76-4d86-957f-1abab6bdc0f9",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.015873015873015872,
+    "snippet": "其次是资源竞争，多个模型共享同一个 GPU，导致显存不足或 GPU 利用率过高，性能下降。第三是模型版本冲突，不同的模型需要不同版本的依赖库，导致环境冲突。第四是调度冲突，多个模型同时接收大量请求，导致调度器无法及时处理，出现请求排队或超时。\n\n解决这个问题首先需要为每个服务分配独立的端口，避免端口冲突。对于资源竞争问题，可以使用 Kubernetes 的资源限制功能，为每个模型分配固定的 GPU 和 CPU 资源，确保每个模型都有足够的资源运行。对于显存资源，可以使用 MIG 技术将一个 GPU 分割成多个实例，每个模型使用一个 MIG 实例，实现资源隔离。对于模型版本冲突问题，使用容器化部署，每个模型运行在独立的容器中，拥有自己的依赖环境，避免环境冲突。对于调度冲突问题，使用 Triton 的多模型调度功能，或者使用专门的模型网关如 KServe，实现多模型的统一调度和管理，根据模型的负载动态分配资源。\n\n四、性能优化最佳实践\n\n4.",
+    "round": 2
+  },
+  "ff43af3b-8b28-4c86-9bfc-998d3b5019e2": {
+    "node_id": "ff43af3b-8b28-4c86-9bfc-998d3b5019e2",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.015384615384615385,
+    "snippet": "第四是宿主机驱动与容器内 CUDA 版本不兼容，容器内的 CUDA 版本高于宿主机驱动支持的最高版本，导致容器内无法使用 GPU。\n\n解决这个问题首先需要正确安装和配置 NVIDIA Container Toolkit，在 Ubuntu 系统上，执行 curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.",
+    "round": 1
+  },
+  "e009c01a-ba49-44a5-a1f0-f54f915da0c5": {
+    "node_id": "e009c01a-ba49-44a5-a1f0-f54f915da0c5",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.014925373134328358,
+    "snippet": "接下来检查 GPU 亲和性设置，确保每个 GPU 进程都绑定到对应的 CPU 核心和 NUMA 节点，避免跨 NUMA 节点访问内存。",
+    "round": 1
+  },
+  "b08e6f2e-e31e-4709-909f-a721f4fd6167": {
+    "node_id": "b08e6f2e-e31e-4709-909f-a721f4fd6167",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.014925373134328358,
+    "snippet": "gpg 命令导入 GPG 密钥，执行 curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.",
+    "round": 1
+  },
+  "59603279-09ca-4164-9cf9-dc95371b657f": {
+    "node_id": "59603279-09ca-4164-9cf9-dc95371b657f",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.014705882352941176,
+    "snippet": "显存控制器管理 GPU 专用的高速 GDDR 或 HBM 显存，决定了 GPU 的显存带宽和容量，是大模型训练和推理的关键瓶颈之一。",
+    "round": 1
+  },
+  "bd72fc7e-5ff7-4440-a86b-2283a720cc0d": {
+    "node_id": "bd72fc7e-5ff7-4440-a86b-2283a720cc0d",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.01452020202020202,
+    "snippet": "启用梯度检查点技术可以在反向传播时重新计算中间激活值，而不是保存它们，这可以大幅减少显存使用量，但会增加约 20% 的计算时间。对于非常大的模型，可以使用模型并行或流水线并行技术，将模型的不同部分分布在多个 GPU 上，从而分摊显存压力。其次是优化显存管理，在不需要梯度的代码段使用 with [torch.no](torch.no)_grad (): 上下文管理器，可以避免保存不必要的中间激活值，及时释放不再使用的张量，执行 del loss, outputs 和 torch.cuda.empty_cache () 命令可以显式释放张量占用的显存，禁用不必要的缓存和日志也可以减少显存占用。最后是解决显存碎片化问题，设置 export CUDA_MEMORY_POOL_DEBUG=1 环境变量可以启用 PyTorch 的内存池调试功能，帮助分析显存碎片化情况，执行 torch.cuda.set_per_process_memory_fraction (0.9, device=0) 命令可以调整内存池的配置，减少显存碎片化。\n\n3.",
+    "round": 1
+  },
+  "030497e8-4f2e-468d-9577-0cf8bdcac6d9": {
+    "node_id": "030497e8-4f2e-468d-9577-0cf8bdcac6d9",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.014705882352941176,
+    "snippet": "首选解决方案是检查 GPU 是否插入正确的 PCIe x16 插槽，重新插拔 GPU 确保完全插入，进入主板 BIOS 启用 PCIe Gen4/5 模式，检查电源供电是否充足。",
+    "round": 2
+  },
+  "ebf58675-89a2-4e5a-b62d-5a1ee6b08210": {
+    "node_id": "ebf58675-89a2-4e5a-b62d-5a1ee6b08210",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.014925373134328358,
+    "snippet": "多模型部署冲突：同一节点部署多个模型时出现资源竞争或性能下降，核心原因包括 GPU 显存不足、端口冲突、环境依赖冲突、调度不合理。首选解决方案是使用 MIG 技术分割 GPU 实现资源隔离，为每个服务分配独立的端口，使用容器化部署隔离环境，使用模型网关统一调度多模型。",
+    "round": 2
+  },
+  "fbe4d273-a1f8-4a55-88dc-83c6a420911d": {
+    "node_id": "fbe4d273-a1f8-4a55-88dc-83c6a420911d",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.015151515151515152,
+    "snippet": "运维工程师首先监控了服务的显存使用情况，发现显存使用率随时间缓慢上升，即使没有请求，显存也不会释放，这明显是显存泄漏的症状。进一步查看 vLLM 的日志，发现有大量的请求因为超时被取消，但这些请求的 KV 缓存没有被及时释放。经过排查，发现是 vLLM 0.4.1 版本的一个已知 bug，当请求被取消时，对应的 KV 缓存没有被正确回收。解决方案是升级 vLLM 到 0.4.2 版本，该版本修复了这个 bug，同时启用--enable-auto-gc参数，自动回收不再使用的显存。升级后，服务的显存使用情况稳定，不再出现 OOM 崩溃的问题。这个案例的经验总结是，在部署 vLLM 时，应该使用最新的稳定版本，及时修复已知的 bug，同时启用自动垃圾回收功能，预防显存泄漏问题。\n\n案例 2：Triton 推理延迟过高\n\n某企业使用 Triton 部署了一个 7B 参数的大模型推理服务，发现平均延迟超过 2 秒，无法满足业务需求。运维工程师使用 perf_analyzer 工具测试服务的性能，发现即使在低并发情况下，延迟也很高，GPU 利用率只有 30% 左右。查看 Triton 的配置文件，发现动态批处理功能没有启用，每个请求都单独处理，导致 GPU 利用率低。同时，模型使用的是 FP16 精度，没有启用量化。解决方案是在 Triton 的配置文件中启用动态批处理，设置max_batch_size为 32，max_queue_delay_microseconds为 10000，同时将模型量化为 INT4 精度，使用 TensorRT-LLM 后端。优化后，服务的平均延迟降低到 300 毫秒以下，GPU 利用率提升到 85% 以上，满足了业务的性能要求。这个案例的经验总结是，动态批处理和量化是提升大模型推理性能的关键技术，必须正确配置和启用。\n\n案例 3：多模型部署资源竞争导致服务不稳定\n\n某 Kubernetes 集群上部署了 10 个不同的大模型推理服务，所有服务都共享节点上的 GPU 资源，导致服务经常出现延迟波动和崩溃的问题。运维工程师查看节点的 GPU 使用情况，发现多个服务同时运行时，GPU 显存经常被占满，导致 OOM 错误。同时，GPU 利用率波动很大，有时高达 100%，有时又很低。解决方案是使用 NVIDIA MIG 技术将每个 A100 GPU 分割成 2 个 20GB 的 MIG 实例，为每个推理服务分配一个独立的 MIG 实例，实现资源隔离。同时，使用 Kubernetes 的资源配额功能，限制每个服务能够使用的 CPU 和内存资源。优化后，各个服务之间不再相互干扰，服务的稳定性和性能都得到了大幅提升，延迟波动从原来的 ±500 毫秒降低到 ±50 毫秒。这个案例的经验总结是，多模型部署必须实施资源隔离，避免资源竞争，MIG 技术是实现 GPU 资源隔离的有效方式。\n\n六、附录\n\n6.1 常用命令速查\n\ndocker run --gpus all -p 8000:8000 vllm/vllm-openai:v0.4.2 --model meta-llama/Llama-2-7b-chat-hf --tensor-parallel-size 1 --quantization awq命令用于使用 Docker 部署 vLLM 服务，加载 Llama-2-7b-chat 模型，使用 AWQ 量化。docker run --gpus all -p 8000:8000 -p 8001:8001 -p 8002:8002 -v /models:/models nvcr.io/nvidia/tritonserver:24.04-py3 tritonserver --model-repository=/models命令用于使用 Docker 部署 Triton 服务。perf_analyzer -m llama-2-7b -u localhost:8000 -i grpc --concurrency 10命令用于使用 perf_analyzer 测试 Triton 服务的性能。curl http://localhost:8000/v1/chat/completions -H \"Content-Type: application/json\" -d '{\"model\": \"llama-2-7b\", \"messages\": [{\"role\": \"user\", \"content\": \"Hello!\"}]}'命令用于调用 vLLM 的 OpenAI 兼容 API。kubectl logs <pod-name> -f命令用于实时查看 Pod 的日志。\n\n6.2 常用配置参数速查\n\nvLLM 的常用配置参数包括--model指定模型路径，--tensor-parallel-size指定张量并行大小，--quantization指定量化方式，--max-model-len指定最大序列长度，--max-num-batched-tokens指定每个批次的最大 token 数量，--max-num-seqs指定最大并发请求数，--gpu-memory-utilization指定 GPU 显存使用率，--enable-auto-gc启用自动垃圾回收。Triton config.pbtxt 的常用配置参数包括platform指定后端，max_batch_size指定最大批处理大小，dynamic_batching配置动态批处理，instance_group配置模型实例，parameters指定后端参数。\n\n6.3 参考资料\n\nvLLM 官方文档：https://docs.vllm.ai/en/latest/\nTriton Inference Server 官方文档：https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/index.html\nTensorRT-LLM 官方文档：https://github.com/NVIDIA/TensorRT-LLM\nKServe 官方文档：https://kserve.github.io/website/latest/",
+    "round": 2
+  },
+  "7518800d-f9e6-419e-9dc2-108077974dcf": {
+    "node_id": "7518800d-f9e6-419e-9dc2-108077974dcf",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.014925373134328358,
+    "snippet": "启用梯度检查点技术可以在反向传播时重新计算中间激活值，而不是保存它们，这可以大幅减少显存使用量，但会增加约 20% 的计算时间。对于非常大的模型，可以使用模型并行或流水线并行技术，将模型的不同部分分布在多个 GPU 上，从而分摊显存压力。其次是优化显存管理，在不需要梯度的代码段使用 with [torch.no](torch.",
+    "round": 2
+  },
+  "a891c1a4-4ae6-40c3-897e-b446bb1939b3": {
+    "node_id": "a891c1a4-4ae6-40c3-897e-b446bb1939b3",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.014705882352941176,
+    "snippet": "流式输出异常：流式输出中断或乱码，核心原因包括网络连接不稳定、服务端缓冲区设置不当、客户端处理错误、Nginx 反向代理配置错误。首选解决方案是检查网络连接是否稳定，调整服务端的输出缓冲区大小，修复客户端的流式处理代码，配置 Nginx 支持流式输出。\n\n多模型部署冲突：同一节点部署多个模型时出现资源竞争或性能下降，核心原因包括 GPU 显存不足、端口冲突、环境依赖冲突、调度不合理。首选解决方案是使用 MIG 技术分割 GPU 实现资源隔离，为每个服务分配独立的端口，使用容器化部署隔离环境，使用模型网关统一调度多模型。\n\n模型热加载失败：更新模型后 Triton 无法自动加载新模型，核心原因包括模型仓库结构错误、新版本模型配置错误、文件权限问题、Triton 未启用模型热加载。首选解决方案是检查模型仓库的目录结构和文件权限，验证新版本模型的 config.pbtxt 配置，确保 Triton 启动时添加了 --model-control-mode=poll 参数。",
+    "round": 2
+  },
+  "84188a38-b17e-4518-a97d-3748b3e292e5": {
+    "node_id": "84188a38-b17e-4518-a97d-3748b3e292e5",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.014492753623188406,
+    "snippet": "优先使用 NVIDIA 官方提供的 CUDA 和深度学习镜像，这些镜像经过了严格的兼容性测试和优化，能够避免很多环境问题。使用 conda 或 docker 隔离不同项目的环境，每个项目可以有自己独立的依赖环境，避免不同项目之间的依赖冲突。使用 conda env export 或 requirements.",
+    "round": 2
+  },
+  "846a63de-d795-43a2-8525-35395bbaf137": {
+    "node_id": "846a63de-d795-43a2-8525-35395bbaf137",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.014285714285714285,
+    "snippet": "对于 Triton，可以配置模型的自动卸载功能，在config.pbtxt中设置model_transaction_policy，指定模型在空闲一段时间后自动卸载。如果是第三方库的内存泄漏，尝试升级到最新版本的库，很多内存泄漏问题在新版本中已经被修复。如果是自定义代码的内存泄漏，使用内存分析工具如 PyTorch 的内存快照功能，定位泄漏的位置，修改代码，及时释放不再使用的张量和对象。\n\n3.5 服务崩溃\n\n服务崩溃表现为服务突然停止响应，容器退出或重启。导致这个问题的原因主要有六个方面，首先是 OOM 错误，显存或内存不足导致进程被系统 OOM Killer 终止。其次是驱动崩溃，GPU 驱动出现错误，导致进程崩溃。第三是硬件故障，GPU 或其他硬件出现故障，导致服务无法运行。第四是请求过载，大量的并发请求超过了服务的处理能力，导致服务崩溃。第五是程序 bug，服务代码中存在未处理的异常，导致进程崩溃。第六是依赖问题，依赖的库或服务出现故障，导致服务崩溃。\n\n排查这个问题首先需要查看容器的日志和系统日志，确定崩溃的原因，如果日志中显示 OOM 错误，需要增加 GPU 或内存资源，或者使用量化后的模型，减小模型的显存占用。如果是驱动崩溃，需要检查 GPU 驱动的版本，升级到最新的稳定版本，重启 GPU 或服务器。如果是硬件故障，按照 GPU 硬件与驱动运维手册进行排查，更换故障的硬件。如果是请求过载，需要实施限流和熔断机制，保护服务不被大量请求冲垮，同时配置自动扩缩容，根据负载动态调整服务的实例数量。如果是程序 bug，需要修复代码中的异常处理逻辑，增加错误处理和重试机制。\n\n3.6 API 调用错误\n\nAPI 调用错误表现为客户端调用服务时返回错误响应，常见的错误包括 400 Bad Request、404 Not Found、500 Internal Server Error 和 504 Gateway Timeout。导致这个问题的原因主要有五个方面，首先是参数错误，请求中的参数格式不正确，或者参数值超出了服务的限制。其次是模型不存在，请求的模型名称错误，或者模型没有被正确加载。第三是请求格式错误，请求的 JSON 格式不正确，或者缺少必要的字段。第四是超时错误，服务处理请求的时间超过了客户端设置的超时时间。第五是服务内部错误，服务在处理请求时出现异常，导致返回 500 错误。\n\n排查这个问题首先需要查看错误响应中的信息，根据错误代码和错误信息定位问题所在，如果是 400 错误，需要检查请求的参数是否正确，参数值是否在允许的范围内。如果是 404 错误，需要检查模型名称是否正确，模型是否已经被正确加载到服务中。如果是请求格式错误，需要使用 JSON 验证工具检查请求的 JSON 格式是否正确，确保所有必要的字段都已包含。如果是超时错误，需要增加客户端的超时时间，或者优化服务的性能，降低推理延迟。如果是 500 错误，需要查看服务的日志，找到内部错误的原因，进行相应的修复。\n\n3.7 多模型部署冲突\n\n多模型部署冲突表现为在同一个服务或同一个节点上部署多个模型时，出现资源竞争、端口冲突或模型版本冲突等问题。导致这个问题的原因主要有四个方面，首先是端口冲突，多个服务使用了相同的端口，导致其中一个服务无法启动。其次是资源竞争，多个模型共享同一个 GPU，导致显存不足或 GPU 利用率过高，性能下降。第三是模型版本冲突，不同的模型需要不同版本的依赖库，导致环境冲突。第四是调度冲突，多个模型同时接收大量请求，导致调度器无法及时处理，出现请求排队或超时。\n\n解决这个问题首先需要为每个服务分配独立的端口，避免端口冲突。对于资源竞争问题，可以使用 Kubernetes 的资源限制功能，为每个模型分配固定的 GPU 和 CPU 资源，确保每个模型都有足够的资源运行。对于显存资源，可以使用 MIG 技术将一个 GPU 分割成多个实例，每个模型使用一个 MIG 实例，实现资源隔离。对于模型版本冲突问题，使用容器化部署，每个模型运行在独立的容器中，拥有自己的依赖环境，避免环境冲突。对于调度冲突问题，使用 Triton 的多模型调度功能，或者使用专门的模型网关如 KServe，实现多模型的统一调度和管理，根据模型的负载动态分配资源。\n\n四、性能优化最佳实践\n\n4.1 模型优化\n\n模型优化是提升推理性能的最有效方式，首先应该使用量化技术，将模型从 FP16 精度量化为 INT4、INT8 或 FP8 精度，量化可以大幅减少模型的显存占用，提升推理速度，同时保持可接受的精度损失。对于 vLLM，推荐使用 AWQ 或 GPTQ 量化方式，这两种量化方式在大语言模型上表现出色，能够在 4 位量化的情况下保持接近 FP16 的精度。对于 Triton，推荐使用 TensorRT-LLM 后端，它支持 INT4 和 FP8 量化，并且能够针对 NVIDIA GPU 进行深度优化，提供极高的推理性能。\n\n除了量化，还可以使用模型蒸馏和剪枝技术，模型蒸馏是将大模型的知识迁移到小模型中，得到一个体积更小、速度更快的小模型，同时保持大部分的性能。模型剪枝是移除模型中不重要的参数和连接，减少模型的参数量和计算量。",
+    "round": 2
+  },
+  "4c6280af-dc2f-4212-917c-c2c0e29c4c0b": {
+    "node_id": "4c6280af-dc2f-4212-917c-c2c0e29c4c0b",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.02177960927960928,
+    "snippet": "kubectl describe clusterpolicy gpu-cluster-policy -n gpu-operator命令用于查看 GPU Operator 的配置和状态。kubectl apply -f volcano-job.yaml命令用于创建 Volcano Job。kubectl get queues命令用于查看 Volcano 队列的状态。kubectl logs <pod-name>命令用于查看 Pod 的日志。kubectl exec -it <pod-name> -- /bin/bash命令用于进入 Pod 内部进行调试。\n\n6.2 常用配置参数速查\n\nresources: { limits: { nvidia.com/gpu: 1 } }用于在 Pod 中请求 1 个 GPU 资源。schedulerName: volcano用于指定使用 Volcano 调度器调度 Pod。NCCL_DEBUG=INFO用于启用 NCCL 基本调试信息输出。NCCL_NET_GDR_LEVEL=3用于启用最高级别的 GPUDirect RDMA。cpu-manager-policy: static用于启用 Kubernetes 的静态 CPU 管理策略。topology-manager-policy: single-numa-node用于启用 Kubernetes 的单 NUMA 节点拓扑管理策略。\n\n6.3 参考资料\n\nNVIDIA GPU Operator 官方文档：https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html\nVolcano 官方文档：https://volcano.sh/docs/\nKubernetes 官方文档：https://kubernetes.io/docs/home/\nNVIDIA Network Operator 官方文档：https://docs.nvidia.com/networking/display/COKAN10/Network+Operator",
+    "round": 2
+  },
+  "18d54e4e-5499-44dc-8840-820e0dcd44b6": {
+    "node_id": "18d54e4e-5499-44dc-8840-820e0dcd44b6",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.021494268797202246,
+    "snippet": "对于 NFS 存储，需要确保 NFS 服务器允许节点的 IP 地址访问，并且共享目录的权限设置正确。同时检查存储网络的状态，确保节点与存储服务器之间的网络连通，带宽足够，没有丢包和延迟过高的问题。最后检查存储的容量和性能，确保有足够的存储空间，并且存储的 IOPS 和吞吐量能够满足工作负载的需求。\n\n3.6 网络相关问题\n\n网络相关问题对 AI 工作负载的影响极大，尤其是分布式训练任务，网络故障会直接导致任务失败或性能下降。导致网络问题的原因主要有七个方面，首先是网络硬件故障，网卡、交换机或线缆损坏。其次是网络配置错误，IP 地址冲突、路由配置错误。第三是网络插件故障，Calico、Flannel 或 NVIDIA Network Operator 运行异常。第四是防火墙或网络策略阻止了必要的网络通信。第五是网络拥塞，大量数据传输导致网络带宽耗尽。第六是 RDMA 配置错误，GPUDirect RDMA 无法启用。第七是 DNS 解析失败，Pod 无法解析其他 Pod 或服务的域名。\n\n排查网络问题首先需要检查网络硬件的状态，使用ibstat或ethtool命令查看网卡的状态，确保网卡正常运行，链路速度达到最大值。使用ibping或ping命令测试节点之间的连通性，使用ib_write_bw命令测试网络的带宽和延迟，确认网络性能正常。如果节点之间无法通信，检查网络线缆和交换机端口，更换有问题的硬件。\n\n接下来检查网络插件的运行状态，执行kubectl get pods -n kube-system命令查看网络插件 Pod 的运行状态，如果有 Pod 异常，查看 Pod 日志排查问题。检查防火墙和网络策略配置，确保允许 AI 工作负载所需的网络通信，NCCL 需要使用 1024-65535 之间的随机端口，需要开放这些端口的通信。对于 RDMA 网络，检查 NVIDIA Network Operator 的部署状态，确保 RDMA 驱动和插件已经正确安装和配置，启用 GPUDirect RDMA 功能。最后检查 DNS 解析情况，在 Pod 中执行nslookup命令测试 DNS 解析是否正常，如果 DNS 解析失败，检查 CoreDNS 的运行状态。\n\n四、性能优化最佳实践\n\n4.1 GPU 调度优化\n\n合理的 GPU 调度策略能够大幅提升集群的资源利用率和任务性能。首先应该启用拓扑感知调度，Volcano 调度器支持基于 GPU 和网络拓扑的调度，能够将同一个训练任务的所有 Pod 调度到网络拓扑相近的节点上，减少跨交换机和跨机架的通信，降低通信延迟。在 Volcano 中，可以通过设置topologyPolicy字段来启用拓扑感知调度，支持best-effort、restricted和single-numa-node等多种策略。\n\n其次应该使用队列管理和公平调度，创建多个优先级不同的队列，为重要的任务分配更高的优先级，确保重要任务能够优先获得资源。同时设置资源配额，限制每个用户或项目能够使用的资源总量，避免资源被个别用户独占。Volcano 还支持抢占调度功能，当高优先级任务没有足够的资源时，可以抢占低优先级任务的资源，保障高优先级任务的运行。\n\n另外应该合理设置 Pod 的资源请求和限制，避免资源浪费。对于 GPU 资源，应该根据任务的实际需求设置准确的 GPU 数量，不要请求过多的 GPU 资源。对于 CPU 和内存资源，也应该设置合理的请求和限制，避免一个 Pod 占用过多的节点资源，影响其他 Pod 的运行。同时可以使用 GPU 共享技术，如 NVIDIA MPS 或 vGPU，将一个 GPU 卡共享给多个低负载的 Pod，提高 GPU 的利用率。\n\n4.2 资源管理优化\n\n建立完善的资源管理体系，能够有效提升集群的资源利用率，降低运营成本。首先应该启用 Kubernetes 的资源配额和限制范围功能，在命名空间级别设置资源配额，限制每个命名空间能够使用的 CPU、内存和 GPU 资源总量。设置限制范围，为 Pod 设置默认的资源请求和限制，避免用户创建没有资源限制的 Pod。\n\n其次应该实施资源回收机制，定期清理集群中的僵尸 Pod 和完成的 Job，释放占用的资源。可以使用 Kubernetes 的 TTL 控制器，自动删除完成时间超过指定阈值的 Job。同时监控集群中的闲置资源，对于长时间闲置的 Pod，发送通知提醒用户，或者自动回收闲置资源。\n\n另外应该优化节点的资源分配，避免节点资源碎片化。可以使用 Kubernetes 的调度器扩展，如 Descheduler，定期重新调度集群中的 Pod，将分散的资源整合起来，提高节点的资源利用率。同时根据集群的负载情况，自动扩缩容集群的节点数量，当负载较高时自动增加节点，当负载较低时自动减少节点，降低运营成本。\n\n4.3 网络优化\n\n网络性能是影响分布式训练任务性能的关键因素，需要从硬件和软件两个方面进行优化。硬件方面，应该使用 InfiniBand 或 25G 以上的 RoCE 网络，为每个 GPU 节点配置足够的网络带宽，避免网络成为性能瓶颈。同时使用胖树网络拓扑，确保任意两个节点之间的网络带宽相同，避免出现网络瓶颈。\n\n软件方面，应该启用 GPUDirect RDMA 技术，让 GPU 直接与网卡进行数据传输，不需要经过 CPU 内存，大幅提升通信性能，降低 CPU 占用率。NVIDIA Network Operator 能够自动部署和配置 GPUDirect RDMA 所需的驱动和插件，简化部署流程。同时优化 NCCL 的配置，设置合适的环境变量，如NCCL_IB_HCA、NCCL_NET_GDR_LEVEL等，让 NCCL 能够充分利用底层网络的性能。",
+    "round": 2
+  },
+  "afde6788-137c-49ff-9b75-9d01320b801e": {
+    "node_id": "afde6788-137c-49ff-9b75-9d01320b801e",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.016129032258064516,
+    "snippet": "com/gpu: 1 } }表示请求 1 个 GPU 资源。需要注意的是，GPU 资源只能在 limits 字段中指定，requests 字段如果不指定则默认与 limits 相同，不支持超配 GPU 资源。\n\n管理 GPU Operator 是集群运维的重要工作，GPU Operator 通过 Operator Lifecycle Manager (OLM) 部署在集群中，运行在 gpu-operator 命名空间下。",
+    "round": 2
+  },
+  "b959dca5-80d4-464e-b476-d7106d9f5bc1": {
+    "node_id": "b959dca5-80d4-464e-b476-d7106d9f5bc1",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.015970213609118985,
+    "snippet": "Kubernetes GPU 集群运维核心指南\n\n版本：v1.0\n更新日期：2026 年 5 月 4 日\n适用范围：Kubernetes 1.25-1.30 稳定版本，NVIDIA GPU Operator v23.9-v24.3，Volcano v1.8-v1.10 调度器，支持 NVIDIA A100/H100/A800/V100/T4 数据中心级 GPU，兼容 InfiniBand HDR/NDR 和 RoCE v2 网络\n文档目的：为 AI 运维工程师提供标准化的 Kubernetes GPU 集群运维流程和故障排查方法，覆盖企业级 AI 训练和推理集群 90% 以上的常见问题，保障集群稳定运行，提升 GPU 资源利用率\n\n一、基本概念与架构\n\nKubernetes GPU 集群是专门为 AI 工作负载设计的容器化集群，在标准 Kubernetes 架构基础上增加了 GPU 资源管理、调度和监控能力，能够高效管理大规模 GPU 资源，支持分布式训练和高并发推理服务。其核心架构由控制平面、计算节点、GPU 资源管理组件、调度组件、存储组件和网络组件组成，各组件协同工作，为 AI 工作负载提供完整的运行环境。\n\n控制平面负责集群的全局管理和调度，包括 kube-apiserver、kube-controller-manager、kube-scheduler 和 etcd 等核心组件，其中 kube-scheduler 需要扩展 GPU 感知能力，能够根据 GPU 资源的可用性和拓扑结构进行智能调度。计算节点是运行 AI 工作负载的服务器，每个节点包含多个 GPU 卡、CPU、内存和高速网络接口，节点上运行 kubelet、kube-proxy、容器运行时以及 GPU 相关的驱动和插件。\n\nGPU 资源管理组件是 Kubernetes GPU 集群区别于传统集群的核心，主要包括 NVIDIA GPU Operator 和 NVIDIA 设备插件。NVIDIA GPU Operator 是一个自动化的运维工具，能够在 Kubernetes 集群中自动部署和管理所有 GPU 相关的软件组件，包括 NVIDIA 驱动、CUDA 运行时、容器运行时、设备插件、DCGM 监控工具等，极大简化了 GPU 集群的部署和运维难度。NVIDIA 设备插件负责向 kubelet 暴露 GPU 资源，让 Kubernetes 能够感知和管理节点上的 GPU 资源，实现 GPU 资源的调度和分配。\n\n调度组件负责将 AI 工作负载调度到合适的计算节点上，标准的 Kubernetes 调度器只能基于 GPU 数量进行调度，无法感知 GPU 的拓扑结构和网络连接，因此在大规模 GPU 集群中通常需要使用专门的 AI 调度器，如 Volcano 或 Kubeflow Training Operator。Volcano 是一个专为高性能计算和 AI 工作负载设计的调度器，提供了丰富的调度策略，包括拓扑感知调度、公平调度、抢占调度、队列管理等，能够有效提升分布式训练任务的性能和集群的资源利用率。\n\n存储组件负责为 AI 工作负载提供持久化存储，AI 训练和推理需要处理大量的数据和模型文件，因此需要高性能、高可用的分布式存储系统。常用的存储方案包括 Ceph、Lustre、BeeGFS 和 NFS 等，其中 Lustre 和 BeeGFS 专为高性能计算场景设计，能够提供极高的 IOPS 和吞吐量，适合大模型训练场景。\n\n网络组件负责集群内部和外部的通信，AI 工作负载对网络性能要求极高，尤其是分布式训练任务需要大量的节点间通信，因此通常使用 InfiniBand 或 RoCE 等高速网络技术。Kubernetes 网络插件如 Calico、Flannel 等无法满足高速 RDMA 网络的需求，因此需要使用专门的网络插件，如 NVIDIA Network Operator，能够自动部署和管理 InfiniBand 和 RoCE 网络的驱动和插件，支持 GPUDirect RDMA 技术，大幅提升节点间的通信性能。\n\n二、核心工具使用方法\n\n2.1 kubectl GPU 相关命令\n\nkubectl 是管理 Kubernetes 集群的核心工具，通过扩展的资源字段和子命令，可以实现对 GPU 资源的查询、管理和调度。查询集群 GPU 资源使用情况是最常用的操作，执行kubectl describe nodes命令可以查看所有节点的详细信息，包括每个节点上的 GPU 数量、型号、显存大小以及已分配和可用的 GPU 资源。执行kubectl get pods -o wide命令可以查看所有 Pod 的运行状态和所在节点，结合kubectl describe pod <pod-name>命令可以查看 Pod 的 GPU 资源请求和限制，以及 Pod 的事件信息，帮助排查 Pod 调度和运行问题。\n\n创建 GPU 工作负载时，需要在 Pod 的资源配置中指定 GPU 资源请求和限制，Kubernetes 通过nvidia.com/gpu资源类型来标识 GPU 资源，例如resources: { limits: { nvidia.com/gpu: 1 }, requests: { nvidia.com/gpu: 1 } }表示请求 1 个 GPU 资源。需要注意的是，GPU 资源只能在 limits 字段中指定，requests 字段如果不指定则默认与 limits 相同，不支持超配 GPU 资源。\n\n管理 GPU Operator 是集群运维的重要工作，GPU Operator 通过 Operator Lifecycle Manager (OLM) 部署在集群中，运行在 gpu-operator 命名空间下。执行kubectl get pods -n gpu-operator命令可以查看 GPU Operator 相关 Pod 的运行状态，所有 Pod 都应该处于 Running 状态，如果有 Pod 处于 Pending 或 Error 状态，说明 GPU Operator 部署出现问题。执行kubectl describe clusterpolicy gpu-cluster-policy -n gpu-operator命令可以查看 GPU Operator 的配置和状态，ClusterPolicy 是 GPU Operator 的自定义资源，用于定义 GPU 集群的配置参数。\n\n2.2 NVIDIA GPU Operator 管理\n\nNVIDIA GPU Operator 提供了丰富的配置选项，可以通过修改 ClusterPolicy 自定义资源来调整 GPU 集群的配置。例如，可以通过修改driver.version字段来指定 NVIDIA 驱动的版本，通过修改toolkit.version字段来指定 NVIDIA Container Toolkit 的版本，通过修改dcgmExporter.enabled字段来启用或禁用 DCGM 监控。",
+    "round": 2
+  },
+  "214765cc-6aa8-4c2f-a000-dd5d1406e803": {
+    "node_id": "214765cc-6aa8-4c2f-a000-dd5d1406e803",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.015625,
+    "snippet": "这个案例的经验总结是，多模型部署必须实施资源隔离，避免资源竞争，MIG 技术是实现 GPU 资源隔离的有效方式。\n\n六、附录\n\n6.1 常用命令速查\n\ndocker run --gpus all -p 8000:8000 vllm/vllm-openai:v0.4.",
+    "round": 2
+  },
+  "69fe6e7d-176e-4714-b831-00cd67bb6cd0": {
+    "node_id": "69fe6e7d-176e-4714-b831-00cd67bb6cd0",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.014705882352941176,
+    "snippet": "另外应该优化 Kubernetes 的网络配置，使用高性能的网络插件，如 Calico 的 eBPF 模式，提升网络的转发性能。禁用不必要的网络功能，如网络策略、NAT 等，减少网络开销。对于不需要外部访问的 Pod，使用 HostNetwork 模式，直接使用节点的网络栈，降低网络延迟。\n\n4.",
+    "round": 2
+  },
+  "301e987e-b116-4ae5-ade7-8968807b2f53": {
+    "node_id": "301e987e-b116-4ae5-ade7-8968807b2f53",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.014285714285714285,
+    "snippet": "调度组件负责将 AI 工作负载调度到合适的计算节点上，标准的 Kubernetes 调度器只能基于 GPU 数量进行调度，无法感知 GPU 的拓扑结构和网络连接，因此在大规模 GPU 集群中通常需要使用专门的 AI 调度器，如 Volcano 或 Kubeflow Training Operator。",
+    "round": 2
+  },
+  "2f12e83c-f8ed-4f9f-8285-0602ff1f398b": {
+    "node_id": "2f12e83c-f8ed-4f9f-8285-0602ff1f398b",
+    "kb_id": 2,
+    "title": "GPU 硬件与驱动运维故障排查手册",
+    "source": "本地文档: GPU 硬件与驱动运维故障排查手册.docx",
+    "relevance_score": 0.014084507042253521,
+    "snippet": "1-base-ubuntu22.04 nvidia-smi 命令测试 GPU 容器是否能够正常运行，如果能够正常显示 GPU 信息，说明安装和配置成功。在 Kubernetes 环境中，需要确保使用了正确的 GPU 资源类型，在 Pod 的资源限制中指定nvidia.com/gpu: 1，这样 Kubernetes 会自动为 Pod 分配 GPU 资源。\n\n四、最佳实践\n\n4.",
+    "round": 2
+  },
+  "d5d8f86b-4876-46b3-b638-686ca69d9430": {
+    "node_id": "d5d8f86b-4876-46b3-b638-686ca69d9430",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.014084507042253521,
+    "snippet": "监控指标应该包括基础设施层、平台层和应用层三个层面，基础设施层监控 GPU、CPU、内存、网络和存储的性能指标，平台层监控 Kubernetes 组件和 GPU Operator 的运行状态，应用层监控训练任务和推理服务的性能指标。\n\n使用 Prometheus 和 Grafana 搭建监控系统，配置合理的告警规则，当指标超过阈值时及时发送告警通知。",
+    "round": 2
+  },
+  "be16ed92-a0f1-436a-bebe-330365b6a5d6": {
+    "node_id": "be16ed92-a0f1-436a-bebe-330365b6a5d6",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.0136986301369863,
+    "snippet": "Kubernetes 网络插件如 Calico、Flannel 等无法满足高速 RDMA 网络的需求，因此需要使用专门的网络插件，如 NVIDIA Network Operator，能够自动部署和管理 InfiniBand 和 RoCE 网络的驱动和插件，支持 GPUDirect RDMA 技术，大幅提升节点间的通信性能。\n\n二、核心工具使用方法\n\n2.",
+    "round": 2
+  },
+  "c7719d90-7fd1-4bf8-a1bc-7182b59384bf": {
+    "node_id": "c7719d90-7fd1-4bf8-a1bc-7182b59384bf",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.013513513513513514,
+    "snippet": "二、Kubernetes GPU 集群层故障（31-50）\n\nGPU 资源无法调度：Pod 一直处于 Pending 状态，事件显示 \"Insufficient nvidia.com/gpu\"，核心原因包括集群无可用 GPU、GPU Operator 部署失败、节点有污点、Pod 资源请求错误、调度器配置错误。首选解决方案是执行 kubectl describe nodes | grep nvidia.",
+    "round": 2
+  }
+}

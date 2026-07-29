@@ -1,0 +1,1253 @@
+{
+  "sample_id": "agent_search_003",
+  "scenario": "search_deep",
+  "start_time": 1778949999.0538726,
+  "end_time": 1778950548.3924427,
+  "first_token_time": 1778950079.9259214,
+  "tool_calls": [
+    {
+      "tool_name": "get_current_time",
+      "timestamp": 62939.1975402832,
+      "duration_ms": 3.8,
+      "input_preview": "{}",
+      "output_preview": "当前时间：2026-05-17 00:47:41 时区：Asia/Shanghai (UTC+8) 星期：日 地区：中国",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "list_active_kbs",
+      "timestamp": 62939.1884803772,
+      "duration_ms": 4.9,
+      "input_preview": "{}",
+      "output_preview": "可用知识库： - KB#2 AI运维知识库 (类型:upload, 文档:10, chunks:1212)",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 75355.54313659668,
+      "duration_ms": 0.6,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索Llama 4技术架构和训练方法（多轮搜索）\", \"status\": \"in_progress\"}, {\"content\": \"抓取关键页面内容\", \"status\": \"pending\"}, {\"content\": \"阅读并评估信息充分性\", \"status\": \"pending\"}, {\"content\": \"综合整理成完整中文技术报告\", ",
+      "output_preview": "Command(update={'todos': [{'content': '搜索Llama 4技术架构和训练方法（多轮搜索）', 'status': 'in_progress'}, {'content': '抓取关键页面内容', 'status': 'pending'}, {'content': '阅读并评估信息充分性', 'status': 'pending'}, {'content': '综",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 76920.41540145874,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"Step 1: 了解可用知识库 - 调用 list_active_kbs\", \"status\": \"in_progress\"}, {\"content\": \"Step 2: 首轮检索 - 搜索 Llama 4 / Llama4 / Meta Llama 相关信息\", \"status\": \"pending\"}, {\"content\": \"Step 3: ",
+      "output_preview": "Command(update={'todos': [{'content': 'Step 1: 了解可用知识库 - 调用 list_active_kbs', 'status': 'in_progress'}, {'content': 'Step 2: 首轮检索 - 搜索 Llama 4 / Llama4 / Meta Llama 相关信息', 'status': 'pending'}, {'cont",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "list_active_kbs",
+      "timestamp": 78221.69399261475,
+      "duration_ms": 2.2,
+      "input_preview": "{}",
+      "output_preview": "可用知识库： - KB#2 AI运维知识库 (类型:upload, 文档:10, chunks:1212)",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 78481.23073577881,
+      "duration_ms": 2767.2,
+      "input_preview": "{\"query\": \"Llama 4 technical architecture MoE parameters training details\", \"max_results\": 10}",
+      "output_preview": "搜索到 10 条结果，新增 10 条（去重后），搜索池累计 10 条。   [1] Llama 4’s Architecture Deconstructed: MoE, iRoPE, and Early Fusion Explained | 来源: medium.com       # Llama 4’s Architecture Deconstructed: MoE, iRoPE, and Ea",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 78479.65908050537,
+      "duration_ms": 2870.4,
+      "input_preview": "{\"query\": \"Meta Llama 4 model architecture MoE attention layers hidden dimensions\", \"max_results\": 10}",
+      "output_preview": "搜索到 10 条结果，新增 7 条（去重后），搜索池累计 17 条。   [1] Llama 4's Architecture Deconstructed: MoE, iRoPE, and Early ... | 来源: medium.com       # Llama 4’s Architecture Deconstructed: MoE, iRoPE, and Early Fusion Exp",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 78479.65264320374,
+      "duration_ms": 3097.8,
+      "input_preview": "{\"query\": \"Llama 4 training data dataset size sources multimodal\", \"max_results\": 10}",
+      "output_preview": "搜索到 10 条结果，新增 6 条（去重后），搜索池累计 23 条。   [1] Llama4 - Hugging Face | 来源: huggingface.co       # Transformers. and get access to the augmented documentation experience. *This model was released on 2025-04-",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 83223.36387634277,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"Step 1: 了解可用知识库 - 调用 list_active_kbs\", \"status\": \"completed\"}, {\"content\": \"Step 2: 首轮检索 - 搜索 Llama 4 / Llama4 / Meta Llama 相关信息\", \"status\": \"in_progress\"}, {\"content\": \"Step 3",
+      "output_preview": "Command(update={'todos': [{'content': 'Step 1: 了解可用知识库 - 调用 list_active_kbs', 'status': 'completed'}, {'content': 'Step 2: 首轮检索 - 搜索 Llama 4 / Llama4 / Meta Llama 相关信息', 'status': 'in_progress'}, {'co",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "search_knowledge",
+      "timestamp": 85769.9806690216,
+      "duration_ms": 11596.9,
+      "input_preview": "{\"query\": \"Llama 4 Meta Llama 大语言模型\", \"top_k\": 10}",
+      "output_preview": "本轮检索到 10 个新节点（去重后），召回池累计 10 个节点。 新增节点:   [7f9a4bd6-8b9a-4eaa-82b2-88629e765076] 大模型推理服务（vLLM_Triton）运维手册 | 相关度: 0.03   [fbe4d273-a1f8-4a55-88dc-83c6a420911d] 大模型推理服务（vLLM_Triton）运维手册 | 相关度: 0.02   [09",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 97532.12308883667,
+      "duration_ms": 1533.2,
+      "input_preview": "{\"url\": \"https://huggingface.co/docs/transformers/en/model_doc/llama4\"}",
+      "output_preview": "已抓取页面: \"Llama4 · Hugging Face\" | 来源: huggingface.co | 约 62052 字 核心发现: This model was released on 2025-04-05 and added to Hugging Face Transformers on 2025-04-05. Llama4 Llama 4 , developed by Meta, in",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 97532.12118148804,
+      "duration_ms": 1641.1,
+      "input_preview": "{\"url\": \"https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E\"}",
+      "output_preview": "已抓取页面: \"meta-llama/Llama-4-Scout-17B-16E · Hugging Face\" | 来源: huggingface.co | 约 19897 字 核心发现: Model Information The Llama 4 collection of models are natively multimodal AI models that enable text an",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 97532.11808204651,
+      "duration_ms": 1934.8,
+      "input_preview": "{\"url\": \"https://arxiv.org/abs/2601.11659\"}",
+      "output_preview": "已抓取页面: \"[2601.11659] The Llama 4 Herd: Architecture, Training, Evaluation, and Deployment Notes\" | 来源: arxiv.org | 约 213 字 核心发现: Full-text links: Access Paper: View a PDF of the paper titled The Llama",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "search_knowledge",
+      "timestamp": 100298.2497215271,
+      "duration_ms": 290.4,
+      "input_preview": "{\"query\": \"Llama4 Llama-4 模型架构 参数\", \"top_k\": 10}",
+      "output_preview": "本轮检索到 7 个新节点（去重后），召回池累计 17 个节点。 新增节点:   [7f9a4bd6-8b9a-4eaa-82b2-88629e765076] 大模型推理服务（vLLM_Triton）运维手册 | 相关度: 0.03   [fbe4d273-a1f8-4a55-88dc-83c6a420911d] 大模型推理服务（vLLM_Triton）运维手册 | 相关度: 0.02   [8a6",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 97532.10020065308,
+      "duration_ms": 3360.9,
+      "input_preview": "{\"url\": \"https://ai.meta.com/blog/llama-4-multimodal-intelligence/\"}",
+      "output_preview": "无法访问页面: https://ai.meta.com/blog/llama-4-multimodal-intelligence/",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 97532.12547302246,
+      "duration_ms": 4255.8,
+      "input_preview": "{\"url\": \"https://www.llama.com/models/llama-4/\"}",
+      "output_preview": "无法访问页面: https://www.llama.com/models/llama-4/",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "search_knowledge",
+      "timestamp": 103158.33902359009,
+      "duration_ms": 244.2,
+      "input_preview": "{\"query\": \"\\\"Llama 4\\\" \\\"Meta Llama\\\" 模型 介绍\", \"top_k\": 12}",
+      "output_preview": "本轮检索到 4 个新节点（去重后），召回池累计 21 个节点。 新增节点:   [7f9a4bd6-8b9a-4eaa-82b2-88629e765076] 大模型推理服务（vLLM_Triton）运维手册 | 相关度: 0.03   [fbe4d273-a1f8-4a55-88dc-83c6a420911d] 大模型推理服务（vLLM_Triton）运维手册 | 相关度: 0.02   [094",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 104582.00359344482,
+      "duration_ms": 1.3,
+      "input_preview": "{\"urls\": \"https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E,https://huggingface.co/docs/transformers/en/model_doc/llama4,https://arxiv.org/abs/2601.11659\"}",
+      "output_preview": "[https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E] meta-llama/Llama-4-Scout-17B-16E · Hugging Face | 来源: huggingface.co --- Model Information The Llama 4 collection of models are natively multi",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "read_file",
+      "timestamp": 107162.75119781494,
+      "duration_ms": 1.1,
+      "input_preview": "{\"file_path\": \"/large_tool_results/call_c4f39df99c624b399a37b5c6\", \"offset\": 0, \"limit\": 300}",
+      "output_preview": "     1\t[https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E] meta-llama/Llama-4-Scout-17B-16E · Hugging Face | 来源: huggingface.co      2\t---      3\tModel Information      4\tThe Llama 4 collection ",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "get_recall_nodes",
+      "timestamp": 108142.45200157166,
+      "duration_ms": 0.8,
+      "input_preview": "{\"node_ids\": \"7f9a4bd6-8b9a-4eaa-82b2-88629e765076,fbe4d273-a1f8-4a55-88dc-83c6a420911d,09455b02-77a4-4793-ae45-f8277987f53e,0100b23d-a90f-4bb2-bc6a-04384e5cff53,b9338c3b-6bfb-4274-9414-dfd97f183608\"}",
+      "output_preview": "[7f9a4bd6-8b9a-4eaa-82b2-88629e765076] 大模型推理服务（vLLM_Triton）运维手册 (相关度: 0.03, KB: 2) 来源: 本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx --- 9，预留一部分显存用于其他操作。  vLLM 提供了与 OpenAI 完全兼容的 API 接口，用户可以直接使用 OpenAI 的 SDK 进行调",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "read_file",
+      "timestamp": 110369.68874931335,
+      "duration_ms": 1.4,
+      "input_preview": "{\"file_path\": \"/large_tool_results/call_c4f39df99c624b399a37b5c6\", \"limit\": 300, \"offset\": 300}",
+      "output_preview": "   301\tLlama 4 system protections    302\tLarge language models, including Llama 4, are not designed to be deployed in isolation but instead should be deployed as part of an overall AI system with addi",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "read_file",
+      "timestamp": 113536.29326820374,
+      "duration_ms": 1.4,
+      "input_preview": "{\"file_path\": \"/large_tool_results/call_c4f39df99c624b399a37b5c6\", \"limit\": 300, \"offset\": 600}",
+      "output_preview": "   601\tThe config object or dictionary of the text backbone.    602\tboi_token_index    603\t(    604\tint    605\t,    606\toptional    607\t, defaults to 200080) —    608\tThe begin-of-image token index to",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "get_recall_nodes",
+      "timestamp": 115835.19792556763,
+      "duration_ms": 0.8,
+      "input_preview": "{\"node_ids\": \"8a6bb717-be76-48b9-859c-d109a7a1d7d3,049197bb-3b14-467f-ba5a-232db95b1a95,91ccf6d1-66d2-4426-bcf0-ea180fac2b28,aa88a765-1ca5-44a9-9552-894e548f9bf0,c7484dc2-857b-47af-83c0-0994c3f1d242\"}",
+      "output_preview": "[8a6bb717-be76-48b9-859c-d109a7a1d7d3] 大模型推理服务（vLLM_Triton）运维手册 (相关度: 0.02, KB: 2) 来源: 本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx --- 使用 Docker 部署 vLLM 的基本命令是docker run --gpus all -p 8000:8000 vllm/vllm-open",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "read_file",
+      "timestamp": 116981.58049583435,
+      "duration_ms": 1.1,
+      "input_preview": "{\"file_path\": \"/large_tool_results/call_c4f39df99c624b399a37b5c6\", \"limit\": 300, \"offset\": 900}",
+      "output_preview": "   901\toptional    902\t) —    903\tToken id used for padding in the vocabulary.    904\tbos_token_id    905\t(    906\tint    907\t,    908\toptional    909\t, defaults to    910\t1    911\t) —    912\tToken id",
+      "success": true,
+      "error": null,
+      "round": 4
+    },
+    {
+      "tool_name": "get_recall_nodes",
+      "timestamp": 121986.91487312317,
+      "duration_ms": 0.8,
+      "input_preview": "{\"node_ids\": \"37d23359-8d6f-44bc-8882-f3ffff9e7ca8,3cbce011-6598-4d9c-ac64-68e79b3a5015,5263d7c6-d976-4320-a4d2-e6e9e82b0d57,aadab280-04b6-405b-9da5-91646cc7867e,74b5cd6a-69f6-4485-96d3-5ee8cf03bf5e,1",
+      "output_preview": "[37d23359-8d6f-44bc-8882-f3ffff9e7ca8] AI 系统安全加固与权限管理规范 (相关度: 0.02, KB: 2) 来源: 本地文档: AI 系统安全加固与权限管理规范.docx --- 十一、附录  常用安全工具  漏洞扫描工具：Nessus、OpenVAS、Trivy  容器安全工具：Docker Bench for Security、Clair  代码安全扫",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 128983.38651657104,
+      "duration_ms": 0.5,
+      "input_preview": "{\"todos\": [{\"content\": \"Step 1: 了解可用知识库 - 调用 list_active_kbs\", \"status\": \"completed\"}, {\"content\": \"Step 2: 首轮检索 - 搜索 Llama 4 / Llama4 / Meta Llama 相关信息\", \"status\": \"completed\"}, {\"content\": \"Step 3: ",
+      "output_preview": "Command(update={'todos': [{'content': 'Step 1: 了解可用知识库 - 调用 list_active_kbs', 'status': 'completed'}, {'content': 'Step 2: 首轮检索 - 搜索 Llama 4 / Llama4 / Meta Llama 相关信息', 'status': 'completed'}, {'cont",
+      "success": true,
+      "error": null,
+      "round": 4
+    },
+    {
+      "tool_name": "rerank_recall_pool",
+      "timestamp": 131139.573097229,
+      "duration_ms": 6859.0,
+      "input_preview": "{\"query\": \"Llama 4 Llama4 Meta Llama 大语言模型 相关信息\"}",
+      "output_preview": "✅ 重排完成，共 21 个节点（按交叉编码器精确相关性降序）   #1 [7f9a4bd6-8b9a-4eaa-82b2-88629e765076] 大模型推理服务（vLLM_Triton）运维手册 | 重排分: 0.0310   #2 [fbe4d273-a1f8-4a55-88dc-83c6a420911d] 大模型推理服务（vLLM_Triton）运维手册 | 重排分: 0.0246   #",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 146432.78741836548,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"Step 1: 了解可用知识库 - 调用 list_active_kbs\", \"status\": \"completed\"}, {\"content\": \"Step 2: 首轮检索 - 搜索 Llama 4 / Llama4 / Meta Llama 相关信息\", \"status\": \"completed\"}, {\"content\": \"Step 3: ",
+      "output_preview": "Command(update={'todos': [{'content': 'Step 1: 了解可用知识库 - 调用 list_active_kbs', 'status': 'completed'}, {'content': 'Step 2: 首轮检索 - 搜索 Llama 4 / Llama4 / Meta Llama 相关信息', 'status': 'completed'}, {'cont",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "task",
+      "timestamp": 71961.57169342041,
+      "duration_ms": 84625.7,
+      "input_preview": "{\"subagent_type\": \"retriever\", \"description\": \"在本地知识库中检索关于\\\"Llama 4\\\"或\\\"Llama4\\\"或\\\"Meta Llama\\\"的相关信息。请搜索所有可能相关的文档，返回找到的所有内容。如果找到相关内容，请完整返回。\"}",
+      "output_preview": "Command(update={'messages': [ToolMessage(content='## 检索结果\\n\\n经过对当前启用的 **AI运维知识库**（10个文档，1212个chunks）进行全面检索（3轮搜索，共召回21个节点，并完成交叉编码器重排），**知识库中未找到关于\"Llama 4\"或\"Llama4\"的任何信息**。\\n\\n### 相关发现说明\\n\\n知识库中仅包含 **Me",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 163862.07628250122,
+      "duration_ms": 0.5,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索Llama 4技术架构和训练方法（多轮搜索）\", \"status\": \"in_progress\"}, {\"content\": \"抓取关键页面内容\", \"status\": \"pending\"}, {\"content\": \"阅读并评估信息充分性\", \"status\": \"pending\"}, {\"content\": \"综合整理成中文技术报告\", \"s",
+      "output_preview": "Command(update={'todos': [{'content': '搜索Llama 4技术架构和训练方法（多轮搜索）', 'status': 'in_progress'}, {'content': '抓取关键页面内容', 'status': 'pending'}, {'content': '阅读并评估信息充分性', 'status': 'pending'}, {'content': '综",
+      "success": true,
+      "error": null,
+      "round": 6
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 166773.89931678772,
+      "duration_ms": 934.8,
+      "input_preview": "{\"query\": \"Llama 4 technical architecture MoE parameters training details\", \"max_results\": 10}",
+      "output_preview": "搜索到 10 条结果，新增 0 条（去重后），搜索池累计 23 条。   [1] Llama 4’s Architecture Deconstructed: MoE, iRoPE, and Early Fusion Explained | 来源: medium.com       # Llama 4’s Architecture Deconstructed: MoE, iRoPE, and Ear",
+      "success": true,
+      "error": null,
+      "round": 6
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 166773.9098072052,
+      "duration_ms": 2403.7,
+      "input_preview": "{\"query\": \"Llama 4 技术架构 MoE 参数量 训练数据\", \"max_results\": 10}",
+      "output_preview": "搜索到 10 条结果，新增 10 条（去重后），搜索池累计 33 条。   [1] Llama 4技术全景与代码解读：MoE架构革新、10M上下文突破 | 来源: zhuanlan.zhihu.com       通过动态感知批量大小、模型宽度等变量，自动优化层间学习率与初始化尺度; 在200种语言（含100+低资源语种）上验证参数泛化能力，每种语种训练数据超10亿token.       链接:",
+      "success": true,
+      "error": null,
+      "round": 6
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 166773.9064693451,
+      "duration_ms": 2493.0,
+      "input_preview": "{\"query\": \"Meta Llama 4 model architecture Scout Maverick MoE\", \"max_results\": 10}",
+      "output_preview": "搜索到 10 条结果，新增 4 条（去重后），搜索池累计 37 条。   [1] Decoding Llama 4 Scout and Maverick: The First Native Multimodal MoE Open-Source Models Bring 3 Major Breakthroughs - Apiyi.com Blog | 来源: help.apiyi.com      ",
+      "success": true,
+      "error": null,
+      "round": 6
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 175936.8498325348,
+      "duration_ms": 312.1,
+      "input_preview": "{\"url\": \"https://medium.com/@mandeep0405/llama-4s-architecture-deconstructed-moe-irope-and-early-fusion-explained-e58eb9403067\"}",
+      "output_preview": "无法访问页面: https://medium.com/@mandeep0405/llama-4s-architecture-deconstructed-moe-irope-and-early-fusion-explained-e58eb9403067",
+      "success": true,
+      "error": null,
+      "round": 11
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 175936.842918396,
+      "duration_ms": 485.6,
+      "input_preview": "{\"url\": \"https://arxiv.org/abs/2601.11659\"}",
+      "output_preview": "已抓取页面: \"[2601.11659] The Llama 4 Herd: Architecture, Training, Evaluation, and Deployment Notes\" | 来源: arxiv.org | 约 213 字 核心发现: Full-text links: Access Paper: View a PDF of the paper titled The Llama",
+      "success": true,
+      "error": null,
+      "round": 11
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 175936.8371963501,
+      "duration_ms": 522.2,
+      "input_preview": "{\"url\": \"https://ai.meta.com/blog/llama-4-multimodal-intelligence/\"}",
+      "output_preview": "无法访问页面: https://ai.meta.com/blog/llama-4-multimodal-intelligence/",
+      "success": true,
+      "error": null,
+      "round": 11
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 175936.84768676758,
+      "duration_ms": 607.9,
+      "input_preview": "{\"url\": \"https://www.llama.com/models/llama-4/\"}",
+      "output_preview": "无法访问页面: https://www.llama.com/models/llama-4/",
+      "success": true,
+      "error": null,
+      "round": 11
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 175936.84554100037,
+      "duration_ms": 772.3,
+      "input_preview": "{\"url\": \"https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E\"}",
+      "output_preview": "已抓取页面: \"meta-llama/Llama-4-Scout-17B-16E · Hugging Face\" | 来源: huggingface.co | 约 19897 字 核心发现: Model Information The Llama 4 collection of models are natively multimodal AI models that enable text an",
+      "success": true,
+      "error": null,
+      "round": 11
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 175936.85150146484,
+      "duration_ms": 1132.0,
+      "input_preview": "{\"url\": \"https://cameronrwolfe.substack.com/p/llama-4\"}",
+      "output_preview": "已抓取页面: \"Llama 4: The Challenges of Creating a Frontier-Level LLM\" | 来源: cameronrwolfe.substack.com | 约 63482 字 核心发现: The recent release of Llama 4 [1] was far from perfect, but there is a lot that can",
+      "success": true,
+      "error": null,
+      "round": 11
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 179678.35235595703,
+      "duration_ms": 1.7,
+      "input_preview": "{\"urls\": \"https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E,https://cameronrwolfe.substack.com/p/llama-4,https://arxiv.org/abs/2601.11659\"}",
+      "output_preview": "[https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E] meta-llama/Llama-4-Scout-17B-16E · Hugging Face | 来源: huggingface.co --- Model Information The Llama 4 collection of models are natively multi",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "read_file",
+      "timestamp": 182337.28122711182,
+      "duration_ms": 1.1,
+      "input_preview": "{\"file_path\": \"/large_tool_results/call_fb192b83934a4c24a77d8ad6\", \"offset\": 0, \"limit\": 300}",
+      "output_preview": "     1\t[https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E] meta-llama/Llama-4-Scout-17B-16E · Hugging Face | 来源: huggingface.co      2\t---      3\tModel Information      4\tThe Llama 4 collection ",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "read_file",
+      "timestamp": 185622.1148967743,
+      "duration_ms": 1.8,
+      "input_preview": "{\"file_path\": \"/large_tool_results/call_fb192b83934a4c24a77d8ad6\", \"limit\": 400, \"offset\": 300}",
+      "output_preview": "   301\tLlama 4 system protections    302\tLarge language models, including Llama 4, are not designed to be deployed in isolation but instead should be deployed as part of an overall AI system with addi",
+      "success": true,
+      "error": null,
+      "round": 6
+    },
+    {
+      "tool_name": "read_file",
+      "timestamp": 191993.55721473694,
+      "duration_ms": 1.3,
+      "input_preview": "{\"file_path\": \"/large_tool_results/call_fb192b83934a4c24a77d8ad6\", \"limit\": 400, \"offset\": 700}",
+      "output_preview": "   701\tAn extensive analysis of these approaches is provided in [14], where we see that position interpolation-style methods tend to perform the best. In particular, NTK-RoPE achieves very impressive ",
+      "success": true,
+      "error": null,
+      "round": 7
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 197730.51834106445,
+      "duration_ms": 168.7,
+      "input_preview": "{\"url\": \"https://zhuanlan.zhihu.com/p/1892673287777149475\"}",
+      "output_preview": "无法访问页面: https://zhuanlan.zhihu.com/p/1892673287777149475",
+      "success": true,
+      "error": null,
+      "round": 15
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 197728.1563282013,
+      "duration_ms": 996.5,
+      "input_preview": "{\"url\": \"https://blog.csdn.net/qq_19968255/article/details/147030542\"}",
+      "output_preview": "已抓取页面: \"Llama 4架构解析与本地部署指南：MoE模型在170亿参数下的效率突破_llama 4的moe结构-CSDN博客\" | 来源: blog.csdn.net | 约 1461 字 核心发现: Meta最新发布的Llama 4系列标志着开源大语言模型（LLM）的重大演进，其采用的混合专家（MoE）架构尤为引人注目。 两大核心模型——Llama 4 Scout（170亿参数含16专家",
+      "success": true,
+      "error": null,
+      "round": 15
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 197728.15346717834,
+      "duration_ms": 1419.1,
+      "input_preview": "{\"url\": \"https://help.apiyi.com/en/llama-4-scout-maverick-multimodal-moe-open-source-model-guide-en.html\"}",
+      "output_preview": "已抓取页面: \"Decoding Llama 4 Scout and Maverick: The First Native Multimodal MoE Open-Source Models Bring 3 Major Breakthroughs - Apiyi.com Blog\" | 来源: help.apiyi.com | 约 13582 字 核心发现: Author's Note: Meta",
+      "success": true,
+      "error": null,
+      "round": 15
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 197728.14631462097,
+      "duration_ms": 3330.1,
+      "input_preview": "{\"url\": \"https://gradientflow.com/llama-4-what-you-need-to-know/\"}",
+      "output_preview": "已抓取页面: \"Llama 4: What You Need to Know - Gradient Flow\" | 来源: gradientflow.com | 约 15135 字 核心发现: Table of Contents Model Overview and Specifications What is the Llama 4 model family and what models ar",
+      "success": true,
+      "error": null,
+      "round": 15
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 205674.3860244751,
+      "duration_ms": 1.7,
+      "input_preview": "{\"urls\": \"https://help.apiyi.com/en/llama-4-scout-maverick-multimodal-moe-open-source-model-guide-en.html,https://gradientflow.com/llama-4-what-you-need-to-know/,https://blog.csdn.net/qq_19968255/arti",
+      "output_preview": "[https://help.apiyi.com/en/llama-4-scout-maverick-multimodal-moe-open-source-model-guide-en.html] Decoding Llama 4 Scout and Maverick: The First Native Multimodal MoE Open-Source Models Bring 3 Major ",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 210616.28580093384,
+      "duration_ms": 1704.6,
+      "input_preview": "{\"max_results\": 10, \"query\": \"Llama 4 training optimizer learning rate schedule FP8 precision curriculum learning\"}",
+      "output_preview": "搜索到 10 条结果，新增 6 条（去重后），搜索池累计 43 条。   [1] Model training observations from both Llama 3 and 4 papers: Meta’s Llama 3 was t... | Hacker News | 来源: news.ycombinator.com       | |  | | --- | | pavelstoev ",
+      "success": true,
+      "error": null,
+      "round": 8
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 210616.27960205078,
+      "duration_ms": 2207.1,
+      "input_preview": "{\"max_results\": 10, \"query\": \"Llama 4 Behemoth 2 trillion parameters distillation codistillation\"}",
+      "output_preview": "搜索到 10 条结果，新增 8 条（去重后），搜索池累计 51 条。   [1] #llama Llama 4 brings back memories of my days training MoE ... | 来源: x.com       1. The teacher model Llama4 Behemoth has 2T parameters (288B active parameter",
+      "success": true,
+      "error": null,
+      "round": 8
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 234730.49664497375,
+      "duration_ms": 707.7,
+      "input_preview": "{\"url\": \"https://huggingface.co/blog/llama4-release\"}",
+      "output_preview": "已抓取页面: \"Welcome Llama 4 Maverick & Scout on Hugging Face\" | 来源: huggingface.co | 约 11372 字 核心发现: Welcome Llama 4 Maverick & Scout on Hugging Face We are incredibly excited to welcome the next generati",
+      "success": true,
+      "error": null,
+      "round": 18
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 234730.50236701965,
+      "duration_ms": 3469.4,
+      "input_preview": "{\"url\": \"https://apxml.com/models/llama-4-behemoth\"}",
+      "output_preview": "无法访问页面: https://apxml.com/models/llama-4-behemoth",
+      "success": true,
+      "error": null,
+      "round": 18
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 234730.5052280426,
+      "duration_ms": 3652.1,
+      "input_preview": "{\"url\": \"https://developer.puter.com/encyclopedia/llama-4/\"}",
+      "output_preview": "已抓取页面: \"Llama 4\" | 来源: developer.puter.com | 约 18014 字 核心发现: On this page Llama 4 is a collection of pretrained and instruction-tuned mixture-of-experts (MoE) large language models (LLMs) developed by",
+      "success": true,
+      "error": null,
+      "round": 18
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 241257.19904899597,
+      "duration_ms": 2.8,
+      "input_preview": "{\"urls\": \"https://huggingface.co/blog/llama4-release,https://developer.puter.com/encyclopedia/llama-4/\"}",
+      "output_preview": "[https://huggingface.co/blog/llama4-release] Welcome Llama 4 Maverick & Scout on Hugging Face | 来源: huggingface.co --- Welcome Llama 4 Maverick & Scout on Hugging Face We are incredibly excited to wel",
+      "success": true,
+      "error": null,
+      "round": 4
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 245973.72102737427,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索Llama 4技术架构和训练方法（多轮搜索）\", \"status\": \"completed\"}, {\"content\": \"抓取关键页面内容\", \"status\": \"completed\"}, {\"content\": \"阅读并评估信息充分性\", \"status\": \"completed\"}, {\"content\": \"综合整理成中文技术报告\", ",
+      "output_preview": "Command(update={'todos': [{'content': '搜索Llama 4技术架构和训练方法（多轮搜索）', 'status': 'completed'}, {'content': '抓取关键页面内容', 'status': 'completed'}, {'content': '阅读并评估信息充分性', 'status': 'completed'}, {'content': ",
+      "success": true,
+      "error": null,
+      "round": 7
+    },
+    {
+      "tool_name": "task",
+      "timestamp": 161171.09179496765,
+      "duration_ms": 103451.9,
+      "input_preview": "{\"description\": \"搜索关于Llama 4技术架构和训练方法的详细信息，包括：\\n1. 模型参数量（总参数量、各MoE专家参数量等）\\n2. 训练数据（数据规模、数据来源、数据配比等）\\n3. 模型架构（MoE架构细节、注意力机制、层数、隐藏维度等）\\n4. 训练方法（训练策略、优化器、学习率调度等）\\n5. 推理优化（量化、蒸馏、部署优化等）\\n6. 上下文长度、多模态能力等\\n\\",
+      "output_preview": "Command(update={'files': {'/large_tool_results/call_fb192b83934a4c24a77d8ad6': {'content': '[https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E] meta-llama/Llama-4-Scout-17B-16E · Hugging Face | ",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 275735.84365844727,
+      "duration_ms": 0.6,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索训练方法细节（训练策略、优化器、学习率调度等）\", \"status\": \"in_progress\"}, {\"content\": \"搜索推理优化（量化技术、部署优化、vLLM支持等）\", \"status\": \"pending\"}, {\"content\": \"搜索性能评测结果（与GPT-4o、Gemini、DeepSeek等对比）\", \"status",
+      "output_preview": "Command(update={'todos': [{'content': '搜索训练方法细节（训练策略、优化器、学习率调度等）', 'status': 'in_progress'}, {'content': '搜索推理优化（量化技术、部署优化、vLLM支持等）', 'status': 'pending'}, {'content': '搜索性能评测结果（与GPT-4o、Gemini、DeepSee",
+      "success": true,
+      "error": null,
+      "round": 8
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 281551.51319503784,
+      "duration_ms": 2551.3,
+      "input_preview": "{\"query\": \"Llama 4 RLHF DPO alignment fine-tuning post-training\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 5 条（去重后），搜索池累计 56 条。   [1] The Shift from RLHF to DPO for LLM Alignment: Fine-Tuning Large ... | 来源: medium.com       Early research and benchmarks have shown that DPO can match or exceed",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 281551.49960517883,
+      "duration_ms": 2683.2,
+      "input_preview": "{\"query\": \"Llama 4 license open source availability\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 5 条（去重后），搜索池累计 61 条。   [1] Meta’s LLaMa license is still not Open Source - Open Source Initiative | 来源: opensource.org       # Meta’s LLaMa license is still not Open Source. A year ago we",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 281551.5158176422,
+      "duration_ms": 2773.6,
+      "input_preview": "{\"query\": \"Llama 4 knowledge distillation Behemoth teacher model\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 3 条（去重后），搜索池累计 64 条。   [1] #llama Llama 4 brings back memories of my days training MoE ... | 来源: x.com       The teacher model Llama4 Behemoth has 2T parameters (288B active parameters, 1",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 281551.50985717773,
+      "duration_ms": 2789.7,
+      "input_preview": "{\"query\": \"Llama 4 benchmark performance comparison GPT-4o Gemini DeepSeek\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 5 条（去重后），搜索池累计 69 条。   [1] Why is LLama 4 Much Better Than GPT-4o and Gemini 2.0 Flash | 来源: medium.com       Let's compare Gemini 2.0 Flash and GPT-4o and verify how much performance Lla",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 281551.50628089905,
+      "duration_ms": 3016.8,
+      "input_preview": "{\"query\": \"Llama 4 inference optimization FP8 quantization vLLM deployment\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 5 条（去重后），搜索池累计 74 条。   [1] Quick Start Recipe for Llama 4 Scout on vLLM - NVIDIA Blackwell & Hopper Hardware - vLLM Recipes | 来源: docs.vllm.ai       + Balancing between Throughput and Lat",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 281551.518201828,
+      "duration_ms": 3602.3,
+      "input_preview": "{\"query\": \"Meta Llama 4 training details optimizer learning rate training strategy\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 3 条（去重后），搜索池累计 77 条。   [1] Model training observations from both Llama 3 and 4 papers: Meta's ... | 来源: news.ycombinator.com       | |  | | --- | | pavelstoev on April 6, 2025  | parent |",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 289591.5048122406,
+      "duration_ms": 580.2,
+      "input_preview": "{\"url\": \"https://cameronrwolfe.substack.com/p/llama-4\"}",
+      "output_preview": "已抓取页面: \"Llama 4: The Challenges of Creating a Frontier-Level LLM\" | 来源: cameronrwolfe.substack.com | 约 63482 字 核心发现: The recent release of Llama 4 [1] was far from perfect, but there is a lot that can",
+      "success": true,
+      "error": null,
+      "round": 23
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 289591.5138721466,
+      "duration_ms": 580.8,
+      "input_preview": "{\"url\": \"https://ai.meta.com/blog/llama-4-multimodal-intelligence/\"}",
+      "output_preview": "无法访问页面: https://ai.meta.com/blog/llama-4-multimodal-intelligence/",
+      "success": true,
+      "error": null,
+      "round": 23
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 289591.51101112366,
+      "duration_ms": 712.8,
+      "input_preview": "{\"url\": \"https://docs.vllm.ai/projects/recipes/en/latest/Llama/Llama4-Scout.html\"}",
+      "output_preview": "无法访问页面: https://docs.vllm.ai/projects/recipes/en/latest/Llama/Llama4-Scout.html",
+      "success": true,
+      "error": null,
+      "round": 23
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 289591.4981365204,
+      "duration_ms": 854.4,
+      "input_preview": "{\"url\": \"https://opensource.org/blog/metas-llama-license-is-still-not-open-source\"}",
+      "output_preview": "已抓取页面: \"Meta’s LLaMa license is still not Open Source - Open Source Initiative\" | 来源: opensource.org | 约 1335 字 核心发现: To provide the best experiences, we use technologies like cookies to store and/or ",
+      "success": true,
+      "error": null,
+      "round": 23
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 289591.5079116821,
+      "duration_ms": 1850.9,
+      "input_preview": "{\"url\": \"https://www.techtarget.com/whatis/feature/Meta-Llama-4-explained-Everything-you-need-to-know\"}",
+      "output_preview": "已抓取页面: \"Meta Llama 4 explained: Everything you need to know\" | 来源: www.techtarget.com | 约 6956 字 核心发现: When Meta, formerly Facebook, launched its large language model ( LLM ) Llama in February 2023, i",
+      "success": true,
+      "error": null,
+      "round": 23
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 294620.10622024536,
+      "duration_ms": 7.2,
+      "input_preview": "{\"urls\": \"https://cameronrwolfe.substack.com/p/llama-4\"}",
+      "output_preview": "[https://cameronrwolfe.substack.com/p/llama-4] Llama 4: The Challenges of Creating a Frontier-Level LLM | 来源: cameronrwolfe.substack.com --- The recent release of Llama 4 [1] was far from perfect, but",
+      "success": true,
+      "error": null,
+      "round": 7
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 294620.11194229126,
+      "duration_ms": 7.3,
+      "input_preview": "{\"urls\": \"https://www.techtarget.com/whatis/feature/Meta-Llama-4-explained-Everything-you-need-to-know\"}",
+      "output_preview": "[https://www.techtarget.com/whatis/feature/Meta-Llama-4-explained-Everything-you-need-to-know] Meta Llama 4 explained: Everything you need to know | 来源: www.techtarget.com --- When Meta, formerly Face",
+      "success": true,
+      "error": null,
+      "round": 7
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 294624.97663497925,
+      "duration_ms": 2.5,
+      "input_preview": "{\"urls\": \"https://opensource.org/blog/metas-llama-license-is-still-not-open-source\"}",
+      "output_preview": "[https://opensource.org/blog/metas-llama-license-is-still-not-open-source] Meta’s LLaMa license is still not Open Source - Open Source Initiative | 来源: opensource.org --- To provide the best experienc",
+      "success": true,
+      "error": null,
+      "round": 7
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 301618.2930469513,
+      "duration_ms": 0.6,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索训练方法细节（训练策略、优化器、学习率调度等）\", \"status\": \"completed\"}, {\"content\": \"搜索推理优化（量化技术、部署优化、vLLM支持等）\", \"status\": \"in_progress\"}, {\"content\": \"搜索性能评测结果（与GPT-4o、Gemini、DeepSeek等对比）\", \"stat",
+      "output_preview": "Command(update={'todos': [{'content': '搜索训练方法细节（训练策略、优化器、学习率调度等）', 'status': 'completed'}, {'content': '搜索推理优化（量化技术、部署优化、vLLM支持等）', 'status': 'in_progress'}, {'content': '搜索性能评测结果（与GPT-4o、Gemini、DeepS",
+      "success": true,
+      "error": null,
+      "round": 9
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 306789.68477249146,
+      "duration_ms": 1570.2,
+      "input_preview": "{\"max_results\": 5, \"query\": \"Llama 4 community license agreement terms restrictions EU\"}",
+      "output_preview": "搜索到 5 条结果，新增 4 条（去重后），搜索池累计 81 条。   [1] Llama 4 is open - unless you are in the EU : r/LocalLLaMA - Reddit | 来源: www.reddit.com       Have you guys read the LLaMA 4 license? EU based entities are not ",
+      "success": true,
+      "error": null,
+      "round": 18
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 306789.6981239319,
+      "duration_ms": 1607.4,
+      "input_preview": "{\"max_results\": 5, \"query\": \"Llama 4 Scout Maverick FP8 quantization inference deployment optimization\"}",
+      "output_preview": "搜索到 5 条结果，新增 4 条（去重后），搜索池累计 85 条。   [1] NVIDIA Accelerates Inference on Meta Llama 4 Scout and Maverick | 来源: developer.nvidia.com       # NVIDIA Accelerates Inference on Meta Llama 4 Scout and Maveri",
+      "success": true,
+      "error": null,
+      "round": 18
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 306789.6947860718,
+      "duration_ms": 1979.3,
+      "input_preview": "{\"max_results\": 5, \"query\": \"Llama 4 Maverick Scout benchmark MMLU GPQA HumanEval results\"}",
+      "output_preview": "搜索到 5 条结果，新增 4 条（去重后），搜索池累计 89 条。   [1] Benchmark results for Llama 4 Maverick and Scout for ... - Reddit | 来源: www.reddit.com       - Migrate: Maverick leaped (71.22%) for migrating but Scout (57.92%",
+      "success": true,
+      "error": null,
+      "round": 18
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 306789.69168663025,
+      "duration_ms": 2301.2,
+      "input_preview": "{\"max_results\": 5, \"query\": \"Llama 4 vLLM support inference performance benchmark\"}",
+      "output_preview": "搜索到 5 条结果，新增 5 条（去重后），搜索池累计 94 条。   [1] Llama 4 in vLLM | vLLM Blog | 来源: vllm.ai       # Llama 4 in vLLM. We're excited to announce that vLLM now supports the Llama 4 herd of models: **Scout** (17B-1",
+      "success": true,
+      "error": null,
+      "round": 18
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 314519.9544429779,
+      "duration_ms": 685.4,
+      "input_preview": "{\"url\": \"https://www.llama.com/llama4/license/\"}",
+      "output_preview": "无法访问页面: https://www.llama.com/llama4/license/",
+      "success": true,
+      "error": null,
+      "round": 28
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 314519.9525356293,
+      "duration_ms": 927.4,
+      "input_preview": "{\"url\": \"https://developers.redhat.com/articles/2025/04/05/llama-4-herd-here-day-zero-inference-support-vllm\"}",
+      "output_preview": "无法访问页面: https://developers.redhat.com/articles/2025/04/05/llama-4-herd-here-day-zero-inference-support-vllm",
+      "success": true,
+      "error": null,
+      "round": 28
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 314519.95635032654,
+      "duration_ms": 1182.3,
+      "input_preview": "{\"url\": \"https://www.zansara.dev/posts/2025-05-16-llama-eu-ban/\"}",
+      "output_preview": "已抓取页面: \"Using Llama Models in the EU · Sara Zan\" | 来源: www.zansara.dev | 约 3559 字 核心发现: Using Llama Models in the EU The ban's terms are surprisingly not well known among users of these popular \"open-",
+      "success": true,
+      "error": null,
+      "round": 28
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 314519.9496746063,
+      "duration_ms": 1871.9,
+      "input_preview": "{\"url\": \"https://vllm.ai/blog/2025-04-05-llama4\"}",
+      "output_preview": "已抓取页面: \"Llama 4 in vLLM | vLLM Blog\" | 来源: vllm.ai | 约 5187 字 核心发现: We're excited to announce that vLLM now supports the Llama 4 herd of models : Scout (17B-16E) and Maverick (17B-128E). You can run t",
+      "success": true,
+      "error": null,
+      "round": 28
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 314519.9408531189,
+      "duration_ms": 2719.4,
+      "input_preview": "{\"url\": \"https://developer.nvidia.com/blog/nvidia-accelerates-inference-on-meta-llama-4-scout-and-maverick/\"}",
+      "output_preview": "已抓取页面: \"NVIDIA Accelerates Inference on Meta Llama 4 Scout and Maverick | NVIDIA Technical Blog\" | 来源: developer.nvidia.com | 约 4511 字 核心发现: The newest generation of the popular Llama AI models is her",
+      "success": true,
+      "error": null,
+      "round": 28
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 321419.28243637085,
+      "duration_ms": 8.8,
+      "input_preview": "{\"urls\": \"https://developer.nvidia.com/blog/nvidia-accelerates-inference-on-meta-llama-4-scout-and-maverick/\"}",
+      "output_preview": "[https://developer.nvidia.com/blog/nvidia-accelerates-inference-on-meta-llama-4-scout-and-maverick/] NVIDIA Accelerates Inference on Meta Llama 4 Scout and Maverick | NVIDIA Technical Blog | 来源: devel",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 321419.28791999817,
+      "duration_ms": 8.9,
+      "input_preview": "{\"urls\": \"https://vllm.ai/blog/2025-04-05-llama4\"}",
+      "output_preview": "[https://vllm.ai/blog/2025-04-05-llama4] Llama 4 in vLLM | vLLM Blog | 来源: vllm.ai --- We're excited to announce that vLLM now supports the Llama 4 herd of models : Scout (17B-16E) and Maverick (17B-1",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 321419.2910194397,
+      "duration_ms": 8.9,
+      "input_preview": "{\"urls\": \"https://www.zansara.dev/posts/2025-05-16-llama-eu-ban/\"}",
+      "output_preview": "[https://www.zansara.dev/posts/2025-05-16-llama-eu-ban/] Using Llama Models in the EU · Sara Zan | 来源: www.zansara.dev --- Using Llama Models in the EU The ban's terms are surprisingly not well known ",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 329185.5916976929,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索训练方法细节（训练策略、优化器、学习率调度等）\", \"status\": \"completed\"}, {\"content\": \"搜索推理优化（量化技术、部署优化、vLLM支持等）\", \"status\": \"completed\"}, {\"content\": \"搜索性能评测结果（与GPT-4o、Gemini、DeepSeek等对比）\", \"status",
+      "output_preview": "Command(update={'todos': [{'content': '搜索训练方法细节（训练策略、优化器、学习率调度等）', 'status': 'completed'}, {'content': '搜索推理优化（量化技术、部署优化、vLLM支持等）', 'status': 'completed'}, {'content': '搜索性能评测结果（与GPT-4o、Gemini、DeepSee",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "task",
+      "timestamp": 271080.11078834534,
+      "duration_ms": 77960.9,
+      "input_preview": "{\"description\": \"继续搜索Llama 4的以下补充信息：\\n1. 训练方法细节（训练策略、优化器、学习率调度、训练稳定性措施等）\\n2. 推理优化（量化技术如FP8、部署优化、vLLM支持等）\\n3. 性能评测结果（与GPT-4o、Gemini、DeepSeek等对比）\\n4. 知识蒸馏（Behemoth作为教师模型的蒸馏细节）\\n5. 微调与对齐（RLHF、DPO等后训练方法）\\",
+      "output_preview": "Command(update={'files': {'/large_tool_results/call_fb192b83934a4c24a77d8ad6': {'content': '[https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E] meta-llama/Llama-4-Scout-17B-16E · Hugging Face | ",
+      "success": true,
+      "error": null,
+      "round": 4
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 361840.58928489685,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索Llama 4知识蒸馏细节（Behemoth教师模型、logit蒸馏、在线蒸馏等）\", \"status\": \"in_progress\"}, {\"content\": \"搜索Llama 4微调与对齐方法（SFT、RLHF、DPO、GRPO等）\", \"status\": \"pending\"}, {\"content\": \"搜索Llama 4 Communi",
+      "output_preview": "Command(update={'todos': [{'content': '搜索Llama 4知识蒸馏细节（Behemoth教师模型、logit蒸馏、在线蒸馏等）', 'status': 'in_progress'}, {'content': '搜索Llama 4微调与对齐方法（SFT、RLHF、DPO、GRPO等）', 'status': 'pending'}, {'content': '搜索",
+      "success": true,
+      "error": null,
+      "round": 11
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 365944.92650032043,
+      "duration_ms": 1623.1,
+      "input_preview": "{\"query\": \"Llama 4 Community License terms open source\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 1 条（去重后），搜索池累计 95 条。   [1] Llama 4 Community License Agreement | 来源: www.llama.com       i. If you distribute or make available the Llama Materials (or any derivative works thereof), or a",
+      "success": true,
+      "error": null,
+      "round": 23
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 365944.9236392975,
+      "duration_ms": 1770.1,
+      "input_preview": "{\"query\": \"Llama 4 fine-tuning alignment SFT RLHF DPO GRPO post-training\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 4 条（去重后），搜索池累计 99 条。   [1] The Complete Guide to Post-Training LLMs: SFT, RLHF, DPO & GRPO | 来源: www.sundeepteki.org       [0 Comments](https://www.sundeepteki.org/advice/the-complete-gui",
+      "success": true,
+      "error": null,
+      "round": 23
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 365944.9167251587,
+      "duration_ms": 1911.6,
+      "input_preview": "{\"query\": \"Llama 4 controversy LMArena benchmark evaluation community\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 5 条（去重后），搜索池累计 104 条。   [1] Meta's Llama 4 Maverick: A Benchmark Controversy Exposing ... | 来源: www.linkedin.com       The controversy centers on Meta's use of an “experimental chat versi",
+      "success": true,
+      "error": null,
+      "round": 23
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 365944.9288845062,
+      "duration_ms": 1958.0,
+      "input_preview": "{\"query\": \"Llama 4 deployment hardware requirements GPU memory recommendation\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 4 条（去重后），搜索池累计 108 条。   [1] llama 4 system requirements : r/ollama - Reddit | 来源: www.reddit.com       To run Llama 4 efficiently, a high-end GPU with 48GB+ VRAM and a powerful CPU with a",
+      "success": true,
+      "error": null,
+      "round": 23
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 365944.9305534363,
+      "duration_ms": 2071.4,
+      "input_preview": "{\"query\": \"Llama 4 knowledge distillation Behemoth teacher model logit distillation online distillation\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 3 条（去重后），搜索池累计 111 条。   [1] Distillation | How-to guides | 来源: www.llama.com       Distillation allows you to take knowledge present in a larger model and transfer it to a smaller model. ",
+      "success": true,
+      "error": null,
+      "round": 23
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 373662.99653053284,
+      "duration_ms": 290.0,
+      "input_preview": "{\"url\": \"https://apxml.com/posts/llama-4-system-requirements\"}",
+      "output_preview": "无法访问页面: https://apxml.com/posts/llama-4-system-requirements",
+      "success": true,
+      "error": null,
+      "round": 35
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 373662.97578811646,
+      "duration_ms": 552.6,
+      "input_preview": "{\"url\": \"https://cameronrwolfe.substack.com/p/llama-4\"}",
+      "output_preview": "已抓取页面: \"Llama 4: The Challenges of Creating a Frontier-Level LLM\" | 来源: cameronrwolfe.substack.com | 约 63482 字 核心发现: The recent release of Llama 4 [1] was far from perfect, but there is a lot that can",
+      "success": true,
+      "error": null,
+      "round": 35
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 373662.98818588257,
+      "duration_ms": 568.3,
+      "input_preview": "{\"url\": \"https://www.reddit.com/r/LocalLLaMA/comments/1jur011/behemoth_and_distills/\"}",
+      "output_preview": "已抓取页面: \"Reddit - Please wait for verification\" | 来源: www.reddit.com | 约 0 字 核心发现: ... 链接: https://www.reddit.com/r/LocalLLaMA/comments/1jur011/behemoth_and_distills/  调用 get_search_content 可阅读完整内容。",
+      "success": true,
+      "error": null,
+      "round": 35
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 373662.9991531372,
+      "duration_ms": 569.6,
+      "input_preview": "{\"url\": \"https://ai.meta.com/blog/llama-4-multimodal-intelligence/\"}",
+      "output_preview": "无法访问页面: https://ai.meta.com/blog/llama-4-multimodal-intelligence/",
+      "success": true,
+      "error": null,
+      "round": 35
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 373662.9846096039,
+      "duration_ms": 661.6,
+      "input_preview": "{\"url\": \"https://www.llama.com/llama4/license/\"}",
+      "output_preview": "无法访问页面: https://www.llama.com/llama4/license/",
+      "success": true,
+      "error": null,
+      "round": 35
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 373662.99080848694,
+      "duration_ms": 5506.9,
+      "input_preview": "{\"url\": \"https://www.zdnet.com/article/metas-llama-4-herd-controversy-and-ai-contamination-explained/\"}",
+      "output_preview": "已抓取页面: \"Meta's Llama 4 'herd' controversy and AI contamination, explained | ZDNET\" | 来源: www.zdnet.com | 约 7440 字 核心发现: Little Blue Wolf Productions/Getty Images Meta introduced the fourth generation ",
+      "success": true,
+      "error": null,
+      "round": 35
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 373662.99390792847,
+      "duration_ms": 6684.1,
+      "input_preview": "{\"url\": \"https://www.willitrunai.com/blog/llama-4-gpu-requirements\"}",
+      "output_preview": "已抓取页面: \"Llama 4 VRAM Requirements - Scout 109B & Maverick 400B (GPU & Mac Guide) | Will It Run AI Blog\" | 来源: www.willitrunai.com | 约 3175 字 核心发现: Meta's Llama 4 represents a major architectural shift",
+      "success": true,
+      "error": null,
+      "round": 35
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 385786.4365577698,
+      "duration_ms": 7.2,
+      "input_preview": "{\"urls\": \"https://www.zdnet.com/article/metas-llama-4-herd-controversy-and-ai-contamination-explained/,https://www.willitrunai.com/blog/llama-4-gpu-requirements,https://cameronrwolfe.substack.com/p/ll",
+      "output_preview": "[https://www.zdnet.com/article/metas-llama-4-herd-controversy-and-ai-contamination-explained/] Meta's Llama 4 'herd' controversy and AI contamination, explained | ZDNET | 来源: www.zdnet.com --- Little ",
+      "success": true,
+      "error": null,
+      "round": 11
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 385786.4215373993,
+      "duration_ms": 358.5,
+      "input_preview": "{\"url\": \"https://gradientflow.com/llama-4-what-you-need-to-know/\"}",
+      "output_preview": "已抓取页面: \"Llama 4: What You Need to Know - Gradient Flow\" | 来源: gradientflow.com | 约 15135 字 核心发现: Table of Contents Model Overview and Specifications What is the Llama 4 model family and what models ar",
+      "success": true,
+      "error": null,
+      "round": 39
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 385786.43131256104,
+      "duration_ms": 396.0,
+      "input_preview": "{\"url\": \"https://opensource.org/blog/metas-llama-license-is-still-not-open-source\"}",
+      "output_preview": "已抓取页面: \"Meta’s LLaMa license is still not Open Source - Open Source Initiative\" | 来源: opensource.org | 约 1335 字 核心发现: To provide the best experiences, we use technologies like cookies to store and/or ",
+      "success": true,
+      "error": null,
+      "round": 39
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 385786.4279747009,
+      "duration_ms": 634.8,
+      "input_preview": "{\"url\": \"https://www.llama.com/docs/how-to-guides/distillation/\"}",
+      "output_preview": "无法访问页面: https://www.llama.com/docs/how-to-guides/distillation/",
+      "success": true,
+      "error": null,
+      "round": 39
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 385786.4339351654,
+      "duration_ms": 1606.2,
+      "input_preview": "{\"url\": \"https://www.linkedin.com/pulse/metas-llama-4-maverick-benchmark-controversy-exposing-anshuman-jha-hzxvc\"}",
+      "output_preview": "已抓取页面: \"Meta’s Llama 4 Maverick: A Benchmark Controversy Exposing Transparency Gaps in AI Evaluation\" | 来源: www.linkedin.com | 约 3946 字 核心发现: Introduction Meta ’s release of its Llama 4 Maverick AI mo",
+      "success": true,
+      "error": null,
+      "round": 39
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 426954.12158966064,
+      "duration_ms": 5.5,
+      "input_preview": "{\"urls\": \"https://opensource.org/blog/metas-llama-license-is-still-not-open-source,https://www.linkedin.com/pulse/metas-llama-4-maverick-benchmark-controversy-exposing-anshuman-jha-hzxvc,https://gradi",
+      "output_preview": "[https://opensource.org/blog/metas-llama-license-is-still-not-open-source] Meta’s LLaMa license is still not Open Source - Open Source Initiative | 来源: opensource.org --- To provide the best experienc",
+      "success": true,
+      "error": null,
+      "round": 12
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 426954.1094303131,
+      "duration_ms": 303.4,
+      "input_preview": "{\"url\": \"https://apxml.com/models/llama-4-scout\"}",
+      "output_preview": "无法访问页面: https://apxml.com/models/llama-4-scout",
+      "success": true,
+      "error": null,
+      "round": 42
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 426954.11682128906,
+      "duration_ms": 516.1,
+      "input_preview": "{\"url\": \"https://www.reddit.com/r/LocalLLaMA/comments/1jug3ku/discussion_on_lm_arenas_credibility_evaluation/\"}",
+      "output_preview": "已抓取页面: \"Reddit - Please wait for verification\" | 来源: www.reddit.com | 约 0 字 核心发现: ... 链接: https://www.reddit.com/r/LocalLLaMA/comments/1jug3ku/discussion_on_lm_arenas_credibility_evaluation/  调用 get_s",
+      "success": true,
+      "error": null,
+      "round": 42
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 426954.11944389343,
+      "duration_ms": 9274.6,
+      "input_preview": "{\"url\": \"https://www.bankinfosecurity.com/metas-new-llama-4-models-stir-controversy-a-27949\"}",
+      "output_preview": "已抓取页面: \"Meta's New Llama 4 Models Stir Controversy - BankInfoSecurity\" | 来源: www.bankinfosecurity.com | 约 3299 字 核心发现: Artificial Intelligence & Machine Learning , Next-Generation Technologies & Secur",
+      "success": true,
+      "error": null,
+      "round": 42
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 441933.4201812744,
+      "duration_ms": 1688.7,
+      "input_preview": "{\"query\": \"Llama 4 Scout Maverick deployment inference quantization ollama vLLM\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 1 条（去重后），搜索池累计 112 条。   [1] Deploy Llama 4 Scout and Maverick on GPU Cloud: Complete Guide with vLLM | Spheron Blog | 来源: www.spheron.network       # Deploy Llama 4 Scout and Maverick on ",
+      "success": true,
+      "error": null,
+      "round": 26
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 441933.4235191345,
+      "duration_ms": 1846.9,
+      "input_preview": "{\"query\": \"Llama 4 Behemoth teacher distillation logit soft hard target dynamic weighting\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 2 条（去重后），搜索池累计 114 条。   [1] #llama Llama 4 brings back memories of my days training MoE ... | 来源: x.com       ** Llama 4 Behemoth: 2 ... 2) a novel distillation loss function that dynamic",
+      "success": true,
+      "error": null,
+      "round": 26
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 441933.4144592285,
+      "duration_ms": 2055.7,
+      "input_preview": "{\"query\": \"Llama 4 Community License Agreement terms conditions commercial use 700 million\", \"max_results\": 5}",
+      "output_preview": "搜索到 5 条结果，新增 4 条（去重后），搜索池累计 118 条。   [1] Llama 4 Community License Agreement | 来源: www.llama.com       i. If you distribute or make available the Llama Materials (or any derivative works thereof), or ",
+      "success": true,
+      "error": null,
+      "round": 26
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 449876.3964176178,
+      "duration_ms": 370.7,
+      "input_preview": "{\"url\": \"https://vllm.ai/blog/2025-04-05-llama4\"}",
+      "output_preview": "已抓取页面: \"Llama 4 in vLLM | vLLM Blog\" | 来源: vllm.ai | 约 5187 字 核心发现: We're excited to announce that vLLM now supports the Llama 4 herd of models : Scout (17B-16E) and Maverick (17B-128E). You can run t",
+      "success": true,
+      "error": null,
+      "round": 47
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 449874.1137981415,
+      "duration_ms": 382.4,
+      "input_preview": "{\"url\": \"https://github.com/meta-llama/llama-models/blob/main/models/llama4/USE_POLICY.md\"}",
+      "output_preview": "无法访问页面: https://github.com/meta-llama/llama-models/blob/main/models/llama4/USE_POLICY.md",
+      "success": true,
+      "error": null,
+      "round": 47
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 449874.10378456116,
+      "duration_ms": 626.2,
+      "input_preview": "{\"url\": \"https://www.llama.com/llama4/license/\"}",
+      "output_preview": "无法访问页面: https://www.llama.com/llama4/license/",
+      "success": true,
+      "error": null,
+      "round": 47
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 449874.11189079285,
+      "duration_ms": 1241.8,
+      "input_preview": "{\"url\": \"https://www.spheron.network/blog/deploy-llama-4-gpu-cloud/\"}",
+      "output_preview": "已抓取页面: \"Deploy Llama 4 Scout and Maverick on GPU Cloud: Complete Guide with vLLM | Spheron Blog\" | 来源: www.spheron.network | 约 9674 字 核心发现: Meta's Llama 4 lineup changes what's possible with open-sour",
+      "success": true,
+      "error": null,
+      "round": 47
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 449874.1090297699,
+      "duration_ms": 1487.7,
+      "input_preview": "{\"url\": \"https://composio.dev/content/notes-on-llama-4-the-hits-the-misses-and-the-disasters\"}",
+      "output_preview": "已抓取页面: \"Notes on Llama 4: The Hits, the Misses, and the Disasters | Composio\" | 来源: composio.dev | 约 13360 字 核心发现: AlsoThe Llama 4 is here, and this time, the Llama family has three different models: ",
+      "success": true,
+      "error": null,
+      "round": 47
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 455546.1735725403,
+      "duration_ms": 5.2,
+      "input_preview": "{\"urls\": \"https://composio.dev/content/notes-on-llama-4-the-hits-the-misses-and-the-disasters,https://www.spheron.network/blog/deploy-llama-4-gpu-cloud/,https://vllm.ai/blog/2025-04-05-llama4\"}",
+      "output_preview": "[https://composio.dev/content/notes-on-llama-4-the-hits-the-misses-and-the-disasters] Notes on Llama 4: The Hits, the Misses, and the Disasters | Composio | 来源: composio.dev --- AlsoThe Llama 4 is her",
+      "success": true,
+      "error": null,
+      "round": 13
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 455546.16522789,
+      "duration_ms": 1535.4,
+      "input_preview": "{\"url\": \"https://x.com/maximelabonne/status/1908602756182745506\"}",
+      "output_preview": "已抓取页面: \"[no-title]\" | 来源: x.com | 约 170 字 核心发现: Something went wrong, but don’t fret — let’s give it another shot. Try again Some privacy related extensions may cause issues on x.com. Please disable t",
+      "success": true,
+      "error": null,
+      "round": 49
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 455546.17071151733,
+      "duration_ms": 2207.0,
+      "input_preview": "{\"url\": \"https://wcr.legal/llama-3-license-700m-mau-limit/\"}",
+      "output_preview": "已抓取页面: \"Meta Llama 3 and the 700M MAU Limit: Who This License Does Not Fit? - WCR.LEGAL\" | 来源: wcr.legal | 约 2219 字 核心发现: The Llama 3 Community License prohibits using the model to “enable or provide”",
+      "success": true,
+      "error": null,
+      "round": 49
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 461963.43660354614,
+      "duration_ms": 5.0,
+      "input_preview": "{\"urls\": \"https://www.bankinfosecurity.com/metas-new-llama-4-models-stir-controversy-a-27949\"}",
+      "output_preview": "[https://www.bankinfosecurity.com/metas-new-llama-4-models-stir-controversy-a-27949] Meta's New Llama 4 Models Stir Controversy - BankInfoSecurity | 来源: www.bankinfosecurity.com --- Artificial Intelli",
+      "success": true,
+      "error": null,
+      "round": 14
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 461963.44351768494,
+      "duration_ms": 1271.8,
+      "input_preview": "{\"url\": \"https://github.com/aboutcode-org/scancode-toolkit/issues/4872\"}",
+      "output_preview": "已抓取页面: \"New license request: llama 4 community license agreement · Issue #4872 · aboutcode-org/scancode-toolkit · GitHub\" | 来源: github.com | 约 817 字 核心发现: License Name The full name of the license, pr",
+      "success": true,
+      "error": null,
+      "round": 50
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 468297.4855899811,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索Llama 4知识蒸馏细节（Behemoth教师模型、logit蒸馏、在线蒸馏等）\", \"status\": \"completed\"}, {\"content\": \"搜索Llama 4微调与对齐方法（SFT、RLHF、DPO、GRPO等）\", \"status\": \"completed\"}, {\"content\": \"搜索Llama 4 Communi",
+      "output_preview": "Command(update={'todos': [{'content': '搜索Llama 4知识蒸馏细节（Behemoth教师模型、logit蒸馏、在线蒸馏等）', 'status': 'completed'}, {'content': '搜索Llama 4微调与对齐方法（SFT、RLHF、DPO、GRPO等）', 'status': 'completed'}, {'content': '搜索",
+      "success": true,
+      "error": null,
+      "round": 12
+    },
+    {
+      "tool_name": "task",
+      "timestamp": 358121.8237876892,
+      "duration_ms": 129013.3,
+      "input_preview": "{\"description\": \"继续补充Llama 4的以下信息（接续之前的报告）：\\n1. 知识蒸馏细节（Behemoth作为教师模型的蒸馏方法、logit蒸馏、在线蒸馏等）\\n2. 微调与对齐（监督微调SFT、RLHF、DPO、GRPO等后训练方法细节）\\n3. 许可证和开源情况（Llama 4 Community License的具体条款）\\n4. 社区评价和争议（LMArena争议、评测",
+      "output_preview": "Command(update={'files': {'/large_tool_results/call_fb192b83934a4c24a77d8ad6': {'content': '[https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E] meta-llama/Llama-4-Scout-17B-16E · Hugging Face | ",
+      "success": true,
+      "error": null,
+      "round": 5
+    }
+  ],
+  "sub_agents_used": [
+    "retriever",
+    "searcher"
+  ],
+  "routing_correct": null,
+  "final_answer": "现在我已收集到足够的信息，开始整合生成完整的中文补充报告。\n\n---\n\n# Llama 4 补充报告（接续）\n\n---\n\n## 1. 知识蒸馏细节\n\n### 1.1 Behemoth 作为教师模型\n\nLlama 4 系列中最引人注目的技术创新之一，是首次在 Llama 系列中大规模使用**知识蒸馏（Knowledge Distillation）**。Meta 训练了一个巨大的 **Llama 4 Behemoth** 模型作为\"教师模型\"——该模型拥有约 **2T（2万亿）总参数**、**288B 活跃参数**、16个专家，据 Meta 称是\"世界上最聪明的 LLM 之一\"，在 STEM 基准测试上甚至超越了 GPT-4.5、Claude Sonnet 3.7 和 Gemini 2.0 Pro。\n\nBehemoth 本身**尚未公开发布**，仍处于训练中。它的主要用途并非直接服务用户，而是作为**教师模型**来蒸馏训练 Scout 和 Maverick 两个学生模型。\n\n### 1.2 共蒸馏（Codistillation）策略\n\nMeta 采用了一种称为 **\"共蒸馏\"（Codistillation）** 的策略——即使用同一个 Behemoth 教师模型同时蒸馏训练多个学生模型（Scout 和 Maverick）。这样做的好处是：**摊销计算成本**——教师模型前向传播的计算开销可以在多个学生模型之间分摊。\n\n具体来说：\n- 对于学生模型训练数据中的**大部分数据**，Meta 复用 Behemoth 的前向传播结果来生成蒸馏目标\n- 对于学生模型训练中**新增的数据**，则额外在 Behemoth 上运行前向传播来创建蒸馏目标\n\n### 1.3 新型蒸馏损失函数：动态加权软/硬目标\n\nMeta 在官方博客中明确说明：\n\n> *\"我们开发了一种新颖的蒸馏损失函数，能够在训练过程中**动态加权软目标（soft targets）和硬目标（hard targets）**。\"*\n\n**硬蒸馏（Hard Distillation）**：将教师模型输出中概率最高的 token 作为 one-hot 标签，使用交叉熵损失训练学生模型。\n\n**软蒸馏（Soft Distillation）**：使用教师模型输出的完整概率分布作为训练信号，保留更多信息（如次优候选的概率分布）。\n\nMeta 的创新在于**动态加权**——在训练过程中动态调整软目标和硬目标的权重比例。据分析，这种策略很可能采用了**课程学习（Curriculum Learning）**的思路：训练初期侧重硬目标（让学生先学习\"正确答案\"），后期逐渐增加软目标的权重（让学生学习教师模型的\"思考方式\"和概率分布中的细微信息）。\n\n### 1.4 蒸馏在预训练阶段的应用\n\n与 DeepSeek-R1 在**后训练阶段**进行蒸馏不同，Llama 4 的蒸馏发生在**预训练阶段**。Behemoth 教师模型在预训练过程中持续为学生模型提供蒸馏信号，这使得学生模型能够从预训练阶段就开始受益于教师模型的知识。\n\n### 1.5 与 DeepSeek 蒸馏策略的对比\n\n| 维度 | Llama 4 | DeepSeek-R1 |\n|------|---------|-------------|\n| 教师模型 | Behemoth (2T参数, MoE) | DeepSeek-R1 (671B, MoE) |\n| 蒸馏阶段 | 预训练阶段 | 后训练阶段 |\n| 学生模型 | MoE架构 (Scout/Maverick) | 密集架构 (1.5B~70B) |\n| 蒸馏方式 | 动态加权软+硬目标 | 标准蒸馏 |\n| 目标 | 提升通用能力 | 注入推理能力 |\n\n---\n\n## 2. 微调与对齐（后训练方法）\n\n### 2.1 三阶段后训练流程\n\nLlama 4 的后训练（Post-training）相比 Llama 3 有了显著升级，采用**三阶段流水线**：\n\n#### 第一阶段：轻量级监督微调（Lightweight SFT）\n\n- 使用**小规模但高度精选**的完成数据（completions）进行监督训练\n- 数据筛选策略：使用 LLM Judge（一个先前的 Llama 模型）来识别并移除简单样本，**超过 50% 的 SFT 数据被过滤掉**，只保留困难样本\n- 对于 Behemoth 模型，过滤比例更高达 **95%**\n\n#### 第二阶段：大规模在线强化学习（Online RL）\n\n这是 Llama 4 后训练的核心创新。Meta 明确强调使用 **在线 RL（Online Reinforcement Learning）**，即训练数据来自当前模型自身的采样（on-policy sampling），而非历史数据。\n\n关键特点：\n- **大规模 RL 训练**：专注于提升多个能力领域（多模态、推理、对话等）\n- **动态提示过滤**：在训练过程中动态过滤掉零优势（zero advantage）的提示\n- **能力混合批处理**：构建包含多种能力（数学、推理、编码、对话等）的混合训练批次\n- **Pass@K 分析**：通过生成 K 个完成并检查正确率来评估提示难度，实现课程学习\n\nMeta 发现，**仅使用 SFT + DPO 会\"过度约束\"模型性能**，尤其是在数学和代码等需要复杂推理的领域。大规模 RL 训练允许模型进行更多探索，从而显著提升推理和编码能力。\n\n#### 第三阶段：轻量级 DPO（Lightweight DPO）\n\n- 在 RL 训练之后，进行短期的 **Direct Preference Optimization（直接偏好优化）**\n- 目的是修复模型响应质量中的**小问题和边界情况（corner cases）**\n- 与 Llama 3 不同，Llama 4 将 DPO 作为**收尾步骤**而非主要对齐手段\n\n### 2.2 与 Llama 3 后训练的对比\n\n| 维度 | Llama 3 | Llama 4 |\n|------|---------|---------|\n| 主要方法 | 多轮 SFT + DPO | 轻量SFT → 大规模在线RL → 轻量DPO |\n| RL 类型 | 无大规模RL | 在线RL（on-policy） |\n| 奖励模型 | 无需（DPO直接优化） | 使用RLHF（可能结合RLVR） |\n| 数据筛选 | 基本筛选 | LLM Judge过滤50%+，动态pass@K |\n| 课程学习 | 无 | 动态提示难度评估+能力混合 |\n\n### 2.3 与推理模型的关系\n\nMeta 明确将 Llama 4 归类为 **\"非推理模型\"（non-reasoning model）**，即不训练模型使用长思维链（long chain of thought）来解决问题。但 Meta 已预告将推出专门的 **\"Llama 推理模型\"**，很可能遵循 DeepSeek-R1 的路线——在现有模型基础上通过 RL 训练推理能力。\n\n值得注意的是，Llama 4 的在线 RL 训练方法**深受近期推理研究的影响**（如 DeepSeek-R1 和 Kimi-1.5），这些研究都表明大规模 RL 训练是提升推理能力的关键。\n\n---\n\n## 3. 许可证和开源情况\n\n### 3.1 Llama 4 Community License 核心条款\n\nLlama 4 沿用 Meta 自定义的 **\"开放权重\"（Open-Weights）许可证**，并非 OSI 定义的开源许可证。主要条款包括：\n\n**商业使用限制：**\n- 月活跃用户（MAU）超过 **7亿** 的实体，必须向 Meta **单独申请特殊许可**，Meta 拥有\"唯一酌情权\"决定是否授予\n- 这一条款主要针对大型科技公司（如 Google、Amazon、Microsoft 等）\n\n**品牌和归属要求：**\n- 在网站、用户界面或文档中**显著展示 \"Built with Llama\"** 标识\n- 任何衍生模型名称**必须以 \"Llama\" 开头**\n\n**可接受使用政策（AUP）：**\n- 必须遵守 Meta 的 Acceptable Use Policy，禁止特定用途\n- 具体禁止条款包括：违法活动、儿童伤害、骚扰、虚假信息生成等\n\n**知识产权条款：**\n- Meta 保留原始材料的**所有权**\n- 被许可方拥有其**修改内容的所有权**\n- 加州法律管辖争议\n\n**免责声明：**\n- 包含标准的**无担保声明**和**责任限制**\n\n### 3.2 欧盟限制\n\nLlama 4 的视觉能力在 **欧盟（EU）** 受到限制，Meta 因监管原因限制了欧盟地区的视觉功能使用。\n\n### 3.3 与真正开源许可证的对比\n\n| 维度 | Llama 4 License | MIT License（DeepSeek） | Apache 2.0 |\n|------|----------------|----------------------|------------|\n| OSI 认证 | ❌ 否 | ✅ 是 | ✅ 是 |\n| 商业使用 | ✅ 可（7亿MAU以下） | ✅ 无限制 | ✅ 无限制 |\n| 大型企业限制 | ⚠️ 7亿MAU需Meta许可 | ✅ 无限制 | ✅ 无限制 |\n| 品牌要求 | ⚠️ 需标注\"Built with Llama\" | ❌ 无要求 | ⚠️ 需保留声明 |\n| 欧盟可用 | ",
+  "task_completed": false,
+  "error": "Error code: 429 - {'error': {'message': 'rpm exhausted', 'type': 'quota_exceeded_error', 'code': '8'}}",
+  "total_tokens": 0,
+  "reranker_called": true,
+  "reranker_succeeded": true,
+  "fallback_triggered": true,
+  "fallback_reason": "api_quota",
+  "raw_events": null
+}

@@ -1,0 +1,200 @@
+{
+  "4c6280af-dc2f-4212-917c-c2c0e29c4c0b": {
+    "node_id": "4c6280af-dc2f-4212-917c-c2c0e29c4c0b",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.06455812516263336,
+    "snippet": "kubectl describe clusterpolicy gpu-cluster-policy -n gpu-operator命令用于查看 GPU Operator 的配置和状态。kubectl apply -f volcano-job.yaml命令用于创建 Volcano Job。kubectl get queues命令用于查看 Volcano 队列的状态。kubectl logs <pod-name>命令用于查看 Pod 的日志。kubectl exec -it <pod-name> -- /bin/bash命令用于进入 Pod 内部进行调试。\n\n6.2 常用配置参数速查\n\nresources: { limits: { nvidia.com/gpu: 1 } }用于在 Pod 中请求 1 个 GPU 资源。schedulerName: volcano用于指定使用 Volcano 调度器调度 Pod。NCCL_DEBUG=INFO用于启用 NCCL 基本调试信息输出。NCCL_NET_GDR_LEVEL=3用于启用最高级别的 GPUDirect RDMA。cpu-manager-policy: static用于启用 Kubernetes 的静态 CPU 管理策略。topology-manager-policy: single-numa-node用于启用 Kubernetes 的单 NUMA 节点拓扑管理策略。\n\n6.3 参考资料\n\nNVIDIA GPU Operator 官方文档：https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html\nVolcano 官方文档：https://volcano.sh/docs/\nKubernetes 官方文档：https://kubernetes.io/docs/home/\nNVIDIA Network Operator 官方文档：https://docs.nvidia.com/networking/display/COKAN10/Network+Operator",
+    "round": 2
+  },
+  "69fe6e7d-176e-4714-b831-00cd67bb6cd0": {
+    "node_id": "69fe6e7d-176e-4714-b831-00cd67bb6cd0",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.016666666666666666,
+    "snippet": "另外应该优化 Kubernetes 的网络配置，使用高性能的网络插件，如 Calico 的 eBPF 模式，提升网络的转发性能。禁用不必要的网络功能，如网络策略、NAT 等，减少网络开销。对于不需要外部访问的 Pod，使用 HostNetwork 模式，直接使用节点的网络栈，降低网络延迟。\n\n4.",
+    "round": 1
+  },
+  "a3a0e5e5-a8dd-482f-866b-cd2a82ed6923": {
+    "node_id": "a3a0e5e5-a8dd-482f-866b-cd2a82ed6923",
+    "kb_id": 2,
+    "title": "AI 系统安全加固与权限管理规范",
+    "source": "本地文档: AI 系统安全加固与权限管理规范.docx",
+    "relevance_score": 0.016666666666666666,
+    "snippet": "AI 系统安全加固与权限管理规范\n\n版本：v1.0\n更新日期：2026 年 5 月 4 日\n适用范围：企业级 AI 训练与推理集群，覆盖 NVIDIA GPU 基础设施、Kubernetes 容器平台、MLOps 工具链、大模型训练与推理服务全栈，兼容 MLflow 2.10+、DVC 3.0+、vLLM 0.4.0-0.5.0、Triton 24.03-24.05，支持等保 2.0 三级及以上合规要求\n文档目的：建立标准化的 AI 系统安全防护体系，覆盖基础设施、数据、模型、应用全生命周期的安全加固与权限管控，防范数据泄露、模型窃取、对抗攻击、未授权访问等安全风险，保障 AI 系统的机密性、完整性和可用性\n\n一、基本概念与安全原则\n\nAI 系统安全是传统 IT 安全与 AI 特有安全风险的结合，除了传统的基础设施安全、网络安全和应用安全外，还面临数据投毒、模型窃取、对抗样本攻击、prompt 注入、生成内容有害性等 AI 特有的安全挑战。AI 系统安全加固遵循纵深防御原则，在基础设施、平台、数据、模型、应用多个层面构建多层防护体系，任何一层被突破后，其他层仍能提供有效防护。最小权限原则是权限管理的核心，所有用户和服务仅被授予完成其工作所必需的最小权限，避免权限过度集中和滥用。持续监控原则要求对 AI 系统的所有操作和行为进行实时监控和审计，及时发现和响应安全事件。合规性原则确保 AI 系统的建设和运行符合国家法律法规和行业标准的要求，包括数据安全法、个人信息保护法、生成式人工智能服务管理暂行办法等。\n\n完整的 AI 安全体系由安全防护、安全监控、安全审计和应急响应四个部分组成。安全防护通过技术和管理手段预防安全事件的发生，是安全体系的基础；安全监控实时监测系统的运行状态和安全事件，及时发现异常行为；安全审计记录所有的操作和事件，为事后追溯和责任认定提供依据；应急响应在安全事件发生时快速处置，降低事件造成的损失。四个部分相互配合，形成闭环的安全管理体系。\n\n二、基础设施层安全加固\n\n基础设施是 AI 系统的底层支撑，其安全是整个 AI 系统安全的基础。GPU 服务器安全加固首先从硬件和固件层面入手，定期更新服务器 BIOS、BMC 和 GPU 固件，修复已知的安全漏洞。禁用服务器上不必要的硬件接口和服务，如 USB 接口、串口、FTP、Telnet 等，减少攻击面。设置强密码策略和多因素认证，限制 BMC 和 SSH 的访问 IP 范围，仅允许授权的运维人员访问。操作系统层面，使用经过安全加固的 Linux 发行版，如 Ubuntu Server LTS 或 RHEL，关闭不必要的系统服务，删除默认用户和弱密码。配置系统防火墙，只开放必要的端口，如 SSH 的 22 端口、Kubernetes 的 6443 端口等。启用系统日志审计功能，记录所有的系统登录、命令执行和文件操作。\n\nGPU 设备安全是 AI 基础设施特有的安全需求，启用 NVIDIA GPU 的 ECC 错误校验功能，防止内存错误导致的数据篡改。使用 MIG（多实例 GPU）技术将物理 GPU 分割为多个独立的逻辑 GPU 实例，为不同的用户和任务分配独立的 GPU 资源，实现 GPU 资源的隔离，防止不同任务之间的信息泄露和干扰。禁用 GPU 的调试接口和性能计数器，防止攻击者通过这些接口窃取模型参数和敏感数据。定期运行 DCGM 诊断工具检查 GPU 的健康状态和安全漏洞，及时发现和处理硬件级别的安全问题。\n\nKubernetes 集群安全加固覆盖控制平面、节点和 Pod 三个层面。控制平面层面，启用 API Server 的 TLS 加密和认证授权，使用 RBAC（基于角色的访问控制）管理用户和服务账户的权限，禁用匿名访问和不安全的端口。加密 etcd 数据库，存储集群的所有配置和状态信息，防止敏感数据泄露。定期备份 etcd 数据，确保在集群故障时能够快速恢复。节点层面，关闭节点上不必要的端口和服务，配置节点防火墙，限制 Pod 之间的网络通信。启用 Kubernetes 的 Node Restriction 准入控制器，限制 kubelet 的权限，防止节点被攻陷后影响整个集群。使用安全的容器镜像，避免使用带有漏洞的基础镜像，定期扫描容器镜像的安全漏洞。Pod 层面，配置 Pod 的安全上下文，设置非 root 用户运行容器，禁用特权模式，限制容器的系统调用和文件系统访问权限。使用 Network Policy 定义 Pod 之间的网络通信规则，实现 Pod 之间的网络隔离，默认拒绝所有未明确允许的通信。\n\n网络安全加固采用网络分段的方式，将 AI 集群划分为不同的安全区域，包括管理区、训练区、推理区和存储区，不同区域之间通过防火墙进行隔离。管理区仅允许运维人员访问，训练区和推理区之间限制不必要的通信，存储区仅允许授权的服务访问。所有网络通信都采用加密传输，包括 SSH、HTTPS、gRPC 等协议，使用 TLS 1.3 及以上版本，禁用不安全的加密算法和协议。",
+    "round": 1
+  },
+  "6dfa641b-bddd-4eb0-a3b5-e2e9a4bc8196": {
+    "node_id": "6dfa641b-bddd-4eb0-a3b5-e2e9a4bc8196",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.016666666666666666,
+    "snippet": "接下来检查网络插件的运行状态，执行kubectl get pods -n kube-system命令查看网络插件 Pod 的运行状态，如果有 Pod 异常，查看 Pod 日志排查问题。检查防火墙和网络策略配置，确保允许 AI 工作负载所需的网络通信，NCCL 需要使用 1024-65535 之间的随机端口，需要开放这些端口的通信。",
+    "round": 2
+  },
+  "88373487-6d1c-4862-b07f-ebdd22a19f1d": {
+    "node_id": "88373487-6d1c-4862-b07f-ebdd22a19f1d",
+    "kb_id": 2,
+    "title": "模型训练性能优化最佳实践",
+    "source": "本地文档: 模型训练性能优化最佳实践.docx",
+    "relevance_score": 0.016131830251343737,
+    "snippet": "export NCCL_NET_GDR_LEVEL=3; export NCCL_IB_HCA=mlx5_0:1\nDeepSpeed ZeRO 配置：\"zero_optimization\": {\"stage\": 2, \"offload_optimizer\": {\"device\": \"cpu\"}}\n\n常用性能分析工具命令\n\nPyTorch Profiler 使用：torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU, torch.profiler.ProfilerActivity.CUDA])\nNsight Systems 命令行：nsys profile -o profile_report python train.py\nnvidia-smi 实时监控：watch -n 1 nvidia-smi\nnvtop 安装与使用：apt install nvtop; nvtop\nnccl-tests 性能测试：mpirun -np 32 -H node1:8,node2:8,node3:8,node4:8 ./all_reduce_perf -b 8 -e 128M -f 2 -g 8\n\n参考资料\n\nGPU 硬件与驱动运维故障排查手册\n\nNCCL 分布式通信故障排查与优化手册\n\nKubernetes GPU 集群运维核心指南\n\nPyTorch 官方性能优化指南：https://pytorch.org/docs/stable/notes/performance.html\n\nDeepSpeed 官方文档：https://www.deepspeed.ai/docs/\n\nMegatron-LM 官方仓库：https://github.com/NVIDIA/Megatron-LM\n\nFlashAttention 官方文档：https://github.com/Dao-AILab/flash-attention",
+    "round": 1
+  },
+  "8c7eda11-1f73-430d-a6c7-6e1e865fff38": {
+    "node_id": "8c7eda11-1f73-430d-a6c7-6e1e865fff38",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.016129032258064516,
+    "snippet": "Kubernetes 网络故障：Pod 之间无法通信，Service 无法访问，核心原因包括网络插件故障、网络策略阻止通信、DNS 解析失败、节点防火墙配置错误。首选解决方案是检查网络插件 Pod 是否正常运行，查看是否有网络策略阻止了 Pod 之间的通信，测试 CoreDNS 解析是否正常，确保节点防火墙开放 Kubernetes 所需端口。",
+    "round": 1
+  },
+  "df0a9ad4-d163-4307-a6d3-1b35dbd1502f": {
+    "node_id": "df0a9ad4-d163-4307-a6d3-1b35dbd1502f",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.015625,
+    "snippet": "执行kubectl get pods -n gpu-operator命令可以查看 GPU Operator 相关 Pod 的运行状态，所有 Pod 都应该处于 Running 状态，如果有 Pod 处于 Pending 或 Error 状态，说明 GPU Operator 部署出现问题。执行kubectl describe clusterpolicy gpu-cluster-policy -n gpu-operator命令可以查看 GPU Operator 的配置和状态，ClusterPolicy 是 GPU Operator 的自定义资源，用于定义 GPU 集群的配置参数。\n\n2.2 NVIDIA GPU Operator 管理\n\nNVIDIA GPU Operator 提供了丰富的配置选项，可以通过修改 ClusterPolicy 自定义资源来调整 GPU 集群的配置。例如，可以通过修改driver.",
+    "round": 2
+  },
+  "c1dc5d01-e7a1-4b60-9bbe-a56c15e21123": {
+    "node_id": "c1dc5d01-e7a1-4b60-9bbe-a56c15e21123",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.014925373134328358,
+    "snippet": "第四是防火墙或网络策略阻止了必要的网络通信。第五是网络拥塞，大量数据传输导致网络带宽耗尽。第六是 RDMA 配置错误，GPUDirect RDMA 无法启用。第七是 DNS 解析失败，Pod 无法解析其他 Pod 或服务的域名。",
+    "round": 1
+  },
+  "5f5ab111-4458-4f7f-9f59-79e979b68321": {
+    "node_id": "5f5ab111-4458-4f7f-9f59-79e979b68321",
+    "kb_id": 2,
+    "title": "模型训练性能优化最佳实践",
+    "source": "本地文档: 模型训练性能优化最佳实践.docx",
+    "relevance_score": 0.014791073333369289,
+    "snippet": "设置合理的告警规则，当性能指标出现异常时及时通知运维工程师，如 GPU 利用率持续低于 30%、训练速度突然下降等。同时，应建立性能基线，在系统正常运行时记录各指标的基准值，当指标偏离基线时及时进行分析和排查。\n\n性能剖析是定位性能瓶颈的核心手段，常用的性能剖析工具包括 PyTorch Profiler、Nsight Systems 和 Nsight Compute。PyTorch Profiler 是 PyTorch 内置的性能剖析工具，能够分析模型的算子执行时间、内存使用情况和通信时间，生成详细的性能报告，帮助定位代码中的性能热点。Nsight Systems 是 NVIDIA 提供的系统级性能分析工具，能够分析整个应用程序的运行情况，包括 CPU、GPU、IO 和通信等各个部分，帮助发现系统级的性能瓶颈。Nsight Compute 是 GPU 级的性能分析工具，能够深入分析单个 CUDA 核函数的执行情况，帮助优化算子的性能。\n\n建立调优闭环，按照 \"分析 - 优化 - 验证 - 总结\" 的流程持续进行性能优化。首先通过监控和剖析工具分析性能瓶颈，确定优化的方向和重点；然后针对性地实施优化措施，如优化数据加载、启用混合精度训练、调整 NCCL 配置等；接着运行训练任务，验证优化效果，对比优化前后的性能指标；最后总结优化经验，将有效的优化方法固化到代码和流程中，同时发现新的性能瓶颈，进入下一轮优化循环。通过不断的迭代优化，逐步提升训练性能和资源利用率。\n\n九、真实优化案例\n\n案例 1：7B 大语言模型训练性能优化\n\n某团队使用 8 卡 A100 40GB GPU 训练 7B 参数的大语言模型，初始训练速度为 1200 tokens/sec，GPU 平均利用率只有 35%，训练速度远低于预期。经过性能分析，发现主要瓶颈是数据加载速度慢和通信开销大。首先优化数据加载流水线，将数据预处理提前完成并保存为二进制格式，使用 DALI 库进行数据加载，将 num_workers 设置为 64，启用 pin_memory 和预取功能，数据加载速度提升了 5 倍。然后启用 FP16 混合精度训练和 FlashAttention 算子，单卡计算速度提升了 2 倍。接着优化分布式训练通信配置，启用 GPUDirect RDMA，调整 NCCL 参数，使用拓扑感知调度将所有 GPU 调度到同一个节点上，通信开销减少了 70%。最后启用梯度累积，将有效批处理大小从 32 增加到 128，进一步提升了 GPU 利用率。经过一系列优化后，训练速度提升到 9600 tokens/sec，GPU 平均利用率达到 88%，训练周期从原来的 30 天缩短到 4 天。\n\n案例 2：65B 大语言模型分布式训练优化\n\n某团队使用 32 卡 A100 80GB GPU 训练 65B 参数的大语言模型，初始多机训练的线性加速比只有 2.5，远低于理论值 32。经过性能分析，发现主要瓶颈是跨节点通信开销大，NCCL 通信带宽只有理论值的 40%。首先检查网络配置，发现 RoCE 网络没有配置 PFC 和 ECN，导致网络拥塞和丢包，重新配置交换机和网卡的无损以太网参数后，NCCL 通信带宽提升到理论值的 85%。然后启用张量并行和流水线并行，采用 3D 并行策略，将张量并行度设置为 8，流水线并行度设置为 4，数据并行度设置为 1，大幅减少了通信量。接着优化 NCCL 通信算法，设置 NCCL_ALGO=Tree 使用树型算法进行小消息通信，设置 NCCL_ALGO=Ring 使用环形算法进行大消息通信，进一步提升了通信效率。最后启用梯度压缩技术，将梯度量化为 FP16 精度，通信量减少了一半。经过优化后，多机训练的线性加速比提升到 26，训练速度提升了 10 倍，训练周期从原来的 6 个月缩短到 18 天。\n\n案例 3：计算机视觉模型训练性能优化\n\n某团队使用 4 卡 V100 GPU 训练 ResNet-50 图像分类模型，初始训练速度为 800 images/sec，GPU 平均利用率为 50%。经过性能分析，发现主要瓶颈是数据预处理速度慢，CPU 利用率达到 100%，而 GPU 大部分时间处于空闲状态。首先将数据预处理操作从 CPU 卸载到 GPU 上，使用 DALI 库实现 GPU 加速的数据增强，数据预处理速度提升了 8 倍。然后启用自动混合精度训练和 torch.compile 编译优化，单卡计算速度提升了 40%。接着优化 DataLoader 配置，将 num_workers 设置为 32，prefetch_factor 设置为 4，进一步减少了数据加载时间。最后启用分布式数据并行的分桶通信优化，调整 bucket_cap_mb 参数为 25，通信与计算重叠效果更好。经过优化后，训练速度提升到 2400 images/sec，GPU 平均利用率达到 92%，训练周期从原来的 7 天缩短到 2 天。\n\n十、附录\n\n常用优化配置参数速查\n\nPyTorch 混合精度训练配置：from torch.cuda.amp import autocast, GradScaler; scaler = GradScaler()\nPyTorch 编译优化：model = torch.compile(model, mode=\"max-autotune\")\nFlashAttention 启用：pip install flash-attn; model.config.use_flash_attention_2 = True\n梯度检查点启用：model.gradient_checkpointing_enable()\nNCCL 环境变量配置：export NCCL_DEBUG=INFO; export NCCL_NET_GDR_LEVEL=3;",
+    "round": 1
+  },
+  "bc0f2329-a990-4e6d-85ae-19683d1e94fb": {
+    "node_id": "bc0f2329-a990-4e6d-85ae-19683d1e94fb",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.015151515151515152,
+    "snippet": "首先应该启用拓扑感知调度，Volcano 调度器支持基于 GPU 和网络拓扑的调度，能够将同一个训练任务的所有 Pod 调度到网络拓扑相近的节点上，减少跨交换机和跨机架的通信，降低通信延迟。在 Volcano 中，可以通过设置topologyPolicy字段来启用拓扑感知调度，支持best-effort、restricted和single-numa-node等多种策略。",
+    "round": 2
+  },
+  "2e331a5f-cf42-4fee-a056-29ee5d8ca57e": {
+    "node_id": "2e331a5f-cf42-4fee-a056-29ee5d8ca57e",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.016666666666666666,
+    "snippet": "排查这个问题首先需要启用 NCCL 调试信息，在 Pod 的环境变量中设置NCCL_DEBUG=INFO，重新运行任务，查看 NCCL 的调试日志，根据错误信息定位通信问题。如果 NCCL 日志显示无法连接到其他 Pod，说明 Pod 之间的网络不通，需要检查 Kubernetes 网络策略，确保允许 Pod 之间的通信，同时检查节点之间的网络连接，使用ibping或ping命令测试节点之间的连通性。",
+    "round": 2
+  },
+  "487c3d53-c85d-4cac-9b65-330ccc9a3842": {
+    "node_id": "487c3d53-c85d-4cac-9b65-330ccc9a3842",
+    "kb_id": 2,
+    "title": "AI 系统核心监控指标与告警规则手册",
+    "source": "本地文档: AI 系统核心监控指标与告警规则手册.docx",
+    "relevance_score": 0.031754032258064516,
+    "snippet": "网络服务监控包括 CoreDNS、Ingress Controller 和网络插件，当 CoreDNS 的 Pod 异常率超过 50% 时，触发严重级告警；CoreDNS 的解析失败率高于 1% 超过 3 分钟时，触发警告级告警；Ingress Controller 的请求错误率高于 5% 超过 2 分钟时，触发警告级告警；网络插件的 Pod 异常率超过 20% 时，触发严重级告警。",
+    "round": 2
+  },
+  "48a0b905-cd98-4de5-a5f5-d3a02b834bcb": {
+    "node_id": "48a0b905-cd98-4de5-a5f5-d3a02b834bcb",
+    "kb_id": 2,
+    "title": "AI 系统安全加固与权限管理规范",
+    "source": "本地文档: AI 系统安全加固与权限管理规范.docx",
+    "relevance_score": 0.030309988518943745,
+    "snippet": "使用安全的容器镜像，避免使用带有漏洞的基础镜像，定期扫描容器镜像的安全漏洞。Pod 层面，配置 Pod 的安全上下文，设置非 root 用户运行容器，禁用特权模式，限制容器的系统调用和文件系统访问权限。使用 Network Policy 定义 Pod 之间的网络通信规则，实现 Pod 之间的网络隔离，默认拒绝所有未明确允许的通信。",
+    "round": 2
+  },
+  "7843b701-b233-4195-9910-e966bc98e06b": {
+    "node_id": "7843b701-b233-4195-9910-e966bc98e06b",
+    "kb_id": 2,
+    "title": "Kubernetes GPU 集群运维核心指南",
+    "source": "本地文档: Kubernetes GPU 集群运维核心指南.docx",
+    "relevance_score": 0.016129032258064516,
+    "snippet": "接下来检查 GPU 设备的状态，在节点上执行nvidia-smi命令查看 GPU 是否正常运行，如果nvidia-smi命令无输出或报错，说明 GPU 驱动或硬件出现问题，按照之前的 GPU 硬件与驱动运维手册进行排查。同时检查 Pod 的安全上下文配置，确保 Pod 具有访问 GPU 设备的权限，通常不需要额外的权限配置，但如果集群启用了 PodSecurityPolicy，需要允许 Pod 访问 GPU 设备。最后检查存储卷的挂载情况，执行kubectl describe pod <pod-name>命令查看存储卷的挂载状态，确保所有存储卷都已经正确挂载。\n\n3.3 GPU 利用率低\n\nGPU 利用率低是 AI 集群中普遍存在的问题，表现为 nvidia-smi 显示 GPU 利用率低于 50%，训练或推理速度远低于预期。导致这个问题的原因主要有八个方面，首先是数据加载瓶颈，CPU 数据加载速度跟不上 GPU 计算速度，导致 GPU 长时间空闲。其次是模型计算量过小，无法充分利用 GPU 的并行计算能力。第三是分布式训练通信开销过大，大部分时间都在等待通信完成。第四是 GPU 亲和性设置错误，进程没有绑定到正确的 CPU 核心和 NUMA 节点，导致内存访问延迟增加。第五是批处理大小设置过小，GPU 没有被充分利用。第六是存在大量的同步操作，导致 GPU 计算中断。第七是存储性能不足，数据读取速度慢。第八是调度不合理，多个低负载的 Pod 被调度到同一个 GPU 上，导致资源竞争。\n\n排查这个问题首先需要分析程序的性能瓶颈，使用 Nsight Systems 工具对程序进行性能分析，查看 CPU、GPU、IO 和通信各个部分的时间占比。如果数据加载时间占比过高，说明存在数据加载瓶颈，可以使用 DALI 数据加载库、多线程数据预取等技术优化数据加载速度。如果通信时间占比过高，说明存在通信瓶颈，按照 NCCL 分布式通信故障排查与优化手册进行优化。\n\n接下来检查 GPU 亲和性设置，确保每个 GPU 进程都绑定到对应的 CPU 核心和 NUMA 节点，避免跨 NUMA 节点访问内存。在 Kubernetes 中，可以通过cpu-manager-policy和topology-manager-policy来优化 CPU 和 GPU 的亲和性，将cpu-manager-policy设置为static，将topology-manager-policy设置为single-numa-node，可以让 Kubernetes 自动为 Pod 分配最优的 CPU 和 GPU 资源。同时调整批处理大小，在不出现 OOM 的情况下尽量增大批处理大小，提高 GPU 的利用率。\n\n3.4 多 GPU 分布式训练任务失败\n\n多 GPU 分布式训练任务失败表现为任务启动后不久就崩溃，或者训练过程中出现通信错误。导致这个问题的原因主要有七个方面，首先是 NCCL 通信故障，节点之间的网络不通或配置错误。其次是不同节点上的环境不一致，包括驱动版本、CUDA 版本、NCCL 版本等。第三是 Pod 之间无法相互通信，Kubernetes 网络策略阻止了 Pod 之间的通信。第四是训练数据在不同节点上的分布不一致，导致训练过程中出现错误。第五是 checkpoint 文件损坏，无法正常加载。第六是资源不足，某个节点的内存或显存不足导致进程崩溃。第七是调度不合理，任务的不同进程被调度到网络拓扑较远的节点上，导致通信延迟过高。\n\n排查这个问题首先需要启用 NCCL 调试信息，在 Pod 的环境变量中设置NCCL_DEBUG=INFO，重新运行任务，查看 NCCL 的调试日志，根据错误信息定位通信问题。如果 NCCL 日志显示无法连接到其他 Pod，说明 Pod 之间的网络不通，需要检查 Kubernetes 网络策略，确保允许 Pod 之间的通信，同时检查节点之间的网络连接，使用ibping或ping命令测试节点之间的连通性。\n\n接下来检查所有节点的环境一致性，确保所有节点上的驱动版本、CUDA 版本和 NCCL 版本完全相同，优先使用统一的容器镜像运行分布式训练任务。同时检查训练数据的分布情况，确保所有节点都能够访问到完整的训练数据集，或者数据已经正确分片到各个节点。最后检查任务的调度情况，使用 Volcano 的拓扑感知调度功能，将同一个训练任务的所有 Pod 调度到网络拓扑相近的节点上，减少通信延迟。\n\n3.5 存储相关问题\n\n存储相关问题是 AI 集群中常见的故障之一，表现为 Pod 启动时挂载存储卷失败，或者训练过程中数据读取速度慢、写入失败。导致这个问题的原因主要有六个方面，首先是存储服务器故障，存储集群不可用。其次是存储卷配置错误，PVC 无法绑定到 PV。第三是存储权限配置错误，Pod 没有权限访问存储卷。第四是存储网络故障，节点与存储服务器之间的网络不通或带宽不足。第五是存储容量不足，没有足够的空间存储数据和模型文件。第六是存储性能不足，无法满足 AI 工作负载的 IO 需求。\n\n排查这个问题首先需要检查存储集群的状态，确保存储服务器正常运行，所有存储节点都处于健康状态。执行kubectl get pvc命令查看 PVC 的状态，如果 PVC 处于 Pending 状态，说明 PVC 无法绑定到 PV，需要检查 PV 的配置和可用状态。如果 PVC 已经绑定但 Pod 无法挂载，查看 Pod 的事件信息，根据错误信息排查挂载问题，常见的挂载问题包括 NFS 服务器地址错误、挂载路径不存在、权限不足等。\n\n接下来检查存储权限配置，确保存储卷的访问模式和权限设置正确，Pod 具有读写存储卷的权限。",
+    "round": 2
+  },
+  "3a96966e-302c-42cd-a5df-586037485bf6": {
+    "node_id": "3a96966e-302c-42cd-a5df-586037485bf6",
+    "kb_id": 2,
+    "title": "模型训练性能优化最佳实践",
+    "source": "本地文档: 模型训练性能优化最佳实践.docx",
+    "relevance_score": 0.015749007936507936,
+    "snippet": "设置合理的告警规则，当性能指标出现异常时及时通知运维工程师，如 GPU 利用率持续低于 30%、训练速度突然下降等。同时，应建立性能基线，在系统正常运行时记录各指标的基准值，当指标偏离基线时及时进行分析和排查。\n\n性能剖析是定位性能瓶颈的核心手段，常用的性能剖析工具包括 PyTorch Profiler、Nsight Systems 和 Nsight Compute。PyTorch Profiler 是 PyTorch 内置的性能剖析工具，能够分析模型的算子执行时间、内存使用情况和通信时间，生成详细的性能报告，帮助定位代码中的性能热点。Nsight Systems 是 NVIDIA 提供的系统级性能分析工具，能够分析整个应用程序的运行情况，包括 CPU、GPU、IO 和通信等各个部分，帮助发现系统级的性能瓶颈。Nsight Compute 是 GPU 级的性能分析工具，能够深入分析单个 CUDA 核函数的执行情况，帮助优化算子的性能。\n\n建立调优闭环，按照 \"分析 - 优化 - 验证 - 总结\" 的流程持续进行性能优化。",
+    "round": 2
+  },
+  "315cf669-f495-4a95-a905-164c75a98c51": {
+    "node_id": "315cf669-f495-4a95-a905-164c75a98c51",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.030834914611005692,
+    "snippet": "首选解决方案是检查 Ingress Controller Pod 是否正常运行，验证 Ingress 规则配置是否正确，确保域名解析到 Ingress Controller 的 IP 地址，检查 TLS 证书是否有效，测试后端 Service 是否可访问。\n\nKubernetes 证书过期：集群组件无法通信，提示证书过期错误，核心原因是 Kubernetes 集群证书有效期通常为 1 年，到期后未更新。",
+    "round": 2
+  },
+  "86cc0694-c432-43b8-b5ef-947a41dbb882": {
+    "node_id": "86cc0694-c432-43b8-b5ef-947a41dbb882",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.029386529386529386,
+    "snippet": "SetUp failed\"，核心原因包括 PV 配置错误、存储服务器故障、网络问题、权限不足。首选解决方案是查看 Pod 事件信息，检查 PV 的配置是否正确，验证存储服务器是否正常运行，测试节点与存储服务器之间的网络连通性，配置正确的存储访问权限。\n\nKubernetes 网络故障：Pod 之间无法通信，Service 无法访问，核心原因包括网络插件故障、网络策略阻止通信、DNS 解析失败、节点防火墙配置错误。首选解决方案是检查网络插件 Pod 是否正常运行，查看是否有网络策略阻止了 Pod 之间的通信，测试 CoreDNS 解析是否正常，确保节点防火墙开放 Kubernetes 所需端口。\n\nCoreDNS 解析失败：Pod 内无法解析域名，核心原因包括 CoreDNS Pod 未运行、CoreDNS 配置错误、上游 DNS 服务器不可达、网络问题。首选解决方案是执行 kubectl get pods -n kube-system | grep coredns 检查 CoreDNS 状态，查看 CoreDNS 配置，测试上游 DNS 服务器是否可达，重启 CoreDNS Pod。\n\nIngress 无法访问：通过 Ingress 域名无法访问服务，核心原因包括 Ingress Controller 未部署、Ingress 规则配置错误、域名解析错误、证书问题、Service 不可达。",
+    "round": 2
+  },
+  "f6414fe9-4f73-4ef5-a514-7fcc9a79b2ad": {
+    "node_id": "f6414fe9-4f73-4ef5-a514-7fcc9a79b2ad",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.016666666666666666,
+    "snippet": "Ingress 无法访问：通过 Ingress 域名无法访问服务，核心原因包括 Ingress Controller 未部署、Ingress 规则配置错误、域名解析错误、证书问题、Service 不可达。",
+    "round": 2
+  },
+  "236bb070-68df-411e-81c5-b4e24ed44c75": {
+    "node_id": "236bb070-68df-411e-81c5-b4e24ed44c75",
+    "kb_id": 2,
+    "title": "模型训练性能优化最佳实践",
+    "source": "本地文档: 模型训练性能优化最佳实践.docx",
+    "relevance_score": 0.014492753623188406,
+    "snippet": "启用 Kubernetes 的 CPU 管理器和拓扑管理器，将 cpu-manager-policy 设置为 static，topology-manager-policy 设置为 single-numa-node，确保训练进程被绑定到与 GPU 同 NUMA 节点的 CPU 核心上，避免跨 NUMA 节点访问内存导致的性能损失。",
+    "round": 2
+  },
+  "c38df3ee-60b7-4ddf-8c56-95266ba9ebf9": {
+    "node_id": "c38df3ee-60b7-4ddf-8c56-95266ba9ebf9",
+    "kb_id": 2,
+    "title": "AI 系统核心监控指标与告警规则手册",
+    "source": "本地文档: AI 系统核心监控指标与告警规则手册.docx",
+    "relevance_score": 0.015384615384615385,
+    "snippet": "存储服务监控包括 PV 和 PVC 的状态，当 PVC 处于 Pending 状态超过 5 分钟未绑定时，触发警告级告警；当存储卷挂载失败次数在 1 小时内超过 5 次时，触发警告级告警；分布式存储系统的可用容量低于总容量的 15% 时，触发警告级告警，低于 10% 时触发严重级告警。网络服务监控包括 CoreDNS、Ingress Controller 和网络插件，当 CoreDNS 的 Pod 异常率超过 50% 时，触发严重级告警；CoreDNS 的解析失败率高于 1% 超过 3 分钟时，触发警告级告警；Ingress Controller 的请求错误率高于 5% 超过 2 分钟时，触发警告级告警；网络插件的 Pod 异常率超过 20% 时，触发严重级告警。\n\n四、分布式训练层监控指标与告警规则\n\n分布式训练是大模型研发的核心环节，其监控具有鲜明的 AI 特色，核心监控对象包括训练任务状态、训练进度、模型性能、资源使用和通信性能。",
+    "round": 2
+  },
+  "22fe7964-238a-4cff-9e79-094d67aa8e44": {
+    "node_id": "22fe7964-238a-4cff-9e79-094d67aa8e44",
+    "kb_id": 2,
+    "title": "AI 系统核心监控指标与告警规则手册",
+    "source": "本地文档: AI 系统核心监控指标与告警规则手册.docx",
+    "relevance_score": 0.014925373134328358,
+    "snippet": "存储监控包括磁盘空间使用率、inode 使用率、磁盘 IOPS 和吞吐量，磁盘空间使用率高于 85% 时触发警告级告警，高于 90% 时触发严重级告警；inode 使用率高于 80% 时触发警告级告警，高于 90% 时触发严重级告警；磁盘读写延迟高于 100ms 超过 5 分钟时，触发警告级告警。\n\n网络监控关注带宽使用率、丢包率和延迟，InfiniBand 或 RoCE 网络的带宽使用率持续高于 90% 超过 5 分钟时，触发警告级告警；丢包率高于 0.1% 超过 1 分钟时，触发严重级告警，会直接导致 NCCL 通信故障；网络延迟高于 100 微秒超过 3 分钟时，触发警告级告警。电源系统监控包括电源模块状态、输入电压和输出功率，当任何一个电源模块故障时，立即触发严重级告警；输入电压波动超过额定值的 ±5% 时，触发警告级告警。\n\n三、Kubernetes GPU 集群层监控指标与告警规则\n\nKubernetes 集群是 AI 工作负载的运行平台，其稳定性直接影响训练和推理任务的正常执行，核心监控对象包括节点状态、Pod 状态、GPU 资源调度、核心组件状态和存储网络服务。节点状态是集群健康的基础，当任何一个节点处于 NotReady 状态超过 1 分钟时，触发警告级告警；当超过 20% 的节点处于 NotReady 状态时，触发严重级告警。节点的磁盘压力、内存压力和 PID 压力状态持续超过 2 分钟时，分别触发警告级告警，提示节点资源不足。\n\nPod 状态监控关注异常状态的 Pod 数量，当处于 Pending 状态的 Pod 数量超过 5 个且持续 5 分钟未调度时，触发警告级告警；当处于 CrashLoopBackOff 状态的 Pod 数量超过 3 个且持续 3 分钟时，触发严重级告警；当处于 Failed 状态的 Pod 数量在 1 小时内超过 10 个时，触发警告级告警。GPU 资源调度监控包括 GPU 资源分配率和 GPU 资源使用率，集群整体 GPU 资源分配率高于 95% 时，触发警告级告警，提示需要扩容集群；单节点 GPU 资源使用率持续低于 30% 超过 1 小时时，触发提示级告警，提示存在资源浪费。\n\nGPU Operator 是 Kubernetes GPU 集群的核心组件，其运行状态直接影响 GPU 资源的管理和使用，当 GPU Operator 命名空间下任何一个 Pod 处于非 Running 状态超过 2 分钟时，触发警告级告警；当 nvidia-driver-daemonset 或 nvidia-device-plugin-daemonset 的 Pod 异常率超过 20% 时，触发严重级告警，会导致大量节点的 GPU 资源无法被调度。Kubernetes 核心组件包括 kube-apiserver、kube-controller-manager、kube-scheduler 和 etcd，当任何一个核心组件的 Pod 处于非 Running 状态超过 1 分钟时，触发严重级告警；kube-apiserver 的请求延迟高于 500ms 超过 3 分钟时，触发警告级告警；etcd 的 leader 选举异常或集群健康状态异常时，立即触发严重级告警。\n\n存储服务监控包括 PV 和 PVC 的状态，当 PVC 处于 Pending 状态超过 5 分钟未绑定时，触发警告级告警；当存储卷挂载失败次数在 1 小时内超过 5 次时，触发警告级告警；分布式存储系统的可用容量低于总容量的 15% 时，触发警告级告警，低于 10% 时触发严重级告警。网络服务监控包括 CoreDNS、Ingress Controller 和网络插件，当 CoreDNS 的 Pod 异常率超过 50% 时，触发严重级告警；CoreDNS 的解析失败率高于 1% 超过 3 分钟时，触发警告级告警；Ingress Controller 的请求错误率高于 5% 超过 2 分钟时，触发警告级告警；网络插件的 Pod 异常率超过 20% 时，触发严重级告警。\n\n四、分布式训练层监控指标与告警规则\n\n分布式训练是大模型研发的核心环节，其监控具有鲜明的 AI 特色，核心监控对象包括训练任务状态、训练进度、模型性能、资源使用和通信性能。训练任务状态是最基础的监控指标，当训练任务失败或被终止时，立即触发警告级告警；当任务处于 Running 状态但超过 30 分钟没有任何日志输出时，触发警告级告警，提示任务可能挂起。训练进度监控包括迭代次数、epoch 数和预计完成时间，当训练进度停滞超过 10 分钟时，触发警告级告警；当实际训练速度低于预期速度的 50% 超过 15 分钟时，触发警告级告警。\n\n模型性能监控是训练过程中最重要的指标之一，核心包括损失值、准确率和梯度范数。当训练损失值变为 NaN 或 Inf 时，立即触发严重级告警，说明训练出现严重问题，需要停止任务并排查原因；当验证集损失值连续 5 个 epoch 不下降甚至上升时，触发警告级告警，提示可能出现过拟合或学习率设置不当；当梯度范数超过 100 或低于 0.001 超过 5 个迭代时，触发警告级告警，提示可能出现梯度爆炸或梯度消失问题。",
+    "round": 2
+  },
+  "7f1e104a-6229-411e-a8aa-4ae2d5ee6443": {
+    "node_id": "7f1e104a-6229-411e-a8aa-4ae2d5ee6443",
+    "kb_id": 2,
+    "title": "模型训练性能优化最佳实践",
+    "source": "本地文档: 模型训练性能优化最佳实践.docx",
+    "relevance_score": 0.014446602798593859,
+    "snippet": "同时，应将同一个训练任务的节点调度到同一个交换机或同一个机架上，优先使用节点内的 NVLink 和机架内的 InfiniBand 网络进行通信。\n\n梯度压缩技术能够减少通信的数据量，降低通信开销，尤其适合带宽有限的网络环境。常用的梯度压缩技术包括量化压缩、稀疏化压缩和低秩分解压缩，量化压缩将梯度从 FP32 精度量化为 FP16 或 INT8 精度，能够将通信量减少一半或四分之三；稀疏化压缩只传输梯度中绝对值较大的元素，能够将通信量减少一个数量级以上；低秩分解压缩将梯度矩阵分解为两个低秩矩阵的乘积，减少传输的数据量。DeepSpeed 和 PyTorch 等框架都提供了内置的梯度压缩功能，只需要简单的配置即可启用。需要注意的是，梯度压缩可能会引入一定的精度损失，需要根据实际情况选择合适的压缩算法和压缩比。\n\n通信与计算重叠是隐藏通信延迟的有效方法，通过将通信操作与计算操作并行执行，让 GPU 在进行计算的同时进行数据传输，从而减少总的训练时间。在分布式数据并行训练中，可以使用异步通信或分桶通信技术，将梯度分成多个小桶，在计算完一个桶的梯度后立即进行通信，而不是等待所有梯度都计算完成后再进行通信。PyTorch 的 DistributedDataParallel 默认使用分桶通信技术，可以通过调整 bucket_cap_mb 参数来优化分桶大小，获得最佳的通信与计算重叠效果。对于更复杂的并行策略，可以使用手动通信和计算重叠的方法，在代码中显式地安排通信和计算的顺序。\n\n七、训练流程与调度优化\n\n训练流程的优化能够从整体上提升训练效率，减少不必要的时间开销，避免训练过程中的中断和返工。学习率调度策略的优化能够加快模型的收敛速度，减少训练所需的 epoch 数。常用的学习率调度策略包括线性预热、余弦退火、步长衰减等，对于大模型训练，推荐使用线性预热加余弦退火的学习率调度策略，能够在训练初期快速提升学习率，避免梯度爆炸，在训练后期逐渐降低学习率，帮助模型收敛到更好的局部最优解。同时，可以使用学习率预热重启和自适应学习率调整等技术，进一步提升模型的收敛速度和精度。\n\n早停技术能够在模型性能不再提升时提前终止训练，避免过拟合和不必要的训练时间浪费。通过监控验证集的性能指标，如损失值、准确率等，当验证集性能连续多个 epoch 没有提升时，自动停止训练。早停技术不仅能够节省训练时间，还能够获得泛化能力更好的模型。同时，可以使用模型检查点技术，在训练过程中定期保存模型的状态，当训练意外中断时，可以从最近的检查点恢复训练，避免从头开始训练，减少时间损失。\n\nCheckpoint 优化能够减少检查点保存和加载的时间，对于大模型训练尤为重要。大模型的检查点文件通常非常大，保存和加载检查点需要消耗大量的时间和 IO 资源。优化 Checkpoint 的方法包括使用异步保存，将检查点保存操作放到单独的线程或进程中执行，不阻塞训练进程；使用增量保存，只保存与上一个检查点相比发生变化的参数，减少保存的数据量；使用分布式保存，将检查点文件分散保存到多个节点的本地存储中，提升保存和加载的速度。同时，应合理设置检查点的保存间隔，在保证能够恢复训练的前提下，尽量减少检查点的保存次数。\n\n任务调度优化能够提升集群的整体资源利用率和训练任务的吞吐量。使用 Volcano 等 AI 调度器的队列管理和公平调度功能，为不同的用户和项目分配不同的资源配额，实现资源的公平共享。使用抢占调度功能，让高优先级的任务能够抢占低优先级任务的资源，保障重要任务的按时完成。同时，应合理安排训练任务的运行时间，将大的训练任务调度到集群负载较低的时段运行，避免资源竞争。对于长时间运行的训练任务，可以使用弹性训练技术，根据集群的资源情况动态调整任务使用的 GPU 数量，充分利用闲置资源。\n\n八、性能监控与调优闭环\n\n建立完善的性能监控体系和调优闭环是持续提升训练性能的关键，能够及时发现性能瓶颈，评估优化效果，不断迭代优化策略。性能监控应覆盖从硬件到应用的各个层面，包括 GPU 利用率、显存使用率、温度、功耗等硬件指标，CPU 利用率、内存使用率、磁盘 IO、网络带宽等系统指标，以及训练速度、损失值、准确率等应用指标。\n\n使用 Prometheus 和 Grafana 搭建统一的监控平台，通过 DCGM Exporter 采集 GPU 硬件指标，通过 Node Exporter 采集系统指标，通过自定义 Exporter 采集训练任务的应用指标，将所有指标集中存储和可视化展示。",
+    "round": 2
+  }
+}

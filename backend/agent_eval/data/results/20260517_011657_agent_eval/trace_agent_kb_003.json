@@ -1,0 +1,483 @@
+{
+  "sample_id": "agent_kb_003",
+  "scenario": "kb_complex",
+  "start_time": 1778951261.6444323,
+  "end_time": 1778951536.2212634,
+  "first_token_time": 1778951284.157262,
+  "tool_calls": [
+    {
+      "tool_name": "list_active_kbs",
+      "timestamp": 3103.9814949035645,
+      "duration_ms": 3.0,
+      "input_preview": "{}",
+      "output_preview": "可用知识库： - KB#2 AI运维知识库 (类型:upload, 文档:10, chunks:1212)",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "get_current_time",
+      "timestamp": 3103.989601135254,
+      "duration_ms": 3.0,
+      "input_preview": "{}",
+      "output_preview": "当前时间：2026-05-17 01:07:44 时区：Asia/Shanghai (UTC+8) 星期：日 地区：中国",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 15929.241180419922,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"Step 1: 了解可用知识库 - 调用 list_active_kbs\", \"status\": \"in_progress\"}, {\"content\": \"Step 2: 首轮检索 - 搜索MIG显存隔离相关内容\", \"status\": \"pending\"}, {\"content\": \"Step 3: 阅读与评估召回节点\", \"status\": \"p",
+      "output_preview": "Command(update={'todos': [{'content': 'Step 1: 了解可用知识库 - 调用 list_active_kbs', 'status': 'in_progress'}, {'content': 'Step 2: 首轮检索 - 搜索MIG显存隔离相关内容', 'status': 'pending'}, {'content': 'Step 3: 阅读与评估召回节点",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 16172.805786132812,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索MIG显存隔离原理和分配方式\", \"status\": \"in_progress\"}, {\"content\": \"搜索vGPU显存隔离原理和分配方式\", \"status\": \"pending\"}, {\"content\": \"搜索GPU直通/SR-IOV显存隔离原理\", \"status\": \"pending\"}, {\"content\": \"搜索MIG",
+      "output_preview": "Command(update={'todos': [{'content': '搜索MIG显存隔离原理和分配方式', 'status': 'in_progress'}, {'content': '搜索vGPU显存隔离原理和分配方式', 'status': 'pending'}, {'content': '搜索GPU直通/SR-IOV显存隔离原理', 'status': 'pending'}, {'c",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "list_active_kbs",
+      "timestamp": 17205.175161361694,
+      "duration_ms": 1.4,
+      "input_preview": "{}",
+      "output_preview": "可用知识库： - KB#2 AI运维知识库 (类型:upload, 文档:10, chunks:1212)",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 20507.87091255188,
+      "duration_ms": 0.5,
+      "input_preview": "{\"todos\": [{\"content\": \"Step 1: 了解可用知识库 - 调用 list_active_kbs\", \"status\": \"completed\"}, {\"content\": \"Step 2: 首轮检索 - 搜索MIG显存隔离相关内容\", \"status\": \"in_progress\"}, {\"content\": \"Step 3: 阅读与评估召回节点\", \"status\": ",
+      "output_preview": "Command(update={'todos': [{'content': 'Step 1: 了解可用知识库 - 调用 list_active_kbs', 'status': 'completed'}, {'content': 'Step 2: 首轮检索 - 搜索MIG显存隔离相关内容', 'status': 'in_progress'}, {'content': 'Step 3: 阅读与评估召回",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 19387.67385482788,
+      "duration_ms": 2560.8,
+      "input_preview": "{\"query\": \"NVIDIA MIG memory isolation hardware partitioning architecture\", \"max_results\": 10}",
+      "output_preview": "搜索到 10 条结果，新增 10 条（去重后），搜索池累计 10 条。   [1] A Practical Guide to GPU Partitioning with MIG on On‑Prem Servers ... | 来源: sagar-parmar.medium.com       MIG is a hardware‑level feature that partitions the ",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 19387.680053710938,
+      "duration_ms": 2828.2,
+      "input_preview": "{\"query\": \"NVIDIA MIG Multi-Instance GPU 显存隔离 原理 硬件级别\", \"max_results\": 10}",
+      "output_preview": "搜索到 10 条结果，新增 10 条（去重后），搜索池累计 20 条。   [1] 硬件级切分- 多实例GPU (MIG) 技术深度剖析 - CSDN博客 | 来源: blog.csdn.net       NVIDIA推出了MIG (Multi-Instance GPU) 技术。MIG是一种硬件级别的GPU分区技术，它能将一块物理GPU安全、隔离地切分成多个独立的、更小的GPU实例       ",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "search_knowledge",
+      "timestamp": 23281.124591827393,
+      "duration_ms": 604.5,
+      "input_preview": "{\"kb_ids\": \"2\", \"query\": \"MIG Multi-Instance GPU 显存隔离 机制 原理\", \"top_k\": 10}",
+      "output_preview": "本轮检索到 10 个新节点（去重后），召回池累计 10 个节点。 新增节点:   [5889f981-4989-41cc-844f-fbf1611d1206] 大模型推理服务（vLLM_Triton）运维手册 | 相关度: 0.03   [faa5a0d5-e2fc-43d5-9f3a-2f5295783410] AI 系统安全加固与权限管理规范 | 相关度: 0.03   [e1671db7-2",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "search_knowledge",
+      "timestamp": 23281.131505966187,
+      "duration_ms": 604.5,
+      "input_preview": "{\"kb_ids\": \"2\", \"query\": \"GPU虚拟化 vGPU GPU分区 显存隔离 技术原理\", \"top_k\": 10}",
+      "output_preview": "本轮检索到 6 个新节点（去重后），召回池累计 16 个节点。 新增节点:   [dfae2b03-a028-4c9d-aa29-31484bde7fb4] Kubernetes GPU 集群运维核心指南 | 相关度: 0.03   [faa5a0d5-e2fc-43d5-9f3a-2f5295783410] AI 系统安全加固与权限管理规范 | 相关度: 0.02   [214765cc-6aa",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 26230.459451675415,
+      "duration_ms": 87.0,
+      "input_preview": "{\"url\": \"https://zhuanlan.zhihu.com/p/558046644\"}",
+      "output_preview": "无法访问页面: https://zhuanlan.zhihu.com/p/558046644",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 26230.462551116943,
+      "duration_ms": 166.1,
+      "input_preview": "{\"url\": \"https://www.51cto.com/article/842124.html\"}",
+      "output_preview": "已抓取页面: \"[no-title]\" | 来源: www.51cto.com | 约 0 字 核心发现: ... 链接: https://www.51cto.com/article/842124.html  调用 get_search_content 可阅读完整内容。",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 26230.45587539673,
+      "duration_ms": 311.4,
+      "input_preview": "{\"url\": \"https://cloud-atlas.readthedocs.io/zh-cn/latest/machine_learning/hardware/nvidia_gpu/nvidia_mig/nvidia_mig_infra.html\"}",
+      "output_preview": "无法访问页面: https://cloud-atlas.readthedocs.io/zh-cn/latest/machine_learning/hardware/nvidia_gpu/nvidia_mig/nvidia_mig_infra.html",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 26230.44490814209,
+      "duration_ms": 645.2,
+      "input_preview": "{\"url\": \"https://blog.csdn.net/weixin_42587823/article/details/151858211\"}",
+      "output_preview": "已抓取页面: \"GPU运维工程师入门指南 (第七篇): 硬件级切分 - 多实例GPU (MIG) 技术深度剖析_gpu mig-CSDN博客\" | 来源: blog.csdn.net | 约 1140 字 核心发现: GPU运维工程师入门指南 (第七篇): 硬件级切分 - 多实例GPU (MIG) 技术深度剖析 前言 在前面的篇章中，我们已经掌握了如何在Kubernetes中对整块GPU进行调度。",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 26230.451822280884,
+      "duration_ms": 5973.3,
+      "input_preview": "{\"url\": \"https://irec.fun/tech/2395\"}",
+      "output_preview": "无法访问页面: https://irec.fun/tech/2395",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 35544.84963417053,
+      "duration_ms": 2.9,
+      "input_preview": "{\"urls\": \"https://blog.csdn.net/weixin_42587823/article/details/151858211,https://www.51cto.com/article/842124.html\"}",
+      "output_preview": "[https://blog.csdn.net/weixin_42587823/article/details/151858211] GPU运维工程师入门指南 (第七篇): 硬件级切分 - 多实例GPU (MIG) 技术深度剖析_gpu mig-CSDN博客 | 来源: blog.csdn.net --- GPU运维工程师入门指南 (第七篇): 硬件级切分 - 多实例GPU (MIG) 技术深度剖析",
+      "success": true,
+      "error": null,
+      "round": 1
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 35544.84677314758,
+      "duration_ms": 1630.1,
+      "input_preview": "{\"max_results\": 10, \"query\": \"NVIDIA vGPU memory isolation vs MIG comparison technical\"}",
+      "output_preview": "搜索到 9 条结果，新增 8 条（去重后），搜索池累计 28 条。   [1] What are the differences between MIG and vGPU for NVIDIA GPUs? | 来源: massedcompute.com       Both technologies enhance GPU utilization but cater to different op",
+      "success": true,
+      "error": null,
+      "round": 4
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 35544.841051101685,
+      "duration_ms": 1776.4,
+      "input_preview": "{\"max_results\": 10, \"query\": \"NVIDIA vGPU 显存隔离 原理 软件隔离 GPU虚拟化\"}",
+      "output_preview": "搜索到 10 条结果，新增 10 条（去重后），搜索池累计 38 条。   [1] GPU 虚拟化研究和方案- 猫猫博客 | 来源: catcat.blog       原理：在NVIDIA 虚拟GPU 助力的虚拟化环境中，NVIDIA 虚拟GPU (vGPU) 软件与Hypervisor 一同安装在虚拟化层上。此软件可创建虚拟GPU，使每个虚拟机(VM)       链接: https://ca",
+      "success": true,
+      "error": null,
+      "round": 4
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 42049.57032203674,
+      "duration_ms": 766.0,
+      "input_preview": "{\"url\": \"https://docs.nvidia.com/ai-enterprise/release-8/latest/infra-software/vgpu/features/mig-backed-vgpu.html\"}",
+      "output_preview": "已抓取页面: \"MIG-Backed vGPU - NVIDIA AI Enterprise\" | 来源: docs.nvidia.com | 约 4463 字 核心发现: MIG-Backed vGPU A Multi-Instance GPU (MIG)-backed vGPU combines MIG hardware partitioning with\r vGPU virtualizati",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 42049.55554008484,
+      "duration_ms": 969.6,
+      "input_preview": "{\"url\": \"https://catcat.blog/gpu-virtualization.html\"}",
+      "output_preview": "已抓取页面: \"GPU 虚拟化研究和方案 - 猫猫博客\" | 来源: catcat.blog | 约 3114 字 核心发现: 常见术语 GPU ————— Graphics Processing Unit，显卡 CUDA ———— Compute Unified Device Architecture，英伟达 2006 年推出的计算 API VT/VT-x/VT-d — Intel Virtua",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 42049.57318305969,
+      "duration_ms": 1009.2,
+      "input_preview": "{\"url\": \"https://www.devzero.io/blog/gpu-security-and-isolation\"}",
+      "output_preview": "已抓取页面: \"Part 4: GPU Security and Isolation | DevZero\" | 来源: www.devzero.io | 约 2534 字 核心发现: This is a 5 part series on why GPU clusters are under-utilized, how to measure utilization and how to improv",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 42049.567461013794,
+      "duration_ms": 1344.9,
+      "input_preview": "{\"url\": \"https://storageswiss.com/2026/03/30/gpu-virtualization-passthrough-vgpu-mig/\"}",
+      "output_preview": "已抓取页面: \"Choosing the Right GPU Virtualization Method for Workloads\" | 来源: storageswiss.com | 约 10642 字 核心发现: Every GPU virtualization conversation eventually hits the same fork in the road: do you giv",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 42049.56412315369,
+      "duration_ms": 8327.7,
+      "input_preview": "{\"url\": \"https://massedcompute.com/faq-answers/?question=What%20are%20the%20differences%20between%20MIG%20and%20vGPU%20for%20NVIDIA%20GPUs?\"}",
+      "output_preview": "已抓取页面: \"What are the differences between MIG and vGPU for NVIDIA GPUs? - Massed Compute\" | 来源: massedcompute.com | 约 262 字 核心发现: DISCLAIMER : This is for large language model education purpose only. A",
+      "success": true,
+      "error": null,
+      "round": 10
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 54423.529386520386,
+      "duration_ms": 0.9,
+      "input_preview": "{\"urls\": \"https://catcat.blog/gpu-virtualization.html,https://massedcompute.com/faq-answers/?question=What%20are%20the%20differences%20between%20MIG%20and%20vGPU%20for%20NVIDIA%20GPUs?,https://storage",
+      "output_preview": "[https://catcat.blog/gpu-virtualization.html] GPU 虚拟化研究和方案 - 猫猫博客 | 来源: catcat.blog --- 常见术语 GPU ————— Graphics Processing Unit，显卡 CUDA ———— Compute Unified Device Architecture，英伟达 2006 年推出的计算 API VT/",
+      "success": true,
+      "error": null,
+      "round": 2
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 59202.072620391846,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索MIG显存隔离原理和分配方式\", \"status\": \"completed\"}, {\"content\": \"搜索vGPU显存隔离原理和分配方式\", \"status\": \"completed\"}, {\"content\": \"搜索GPU直通/SR-IOV显存隔离原理\", \"status\": \"in_progress\"}, {\"content\": \"搜",
+      "output_preview": "Command(update={'todos': [{'content': '搜索MIG显存隔离原理和分配方式', 'status': 'completed'}, {'content': '搜索vGPU显存隔离原理和分配方式', 'status': 'completed'}, {'content': '搜索GPU直通/SR-IOV显存隔离原理', 'status': 'in_progress'},",
+      "success": true,
+      "error": null,
+      "round": 4
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 62990.415811538696,
+      "duration_ms": 1869.5,
+      "input_preview": "{\"max_results\": 10, \"query\": \"GPU直通 pass-through SR-IOV 显存隔离 原理 技术对比\"}",
+      "output_preview": "搜索到 10 条结果，新增 9 条（去重后），搜索池累计 47 条。   [1] 显卡直通与虚拟化技术深度解析：性能与灵活性的博弈 | 来源: cloud.baidu.com       # 显卡直通与虚拟化技术深度解析：性能与灵活性的博弈. 作者：梅琳marlin2025.09.17 15:30浏览量：5. *简介：*本文深入解析显卡直通与显卡虚拟化技术，对比其性能差异、应用场景及实现原理，为开",
+      "success": true,
+      "error": null,
+      "round": 7
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 62990.42510986328,
+      "duration_ms": 1905.2,
+      "input_preview": "{\"max_results\": 10, \"query\": \"NVIDIA Blackwell B200 MIG 最新技术 2024 2025 2026\"}",
+      "output_preview": "搜索到 10 条结果，新增 10 条（去重后），搜索池累计 57 条。   [1] NVIDIA B200 GPU: Specs, Pricing, and Cloud Availability (2026) | 来源: inworld.ai       The NVIDIA B200 GPU is the flagship data center accelerator in the Black",
+      "success": true,
+      "error": null,
+      "round": 7
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 62990.421772003174,
+      "duration_ms": 1976.1,
+      "input_preview": "{\"max_results\": 10, \"query\": \"NVIDIA MIG vs vGPU vs GPU passthrough comparison 2024 2025\"}",
+      "output_preview": "搜索到 10 条结果，新增 8 条（去重后），搜索池累计 65 条。   [1] NVIDIA GPU Virtualization in 2025 — Passthrough, MIG, vGPU, K8s ... | 来源: www.linkedin.com       However, NVIDIA's own NVAIE quickstart states: “If you are usi",
+      "success": true,
+      "error": null,
+      "round": 7
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 71645.59531211853,
+      "duration_ms": 208.3,
+      "input_preview": "{\"url\": \"https://cloud.baidu.com/article/3599880\"}",
+      "output_preview": "已抓取页面: \"显卡直通与虚拟化技术深度解析：性能与灵活性的博弈\" | 来源: cloud.baidu.com | 约 1903 字 核心发现: 显卡直通与显卡虚拟化：性能与灵活性的技术博弈 引言 在 云计算 、高性能计算（HPC）和AI训练场景中，GPU资源的分配方式直接影响系统性能与成本。显卡直通（GPU Pass-through）与显卡虚拟化（GPU Virtualization）作为两种核",
+      "success": true,
+      "error": null,
+      "round": 15
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 71645.59316635132,
+      "duration_ms": 600.4,
+      "input_preview": "{\"url\": \"https://docs.nvidia.com/ai-enterprise/release-8/8.1/infra-software/vgpu/reference/blackwell.html\"}",
+      "output_preview": "已抓取页面: \"Blackwell Architecture vGPU Types - NVIDIA AI Enterprise\" | 来源: docs.nvidia.com | 约 1084 字 核心发现: Blackwell Architecture vGPU Types NVIDIA Blackwell data center GPUs pair high-bandwidth memory ",
+      "success": true,
+      "error": null,
+      "round": 15
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 71645.58386802673,
+      "duration_ms": 962.6,
+      "input_preview": "{\"url\": \"https://www.youngju.dev/blog/virtualization/04_gpu_virtualization.en\"}",
+      "output_preview": "已抓取页面: \"[Virtualization] 04. Complete Guide to GPU Virtualization: Passthrough, vGPU, MIG, SR-IOV | Chaos and Order\" | 来源: www.youngju.dev | 约 10008 字 核心发现: GPU virtualization has become a critical in",
+      "success": true,
+      "error": null,
+      "round": 15
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 71645.59030532837,
+      "duration_ms": 1120.3,
+      "input_preview": "{\"url\": \"https://www.linkedin.com/pulse/nvidia-gpu-virtualization-2025-passthrough-mig-vgpu-k8s-markevich-kfjoe\"}",
+      "output_preview": "已抓取页面: \"NVIDIA GPU Virtualization in 2025 - Passthrough, MIG, vGPU, K8s Time‑Slicing & User‑Space CUDA API Interposition\" | 来源: www.linkedin.com | 约 4051 字 核心发现: Back in March I posted a primer on sha",
+      "success": true,
+      "error": null,
+      "round": 15
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 71645.59698104858,
+      "duration_ms": 4562.8,
+      "input_preview": "{\"url\": \"https://research.colfax-intl.com/sharing-nvidia-gpus-at-the-system-level-time-sliced-and-mig-backed-vgpus/\"}",
+      "output_preview": "已抓取页面: \"Sharing NVIDIA® GPUs at the System Level: Time-Sliced and MIG-Backed vGPUs - Colfax Research\" | 来源: research.colfax-intl.com | 约 27785 字 核心发现: While some modern applications for GPUs aim to co",
+      "success": true,
+      "error": null,
+      "round": 15
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 80547.67942428589,
+      "duration_ms": 1.6,
+      "input_preview": "{\"urls\": \"https://www.youngju.dev/blog/virtualization/04_gpu_virtualization.en,https://www.linkedin.com/pulse/nvidia-gpu-virtualization-2025-passthrough-mig-vgpu-k8s-markevich-kfjoe,https://docs.nvidi",
+      "output_preview": "[https://www.youngju.dev/blog/virtualization/04_gpu_virtualization.en] [Virtualization] 04. Complete Guide to GPU Virtualization: Passthrough, vGPU, MIG, SR-IOV | Chaos and Order | 来源: www.youngju.dev",
+      "success": true,
+      "error": null,
+      "round": 3
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 86351.35293006897,
+      "duration_ms": 0.4,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索MIG显存隔离原理和分配方式\", \"status\": \"completed\"}, {\"content\": \"搜索vGPU显存隔离原理和分配方式\", \"status\": \"completed\"}, {\"content\": \"搜索GPU直通/SR-IOV显存隔离原理\", \"status\": \"completed\"}, {\"content\": \"搜索M",
+      "output_preview": "Command(update={'todos': [{'content': '搜索MIG显存隔离原理和分配方式', 'status': 'completed'}, {'content': '搜索vGPU显存隔离原理和分配方式', 'status': 'completed'}, {'content': '搜索GPU直通/SR-IOV显存隔离原理', 'status': 'completed'}, {",
+      "success": true,
+      "error": null,
+      "round": 5
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 92648.64468574524,
+      "duration_ms": 1873.8,
+      "input_preview": "{\"max_results\": 10, \"query\": \"NVIDIA Blackwell MIG Universal MIG 2025 2026 新特性\"}",
+      "output_preview": "搜索到 10 条结果，新增 10 条（去重后），搜索池累计 75 条。   [1] 企业 | NVIDIA GTC 2025带来了哪些令人惊喜的产品？ | 来源: www.xcc.com       在硬件方面，NVIDIA也带来了今年下半年即将量产出货的Blackwell Ultra芯片，数据中心超级芯片Grace Blackwell NVLink72，并透露预计2026年推出下一代Rubin芯",
+      "success": true,
+      "error": null,
+      "round": 9
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 92648.63896369934,
+      "duration_ms": 2165.1,
+      "input_preview": "{\"max_results\": 10, \"query\": \"NVIDIA vGPU 2025 2026 最新发展 MIG-backed time-slicing 新功能\"}",
+      "output_preview": "搜索到 3 条结果，新增 2 条（去重后），搜索池累计 77 条。   [1] MIG-Backed vGPU — NVIDIA AI Enterprise | 来源: docs.nvidia.com       # MIG-Backed vGPU#. A Multi-Instance GPU (MIG)-backed vGPU combines MIG hardware partitioning",
+      "success": true,
+      "error": null,
+      "round": 9
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 100385.8368396759,
+      "duration_ms": 1819.0,
+      "input_preview": "{\"max_results\": 10, \"query\": \"NVIDIA \\\"Universal MIG\\\" Blackwell 通用MIG 计算 图形 隔离\"}",
+      "output_preview": "搜索到 10 条结果，新增 10 条（去重后），搜索池累计 87 条。   [1] Universal MIG with NVIDIA vGPU on RTX PRO 6000 Blackwell | 来源: www.youtube.com       Discover how Universal MIG technology enables the NVIDIA RTX PRO 6000 Bla",
+      "success": true,
+      "error": null,
+      "round": 11
+    },
+    {
+      "tool_name": "search_web",
+      "timestamp": 100385.83159446716,
+      "duration_ms": 1943.3,
+      "input_preview": "{\"max_results\": 10, \"query\": \"NVIDIA MIG vGPU 显存隔离 安全性 性能对比 技术选型 2025\"}",
+      "output_preview": "搜索到 10 条结果，新增 9 条（去重后），搜索池累计 96 条。   [1] 《算力治理：K8s GPU 切分技术栈全景拆解》 | Infvie Envoy | 来源: www.infvie.com       # 《算力治理：K8s GPU 切分技术栈全景拆解》. > 这场景，你一定不陌生。2025 年，算力成本依然高企，企业纷纷从“拼卡量”转向“抠利用率”。在 Kubernetes 环境下",
+      "success": true,
+      "error": null,
+      "round": 11
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 108047.25289344788,
+      "duration_ms": 313.3,
+      "input_preview": "{\"url\": \"https://cloud.tencent.com/developer/article/2587846\"}",
+      "output_preview": "已抓取页面: \"vGPU显存任意切终于来了，Nvidia vGPU支持混合大小模式-腾讯云开发者社区-腾讯云\" | 来源: cloud.tencent.com | 约 1588 字 核心发现: 有一段时间没有Update知识，回望最熟悉的领域都已过时！ 一：背景与说明 曾经在VDI类的Nvidia vGPU场景，每个GPU核心只能采用1种固定切分模式，例如Nvidia A40只有一个GA102的核",
+      "success": true,
+      "error": null,
+      "round": 19
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 108047.2502708435,
+      "duration_ms": 1379.1,
+      "input_preview": "{\"url\": \"https://developer.nvidia.cn/blog/scaling-the-ai-ready-data-center-with-nvidia-rtx-pro-4500-blackwell-server-edition-and-nvidia-vgpu-20/\"}",
+      "output_preview": "已抓取页面: \"借助 NVIDIA RTX PRO 4500 Blackwell Server Edition 和 NVIDIA vGPU 20 扩展 AI 就绪型数据中心 - NVIDIA 技术博客\" | 来源: developer.nvidia.cn | 约 4885 字 核心发现: 从 Microsoft Office 等生产力软件到更复杂的设计和工程工具，AI 集成正在重新定义主流企业应用",
+      "success": true,
+      "error": null,
+      "round": 19
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 108048.7174987793,
+      "duration_ms": 1586.7,
+      "input_preview": "{\"url\": \"https://developer.nvidia.cn/blog/nvidia-vgpu-19-0-enables-graphics-and-ai-virtualization-on-nvidia-blackwell-gpus/\"}",
+      "output_preview": "已抓取页面: \"NVIDIA vGPU 19.0 支持 NVIDIA Blackwell GPU 的图形和 AI 虚拟化功能 - NVIDIA 技术博客\" | 来源: developer.nvidia.cn | 约 2562 字 核心发现: 虚拟化长期以来一直承诺提高效率和可扩展性。然而，由于图形和计算工作负载的需求不断增加，以及需要找到经济高效的解决方案来提高用户密度，挑战依然存在。 NVIDI",
+      "success": true,
+      "error": null,
+      "round": 19
+    },
+    {
+      "tool_name": "fetch_page",
+      "timestamp": 108047.24431037903,
+      "duration_ms": 4217.7,
+      "input_preview": "{\"url\": \"https://www.infvie.com/ops-notes/kubernetes/computing-power-management-gpu-segmentation.html\"}",
+      "output_preview": "已抓取页面: \"《算力治理：K8s GPU 切分技术栈全景拆解》 | Infvie Envoy\" | 来源: www.infvie.com | 约 2880 字 核心发现: “我们 8 张 A100，跑模型 GPU 利用率死活上不去，一直在 30% 左右晃悠，领导快疯了！” 这场景，你一定不陌生。2025 年，算力成本依然高企，企业纷纷从“拼卡量”转向“抠利用率”。在 Kubernetes 环境下",
+      "success": true,
+      "error": null,
+      "round": 19
+    },
+    {
+      "tool_name": "get_search_content",
+      "timestamp": 117915.77982902527,
+      "duration_ms": 1.7,
+      "input_preview": "{\"urls\": \"https://developer.nvidia.cn/blog/nvidia-vgpu-19-0-enables-graphics-and-ai-virtualization-on-nvidia-blackwell-gpus/,https://developer.nvidia.cn/blog/scaling-the-ai-ready-data-center-with-nvid",
+      "output_preview": "[https://developer.nvidia.cn/blog/nvidia-vgpu-19-0-enables-graphics-and-ai-virtualization-on-nvidia-blackwell-gpus/] NVIDIA vGPU 19.0 支持 NVIDIA Blackwell GPU 的图形和 AI 虚拟化功能 - NVIDIA 技术博客 | 来源: develope",
+      "success": true,
+      "error": null,
+      "round": 4
+    },
+    {
+      "tool_name": "write_todos",
+      "timestamp": 123566.45202636719,
+      "duration_ms": 0.5,
+      "input_preview": "{\"todos\": [{\"content\": \"搜索MIG显存隔离原理和分配方式\", \"status\": \"completed\"}, {\"content\": \"搜索vGPU显存隔离原理和分配方式\", \"status\": \"completed\"}, {\"content\": \"搜索GPU直通/SR-IOV显存隔离原理\", \"status\": \"completed\"}, {\"content\": \"搜索M",
+      "output_preview": "Command(update={'todos': [{'content': '搜索MIG显存隔离原理和分配方式', 'status': 'completed'}, {'content': '搜索vGPU显存隔离原理和分配方式', 'status': 'completed'}, {'content': '搜索GPU直通/SR-IOV显存隔离原理', 'status': 'completed'}, {",
+      "success": true,
+      "error": null,
+      "round": 6
+    },
+    {
+      "tool_name": "task",
+      "timestamp": 12428.501605987549,
+      "duration_ms": 131417.7,
+      "input_preview": "{\"subagent_type\": \"searcher\", \"description\": \"搜索关于NVIDIA MIG（Multi-Instance GPU）与GPU虚拟化（vGPU、GPU直通、SR-IOV等）在显存隔离方面的技术对比。请搜索以下内容：\\n\\n1. MIG的显存隔离原理：MIG如何实现硬件级别的显存隔离，每个实例的显存分配方式\\n2. GPU虚拟化（vGPU）的显存隔离原理：v",
+      "output_preview": "Command(update={'messages': [ToolMessage(content='# NVIDIA MIG 与 GPU 虚拟化（vGPU、GPU直通、SR-IOV）显存隔离技术对比分析\\n\\n---\\n\\n## 一、MIG 的显存隔离原理\\n\\n### 1.1 硬件级空间分区机制\\n\\nMIG（Multi-Instance GPU）首次在 NVIDIA Ampere 架构（A10",
+      "success": true,
+      "error": null,
+      "round": 2
+    }
+  ],
+  "sub_agents_used": [
+    "retriever",
+    "searcher"
+  ],
+  "routing_correct": false,
+  "final_answer": "## MIG 与 GPU 虚拟化 显存隔离对比分析\n\n---\n\n### 一、核心差异：隔离层级不同\n\n| 对比维度 | **MIG（Multi-Instance GPU）** | **vGPU（时间切片模式）** |\n|---------|-------------------------------|------------------------|\n| **隔离层级** | **硬件级**（硅片物理分区） | **软件级**（Hypervisor 层管理） |\n| **显存隔离方式** | HBM 物理分区，每个实例独占固定容量的 HBM 堆 + 独立 L2 Cache Slice + 独立内存控制器 | VRAM 静态分区（帧缓冲区固定分配），但计算资源共享 |\n| **计算资源隔离** | ✅ SM 物理隔离，每个实例分配固定数量 | ❌ 所有 vGPU 共享全部 SM，通过时间片轮转调度 |\n| **故障隔离** | ✅ 完全隔离，一个实例崩溃不影响其他 | ❌ 不隔离，邻居故障可能影响 |\n| **性能可预测性** | ✅ 有保障，不受邻居负载影响 | ❌ 可变，受邻居任务影响 |\n| **性能开销** | 约 5-8% | 约 15-20% |\n\n---\n\n### 二、显存隔离机制详解\n\n#### MIG 的硬件级隔离\n\nMIG 在 GPU 芯片内部将 **SM、L2 Cache、内存控制器、数据总线** 全部物理切分为独立的 \"Slice\"。每个 MIG 实例（如 `MIG 2g.20gb`）独占固定容量的显存堆，**不存在任何交叉访问路径**。这意味着：\n\n- 一个实例跑满显存，不会影响其他实例\n- 一个实例的非法内存访问，不会波及邻居\n- 多租户场景下达到**安全级隔离**\n\n#### vGPU 的软件级隔离\n\n传统 vGPU 通过 vGPU Manager 在 Hypervisor 层为每个 VM 分配固定容量的帧缓冲区（显存分区），但 **SM 是共享的**，通过时间片轮转（每秒 480/960 次上下文切换）分配计算资源。这意味着：\n\n- 显存容量有保障，但**带宽可能争抢**\n- 计算性能受邻居负载影响\n- 故障无法完全隔离\n\n#### 混合模式：MIG-Backed vGPU\n\nvGPU 18.0+ 支持在 MIG 硬件分区之上运行 vGPU，结合了两者优势——底层 MIG 提供硬件隔离，上层 vGPU 提供虚拟化管理能力（热迁移、快照等）。\n\n---\n\n### 三、适用场景对比\n\n| 场景 | 推荐方案 | 原因 |\n|------|---------|------|\n| **AI 训练多租户**（企业级） | **MIG** | 硬件隔离保障训练任务互不干扰，性能可预测 |\n| **AI 推理服务**（高密度部署） | **MIG** | 每个实例独立运行推理服务，延迟稳定 |\n| **VDI 虚拟桌面**（图形/办公） | **vGPU（B/Q系列）** | 需要完整虚拟化栈（VM 管理、热迁移），图形场景对计算隔离要求不高 |\n| **CAD/3D 渲染工作站** | **vGPU（Q系列）** | 需要专业图形驱动支持，MIG 不支持图形 API |\n| **混合工作负载**（训练+推理同卡） | **MIG** | 不同 Profile 可灵活分配资源，互不影响 |\n| **开发测试环境** | **vGPU 或 MIG** | 看需求：需要隔离选 MIG，需要灵活性选 vGPU |\n| **高安全合规场景**（金融/医疗） | **MIG** | 硬件级安全隔离，满足多租户合规要求 |\n| **需要热迁移/快照** | **vGPU（MIG-Backed）** | 纯 MIG 不支持热迁移，MIG-Backed vGPU 可支持 |\n\n---\n\n### 四、关键限制\n\n**MIG 的限制：**\n- 仅支持 **计算型 GPU**（A100/H100/H200/B200 等），不支持消费级显卡（RTX 4090 等）\n- 不支持图形 API（CUDA 计算专用）\n- 实例大小受固定 Profile 限制，不够灵活\n- 不支持 GPU 热迁移\n\n**vGPU 的限制：**\n- 软件级隔离，安全性不如 MIG\n- 性能开销较大（15-20%）\n- 需要 vGPU License（额外成本）\n- 时间切片模式下计算资源无隔离保障\n\n---\n\n### 五、总结\n\n> **MIG 适合\"要隔离、要稳定\"的场景**——多租户训练、生产推理、合规要求高的环境，牺牲一定灵活性换取硬件级安全保障。\n>\n> **vGPU 适合\"要管理、要灵活\"的场景**——VDI 桌面、图形工作站、需要虚拟化全功能（热迁移、快照）的环境，牺牲部分隔离性换取管理便利性。\n>\n> **MIG-Backed vGPU 是两者融合的最优解**——在 MIG 硬件隔离基础上叠加 vGPU 管理能力，兼顾安全与灵活，但需要同时支持 MIG 的 GPU 硬件和 vGPU 软件许可。",
+  "task_completed": true,
+  "error": "Error code: 429 - {'error': {'message': 'rpm exhausted', 'type': 'quota_exceeded_error', 'code': '8'}}",
+  "total_tokens": 0,
+  "reranker_called": false,
+  "reranker_succeeded": false,
+  "fallback_triggered": true,
+  "fallback_reason": "api_quota",
+  "raw_events": null
+}

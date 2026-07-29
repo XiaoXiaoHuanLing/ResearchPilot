@@ -83,18 +83,22 @@ class Settings(BaseSettings):
 
     @property
     def llm_model(self) -> str:
-        """Resolved effective chat model name: DASHSCOPE > OPENAI > default."""
-        return self.dashscope_model_name or self.openai_model_name or "qwen3.5-35b-a3b"
+        """Resolved effective chat model name: OPENAI > DASHSCOPE > default.
+
+        Priority flipped (2026-05-17): OPENAI (sensenova, unlimited quota) takes
+        precedence over DASHSCOPE (DashScope free tier frequently exhausted).
+        """
+        return self.openai_model_name or self.dashscope_model_name or "qwen3.5-35b-a3b"
 
     @property
     def llm_api_key(self) -> str:
-        """API key for chat LLM: DASHSCOPE > OPENAI."""
-        return self.dashscope_api_key or self.openai_api_key
+        """API key for chat LLM: OPENAI > DASHSCOPE."""
+        return self.openai_api_key or self.dashscope_api_key
 
     @property
     def llm_base_url(self) -> str:
-        """Base URL for chat LLM: DASHSCOPE > OPENAI."""
-        return self.dashscope_base_url or self.openai_base_url
+        """Base URL for chat LLM: OPENAI > DASHSCOPE."""
+        return self.openai_base_url or self.dashscope_base_url
 
     @property
     def embedding_api_key(self) -> str:
@@ -114,7 +118,7 @@ class Settings(BaseSettings):
     @property
     def llm_configured(self) -> bool:
         """Whether chat LLM is configured."""
-        return bool(self.dashscope_api_key)
+        return bool(self.openai_api_key or self.dashscope_api_key)
 
     @property
     def embedding_configured(self) -> bool:

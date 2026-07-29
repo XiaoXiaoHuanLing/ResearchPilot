@@ -150,7 +150,7 @@ async def chat_query(payload: ChatRequest):
                 tool_name = event.get("name", "")
                 if tool_name in ("search_web", "fetch_page", "get_search_content"):
                     search_used = True
-                if tool_name in ("search_knowledge", "get_recall_nodes", "list_active_kbs"):
+                if tool_name in ("search_knowledge", "get_recall_nodes", "rerank_recall_pool", "list_active_kbs"):
                     kb_used = True
 
         # 保存助手回复到 DB
@@ -225,7 +225,7 @@ async def chat_stream(payload: ChatRequest):
                         search_used = True
                         data = json.dumps({"type": "agent_start", "agent": "searcher", "task": tool_name}, ensure_ascii=False)
                         yield f"event: agent_start\ndata: {data}\n\n"
-                    elif tool_name in ("search_knowledge", "get_recall_nodes", "list_active_kbs"):
+                    elif tool_name in ("search_knowledge", "get_recall_nodes", "rerank_recall_pool", "list_active_kbs"):
                         kb_used = True
                         data = json.dumps({"type": "agent_start", "agent": "retriever", "task": tool_name}, ensure_ascii=False)
                         yield f"event: agent_start\ndata: {data}\n\n"

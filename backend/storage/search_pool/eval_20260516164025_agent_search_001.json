@@ -1,0 +1,623 @@
+{
+  "https://www.youtube.com/watch?v=SL6QR0N-E7A": {
+    "url": "https://www.youtube.com/watch?v=SL6QR0N-E7A",
+    "title": "Intel's Next Gen GPUs Are Wild - Celestial Specs & Release",
+    "source": "www.youtube.com",
+    "snippet": "It's unfortunate B is so early in the alphabet and Arc's progression, because Battlemage ... We Put 2 Intel ARC GPUs in a SFF PC! The",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://www.extremetech.com/gaming/intel-battlemage-and-celestial-gpus-on-track-for-2024-and-2026-launches": {
+    "url": "https://www.extremetech.com/gaming/intel-battlemage-and-celestial-gpus-on-track-for-2024-and-2026-launches",
+    "title": "Intel Battlemage and Celestial GPUs on Track for 2024 and 2026 Launches | Extremetech",
+    "source": "www.extremetech.com",
+    "snippet": "# Intel Battlemage and Celestial GPUs on Track for 2024 and 2026 Launches. The company will be using TSMC for its future graphics cards. * Share on Facebook (opens in a new window). * Share on X (opens in a new window). * Share on Reddit (opens in a new window). * Share on Hacker News (opens in a new window). * Share on Flipboard (opens in a new window). Intel experienced a few bumps in the road Intel trying to get its Arc Alchemist GPUs into gamers' hands. Now, a new report from Taiwan says that Intel is full steam ahead on future discrete GPU architectures planned for 2024 and 2026. A new article in Taiwan's *Commercial Times* (via TechSpot) states that \"industry sources\" report Intel will be launching its follow-up to Alchemist, which is dubbed Battlemage, in the latter part of 2024. It'll use the Xe2 architecture, which, unlike Alchemist, will be segmented into two variants: high-power for desktop and low-power for integrated GPUs. Celestial will follow that in late 2026 with Xe3 architecture.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://overclock3d.net/news/gpu-displays/intel-will-not-release-arc-celestial-xe3p-gaming-gpus-leaker-claims/": {
+    "url": "https://overclock3d.net/news/gpu-displays/intel-will-not-release-arc-celestial-xe3p-gaming-gpus-leaker-claims/",
+    "title": "Intel will not release ARC \"Celestial\" Xe3P Gaming GPUs - OC3D",
+    "source": "overclock3d.net",
+    "snippet": "# Intel will not release ARC “Celestial” Xe3P Gaming GPUs – Leaker claims. # It looks like Intel has no plans to release ARC Xe3P-based Discrete Gaming GPUs. According to the leaker **Jaykihn**, Intel has cancelled its plans for an ARC Xe3P-based discrete gaming GPU, and they did so “long ago”. This will leave Intel’s ARC “Battlemage” B580 without a successor based on their newer “Celestial” architecture. There’s more to ARC than discrete GPUs. While Intel appears to have put ARC discrete GPUs on the back burner, that doesn’t mean that we won’t see Xe3P-based graphics products. Discrete gaming GPUs are a distinct segment, and releasing a product in this space isn’t guaranteed to be successful. While we may not see a Celestial-based gaming successor to Battlemage, Intel is still working on its ARC graphics architecture. Intel may return to the discrete GPU market with their Xe4 “Druid” architecture in 2028.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://evezone.evetech.co.za/deep-dives/intel-celestial-gpu-preview-2026": {
+    "url": "https://evezone.evetech.co.za/deep-dives/intel-celestial-gpu-preview-2026",
+    "title": "Intel Celestial GPU: Third-Gen Arc Preview 2026 - EveZone",
+    "source": "evezone.evetech.co.za",
+    "snippet": "Intel Celestial Arc 2026 release timing points to staged launches across mobile and desktop in late 2026; expect official dates from Intel",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://www.reddit.com/r/IntelArc/comments/1picb3g/intel_confirms_big_battlemage_gpu_arc_b770_could/": {
+    "url": "https://www.reddit.com/r/IntelArc/comments/1picb3g/intel_confirms_big_battlemage_gpu_arc_b770_could/",
+    "title": "Intel confirms \"Big Battlemage\" GPU, Arc B770 could debut at CES ...",
+    "source": "www.reddit.com",
+    "snippet": "Exclusive: Intel Arc Battlemage to launch December 12th · What do you guys think the pricing scheme will be for Celestial? · This is the GPU I'm",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://www.tomshardware.com/pc-components/gpus/intel-has-reportedly-killed-discrete-gaming-gpus-for-the-upcoming-xe3p-arc-celestial-family-gaming-gpu-remains-uncertain-even-for-the-next-gen-xe4-druid-lineup-that-lands-in-2027": {
+    "url": "https://www.tomshardware.com/pc-components/gpus/intel-has-reportedly-killed-discrete-gaming-gpus-for-the-upcoming-xe3p-arc-celestial-family-gaming-gpu-remains-uncertain-even-for-the-next-gen-xe4-druid-lineup-that-lands-in-2027",
+    "title": "Intel has reportedly cancelled discrete gaming GPUs for the upcoming Xe3P Arc \"Celestial\" family - gaming GPU remains uncertain even for the next-gen Xe4 \"Druid\" lineup that lands in 2027 | Tom's Hardware",
+    "source": "www.tomshardware.com",
+    "snippet": "# Intel has reportedly cancelled discrete gaming GPUs for the upcoming Xe3P Arc \"Celestial\" family — gaming GPU remains uncertain even for the next-gen Xe4 \"Druid\" lineup that lands in 2027. Intel's next discrete gaming card is a mystery. Panther Lake debuted Intel's latest Xe3 graphics architecture, but the IP isn't said to expand beyond iGPUs. For a while, we've known that \"Xe3P\" (codenamed Celestial) will serve as the refined follow-up, with many awaiting a proper successor to the existing Arc B-series dedicated GPUs. Unfortunately, a massive new leak dump from reliable tipster Jaykihn claims Intel canceled discrete gaming GPUs for Celestial a long time ago, and their fate hangs in the balance for even the next-gen Xe4 \"Druid\" architecture. Jaykihn's leak points to a late-2027 release for Druid, but the possibility of a discrete gaming GPU remains \"up in the air.\" Intel is planning to focus on the AI sector once again, with \"Jaguar Shores\" marking the debut of Xe4.",
+    "content": "Panther Lake debuted Intel's latest\nXe3 graphics architecture\n, but the IP isn't said to expand beyond iGPUs. For a while, we've known that \"Xe3P\" (codenamed Celestial) will serve as the refined follow-up, with many awaiting a proper successor to the existing\nArc B-series\ndedicated GPUs. Unfortunately, a massive new leak dump from reliable tipster Jaykihn claims Intel canceled discrete gaming GPUs for\nCelestial\na long time ago, and their fate hangs in the balance for even the next-gen\nXe4 \"Druid\"\narchitecture.\nOriginally, Xe3 was supposed to be Celestial with a planned 2025 launch, but Intel changed it to Battlemage, pushing Xe3P to be Celestial instead. That's why the iGPUs inside Panther Lake chips are classified as Battlemage parts. Last year, Intel announced the\nCrescent Island data center GPU\nas the first Xe3P/Celestial product, featuring an unprecedented 160 GB of LPDDR5X VRAM, slated for a 2026 release (that Jaykihn confirms for late 2026).\nThe updated Intel Arc roadmap (Xe3 announced in 2025 but launched in 2026)\n(Image credit: Intel)\nXe3P is also reportedly used across Nova Lake for the display and media engine block, while a special\nNVL-S desktop CPU featuring 12 Xe3P cores\n(iGPU) is also in the works; NVL-S otherwise features only 2 Xe cores. Nova Lake-H (mobile) is rumored to use Xe3P throughout the entire lineup. So that, mixed with Cresent Island, perhaps Arc Pro-series workstation GPUs, and the rumored \"Razor Lake-AX\" (Strix Halo competitor after\nNova Lake-AX was canned\n), constitutes the entirety of Xe3P.\nLatest Videos From\nThere is no discrete gaming-focused graphics card planned. That means Battlemage will remain Intel's latest gaming dGPU at least until the next-gen Xe4/Druid architecture comes along. Jaykihn's leak points to a late-2027 release for Druid, but the possibility of a discrete gaming GPU remains \"up in the air.\" Intel is planning to focus on the AI sector once again, with \"\nJaguar Shores\n\" marking the debut of Xe4.\nAround the same time, the \"Titan Lake\" mainstream consumer CPUs might also feature Xe4 IP for integrated graphics and/or other display blocks. A supposed \"Arc D-series\" for gamers yearning for a next-gen dedicated GPU from Intel remains unconfirmed. The successor to Xe4 is rumored to be planned for mid-to-late 2028, according to the leak, and is likely to debut on whatever comes after Jaguar Shores in the rack-scale segment.\nAll of this information is, of course, subject to change and of a speculative nature. Intel's roadmaps haven't been the most consistent, so take these leaks with a grain of salt. The main takeaway is how Intel has almost given up on the discrete gaming GPU market after a turbulent launch for Alchemist and Battlemage. Given the AI boom we're in, it's easy to understand how Celestial production could've been entirely reallocated to serve the datacenter and workstation markets. Let's hope that Druid marks the revival of dedicated gaming GPUs from the Blue Team.\nFollow\nTom's Hardware on Google News\n, or\nadd us as a preferred source\n, to get our latest news, analysis, & reviews in your feeds.\nGet Tom's Hardware's best news and in-depth reviews, straight to your inbox.",
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://www.howtogeek.com/intels-arc-gpus-are-good-now-and-im-tired-of-people-saying-theyre-not/": {
+    "url": "https://www.howtogeek.com/intels-arc-gpus-are-good-now-and-im-tired-of-people-saying-theyre-not/",
+    "title": "Why I am actively recommending Intel's 12GB Battlemage GPU over ...",
+    "source": "www.howtogeek.com",
+    "snippet": "I DO miss my Intel GPU ( But my son is enjoying it ) however Intel ARC Celestial is MEANT to launch later 2026... so we'll see. MAYBE I'll be",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://www.youtube.com/watch?v=KKf-mfacHVg": {
+    "url": "https://www.youtube.com/watch?v=KKf-mfacHVg",
+    "title": "Intel’s Preparing a Monster GPU",
+    "source": "www.youtube.com",
+    "snippet": "Intel’s Preparing a Monster GPU\nGraphically Challenged\n128000 subscribers\n447 likes\n11489 views\n8 Oct 2025\nThank you to Clipwise for sponsoring this video.\nCheckout Clipwise.ai: https://www.clipwise.ai/\n\nIntel’s Preparing a Monster GPU\nIntel is gearing up to shake up the GPU market with its upcoming BattleMage and Celestial graphics cards, which promise major leaps in gaming performance, AI acceleration, ray tracing, and upscaling capabilities. After a rough start with availability and CPU bottleneck issues, Intel’s Arc BattleMage B580 and B570 GPUs are finally hitting MSRP, and early reports suggest the bottlenecks are largely fixed. The bigger B770 and B780 GPUs are expected to feature up to 32 cores, 16 GB of GDDR6 memory on a 256-bit bus, and target 1440p and entry-level 4K gaming, with launches expected by late 2025 to early 2026. Hot on their heels is Intel’s Celestial lineup, built on TSMC N4P, rumored to include the C770 and C780 with 32–36 XE cores, up to 3.1 GHz clocks, GDDR7 VRAM, nearly 1 TB/s memory bandwidth, and RTX 5080-level performance at around half the price ($449–$499). According to Intel’s Jim Johnson, Panther Lake graphics will “set a new standard” for the industry, signaling that Intel aims to compete directly with Nvidia’s high-end GPUs. With features like enhanced AI workloads, next-gen ray tracing, and aggressive pricing, Intel’s BattleMage and Celestial GPUs could seriously disrupt the GPU landscape for gamers and creators alike.\n\nSources\nIntel Celestial Xe3: https://videocardz.com/newz/intel-says-panther-lakes-xe3-graphics-will-set-a-new-standard\nIntel Celestial GPUs: https://wccftech.com/intel-rumored-to-utilize-gddr7-memory-chips-for-its-next-gen-arc-desktop-gpus/\nTSMC N4P: https://www.tsmc.com/english/dedicatedFoundry/technology/platform_HPC_tech_advancedTech\n\nWatch Tech News: https://www.youtube.com/watch?v=sjOrxx_SRR4&list=PLz6a-bDLukyKXu1ykb6dwD5GSTQWvolsW\nTrue 8K Gaming: https://www.youtube.com/watch?v=AaAND4Cr6D0&list=PLz6a-bDLukyJoxuxLPM9ViGp_4fvW1IHk&index=2\n\nFULL DISCLOSURE\nAmazon has given me affiliate links which send me a percentage of each purchase when you use them. Additionally all Vip-cdkdeals links are sponsored.\nEND DISCLOSURE\n\nSpecs\nCamera: Sony FX3: https://amzn.to/3VWS45H\nRAM: 64GB Gskill DDR5: https://amzn.to/3F1Pa6j\nCPU: Ryzen 7 7800X3D: https://amzn.to/4czpHAf\nGPU: PNY XLR8 RTX 4090: https://amzn.to/3REwP6n\nStorage: Kingston 4TB Renegade SSD: https://amzn.to/3OXvdlz\nCase: Lian Li O11 EVO: https://amzn.to/3VUscF3\n\nThanks to Vip-cdkdeals for sponsoring this video. 30% off code: GPC20\n▬ Windows 10 pro ($17):https://www.vip-cdkdeals.com/vck/GPC20w10\n▬ Windows 11 pro($23):https://www.vip-cdkdeals.com/vck/gpc20w11\n▬ Windows 10 home ($14):https://www.vip-cdkdeals.com/vck/gpc20wh\n▬ Office 2016($28):https://www.vip-cdkdeals.com/vck/gpc20of16\n▬ Office 2019($47):https://www.vip-cdkdeals.com/vck/gpc20off19\n\nMusic\nhttps://www.davidcuttermusic.com\nOutro: Everyone by Monplaisir\n75 comments\n",
+    "content": null,
+    "relevance_score": 0,
+    "round": 1
+  },
+  "https://www.techpowerup.com/344662/first-amd-radeon-rx-9000-series-gpu-appears-in-steam-survey-rankings": {
+    "url": "https://www.techpowerup.com/344662/first-amd-radeon-rx-9000-series-gpu-appears-in-steam-survey-rankings",
+    "title": "First AMD Radeon RX 9000 Series GPU Appears in Steam Survey Rankings | TechPowerUp",
+    "source": "www.techpowerup.com",
+    "snippet": "# First AMD Radeon RX 9000 Series GPU Appears in Steam Survey Rankings. However, as we enter 2026, data from December 2025 has been processed, and the first Radeon RX 9000 series GPU has appeared in the survey rankings. At 100+ ranking, the first AMD Radeon RX 9000 series GPU based on the RDNA 4 IP is the Radeon RX 9070 SKU, commanding a 0.22% share of all gamers participating in the survey. For other AMD GPU SKUs, there is a slight change in the overall structure, where the RDNA 3-based Radeon RX 7800 XT is the most popular AMD gamer GPU with a 1.57% share this December. This includes the market share of AMD GPUs on both Windows and Linux-based PCs. Additionally, this is the first time RDNA 4-based GPUs have appeared on the Steam Survey list since the initial launch in March, finally showcasing the share of the latest AMD graphics.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 2
+  },
+  "https://tech.yahoo.com/computing/articles/amd-raises-radeon-rx-9000-135638344.html": {
+    "url": "https://tech.yahoo.com/computing/articles/amd-raises-radeon-rx-9000-135638344.html",
+    "title": "AMD raises Radeon RX 9000 GPU prices, increasing by $10 for every 8GB of VRAM — another price hike is also scheduled for January 2026",
+    "source": "tech.yahoo.com",
+    "snippet": "# AMD raises Radeon RX 9000 GPU prices, increasing by $10 for every 8GB of VRAM — another price hike is also scheduled for January 2026. AMD currently offers some of the best graphics cards available in the market. Following rumors of a potential price rise, an industry source involved in distribution, who wishes to remain anonymous, has confirmed to *Tom's Hardware* that the chipmaker has effectively increased the price of Radeon graphics cards and memory kits sent to AIB partners by $10 per 8GB. This rise will ultimately be passed on to consumers, with an additional, undefined price increase also said to be scheduled for January 2026. The recent price increase will affect only AMD's Radeon RX 9000 series, which is equipped with the latest RDNA 4 architecture. ## AMD Radeon RX 9000 Series Pricing. The MSRP for RDNA 4, as we know it, will likely increase if distributors pass those costs on to customers.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 2
+  },
+  "https://www.reddit.com/r/hardware/comments/1jk1imp/lisa_su_says_radeon_rx_9000_series_is_amds_most/": {
+    "url": "https://www.reddit.com/r/hardware/comments/1jk1imp/lisa_su_says_radeon_rx_9000_series_is_amds_most/",
+    "title": "Lisa Su says Radeon RX 9000 series is AMD's most successful GPU ...",
+    "source": "www.reddit.com",
+    "snippet": "Lisa Su says Radeon RX 9000 series is AMD's most successful GPU launch ever ... r/hardware - AMD Reports First Quarter 2026 Financial Results.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 2
+  },
+  "https://www.tweaktown.com/news/109207/radeon-rx-9000-series-price-increases-confirmed-second-price-increase-coming-january-2026/index.html": {
+    "url": "https://www.tweaktown.com/news/109207/radeon-rx-9000-series-price-increases-confirmed-second-price-increase-coming-january-2026/index.html",
+    "title": "Radeon RX 9000 Series price increases confirmed, second price increase coming January 2026",
+    "source": "www.tweaktown.com",
+    "snippet": "Latest NewsAIBusinessCases, Cooling & PSUDisplaysGamingGraphics CardsMotherboardsProcessorsScience & SpaceSoftware & AppsStorage. Latest ReviewsLatest ArticlesAudioCases, Cooling & PSUDisplaysGraphics CardsLaptopsMotherboardsPeripheralsProcessorsRAMStorage. Add TweakTown as a Google source. Comment IconFacebook IconX IconReddit IconEmail Icon. 1 minute & 30 seconds read time. With this price increase, the flagship Radeon RX 9070 XT 16GB will see its $599 MSRP increase to $619, the Radeon RX 9070 16GB will see its $549 price increase to $569, the Radeon RX 9060 XT 16GB will see its $349 price increase to $369, and the Radeon RX 9060 XT 8GB will see its $299 price increase to $309. Facebook IconX IconReddit IconFlipboard IconEmail Icon. By subscribing, you agree to our Privacy Policy. Add TweakTown as a source on Google. * Sony sees AI as a 'powerful tool' and already used AI animation tech in Horizon Zero Dawn Remastered. * HP OmniBook 7 (Panther Lake) 16\" Laptop Review. Here's How to Fix It. * MSI's Project Zero Delivers a Stunning Cable-Free Look to More Gamers.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 2
+  },
+  "https://www.youtube.com/watch?v=FtOfLYUSb08": {
+    "url": "https://www.youtube.com/watch?v=FtOfLYUSb08",
+    "title": "Every 2026 AMD GPU Explained in 8 Minutes - YouTube",
+    "source": "www.youtube.com",
+    "snippet": "friendly RX 7600 to the massive power of the new RDNA 4 (RX 9000 series), this video breaks down the entire Radeon lineup so you can stop",
+    "content": null,
+    "relevance_score": 0,
+    "round": 2
+  },
+  "https://en.wikipedia.org/wiki/Radeon_RX_9000_series": {
+    "url": "https://en.wikipedia.org/wiki/Radeon_RX_9000_series",
+    "title": "Radeon RX 9000 series - Wikipedia",
+    "source": "en.wikipedia.org",
+    "snippet": "The Radeon RX 9000 series is a series of consumer graphics processing units developed by AMD, based on the RDNA 4 architecture.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 2
+  },
+  "https://www.amd.com/en/newsroom/press-releases/2025-2-28-amd-unveils-next-generation-amd-rdna-4-architectu.html": {
+    "url": "https://www.amd.com/en/newsroom/press-releases/2025-2-28-amd-unveils-next-generation-amd-rdna-4-architectu.html",
+    "title": "AMD Unveils Next-Generation AMD RDNA™ 4 Architecture with the Launch of AMD Radeon™ RX 9000 Series Graphics Cards",
+    "source": "www.amd.com",
+    "snippet": "*   [Products](https://www.amd.com/en/newsroom/press-releases/2025-2-28-amd-unveils-next-generation-amd-rdna-4-architectu.html#). *   [Ryzen PRO Desktops](https://www.amd.com/en/products/processors/ryzen-for-professionals.html). *   [Workstations](https://www.amd.com/en/products/workstations.html). *   [Ryzen AI for Business](https://www.amd.com/en/products/processors/business-systems/ryzen-ai.html). *   [Ryzen Laptops](https://www.amd.com/en/products/processors/laptop/ryzen.html). *   [Ryzen Desktops](https://www.amd.com/en/products/processors/desktops/ryzen.html). *   [EPYC and Ryzen](https://www.amd.com/en/products/embedded.html). *   [Partner Ecosystem](https://www.amd.com/en/products/embedded/ecosystem.html). *   [Instinct GPUs](https://www.amd.com/en/products/accelerators/instinct.html). *   [Cloud Graphics](https://www.amd.com/en/products/accelerators/radeon-pro.html). *   [Alveo Data Center Accelerator Cards](https://www.amd.com/en/products/accelerators/alveo.html). *   [Solarflare Adapters](https://www.amd.com/en/products/ethernet-adapters.html). *   [Radeon PRO](https://www.amd.com/en/products/graphics/workstations.html). *   [Radeon RX](https://www.amd.com/en/products/graphics/desktops/radeon.html). *   [Radeon Mobile Graphics](https://www.amd.com/en/products/graphics/laptops/radeon.html). *   [Versal Portfolio](https://www.amd.com/en/products/adaptive-socs-and-fpgas/versal.html). *   [SoC Portfolio](https://www.amd.com/en/products/adaptive-socs-and-fpgas/soc.html). *   [FPGA Portfolio](https://www.amd.com/en/products/adaptive-socs-and-fpgas/fpga.html). *   [SOM Overview](https://www.amd.com/en/products/system-on-modules.html). *   [AI Engine](https://www.amd.com/en/products/adaptive-socs-and-fpgas/technologies/ai-engine.html). *   [Design Security](https://www.amd.com/en/products/adaptive-socs-and-fpgas/technologies/design-security.html). *   [Functional Safety](https://www.amd.com/en/products/adaptive-socs-and-fpgas/technologies/functional-safety.html). *   [Memory Solutions](https://www.amd.com/en/products/adaptive-socs-and-fpgas/technologies/memory.html). *   [Power Efficiency](https://www.amd.com/en/products/adaptive-socs-and-fpgas/technologies/power-efficiency.html). *   [Intellectual Property](https://www.amd.com/en/products/adaptive-socs-and-fpgas/intellectual-property.html). *   [Developer Hub](https://www.amd.com/en/developer/browse-by-product-type/adaptive-resources.html). *   [Evaluation Boards](https://www.amd.com/en/products/adaptive-socs-and-fpgas/evaluation-boards.html). *   [StoreMI](https://www.amd.com/en/products/software/storemi.html). *   [FidelityFX](https://www.amd.com/en/products/graphics/technologies/fidelityfx.html). *   [Radeon ProRender](https://www.amd.com/en/products/graphics/software/radeon-prorender.html). *   [Design Tools](https://www.amd.com/en/products/software/adaptive-socs-and-fpgas.html). *   [Vivado Software](https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/vivado.html). *   [Vitis Software](https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/vitis.html). *   [Embedded Software](https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/embedded-software.html). *   [GPU Accelerators](https://www.amd.com/en/products/accelerators/instinct.html). *   [Server Processors](https://www.amd.com/en/products/processors/server/epyc/ai.html). *   [Ryzen AI for Business](https://www.amd.com/en/products/processors/business-systems/ryzen-ai.html). *   [Radeon Graphics Cards](https://www.amd.com/en/products/graphics/radeon-ai.html). *   [Adaptive SoCs for Edge](https://www.amd.com/en/products/adaptive-socs-and-fpgas/versal/gen2/ai-edge-series.html). *   [FreeSync](https://www.amd.com/en/products/graphics/technologies/freesync.html). *   [StoreMI](https://www.amd.com/en/products/software/storemi.html). *   [EPYC](https://www.amd.com/en/partner/browse-by-product/epyc-resources.html). *   [Ryzen PRO](https://www.amd.com/en/partner/browse-by-product/ryzen-pro-resources.html). *   [Ryzen](https://www.amd.com/en/partner/browse-by-product/ryzen-resources.html). *   [Radeon PRO](https://www.amd.com/en/partner/browse-by-product/radeon-pro-resources.html). *   [Radeon](https://www.amd.com/en/partner/browse-by-product/radeon-resources.html). *   [Product Support](https://www.amd.com/en/forms/contact-us/support.html). *   [Pensando Product Support](https://www.amd.com/en/support/accelerators/pensando.html). 1.   [](https://www.amd.com/en.html). *   [Cookies Policy](https://www.amd.com/en/legal/cookies.html). *   [Cookie Settings](https://www.amd.com/en/newsroom/press-releases/2025-2-28-amd-unveils-next-generation-amd-rdna-4-architectu.html#cookiessettings). [More information](https://www.amd.com/en/legal/cookies.html).",
+    "content": "– The new AMD Radeon™ RX 9000 Series graphics cards deliver enthusiast-level gaming experiences supercharged by AI –\nSANTA CLARA, Calif., Feb. 28, 2025 (GLOBE NEWSWIRE) -- AMD (NASDAQ: AMD) today unveiled the highly-anticipated AMD RDNA™ 4 graphics architecture with the launch of the AMD Radeon™ RX 9070 XT and RX 9070 graphics cards as a part of the Radeon™ RX 9000 Series. The new graphics cards feature 16GB of memory and extensive improvements designed for high-quality gaming graphics, including re-vamped raytracing accelerators and powerful AI accelerators for ultra-fast, cutting-edge performance, and breakthrough gaming experiences.\nIn a\nYouTube livestream\n, David McAfee, CVP and GM, Ryzen CPU and Radeon Graphics AMD, was joined by Andrej Zdravkovic, SVP of GPU Technologies and Engineering and Chief Software Officer, AMD, as well as Andy Pomianowski, CVP of Silicon Design Engineering, AMD, to discuss the outstanding performance and value proposition of the Radeon RX 9000 Series. In a related event in Zhuhai, China, Jack Huynh, SVP of the Client and Graphics Group, AMD, led a regional event for the new products. Huynh was joined by David Wang, SVP of GPU Technology and Engineering, AMD, and Lanzhi Wang, Senior Director of Product Management,  AMD. The celebration was also marked by a customer celebration with Darren Grasby, EVP and Chief Sales Officer, AMD; Spencer Pan, President of AMD China, and partners including Asrock, ASUS, Gigabyte, Sapphire, Tul, Vastarmor, Veston, and XFX.\n\"Today, we're thrilled to unveil the AMD Radeon™ RX 9000 Series, a significant leap forward in graphics performance powered by our next-generation AMD RDNA™ 4 architecture,\" said McAfee. \"These GPUs are designed to meet the demands of today's games, delivering enthusiast-class gaming experiences to gamers everywhere, while ready to support tomorrow's innovations. Through the power of advanced AI and Raytracing accelerators, we're not just improving frame rates – we're fundamentally enhancing the gaming experience. Offering incredible performance, AI-powered features, and next-gen display support at competitive price points, the Radeon RX 9000 Series delivers exceptional value for gamers looking to upgrade their systems.”\nThe RX 9000 Series, powered by the new AMD RDNA™ 4 architecture, offers gamers and creators a powerful blend of performance, visuals, and value. These advanced graphics cards redefine incredibly fast, high-resolution gaming with third-generation raytracing technology enabling realistic lighting, shadows, and reflections to deliver immersive gaming experiences while integrating a suite of AMD features to maximize hardware utilization. Beyond gaming, the RX 9000 Series GPUs leverage new second-generation AI accelerators with up to 8x INT8 throughput per AI accelerator (for sparse matrices) to enhance creative applications and effectively run generative AI applications (vs. RDNA 3).\n1\nThe RX 9000 Series GPUs also implement the newly redesigned AMD Radiance Display™ Engine & Enhanced Media Engine for broad display support and elevated quality in both recording and streaming.\nGaming For Today and Tomorrow\nThe Radeon RX 9000 Series unlocks new levels of performance while delivering a suite of new and enhanced features that improve the gaming experience. The Radeon RX 9070 Series offers 16GB of GDDR6 memory, allowing gamers to render the most exciting games of today and tomorrow at max settings. Compared to the previous generation RX 7900 GRE, the latest AMD Radeon RX 9070 is able to deliver over 20% more performance on average when gaming at 1440,\n2\nwith the AMD Radeon RX 9070 XT extending that lead to over 40% on average.\n3\nBoth graphics cards make smart upgrades for gamers looking to future-proof their systems with a suite of next-gen features that will keep their experiences feeling fresh for years to come. Key features include:\nUnified AMD RDNA™ 4 Compute Units\n– Features up to 64 advanced AMD RDNA™ 4 compute units delivering up to 40% higher gaming performance than the previous-generation AMD RDNA™ 3 architecture.\n3\nHigh-Performance Raytracing\n– With 3\nrd\ngeneration Raytracing Accelerators, AMD RDNA 4 is able to deliver over 2x the Raytracing throughput per compute unit when compared to our previous generation.\n1\nGamers with the latest AMD Radeon RX 9000 Series are ready for immersive gaming experiences with high-quality graphics, including realistic lighting, shadows, and reflections.\nSupercharged AI Acceleration\n– 2\nnd\nGeneration AI Accelerators received several enhancements, allowing AMD RDNA™ 4 to efficiently process advanced AI models much faster than what was possible with RDNA 3,\n4\nthrough a combination of additional math pipelines for AI calculations, expanding the capabilities of the AI Accelerator to support new emerging data types such as FP8, and support for inference optimization techniques such as structured sparsity. These changes deliver up to 8x INT8 throughput per AI accelerator (for sparse matrices) per compute unit vs the previous generation.\n1\nAMD FidelityFX™ Super Resolution Technology 4 (FSR 4)\n– AMD’s new cutting-edge ML-powered upscaling technology delivers high-quality boosted frames under even the most demanding workloads, such as 4K gaming with maximum raytracing settings and will be supported in over 30 games at launch.\nInnovative suite of features through HYPR-RX\n– Gamers can instantly improve their experience by activating AMD HYPR-RX and the suite of features within AMD Software, including AMD Radeon™ Super Resolution, AMD Fluid Motion Frames 2.1, AMD Radeon™ Anti-Lag, and AMD Radeon™ Boost. These features can all be tailored to gamers’ hardware and preferences within AMD Software: Adrenalin Edition™ to drive increased FPS, responsiveness and efficiency.\nAI-Enhanced AMD Software: Adrenalin Edition™ Application\n– A new suite of software and resources designed to deliver an industry-leading AI user experience with AMD Radeon RX 9070 Series graphics cards. Keep your drivers and AI software up to date with the new Software Manager. Find the answers to your questions about all things AMD or create free and private text and images with AMD Chat. Discover, download and install new and exciting AMD-partnered AI applications with the App Portal, and leverage AI to improve software quality with the AMD Image Inspector.\nReady for Next-Generation Displays\n– AMD Radiance Display™ Engine supports the latest DisplayPort™ 2.1a and HDMI\n®\n2.1b connections, enabling ultra-high resolutions and refresh rates up to 8K 144Hz, with 12-bit HDR and full REC2020 Color Space for incredible color accuracy. Paired with AMD FreeSync™ technology, gamers can enjoy tear-free, stutter-free gaming experiences on over 4000 compatible displays, including upcoming 4K 240Hz and 8K 144Hz DisplayPort™ 2.1 monitors.\n5\nML-Powered AMD FidelityFX™ Super Resolution 4 (AMD FSR 4) Upgrade\nAvailable exclusively on AMD Radeon™ RX 9000 Series graphics cards, AMD Software: Adrenalin Edition™ adds a new easy-to-use AMD FidelityFX™ Super Resolution 4 (AMD FSR 4) Upgrade feature that helps maximize performance at maximum quality in over 30 games at launch, with 75 coming later this year. AMD FSR 4 delivers a substantial image quality improvement over AMD FSR 3.1 upscaling, with the new ML-based algorithm helping to improve temporal stability, better preserve detail, and reduce ghosting.\nUtilizing features already built into the AMD FidelityFX™ API added when game developers integrate AMD FSR 3.1 into their games, AMD FSR 4 enables an easy upgrade for supported FSR 3.1 games and can be combined with existing in-game AMD FSR 3.1 advanced frame-generation and AMD Radeon™ Anti-Lag 2 for ultra-smooth, ultra-responsive gaming at incredible frame rates on AMD Radeon RX 9070 Series graphics cards.\nThe new ML-accelerated AMD FSR 4 upscaling algorithm is trained using high-quality ground truth game data on AMD Instinct™ Accelerators and uses the hardware-accelerated FP8 Wave Matrix Multiply Accumulate (WMMA) feature of the AMD RDNA™ 4 architecture to ensure maximum upscaling quality while still providing a substantial game performance boost.\nAMD Radeon RX 9000 Series Product Specifications\nModel\nCompute Units\nGDDR6\nGame Clock (GHz)\nBoost Clock\n6\n(GHz)\nMemory Interface\nInfinity Cache\nTBP\nPrice\n(USD SEP)\nAMD Radeon RX 9070 XT\n64\n16 GB\n2.4\nUp to 3.0\n256-bit\n64 MB\n304W\n$599\nAMD Radeon RX 9070\n56\n16 GB\n2.1\nUp to 2.5\n256-bit\n64 MB\n220W\n$549\nPricing and Availability\nAMD Radeon RX 9000 Series graphics cards are expected to be available from leading board partners including Acer, ASRock, ASUS, Gigabyte, PowerColor, Sapphire, Vastarmor, XFX and Yeston beginning March 6\nth\n, 2025. The AMD Radeon RX 9070 XT has an SEP of $599 USD, while the AMD Radeon RX 9070 has an SEP of $549 USD.\nSupporting Resources\nLearn more AMD Radeon Graphics cards\nhere\nLearn about RDNA 4\nhere\nLearn more about AMD FidelityFX Super Resolution\nhere\nFollow AMD on\nLinkedIn\nFollow AMD on\nX\nAbout AMD\nFor more than 50 years AMD has driven innovation in high-performance computing, graphics and visualization technologies. Billions of people, leading Fortune 500 businesses and cutting-edge scientific research institutions around the world rely on AMD technology daily to improve how they live, work and play. AMD employees are focused on building leadership high-performance and adaptive products that push the boundaries of what is possible. For more information about how AMD is enabling today and inspiring tomorrow, visit the AMD (NASDAQ: AMD)\nwebsite\n,\nblog\n,\nLinkedIn\nand\nX\npages.\nCautionary Statement\nThis press release contains forward-looking statements concerning Advanced Micro Devices, Inc. (AMD) such as the features, functionality, performance, availability, timing and expected benefits of AMD products including the AMD Radeon™ RX 9000 Series graphics cards, which are made pursuant to the Safe Harbor provisions of the Private Securities Litigation Reform Act of 1995. Forward-looking statements are commonly identified by words such as \"would,\" \"may,\" \"expects,\" \"believes,\" \"plans,\" \"intends,\" \"projects\" and other terms with similar meaning. Investors are cautioned that the forward-looking statements in this press release are based on current beliefs, assumptions and expectations, speak only as of the date of this press release and involve risks and uncertainties that could cause actual results to differ materially from current expectations. Such statements are subject to certain known and unknown risks and uncertainties, many of which are difficult to predict and generally beyond AMD's control, that could cause actual results and other future events to differ materially from those expressed in, or implied or projected by, the forward-looking information and statements. Material factors that could cause actual results to differ materially from current expectations include, without limitation, the following: Intel Corporation’s dominance of the microprocessor market and its aggressive business practices; Nvidia’s dominance in the graphics processing unit market and its aggressive business practices; competitive markets in which AMD’s products are sold; the cyclical nature of the semiconductor industry; market conditions of the industries in which AMD products are sold; AMD’s ability to introduce products on a timely basis with expected features and performance levels; loss of a significant customer; economic and market uncertainty; quarterly and seasonal sales patterns; AMD's ability to adequately protect its technology or other intellectual property; unfavorable currency exchange rate fluctuations; ability of third party manufacturers to manufacture AMD's products on a timely basis in sufficient quantities and using competitive technologies; availability of essential equipment, materials, substrates or manufacturing processes; ability to achieve expected manufacturing yields for AMD’s products; AMD's ability to generate revenue from its semi-custom SoC products; potential security vulnerabilities; potential security incidents including IT outages, data loss, data breaches and cyberattacks; uncertainties involving the ordering and shipment of AMD’s products; AMD’s reliance on third-party intellectual property to design and introduce new products; AMD's reliance on third-party companies for design, manufacture and supply of motherboards, software, memory and other computer platform components; AMD's reliance on Microsoft and other software vendors' support to design and develop software to run on AMD’s products; AMD’s reliance on third-party distributors and add-in-board partners; impact of modification or interruption of AMD’s internal business processes and information systems; compatibility of AMD’s products with some or all industry-standard software and hardware; costs related to defective products; efficiency of AMD's supply chain; AMD's ability to rely on third party supply-chain logistics functions; AMD’s ability to effectively control sales of its products on the gray market; long-term impact of climate change on AMD’s business; impact of government actions and regulations such as export regulations, tariffs and trade protection measures; AMD’s ability to realize its deferred tax assets; potential tax liabilities; current and future claims and litigation; impact of environmental laws, conflict minerals related provisions and other laws or regulations; evolving expectations from governments, investors, customers and other stakeholders regarding corporate responsibility matters; issues related to the responsible use of AI; restrictions imposed by agreements governing AMD’s notes, the guarantees of Xilinx’s notes and the revolving credit agreement; impact of acquisitions, joint ventures and/or strategic investments on AMD’s business and AMD’s ability to integrate acquired businesses; our ability to complete the acquisition of ZT Systems; impact of any impairment of the combined company’s assets; political, legal and economic risks and natural disasters; future impairments of technology license purchases; AMD’s ability to attract and retain qualified personnel; and AMD’s stock price volatility. Investors are urged to review in detail the risks and uncertainties in AMD’s Securities and Exchange Commission filings, including but not limited to AMD’s most recent reports on Forms 10-K and 10-Q.\n© 2025 Advanced Micro Devices, Inc. All rights reserved. AMD, the AMD Arrow logo, AMD Software: Adrenalin Edition, AMD RDNA, FidelityFX, Radeon, Ryzen, and combinations thereof are trademarks of Advanced Micro Devices, Inc. Other product names used in this publication are for identification purposes only and may be trademarks of their respective owners. Certain AMD technologies may require third-party enablement or activation. Supported features may vary by operating system. Please confirm with the system manufacturer for specific features. No technology or product can be completely secure.\n1\nBased on specifications of AMD RDNA 4 architecture compared to AMD RDNA 3 architecture as of December 2024. RX-1143\n2\nTesting done by AMD performance labs February 2025, on a test system configured with Ryzen 7 9800X3D CPU, 32 GB DDR5-6000 Memory, Windows 11 Pro and Radeon RX 9070 (Driver 25.3.1 RC 31) vs. a similarly configured system with an RX 7900 GRE (Driver 25.3.1 RC31) comparing gaming performance at 4K in the following applications: Cyberpunk 2077 (DX12, Ultra), Cyberpunk 2077 (DX12, RT Ultra), Assassin's Creed Mirage (DX12, Ultra High), F1 24 (DX12, Ultra High), F1 24 (DX12, Ultra High RT), Starfield (DX12, Ultra), Far Cry 6 (DX12, Ultra), Far Cry 6 (DX12, Ultra RT), Forza Horizon 5 (DX12, Extreme), Forza Horizon 5 (DX12, RT Extreme), Watch Dogs Legion (DX12, Ultra), Watch Dogs Legion (DX12, RT Ultra), Horizon Forbidden West (DX12, Maxed), Horizon Zero Dawn Remastered (DX12, Maxed), God of War: Ragnarok (DX12, Ultra), Call of Duty: Black Ops 6 (DX12, Extreme), DOOM Eternal (Vulkan, Ultra Nightmare), DOOM Eternal (Vulkan, Ultra Nightmare RT), Total War: Warhammer 3 (DX11, Ultra), Dying Light 2 (DX12, High), Dying Light 2 (DX12, High Raytracing), Alan Wake 2 (DX12, High), Alan Wake 2 (DX12, High w/Med RT), Avatar: Frontiers of Pandora (DX12, Ultra), Hitman 3 (DX12, Ultra), Hitman 3 (DX12, Ultra RT), The Witcher 3 (DX12, Ultra+), The Witcher 3 (DX12, RT Ultra), Metro Exodus Enhanced Edition (DX12, Extreme), Black Myth: Wukong (DX12, Cinematic), Black Myth: Wukong (DX12, Cinematic RT) Baldur's Gate 3 (DX11, Ultra), Ghost of Tsushima (DX12, Very High), Star Wars Outlaws (DX12, Ultra RT), Warhammer 40,000: Space Marine 2 (DX12, Ultra), Control (DX12, High), Control (DX12, High RT), Dragon Age: The Veilguard (DX12, Ultra), Dragon Age: The Veilguard (DX12, Ultra RT), Resident Evil 4 (DX12, Max), Resident Evil 4 (DX12, Max RT), Marvel’s Spider-Man 2 (DX12, Maxed), Marvel’s Spiderman 2 (DX12, Maxed RT), Microsoft Flight Simulator 2024 (DX12, Ultra), The Last of Us: Part 1 (DX12, Ultra), S.T.A.L.K.E.R. 2: Heart of Chornobyl (DX12, Epic), Final Fantasy XVI Demo (DX12, Ultra). Testing conducted with latest game builds as of February 5, 2025 (Marvel’s Spider-Man 2, Microsoft Flight Simulator 2024, The Last of Us: Part 1, and Forza Horizon 5 using latest builds as of February 14th, 2025). System manufacturers may vary configurations, yielding different results. RX-1176.\n3\nTesting done by AMD performance labs February 2025, on a test system configured with Ryzen 7 9800X3D CPU, 32 GB DDR5-6000 Memory, Windows 11 Pro and Radeon RX 9070 XT (Driver 25.3.1 RC 31) vs. a similarly configured system with an RX 7900 GRE (Driver 25.3.1 RC31) comparing gaming performance at 4K in the following applications: Cyberpunk 2077 (DX12, Ultra), Cyberpunk 2077 (DX12, RT Ultra), Assassin's Creed Mirage (DX12, Ultra High), F1 24 (DX12, Ultra High), F1 24 (DX12, Ultra High RT), Starfield (DX12, Ultra), Far Cry 6 (DX12, Ultra), Far Cry 6 (DX12, Ultra RT), Forza Horizon 5 (DX12, Extreme), Forza Horizon 5 (DX12, RT Extreme), Watch Dogs Legion (DX12, Ultra), Watch Dogs Legion (DX12, RT Ultra), Horizon Forbidden West (DX12, Maxed), Horizon Zero Dawn Remastered (DX12, Maxed), God of War: Ragnarok (DX12, Ultra), Call of Duty: Black Ops 6 (DX12, Extreme), DOOM Eternal (Vulkan, Ultra Nightmare), DOOM Eternal (Vulkan, Ultra Nightmare RT), Total War: Warhammer 3 (DX11, Ultra), Dying Light 2 (DX12, High), Dying Light 2 (DX12, High Raytracing), Alan Wake 2 (DX12, High), Alan Wake 2 (DX12, High w/Med RT), Avatar: Frontiers of Pandora (DX12, Ultra), Hitman 3 (DX12, Ultra), Hitman 3 (DX12, Ultra RT), The Witcher 3 (DX12, Ultra+), The Witcher 3 (DX12, RT Ultra), Metro Exodus Enhanced Edition (DX12, Extreme), Black Myth: Wukong (DX12, Cinematic), Black Myth: Wukong (DX12, Cinematic RT) Baldur's Gate 3 (DX11, Ultra), Ghost of Tsushima (DX12, Very High), Star Wars Outlaws (DX12, Ultra RT), Warhammer 40,000: Space Marine 2 (DX12, Ultra), Control (DX12, High), Control (DX12, High RT), Dragon Age: The Veilguard (DX12, Ultra), Dragon Age: The Veilguard (DX12, Ultra RT), Resident Evil 4 (DX12, Max), Resident Evil 4 (DX12, Max RT), Marvel’s Spider-Man 2 (DX12, Maxed), Marvel’s Spiderman 2 (DX12, Maxed RT), Microsoft Flight Simulator 2024 (DX12 Ultra), The Last of Us: Part 1 (DX12, Ultra), S.T.A.L.K.E.R. 2: Heart of Chornobyl (DX12, Epic), Final Fantasy XVI Demo (DX12, Ultra). Testing conducted with latest game builds as of February 5, 2025 (Marvel’s Spider-Man 2, Microsoft Flight Simulator 2024, The Last of Us: Part 1, and Forza Horizon 5 using latest builds as of February 14th, 2025). System manufacturers may vary configurations, yielding different results. RX-1179.\n4\nTesting by AMD, as of February 2025 using Amuse 2.3.15 and Procyon 2.10.1542 64. Models used: SD 1.5, SDXL, ComputerVision FP16, and FLUX Schnell. System configuration: AMD Ryzen 7 9800X3D, 32GB 6000 MT/s DDR5 RAM, 2TB SSD with an AMD Radeon RX 9070 XT GPU vs. a similarly configured system with a Radeon RX 7900 GRE GPU. Driver 25.3.1 RC 31. Performance may vary. RX-1168.\n5\nAMD FreeSync/FreeSync Premium/FreeSync Premium Pro technology requires AMD Radeon graphics and a display certified by AMD. See www.amd.com/freesync for complete details. Confirm capability with your system or display manufacturer before purchase. GD-127.\n6\nBoost Clock Frequency is the maximum frequency achievable on the GPU running a bursty workload. Boost clock achievability, frequency, and sustainability will vary based on several factors, including but not limited to: thermal conditions and variation in applications and workloads. GD-151.\nContact:\nStacy MacDiarmid\nAMD Communications\n+1 512-658-2265\nStacy.MacDiarmid@amd.com\nMatt Ramsay\nAMD Investor Relations\n+1 512-496-0197\nMatthew.Ramsay@amd.com\nA photo accompanying this announcement is available at\nhttps://www.globenewswire.com/NewsRoom/AttachmentNg/d4e6957f-0945-483c-9795-cf97039270b9",
+    "relevance_score": 0,
+    "round": 2
+  },
+  "https://www.amd.com/en/products/graphics/desktops/radeon.html": {
+    "url": "https://www.amd.com/en/products/graphics/desktops/radeon.html",
+    "title": "AMD Radeon RX Graphics Cards",
+    "source": "www.amd.com",
+    "snippet": "###### Business Systems. ###### Personal & Gaming. ###### Adaptive Accelerators. ###### Gaming. ###### Systems. ###### Alveo Accelerators & Kria SOMs. AMD Radeon™ RX 9060 XT graphics cards are built to deliver all you need for ultra-fast gaming, with next-level visuals and future-ready features, supercharged with AI. ## Radeon™ RX 9000 Series Graphics. Built on the AMD RDNA™ 4 architecture, experience powerful raytracing and AI accelerators, increased visual quality for video streaming and recording, all backed by continuous optimizations with AMD Software. Supercharge your experience with AMD HYPR-RX1 and unleash the true potential of your Radeon™ RX GPU, leveraging the combined forces of advanced super resolution, frame generation, and latency reduction technologies. ## AMD HYPR-RX with AMD Fluid Motion Frames 2.1. Powerful raytracing accelerators on the AMD Radeon™ RX 9000 Series graphics bring jaw-dropping levels of details to lighting, shadows and reflections in supported games. ### High-Quality Streaming with AV13. AMD Radeon™ RX 9000 Series graphics with new AMD RDNA™ 4 architecture come to your PC through our incredible partner designs.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 2
+  },
+  "https://www.elevenforum.com/t/ces-2026-new-geforce-rtx-50-series-graphics-cards-and-laptops-powered-by-nvidia-blackwell.43555/": {
+    "url": "https://www.elevenforum.com/t/ces-2026-new-geforce-rtx-50-series-graphics-cards-and-laptops-powered-by-nvidia-blackwell.43555/",
+    "title": "CES 2026 New GeForce RTX 50 Series Graphics Cards and Laptops Powered By NVIDIA Blackwell | Windows 11 Forum",
+    "source": "www.elevenforum.com",
+    "snippet": "# CES 2026 New GeForce RTX 50 Series Graphics Cards and Laptops Powered By NVIDIA Blackwell. Powered by the NVIDIA Blackwell RTX architecture, GeForce RTX 50 Series graphics cards and GeForce RTX 50 Series laptops accelerate frame rates by up to 8X using NVIDIA DLSS 4 with Multi Frame Generation, reduce latency by up to 75% using NVIDIA Reflex 2, enable next-level graphical fidelity for gamers and creators with NVIDIA RTX Neural Shaders, and much more. GeForce RTX 50 Series GPUs and laptops deliver game-changing performance, power transformative AI experiences, and enable creators to complete workflows in record time. With the invention of DLSS 4 with Multi Frame Generation, working in unison with the complete suite of DLSS technologies, we can multiply frame rates by up to 8X over traditional brute-force rendering and provide image quality that is better than native rendering. The GeForce RTX 5080 is up to twice the speed of the GeForce RTX 4080 in games, thanks to the Blackwell architecture and DLSS 4 with Multi Frame Generation.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 3
+  },
+  "https://www.tomshardware.com/pc-components/gpus/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028": {
+    "url": "https://www.tomshardware.com/pc-components/gpus/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028",
+    "title": "Report claims Nvidia will not be releasing any new RTX gaming GPUs in 2026, RTX 60 series likely debuting in 2028 | Tom's Hardware",
+    "source": "www.tomshardware.com",
+    "snippet": "* [Facebook](https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.tomshardware.com%2Fpc-components%2Fgpus%2Freport-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028). * [X](https://twitter.com/intent/tweet?text=Report+claims+Nvidia+will+not+be+releasing+any+new+RTX+gaming+GPUs+in+2026%2C+RTX+60+series+likely+debuting+in+2028&url=https%3A%2F%2Fwww.tomshardware.com%2Fpc-components%2Fgpus%2Freport-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028). * [Whatsapp](whatsapp://send?text=Report+claims+Nvidia+will+not+be+releasing+any+new+RTX+gaming+GPUs+in+2026%2C+RTX+60+series+likely+debuting+in+2028+https%3A%2F%2Fwww.tomshardware.com%2Fpc-components%2Fgpus%2Freport-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028?fwa). * [Reddit](https://www.reddit.com/submit?url=https%3A%2F%2Fwww.tomshardware.com%2Fpc-components%2Fgpus%2Freport-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028&title=Report+claims+Nvidia+will+not+be+releasing+any+new+RTX+gaming+GPUs+in+2026%2C+RTX+60+series+likely+debuting+in+2028). * [Pinterest](https://pinterest.com/pin/create/button/?url=https%3A%2F%2Fwww.tomshardware.com%2Fpc-components%2Fgpus%2Freport-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028&media=https%3A%2F%2Fcdn.mos.cms.futurecdn.net%2FRH2UfQ4PEty8QdC39Tkoom.jpg). * [Flipboard](https://share.flipboard.com/bookmarklet/popout?title=Report+claims+Nvidia+will+not+be+releasing+any+new+RTX+gaming+GPUs+in+2026%2C+RTX+60+series+likely+debuting+in+2028&url=https%3A%2F%2Fwww.tomshardware.com%2Fpc-components%2Fgpus%2Freport-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028). * [Email](mailto:?subject=I%20found%20this%20webpage&body=Hi,%20I%20found%20this%20webpage%20and%20thought%20you%20might%20like%20it%20https://www.tomshardware.com/pc-components/gpus/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028). Nvidia [reportedly](https://www.tomshardware.com/pc-components/gpus/nvidias-rtx-5000-super-could-be-cancelled-or-get-pricier-due-to-ai-induced-gddr7-woes-rumor-claims-3-gb-memory-chips-are-now-too-valuable-for-consumer-gpus) completed the design of its RTX 50 Super refresh, but the outgoing memory chip shortage has allegedly incentivized Nvidia to deprioritize RTX 50 Super production. Many expected Nvidia to announce the RTX 50 Series super refresh at CES 2026, but just before the event, Nvidia publicly announced that it would not [announce any new GPUs at the event](https://www.tomshardware.com/pc-components/gpus/for-the-first-time-in-5-years-nvidia-will-not-announce-any-new-gpus-at-ces-company-quashes-rtx-50-super-rumors-as-ai-expected-to-take-center-stage), a first for the company in five years. These rumors pointed towards a [2H 2027 release date](https://www.tomshardware.com/pc-components/gpus/nvidias-next-gen-rtx-60-series-might-not-debut-until-the-second-half-of-2027-says-leaker-rumor-claims-rubin-architecture-will-power-future-consumer-gpus) and a potential RTX 6090 graphics card that was at least 30% faster than the RTX 5090 using the Rubin architecture. The memory chip shortage is also causing mayhem with Nvidia's existing GPUs; Nvidia is rumored to have slashed [GPU supply by 20%,](https://www.tomshardware.com/pc-components/gpus/gamers-face-another-crushing-blow-as-nvidia-allegedly-slashes-gpu-supply-by-20-percent-leaker-claims-no-new-geforce-gaming-gpu-until-2027) and Nvidia is also prioritizing RTX 50 series GPUs with [lower VRAM capacity](https://www.tomshardware.com/pc-components/gpus/gigabyte-ceo-explains-nvidias-potential-gpu-supply-strategy-amid-crushing-memory-shortages-gross-revenue-per-gigabyte-of-gddr7-memory-could-decide-what-products-thrive) to combat the shortage. 46 Comments  [Comment from the forums](https://forums.tomshardware.com/threads/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028.3892685/). [Reply](https://forums.tomshardware.com/threads/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028.3892685/). [Reply](https://forums.tomshardware.com/threads/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028.3892685/). [Reply](https://forums.tomshardware.com/threads/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028.3892685/). [Reply](https://forums.tomshardware.com/threads/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028.3892685/). [Reply](https://forums.tomshardware.com/threads/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028.3892685/). [Reply](https://forums.tomshardware.com/threads/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028.3892685/). [Reply](https://forums.tomshardware.com/threads/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028.3892685/). [Reply](https://forums.tomshardware.com/threads/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028.3892685/). [Reply](https://forums.tomshardware.com/threads/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028.3892685/). [Reply](https://forums.tomshardware.com/threads/report-claims-nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026-rtx-60-series-likely-debuting-in-2028.3892685/).",
+    "content": "It was disappointing to many not to see an RTX 50 Super refresh at\nCES\n2026. Now, a new report from\nThe Information\nstates that Nvidia plans not to launch any new GPUs in 2026. It also confirmed that the upcoming RTX 60 series is delayed beyond 2027.\nNvidia\nreportedly\ncompleted the design of its RTX 50 Super refresh, but the outgoing memory chip shortage has allegedly incentivized Nvidia to deprioritize RTX 50 Super production. This issue is also causing problems for the RTX 60 series, which was reportedly supposed to begin \"mass production at the end of 2027\". Nvidia has not commented directly on these delays, but it told\nTom's Hardware, \"Demand for GeForce RTX GPUs is strong, and memory supply is constrained. We continue to ship all GeForce SKUs and are working closely with our suppliers to maximize memory availability.\"\nRumors of an RTX 50 Super refresh have been around for months, we even\nsaw some leaks\nof potential specs of the cards. If the rumors were true, Nvidia was planning to launch an RTX 5080 Super, RTX 5070 Ti Super, and RTX 5070 Super, similar to the RTX 40 Series Super refresh that preceded it.\nLatest Videos From\nThe main upgrade all of these RTX 50 Super GPUs were supposedly going to receive was a\nmajor spec bump\nin GDDR7 memory capacity and higher power limits. The RTX 5080 Super was supposedly going to get 24GB of GDDR7 and a 415W TGP. The outgoing 5080, by contrast, comes with 16GB of GDDR7 and a 360W TDP. Similarly, the RTX 5070 Ti Super was going to get 24GB of GDDR7 and a 350W TDP, compared to the outgoing 5070 Ti's 16GB of GDDR7 and 300W TDP.\nThe RTX 5070 Super is the only one of the three models that was rumored to get a core count increase, in addition to extra memory and higher TGP. The RTX 5070 Super was allegedly going to come with 6,400 CUDA cores, 18GB of GDDR7, and a 275W TDP compared to the outgoing 5070's 6,144 CUDA cores, 12GB of GDDR7, and 250W TGP.\nMany expected Nvidia to announce the RTX 50 Series super refresh at CES 2026, but just before the event, Nvidia publicly announced that it would not\nannounce any new GPUs at the event\n, a first for the company in five years.\nDuring CES we finally saw some rumors cropping up for the RTX 60 series. These rumors pointed towards a\n2H 2027 release date\nand a potential RTX 6090 graphics card that was at least 30% faster than the RTX 5090 using the Rubin architecture.\nGet Tom's Hardware's best news and in-depth reviews, straight to your inbox.\nThere is a chance Nvidia could still release new GPUs later in 2026, but this latest report has dampened hopes of that occurring. Nvidia's next generation RTX 60 series GPUs are now likely begin production in 2028.\nThe memory chip shortage is also causing mayhem with Nvidia's existing GPUs; Nvidia is rumored to have slashed\nGPU supply by 20%,\nand Nvidia is also prioritizing RTX 50 series GPUs with\nlower VRAM capacity\nto combat the shortage. The only good news in all of this is that Jensen Huang is looking to\nresurrect old GPUs\nto keep the market fresh with as much GPU supply as possible.\nFollow\nTom's Hardware on Google News\n, or\nadd us as a preferred source\n, to get our latest news, analysis, & reviews in your feeds.",
+    "relevance_score": 0,
+    "round": 3
+  },
+  "https://www.techpowerup.com/346123/nvidia-reportedly-developing-extra-powerful-geforce-rtx-50-series-flagship-model": {
+    "url": "https://www.techpowerup.com/346123/nvidia-reportedly-developing-extra-powerful-geforce-rtx-50-series-flagship-model",
+    "title": "NVIDIA Reportedly Developing Extra Powerful GeForce RTX 50-series Flagship Model | TechPowerUp",
+    "source": "www.techpowerup.com",
+    "snippet": "by [T0@st](/forums/members/228819/)     [Discuss (50 Comments)](/346123/nvidia-reportedly-developing-extra-powerful-geforce-rtx-50-series-flagship-model#comments). The rumor-heavy report insists that the mysterious \"Blackwell\" gaming range-topper exists as a separate entity; distinct from Team Green's [supposedly postponed GeForce RTX 50 \"SUPER\" refresh](https://www.techpowerup.com/346010/no-nvidia-geforce-rtx-50-super-gpus-this-year-rtx-60-series-also-pushed-back) family. After gathering sufficient evidence from industry contacts, Overclocking.com proposes that a \"model positioned above\" NVIDIA's current \"Blackwell\" flagship gaming card—the [GeForce RTX 5090](https://www.techpowerup.com/gpu-specs/geforce-rtx-5090.c4216) 32 GB—is on the way. A current-gen \"[TITAN-esque](https://www.techpowerup.com/336641/nvidias-unreleased-titan-ada-18-432-cores-and-48-gb-gddr6x-in-early-tests)\" design or a \"GeForce RTX 5090 Ti\" SKU are listed as possible candidates to dethrone the venerable GB202-300-A1 GPU-based GeForce RTX 5090 model. Over a year ago, ChipHell presented a curious sneak peek of an [NVIDIA \"GB202-200-A1\" ASIC](https://www.techpowerup.com/331384/curious-nvidia-gb202-200-a1-asic-spy-shot-hints-at-rtx-titan-blackwell)—at the time, this \"more capable\" GPU was linked to a hypothetical GeForce RTX TITAN \"Blackwell\" card design. Allegedly, Intel has [pivoted away](https://www.techpowerup.com/345631/intel-arc-pro-b70-big-battlemage-dgpu-could-come-out-in-q126) from deploying its largest \"Battlemage\" GPU in Arc B-series gaming lines; instead favoring upcoming [Arc Pro workstation](https://www.techpowerup.com/345645/intel-arc-pro-b70-and-b65-battlemage-gpus-up-to-32-xe2-cores-and-32-gb-gddr6-memory) solutions. Sources: [Overclocking Dot Com](https://overclocking.com/et-si-nvidia-lancait-une-nouvelle-rtx-50-en-2026/), [VideoCardz](https://videocardz.com/newz/rtx-titan-blackwell-or-rtx-5090-ti-nvidia-reportedly-is-developing-a-new-rtx-50-series-halo-gpu-for-q3-2026), [HXL Tweet (historical)](https://x.com/9550pro/status/1881667947342790990). ## **50 Comments** on [NVIDIA Reportedly Developing Extra Powerful GeForce RTX 50-series Flagship Model](/forums/threads/346123/).",
+    "content": "Last Friday, an Overclocking.com article made an extremely bold claim about a new RTX 5000-series graphics card model arriving at some point later on in 2026. The France-based publication cites unnamed sources of inside information; mostly gathered during last month's CES trade show. The rumor-heavy report insists that the mysterious \"Blackwell\" gaming range-topper exists as a separate entity; distinct from Team Green's\nsupposedly postponed GeForce RTX 50 \"SUPER\" refresh\nfamily. According to Overclocking.com's CES 2026 ground team, three unnamed brand representatives had whispered about \"a new RTX card for 2026.\" Additionally, another OCC staffer heard of similar theories—from a \"different set\" of company reps—during a recent trip through Asian. After gathering sufficient evidence from industry contacts, Overclocking.com proposes that a \"model positioned above\" NVIDIA's current \"Blackwell\" flagship gaming card—the\nGeForce RTX 5090\n32 GB—is on the way. The French site even sent a tip-off to VideoCardz—latterly, the highly-popular graphics card news specialist has not picked up on similar gossip from its own network of board partner moles.\nThe Overclocking.com news piece posits that Team Green could be working on a \"Founders Edition-only\" release, marked down for launch during the \"Back to School\" period (Q3 2026). A current-gen \"\nTITAN-esque\n\" design or a \"GeForce RTX 5090 Ti\" SKU are listed as possible candidates to dethrone the venerable GB202-300-A1 GPU-based GeForce RTX 5090 model. Over a year ago, ChipHell presented a curious sneak peek of an\nNVIDIA \"GB202-200-A1\" ASIC\n—at the time, this \"more capable\" GPU was linked to a hypothetical GeForce RTX TITAN \"Blackwell\" card design. Given present-day component supply problems, bringing a possibly extremely expensive brand-new gaming product to market seems to be a tall task. GeForce RTX 5090 cards are often used for AI tasks, rather than for entertainment purposes. Allegedly, Intel has\npivoted away\nfrom deploying its largest \"Battlemage\" GPU in Arc B-series gaming lines; instead favoring upcoming\nArc Pro workstation\nsolutions.",
+    "relevance_score": 0,
+    "round": 3
+  },
+  "https://overclock3d.net/news/gpu-displays/nvidia-crafts-new-very-high-end-rtx-50-series-gpu-model-rtx-5090-ti-or-titan-blackwell/": {
+    "url": "https://overclock3d.net/news/gpu-displays/nvidia-crafts-new-very-high-end-rtx-50-series-gpu-model-rtx-5090-ti-or-titan-blackwell/",
+    "title": "Nvidia crafts new \"very high-end\" RTX 50 series GPU model - OC3D",
+    "source": "overclock3d.net",
+    "snippet": "# Nvidia crafts new “very high-end” RTX 50 series GPU model – RTX 5090 Ti or TITAN Blackwell? # Nvidia’s reportedly building a new “very high-end” GPU. According to a new report from Overclocking.com, Nvidia is building a new “very high-end RTX 50 series” graphics card. This GPU is reportedly unrelated to Nvidia’s RTX 50 SUPER series, which has reportedly been cancelled/paused due to memory manufacturing constraints. It is currently unknown if this new Nvidia graphics card is an RTX 5090 Ti or RTX TITAN Blackwell. Given the popularity of limited-edition GPUs like ASUS’ ROG RTX 5090 Matrix, it should be clear to Nvidia that there is demand for something higher-end than their standard RTX 5090. A very high-end RTX 50 series card is reportedly in development, with its release even scheduled for the *Back to School period* (early Q3 of this year). ## There is demand for a “very high-end” Nvidia RTX 50 series GPU, but only from the ultra-rich.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 3
+  },
+  "https://www.reddit.com/r/nvidia/comments/1orkdrt/nvidia_geforce_rtx_50_super_reportedly_slips_to/": {
+    "url": "https://www.reddit.com/r/nvidia/comments/1orkdrt/nvidia_geforce_rtx_50_super_reportedly_slips_to/",
+    "title": "NVIDIA GeForce RTX 50 SUPER reportedly slips to Q3 ... - Reddit",
+    "source": "www.reddit.com",
+    "snippet": "NVIDIA GeForce RTX 50 SUPER series expected between late Q1 and early Q2 2026 ... NVIDIA GeForce RTX 50 SUPER launch unlikely before CES 2026.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 3
+  },
+  "https://www.nvidia.com/en-us/geforce/news/ces-2026-partner-product-showcase/": {
+    "url": "https://www.nvidia.com/en-us/geforce/news/ces-2026-partner-product-showcase/",
+    "title": "CES 2026: New GeForce RTX Partner Cards, Laptops, Desktops ...",
+    "source": "www.nvidia.com",
+    "snippet": "Choose from 3 memberships](https://www.nvidia.com/en-us/geforce-now/)[NVIDIA App and Game Ready Drivers Optimize gaming, streaming, and AI-powered creativity](https://www.nvidia.com/en-us/software/nvidia-app/)[NVIDIA Broadcast App AI-enhanced voice and video for next-level streams, videos, and calls](https://www.nvidia.com/en-us/geforce/broadcasting/)[SHIELD TV World-class streaming media performance](https://www.nvidia.com/en-us/shield/) Graphics Cards and GPUs[GeForce Graphics Cards RTX graphics cards bring game-changing AI capabilities](https://www.nvidia.com/en-us/geforce/graphics-cards/)[NVIDIA RTX PRO Accelerating professional AI, graphics, rendering and compute workloads](https://www.nvidia.com/en-us/products/workstations/)[Virtual GPU Virtual solutions for scalable, high-performance computing](https://www.nvidia.com/en-us/data-center/virtual-solutions/)[Blackwell Architecture The engine of the new industrial revolution](https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/)[Hopper Architecture High performance, scalability, and security for every data center](https://www.nvidia.com/en-us/data-center/technologies/hopper-architecture/)[Ada Lovelace Architecture Performance and energy efficiency for endless possibilities](https://www.nvidia.com/en-us/technologies/ada-architecture/) Laptops and Desktops[GeForce Laptops GPU-powered laptops for gamers and creators](https://www.nvidia.com/en-us/geforce/laptops/)[Studio Laptops High performance laptops purpose-built for creators](https://www.nvidia.com/en-us/studio/help-me-choose/)[NVIDIA RTX PRO Laptops Accelerate professional AI and visual computing from anywhere](https://www.nvidia.com/en-us/products/workstations/professional-laptops/)[RTX AI PCs AI PCs for gaming, creating, productivity and development](https://www.nvidia.com/en-us/ai-on-rtx/) Networking[Overview Accelerated networks for modern workloads](https://www.nvidia.com/en-us/networking/)[DPUs and SuperNICs Software-defined hardware accelerators for networking, storage, and security](https://www.nvidia.com/en-us/networking/products/data-processing-unit/)[Ethernet Ethernet performance, availability, and ease of use across a wide range of applications](https://www.nvidia.com/en-us/networking/products/ethernet/)[InfiniBand High-performance networking for super computers, AI, and cloud data centers](https://www.nvidia.com/en-us/networking/products/infiniband/)[Networking Software Networking software for optimized performance and scalability](https://www.nvidia.com/en-us/networking/products/software/)[Network Acceleration IO subsystem for modern, GPU-accelerated data centers](https://www.nvidia.com/en-us/data-center/magnum-io/) Professional Workstations[Overview Accelerating professional AI, graphics, rendering, and compute workloads](https://www.nvidia.com/en-us/products/workstations/)[DGX Spark A Grace Blackwell AI Supercomputer on your desk](https://www.nvidia.com/en-us/products/workstations/dgx-spark/)[DGX Station The ultimate desktop AI supercomputer powered by NVIDIA Grace Blackwell](https://www.nvidia.com/en-us/products/workstations/dgx-station/)[NVIDIA RTX PRO AI Workstations Accelerate innovation and productivity in AI workflows](https://www.nvidia.com/en-us/products/workstations/)[NVIDIA RTX PRO Desktops Powerful AI, graphics, rendering, and compute workloads](https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/)[NVIDIA RTX PRO Laptops Accelerate professional AI and visual computing from anywhere](https://www.nvidia.com/en-us/products/workstations/professional-laptops/) Software[Agentic AI Models - Nemotron](https://www.nvidia.com/en-us/ai-data-science/foundation-models/nemotron/)[AI Agents - NeMo](https://www.nvidia.com/en-us/ai-data-science/products/nemo/)[AI Blueprints](https://build.nvidia.com/blueprints)[AI Inference - Dynamo](https://www.nvidia.com/en-us/ai/dynamo/)[AI Inference - NIM](https://www.nvidia.com/en-us/ai-data-science/products/nim-microservices/)[AI Microservices - CUDA-X](https://www.nvidia.com/en-us/technologies/cuda-x/)[Automotive - DRIVE](https://www.nvidia.com/en-us/solutions/autonomous-vehicles/in-vehicle-computing/)[Data Science - Apache Spark](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/apache-spark-3/)[Data Science - RAPIDS](https://developer.nvidia.com/rapids/)[Decision Optimization - cuOpt](https://www.nvidia.com/en-us/ai-data-science/products/cuopt/)[Healthcare - Clara](https://www.nvidia.com/en-us/clara/)[Industrial AI - Omniverse](https://www.nvidia.com/en-us/omniverse/)[Intelligent Video Analytics - Metropolis](https://www.nvidia.com/en-us/autonomous-machines/intelligent-video-analytics-platform/)[NVIDIA AI Enterprise](https://www.nvidia.com/en-us/data-center/products/ai-enterprise-suite/)[NVIDIA Mission Control](https://www.nvidia.com/en-us/data-center/mission-control/)[NVIDIA Run:ai](https://www.nvidia.com/en-us/software/run-ai/)[Physical AI - Cosmos](https://www.nvidia.com/en-us/ai/cosmos/)[Robotics - Isaac](https://developer.nvidia.com/isaac/ros)[Telecommunications - Aerial](https://developer.nvidia.com/aerial)[See All Software](https://www.nvidia.com/en-us/software/) Tools[AI Workbench Simplify AI development with NVIDIA AI Workbench on GPUs](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/)[API Catalog Explore NVIDIA's AI models, blueprints, and tools for developers](https://build.nvidia.com/explore/discover)[Data Center Management",
+    "content": null,
+    "relevance_score": 0,
+    "round": 3
+  },
+  "https://www.facebook.com/pcgamermagazine/posts/are-rtx-50-series-super-cards-coming-in-2026-pcgamer-gaminghardware-graphicscard/1233196712008140/": {
+    "url": "https://www.facebook.com/pcgamermagazine/posts/are-rtx-50-series-super-cards-coming-in-2026-pcgamer-gaminghardware-graphicscard/1233196712008140/",
+    "title": "Are RTX 50-series Super cards coming in 2026 ... - Facebook",
+    "source": "www.facebook.com",
+    "snippet": "They will release a not-super range instead. Same as current but with half the vram and more expensive.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 3
+  },
+  "https://en.wikipedia.org/wiki/GeForce_RTX_50_series": {
+    "url": "https://en.wikipedia.org/wiki/GeForce_RTX_50_series",
+    "title": "GeForce RTX 50 series - Wikipedia",
+    "source": "en.wikipedia.org",
+    "snippet": "# GeForce RTX 50 series. | A GeForce RTX 5090 Founders Edition released in 2025, the series' flagship model | |. | Entry-level | * GeForce RTX 5050 * GeForce RTX 5060 |. | Mid-range | * GeForce RTX 5060 Ti (8GB) * GeForce RTX 5060 Ti (16GB) |. | High-end | * GeForce RTX 5070 * GeForce RTX 5070 Ti * GeForce RTX 5080 |. The **GeForce RTX 50 series** of consumer graphics cards is the successor of Nvidia's GeForce 40 series. Announced at CES 2025, it debuted with the release of the RTX 5070, RTX 5080 and RTX 5090 in January 2025. Following the RTX 50 series announcement, Nvidia confirmed that the trailer was \"pre-rendered in Unreal Engine 5 on a GeForce RTX 5090\". The GeForce RTX 50 series uses the 16-pin 12V-2×6 connector which is a revision of the 12VHPWR connector featured on the GeForce 40 series.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 3
+  },
+  "https://www.techpowerup.com/gpu-specs/arc-b770.c4376": {
+    "url": "https://www.techpowerup.com/gpu-specs/arc-b770.c4376",
+    "title": "Intel Arc B770 Specs | TechPowerUp GPU Database",
+    "source": "www.techpowerup.com",
+    "snippet": "The Arc B770 will be a graphics card by Intel, that is expected to launch in 2026. Built on the 5 nm process, and based on the BMG-G31 graphics processor,",
+    "content": "Automated bot check in progress\nYour browser must support Javascript\nThis should only take a few seconds. If you have issues, please do contact us, we want to learn about any problems.\nDrag the handle to the target\nNeed help?\nContact Us\n. Please mention your IP: 45.62.172.69",
+    "relevance_score": 0,
+    "round": 4
+  },
+  "https://www.tomshardware.com/pc-components/gpus/intels-upcoming-arc-b770-discrete-gpu-leaks-out-on-github-launch-appears-imminent-reportedly-featuring-the-bmg-g31-gpu-16gb-vram-32-xe2-cores-and-300w-tdp": {
+    "url": "https://www.tomshardware.com/pc-components/gpus/intels-upcoming-arc-b770-discrete-gpu-leaks-out-on-github-launch-appears-imminent-reportedly-featuring-the-bmg-g31-gpu-16gb-vram-32-xe2-cores-and-300w-tdp",
+    "title": "Intel's upcoming Arc B770 discrete GPU leaks out on GitHub, launch appears imminent - Reportedly featuring the BMG-G31 GPU, 16GB+ VRAM, 32 Xe2 cores, and 300W TDP | Tom's Hardware",
+    "source": "www.tomshardware.com",
+    "snippet": "B580 vs B770 (leaked specs) 20 to 32Xe cores: 1.6x. 456GB/s to 608GB/s memory bandwidth: 1.33x. 190W to 300W max power draw: 1.58x. I eagerly",
+    "content": "Rumors of a successor to Intel's Arc A770 discrete GPU have been floating around for\nmore than a year at this point\n, with a new launch window finally seeming on the horizon. Following various leaks, the Arc B770, has just\nappeared on an undisclosed Intel GitHub repository\n, with code specifically mentioning \"b770.\" While this isn't an official confirmation, it's easy to connect the dots and see the B770 is closer than ever.\nArc B770 will be part of Intel's second-gen discrete GPU architecture known as \"Battlemage,\" using Xe2 cores, which was supposed to be a lot more ambitious at one point, but the plans seem to have dwindled. Right now, Intel has moved on to Xe3 cores in its Panther Lake mobile chips, though that's still classified as Battlemage (and not Celestial).\nAnyhow,\nprior leaks have revealed some of the specs\nwe can expect in the B770, including the large BMG-G31 die it uses, featuring 32 Xe2 cores. That's a big jump from the 20 Xe cores found on the last-gen A770. The GPU will also feature at least 16GB of GDDR6 VRAM saturated across a 256-bit wide bus. While some rumors point toward more than 16, it's highly unlikely now given the\nDRAM shortage the industry has plunged into\n.\nLatest Videos From\nThe card will compete with AMD's RX 9060-class and Nvidia's RTX 5060-class offerings, with a reported TGP of up to 300W. There's no info on clock speeds, but we know it will be fabricated using TSMC's N5 process, since that's what other Battlemage GPUs use. Intel has also\nmade strides with its driver suite\nsince the last time we saw a B-series card be revealed, which was the B570 at\nCES\n2025, one year ago.\nIn the past few months, the company has launched workstation-grade offerings under the Xe2 family:\nArc Pro B50 and B60\n, but we haven't seen any new gaming GPUs. On the software side, there are rumors about an in-house\nmulti-frame generation tech in the works at Intel\n, which could coincide with the launch of the Arc B770.\nThe timing makes sense since CES 2026 is set to open its doors in just two days - and Intel has a conference scheduled. The arrival of Arc B770 will lend\nsome much-needed competition to Nvidia and AMD\nin the midrange GPU segment. Of course, it needs to be priced right, but given Intel's track record with Alchemist, it's not unreasonable to get your hopes up.\nFollow\nTom's Hardware on Google News\n, or\nadd us as a preferred source\n, to get our latest news, analysis, & reviews in your feeds.\nGet Tom's Hardware's best news and in-depth reviews, straight to your inbox.",
+    "relevance_score": 0,
+    "round": 4
+  },
+  "https://www.youtube.com/watch?v=K13r49bhbJ8": {
+    "url": "https://www.youtube.com/watch?v=K13r49bhbJ8",
+    "title": "Intel's Flagship GPU - Arc B780 & B770 Specs & Release Date",
+    "source": "www.youtube.com",
+    "snippet": "... Intel Arc B770 and Arc B780 graphics cards, potentially releasing as early as Q1 2026. Based on leaks, shipping manifests, and reports from",
+    "content": null,
+    "relevance_score": 0,
+    "round": 4
+  },
+  "https://www.reddit.com/r/hardware/comments/1pibehs/intel_confirms_big_battlemage_gpu_arc_b770_could/": {
+    "url": "https://www.reddit.com/r/hardware/comments/1pibehs/intel_confirms_big_battlemage_gpu_arc_b770_could/",
+    "title": "Intel confirms \"Big Battlemage\" GPU, Arc B770 could debut at CES ...",
+    "source": "www.reddit.com",
+    "snippet": "Intel confirms \"Big Battlemage\" GPU, Arc B770 could debut at CES 2026 · Intel B70 -- Arc Pro Battlemage Lands with 32gb VRAM, 600+ GB/sec",
+    "content": null,
+    "relevance_score": 0,
+    "round": 4
+  },
+  "https://www.tweaktown.com/news/109721/intels-partners-confirm-that-theres-still-no-arc-b770-big-battlemage-gpu/index.html": {
+    "url": "https://www.tweaktown.com/news/109721/intels-partners-confirm-that-theres-still-no-arc-b770-big-battlemage-gpu/index.html",
+    "title": "Intel's partners confirm that there's still no Arc B770 'Big Battlemage' GPU",
+    "source": "www.tweaktown.com",
+    "snippet": "Latest NewsAIBusinessCases, Cooling & PSUDisplaysGamingGraphics CardsMotherboardsProcessorsScience & SpaceSoftware & AppsStorage. Latest ReviewsLatest ArticlesAudioCases, Cooling & PSUDisplaysGraphics CardsLaptopsMotherboardsPeripheralsProcessorsRAMStorage. Comment IconFacebook IconX IconReddit IconEmail Icon. **TL;DR:** The Intel Arc B770, a mid-range GPU with 16GB VRAM and 32 Xe2 cores, was absent at CES 2026 and partners have yet to receive test samples. Of course, with the current memory crisis, releasing a 16GB consumer graphics card for PC gaming in early 2026 is very different from releasing one a year ago. | $1119.99 CAD | $1119.99 CAD | $1119.99 CAD | Buy |. | Check Price | Check Price | Check Price | Buy |. * Intel confirms that the more powerful 'Big Battlemage' GPU exists, Intel Arc B770 coming soon? * Dell and KIOXIA unveil an impressive 9.8 Petabyte high-density 2U server. * ASUS launches sleek and compact ProArt GeForce RTX 5090 OC Edition. * ASUS ROG Strix X870E-E Gaming WiFi7 NEO - A Crosshair by any other name.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 4
+  },
+  "https://www.techspot.com/news/110537-intel-confirms-big-battlemage-gpu-arc-b770-could.html": {
+    "url": "https://www.techspot.com/news/110537-intel-confirms-big-battlemage-gpu-arc-b770-could.html",
+    "title": "Intel confirms \"Big Battlemage\" GPU, Arc B770 could debut at CES ...",
+    "source": "www.techspot.com",
+    "snippet": "Rumors suggest the B770 could ship with 16GB of GDDR6 VRAM on a 256-bit memory bus, along with a PCIe 5.0 x16 interface. Other reported",
+    "content": null,
+    "relevance_score": 0,
+    "round": 4
+  },
+  "https://www.youtube.com/watch?v=Xav3zy1kNp4": {
+    "url": "https://www.youtube.com/watch?v=Xav3zy1kNp4",
+    "title": "Intel Arc B770 - Specs, Price, & Release Date - YouTube",
+    "source": "www.youtube.com",
+    "snippet": "Thank you to Jawa for sponsoring this video! Checkout Jawa: https://jawa.link/GraphChalDec25 Buy Intel Arc B580: https://amzn.to/451C7zk I",
+    "content": null,
+    "relevance_score": 0,
+    "round": 4
+  },
+  "https://www.youtube.com/watch?v=Swm6L1SXKZ4": {
+    "url": "https://www.youtube.com/watch?v=Swm6L1SXKZ4",
+    "title": "Intel Arc B580 Review After 9 Months — The Ultimate Budget GPU ...",
+    "source": "www.youtube.com",
+    "snippet": "Is the Intel Arc B580 the best budget graphics card of 2026? After 9 months of testing and the launch of XeSS 3, Intel has finally claimed",
+    "content": null,
+    "relevance_score": 0,
+    "round": 4
+  },
+  "https://www.heise.de/en/news/GeForce-RTX-5090-Ti-or-Titan-Blackwell-to-be-released-in-summer-11186502.html": {
+    "url": "https://www.heise.de/en/news/GeForce-RTX-5090-Ti-or-Titan-Blackwell-to-be-released-in-summer-11186502.html",
+    "title": "GeForce RTX 5090 Ti or Titan Blackwell to be released in summer | heise online",
+    "source": "www.heise.de",
+    "snippet": "## heise+ Das Beste aus heise+. ## heise online Top-Beiträge von heise online. ## heise online Most popular articles by heise online. # GeForce RTX 5090 Ti or Titan Blackwell to be released in summer. Nvidia is apparently considering a new top-tier graphics card model. The GeForce RTX 5090 could receive an even faster sister model in the summer of 2026. Possible names circulating are GeForce RTX 5090 Ti or Titan Blackwell. According to them, sources at several graphics card manufacturers have indicated a new top model. According to this, the new top model will also feature a cut-down GB202 GPU. The discussion is about targeted standard power consumption of 700 to 750 watts, with prototypes also said to have drawn 1000 watts and more. This would also be the case for a GeForce RTX 5090 Ti or Titan Blackwell. The Super models of the GeForce RTX 5070, GeForce RTX 5070 Ti, and GeForce RTX 5080 were supposed to be released with 50 percent more memory each.",
+    "content": "The GeForce RTX 5090 could receive an even faster sister model in the summer of 2026. Possible names circulating are GeForce RTX 5090 Ti or Titan Blackwell. The ball started rolling in early February when\nOverclocking.com from France\nreported. According to them, sources at several graphics card manufacturers have indicated a new top model.\nThe\nYouTube channel “Moore’s Law Is Dead”\nnames the first specifications that Nvidia is allegedly testing internally. According to this, the new top model will also feature a cut-down GB202 GPU. Around five percent more shader cores are said to remain active than in the\nGeForce RTX 5090\n. This suggests almost 23,000 instead of 21,760 shaders, which is still a good distance from the full configuration with 24,576 shaders. The best GPUs remain reserved for the\nRTX Pro 6000\nwith 24,064 shaders.\nPower consumption continues to grow\nNvidia reportedly wants to increase power consumption to push the GPU to its limits and thus maximize clock speed. The discussion is about targeted standard power consumption of 700 to 750 watts, with prototypes also said to have drawn 1000 watts and more. In older tests in 2025, prototypes were allegedly ten percent faster than a GeForce RTX 5090. Through strong binning with particularly clock-friendly chips and faster memory, 15 to 20 percent more performance would also be conceivable. The memory capacity apparently remains at 32 GByte.\nMSI already applied the brute-force principle with the\nGeForce RTX 5090 Lightning Z\n, which can consume up to 1000 watts. Since a 12V-2x6 power connector is designed for up to 600 watts, two are necessary. This would also be the case for a GeForce RTX 5090 Ti or Titan Blackwell. A standard RTX 5090 has up to 575 watts.\nAnnouncement at Computex conceivable\nThe third quarter of 2026 is being discussed as the presentation date. Nvidia could therefore announce the graphics card at the Computex hardware trade fair in early June. However, Nvidia has changed its mind several times at short notice in recent years regarding new introductions. The information should therefore be treated with caution.\nMeanwhile, the rumor mill continues to assume that the\nearlier planned Super refresh of the RTX 5000 series\nwill not be released in 2026. The Super models of the GeForce RTX 5070, GeForce RTX 5070 Ti, and GeForce RTX 5080 were supposed to be released with 50 percent more memory each. Considering the current memory crisis, this would be an expensive upgrade.\n(\nmma\n)\nDon't miss any news – follow us on\nFacebook\n,\nLinkedIn\nor\nMastodon\n.\nThis article was originally published in\nGerman\n.\n      \n      It was translated with technical assistance and editorially reviewed before publication.\nDieser Link ist leider nicht mehr gültig.\nLinks zu verschenkten Artikeln werden ungültig,\n      wenn diese älter als 7 Tage sind oder zu oft aufgerufen wurden.\nSie benötigen ein heise+ Paket, um diesen Artikel zu lesen. Jetzt eine Woche unverbindlich testen – ohne Verpflichtung!",
+    "relevance_score": 0,
+    "round": 5
+  },
+  "https://overclock3d.net/news/gpu-displays/nvidia-rtx-5090-ti-titan-blackwell-gpu-specifications-leak/": {
+    "url": "https://overclock3d.net/news/gpu-displays/nvidia-rtx-5090-ti-titan-blackwell-gpu-specifications-leak/",
+    "title": "Nvidia RTX 5090 Ti/ Titan Blackwell GPU specifications leak - OC3D",
+    "source": "overclock3d.net",
+    "snippet": "# Nvidia RTX 5090 Ti/ Titan Blackwell GPU specifications leak. # Nvidia’s reportedly building a new RTX Blackwell flagship. According to a report from Moore’s Law is Dead, Nvidia has been working on a new flagship-level RTX 50 Blackwell GPU since H1 2025. Currently, it is unknown what the GPU will be marketed as, though RTX 5090 Ti or RTX Titan Blackwell branding seems likely. Early specifications for this “RTX 5090 Ti” GPU give it around 5% more CUDA cores than Nvidia’s RTX 5090 and a much higher power limit. Final performance for Nvidia’s alleged Blackwell flagship could reportedly exceed that of high-power RTX 5090 models like the MSI Lightning Z and ASUS ROG Matrix. With Nvidia’s RTX 5090 already unaffordable for most gamers, it is crazy to think the company could be building something higher-end. You can join the discussion on **Nvidia’s rumoured RTX 5090 Ti graphics card on the OC3D Forums**.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 5
+  },
+  "https://www.youtube.com/watch?v=UDtPWG4scV8": {
+    "url": "https://www.youtube.com/watch?v=UDtPWG4scV8",
+    "title": "RTX 5090 Ti & Titan Leaks - Specs, Release Date & Analysis",
+    "source": "www.youtube.com",
+    "snippet": "Nvidia's RTX Titan / RTX 5090 Ti is incoming according to a report, with Nvidia keen to focus on a new flagship GPU for gamers.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 5
+  },
+  "https://www.reddit.com/r/nvidia/comments/1rd8xog/geforce_rtx_5090_ti_or_titan_blackwell_to_be/": {
+    "url": "https://www.reddit.com/r/nvidia/comments/1rd8xog/geforce_rtx_5090_ti_or_titan_blackwell_to_be/",
+    "title": "GeForce RTX 5090 Ti or Titan Blackwell to be released in summer",
+    "source": "www.reddit.com",
+    "snippet": "r/nvidia - GeForce RTX 5090 Ti or Titan Blackwell to be released ... NVIDIA reportedly is developing a new RTX 50-series halo GPU for Q3 2026.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 5
+  },
+  "https://www.igorslab.de/en/?p=318887": {
+    "url": "https://www.igorslab.de/en/?p=318887",
+    "title": "NVIDIA RTX 5090 Ti or TITAN Blackwell: New Halo Model for Q3 ...",
+    "source": "www.igorslab.de",
+    "snippet": "According to NVIDIA, the RTX PRO 6000 Blackwell Workstation Edition comes with 96 GB of GDDR7-ECC memory and a maximum power draw of 600 watts.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 5
+  },
+  "https://wccftech.com/roundup/nvidia-geforce-rtx-5090/": {
+    "url": "https://wccftech.com/roundup/nvidia-geforce-rtx-5090/",
+    "title": "NVIDIA RTX 5090: Full Specs, Benchmarks, Price & Where to Buy (2026) - Wccftech",
+    "source": "wccftech.com",
+    "snippet": "NVIDIA's GeForce RTX 5090 is Team Green's flagship offering in the RTX 50 \"Blackwell\" GPU lineup, bringing performance levels deemed impossible. Starting with the specifications, NVIDIA's GeForce RTX 5090 features the PG144/145-SKU30 PCB design, which will house the \"heart of the GPU,\" also called the GB202-300-A1 GPU core. NVIDIA's RTX 50 Blackwell lineup was showcased at CES 2025, and the first cards to get an official retail launch were the GeForce RTX 5090 and RTX 5080, both of which hit the stores on January 30th. The NVIDIA GeForce RTX 5090 is the fastest graphics card right now; as such, you will require a very speedy processor to ensure that your GPU isn't bottlenecked. ##### Jan 07NVIDIA GeForce RTX 5090 32 GB GPU Unleashed For $1999 US: Over 20K Cores, 2x The Performance of 4090, Dual-Slot Cooler. ##### Dec 25NVIDIA GeForce RTX 5090 PCB Leaks Out – Confirms Gargantuan GB202 GPU, 16 GDDR7 Memory Packages & Single 16-Pin Connector.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 5
+  },
+  "https://www.youtube.com/watch?v=p5pZuUmpIyY": {
+    "url": "https://www.youtube.com/watch?v=p5pZuUmpIyY",
+    "title": "RTX 5090 Ti ES Specs Leak: Nvidia's 750W AMD RDNA 5 Killer?!",
+    "source": "www.youtube.com",
+    "snippet": "... nvidia-will-not-be-releasing-any-new-rtx-gaming-gpus-in-2026 ... Titan Blackwell Engineering Sample Specs Leak 8:23 Late 2026 would",
+    "content": null,
+    "relevance_score": 0,
+    "round": 5
+  },
+  "https://www.techpowerup.com/gpu-specs/geforce-rtx-5090.c4216": {
+    "url": "https://www.techpowerup.com/gpu-specs/geforce-rtx-5090.c4216",
+    "title": "NVIDIA GeForce RTX 5090 Specs | TechPowerUp GPU Database",
+    "source": "www.techpowerup.com",
+    "snippet": "It features 21760 shading units, 680 texture mapping units, and 176 ROPs. Also included are 680 tensor cores which help improve the speed of machine learning",
+    "content": null,
+    "relevance_score": 0,
+    "round": 5
+  },
+  "https://www.tweaktown.com/news/110017/amds-rdna-4-focus-for-2026-will-reportedly-be-one-gpu-the-radeon-rx-9060-xt-8gb/index.html": {
+    "url": "https://www.tweaktown.com/news/110017/amds-rdna-4-focus-for-2026-will-reportedly-be-one-gpu-the-radeon-rx-9060-xt-8gb/index.html",
+    "title": "AMD's RDNA 4 focus for 2026 will reportedly be one GPU, the Radeon RX 9060 XT 8GB",
+    "source": "www.tweaktown.com",
+    "snippet": "# AMD's RDNA 4 focus for 2026 will reportedly be one GPU, the Radeon RX 9060 XT 8GB. ## According to a new report AMD is shifting its Radeon focus to 8GB graphics cards, and for its RDNA 4 lineup that only means a single GPU. **TL;DR:** AMD is shifting its Radeon GPU focus to 8GB models like the RX 9060 XT due to rising DRAM prices that are affecting 16GB variants. According to new information from the China-based Board Channels forums (via **Videocardz**), a regular source of gaming GPU news on supply and pricing, AMD is shifting its Radeon GPU focus toward 8GB graphics cards. For the company's new RDNA 4 generation, that's a single model, the mainstream Radeon RX 9060 XT 8GB. At the time of the Radeon RX 9060 XT's launch in 2025, the focus was on the 16GB model, with the 8GB cards primarily reserved for system integrators.",
+    "content": "According to new information from the China-based Board Channels forums (via\nVideocardz\n), a regular source of gaming GPU news on supply and pricing, AMD is shifting its Radeon GPU focus toward 8GB graphics cards. For the company's new RDNA 4 generation, that's a single model, the mainstream Radeon RX 9060 XT 8GB.\nVIEW GALLERY - 2 IMAGES\nAt the time of the Radeon RX 9060 XT's launch in 2025, the focus was on the 16GB model, with the 8GB cards primarily reserved for system integrators. This is why\nour review coverage\nonly includes\nRadeon RX 9060 XT 16GB models\n, which consistently outperformed NVIDIA's GeForce RTX 5060 8GB GPU, especially for 1440p gaming.\nThis new report mirrors similar reporting on the GeForce RTX 50 Series, where unprecedented DRAM price increases are disrupting the PC gaming GPU market. Specifically, models with 16GB or more of VRAM.\nFor AMD and China, this means a focus on the Radeon RX 9060 XT and Radeon RX 7650 GRE GPUs, both of which feature 8GB of GDDR6 memory. The good news is that AMD's partners will still be able to obtain 16GB cards, but the focus will be placed on the Radeon RX 9070 XT, with the baseline Radeon RX 9070 seeing its production \"significantly reduced.\"\nIn addition to the shift in focus to 8GB cards, the report notes that a 5-10% price increase for Radeon GPUs occurred in January 2026 for AMD's AIB partners purchasing GPU and memory bundles, and another price increase is coming soon. So soon that it could take effect as early as this month, or at the latest in March.",
+    "relevance_score": 0,
+    "round": 6
+  },
+  "https://www.notebookcheck.net/Major-RX-9000-RDNA-4-laptop-GPU-leak-reveals-specs-of-RX-9080M-RX-9070M-XT-and-more.1007213.0.html": {
+    "url": "https://www.notebookcheck.net/Major-RX-9000-RDNA-4-laptop-GPU-leak-reveals-specs-of-RX-9080M-RX-9070M-XT-and-more.1007213.0.html",
+    "title": "Major RX 9000 RDNA 4 laptop GPU leak reveals specs of RX ...",
+    "source": "www.notebookcheck.net",
+    "snippet": "At the top end, AMD has reportedly prepared the RX 9080M. The GPU could feature the full Navi 48 die with 64 Compute Units (CUs), 16 GB of GDDR6",
+    "content": null,
+    "relevance_score": 0,
+    "round": 6
+  },
+  "https://www.techpowerup.com/gpu-specs/radeon-rx-9060-xt-8-gb.c4251": {
+    "url": "https://www.techpowerup.com/gpu-specs/radeon-rx-9060-xt-8-gb.c4251",
+    "title": "AMD Radeon RX 9060 XT 8 GB Specs | TechPowerUp GPU Database",
+    "source": "www.techpowerup.com",
+    "snippet": "The GPU is operating at a frequency of 1700 MHz, which can be boosted up to 3130 MHz, memory is running at 2518 MHz (20.1 Gbps effective). Being a dual-slot",
+    "content": null,
+    "relevance_score": 0,
+    "round": 6
+  },
+  "https://www.youtube.com/watch?v=HkUEijON-88": {
+    "url": "https://www.youtube.com/watch?v=HkUEijON-88",
+    "title": "AMD RX 9080 XT 32GB ES Leak: 3.7GHz, GDDR7 ... - YouTube",
+    "source": "www.youtube.com",
+    "snippet": "... amd-radeon-rx-9060-xt-official-299-for-8gb-and-349-for-16gb-model-launching-june-5 https://www.techpowerup.com/review/sapphire-radeon-rx-9070",
+    "content": null,
+    "relevance_score": 0,
+    "round": 6
+  },
+  "https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9060.html": {
+    "url": "https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9060.html",
+    "title": "AMD Radeon™ RX 9060",
+    "source": "www.amd.com",
+    "snippet": "###### Business Systems. ###### Personal & Gaming. ###### Embedded. ###### Resources by Type. ###### GPU Accelerators. ###### Adaptive Accelerators. ###### Graphics Tools & Apps. ###### GPU Accelerator Tools & Apps. ###### For Data Center & Cloud. ###### For Developers. ###### Gaming. ###### Systems. ###### Processors. ###### Embedded Products. ###### About Our Partners. ###### Gaming & Personal Computing. ###### Adaptive & Embedded Computing. ###### Shop Our Retail Partners. All You Need For Incredible Gaming. **120 FPS**God of War: Ragnarok. ## Resources & Support. Download the latest drivers, software and release notes for AMD products. ### AMD Software: Adrenalin Edition. Quickly access the latest software features, game stats, performance reports, driver updates, and much more - all from one convenient location. ### AMD RDNA. The AMD RDNA architecture is designed for the next generation of efficient high-performance gaming. ### AMD HYPR-RX Profiles. Certain AMD technologies may require third-party enablement or activation. Please confirm with system manufacturer for specific features.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 6
+  },
+  "https://dropreference.com/en/blog/component/amd-radeon-rx-9060-xt-test-specs-verdict-rdna4-2026": {
+    "url": "https://dropreference.com/en/blog/component/amd-radeon-rx-9060-xt-test-specs-verdict-rdna4-2026",
+    "title": "AMD RX 9060 XT: complete test, benchmarks, and reviews (May ...",
+    "source": "dropreference.com",
+    "snippet": "All about the Radeon RX 9060 XT RDNA 4: technical specifications, 1080p/1440p performance, RTX 5060 and 4060 Ti comparison, price in France,",
+    "content": null,
+    "relevance_score": 0,
+    "round": 6
+  },
+  "https://www.tweaktown.com/news/105554/amd-rumored-radeon-rx-9080-xt-up-to-32gb-of-faster-gddr7-4ghz-gpu-clocks-450w-power/index.html": {
+    "url": "https://www.tweaktown.com/news/105554/amd-rumored-radeon-rx-9080-xt-up-to-32gb-of-faster-gddr7-4ghz-gpu-clocks-450w-power/index.html",
+    "title": "AMD rumored Radeon RX 9080 XT: up to 32GB of faster GDDR7, up to 4GHz GPU clocks, 450W power",
+    "source": "www.tweaktown.com",
+    "snippet": "Latest NewsAIBusinessCases, Cooling & PSUDisplaysGamingGraphics CardsMotherboardsProcessorsScience & SpaceSoftware & AppsStorage. Latest ReviewsLatest ArticlesAudioCases, Cooling & PSUDisplaysGraphics CardsLaptopsMotherboardsPeripheralsProcessorsRAMStorage. **TL;DR:** AMD is reportedly developing the Radeon RX 9080 XT, an RDNA 4-based enthusiast graphics card featuring up to 32GB of GDDR7 memory and GPU clocks reaching 4.0GHz. It promises 15-40% better gaming performance than the RX 9070 XT, potentially outperforming NVIDIA's RTX 5080 and rivaling the RTX 5080 SUPER. Best Deals: PowerColor RX 7900 XTX Graphics Card. | $1399 USD | $1445 USD | $1219.99 USD | Buy |. | Check Price | Check Price | Check Price | Buy |. You can unsubscribe anytime, and your data will not be shared without your consent. Follow TweakTown on Google News. Add TweakTown as a source on Google. * COLORFUL iGame GeForce RTX 5070 Ultra OC Review - When Style and Performance Meet. * MSI GeForce RTX 5060 Ti 16G VENTUS 2X OC PLUS Review. * Is Your Ethernet Performance Slower Than Wi-Fi?",
+    "content": "AMD is reportedly preparing a new enthusiast graphics card, with a rumored Radeon RX 9080 XT now in the headlines... with gaming performance beating the RTX 5080 and quite possibly matching the upcoming RTX 5080 SUPER.\nIn a new video from leaker Moore's Law is Dead, we're hearing that AMD is reportedly working on a new enthusiast-level RDNA 4-based graphics card that could end up being called the Radeon RX 9080 XT -- but let's hope AMD doesn't go nuts and call it something ridiculous like the Radeon RX 9080 XTX Ultra AI NPU or something like that.\nAnyway, according to MLID's sources, the purported RDNA 4-based enthusiast GPU rocks faster GDDR7 memory on a 256-bit memory bus, with up to 32GB of GDDR7 on offer for the purported Radeon RX 9080 XT. Not only that, but the GPU was being pushed to its limits at anywhere between 3.7GHz and a much higher 4.0GHz, with up to 450W of power.\nAs for gaming performance, the more powerful Radeon RX 9080 XT (we're going to go with the RX 9080 XT for now, it makes the most sense), MLID reports that it would be 15-40% faster in gaming over the RX 9070 XT, with the beefed-up RDNA 4 card being around 28% faster than the RX 9070 XT on average in 4K gaming.\nAMD is most likely waiting for the release of its new FSR 4 \"Redstone\" upscaling technology before it releases the Radeon RX 9080 XT, announcing Redstone during Computex 2025 earlier this month. The purported Radeon RX 9080 XT with up to 4.0GHz GPU clocks and up to 32GB of faster GDDR7 memory would see it beating NVIDIA's new GeForce RTX 5080, and even quite possibly matching the upcoming RTX 5080 SUPER, which would be very impressive to see from AMD.",
+    "relevance_score": 0,
+    "round": 6
+  },
+  "https://www.youtube.com/watch?v=bWCoDZa2p5Y": {
+    "url": "https://www.youtube.com/watch?v=bWCoDZa2p5Y",
+    "title": "AMD RX 9080 & RX 10000 – MASSIVE Leaks? GDDR7 ... - YouTube",
+    "source": "www.youtube.com",
+    "snippet": "AMD RX 9080 & RX 10000 – MASSIVE Leaks? GDDR7, 48GB VRAM, CES 2026! · Comments.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 6
+  },
+  "https://www.dlcompare.com/gaming-news/an-engineering-sample-of-amd-s-rx-9080-xt-could-compete-with-the-rtx-5080-super-55362": {
+    "url": "https://www.dlcompare.com/gaming-news/an-engineering-sample-of-amd-s-rx-9080-xt-could-compete-with-the-rtx-5080-super-55362",
+    "title": "An engineering sample of AMD’s RX 9080 XT could compete with the RTX 5080 Super",
+    "source": "www.dlcompare.com",
+    "snippet": "* An engineering sample of AMD’s RX 9080 XT could co ... An engineering sample of AMD’s RX 9080 XT could compete with the RTX 5080 Super. AMD appears to be in the works on a new high-end graphics card, with the rumored Radeon RX 9080 XT making waves by potentially outpacing the RTX 5080 and possibly even rivaling the forthcoming RTX 5080 SUPER. In a recent video shared by leaker Moore's Law is Dead, it’s been suggested that AMD's new enthusiast-level RDNA 4-based graphics card might be named the Radeon RX 9080 XT – though hopefully, AMD doesn't end up choosing an overly complicated name like the Radeon RX 9080 XTX Ultra AI NPU. With expected clock speeds of up to 4.0GHz and as much as 32GB of advanced GDDR7 memory, the Radeon RX 9080 XT could potentially outperform NVIDIA's newest GeForce RTX 5080 and may even compete closely with the upcoming RTX 5080 SUPER, which would be quite impressive for AMD.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 6
+  },
+  "https://en.gamegpu.com/videokarty/videokarty-amd/radeon-r-9xxx-series/radeon-rx-9080-xt": {
+    "url": "https://en.gamegpu.com/videokarty/videokarty-amd/radeon-r-9xxx-series/radeon-rx-9080-xt",
+    "title": "Radeon RX 9080 XT",
+    "source": "en.gamegpu.com",
+    "snippet": "RDNA 4 Features in RX 9080 XT: · 112 computing units (CU) · 7168 stream processors · 64 or 96 AI cores",
+    "content": null,
+    "relevance_score": 0,
+    "round": 6
+  },
+  "https://www.notebookcheck.net/AMD-RX-9080-XT-ES-engineering-sample-could-rival-RTX-5080-Super.1027707.0.html": {
+    "url": "https://www.notebookcheck.net/AMD-RX-9080-XT-ES-engineering-sample-could-rival-RTX-5080-Super.1027707.0.html",
+    "title": "AMD RX 9080 XT ES engineering sample could rival RTX 5080 Super - Notebookcheck News",
+    "source": "www.notebookcheck.net",
+    "snippet": "# AMD RX 9080 XT ES engineering sample could rival RTX 5080 Super. RX 9080 XT ES speculation (image source: @MooresLawIsDead YouTube). Internal AMD lab tests reportedly show the card running game clocks between 3.4 and 3.7 GHz. The GPU features a 256-bit GDDR7 memory interface and configurations with up to 32 GB of VRAM. According to early benchmark data shared confidentially with Moore's Law Is Dead, performance uplift at 4K resolution averages 28% over the RX 9070 XT, with peaks of up to 45% in certain workloads. This would place the RX 9080 XT ES in direct contention with the RTX 5080 Super and possibly even the RTX 4090, depending on implementation and final clock speeds. The GPU, which may be based on a refined Navi 48 architecture, is not expected to use a radical redesign. Moore's Law Is Dead speculates that the RX 9080 XT ES could follow a strategy similar to Radeon VII, which used a die-shrunk version of Vega to pre-empt NVIDIA's 7 nm transition.",
+    "content": "Internal AMD lab tests reportedly show the card running game clocks between 3.4 and 3.7 GHz. The GPU features a 256-bit GDDR7 memory interface and configurations with up to 32 GB of VRAM. Some samples also include 16 GB and 24 GB memory variants. In terms of power, the card is pushed well past 450 watts under load, with some units exceeding 500 watts in overclocked conditions.\nAccording to early benchmark data shared confidentially with Moore's Law Is Dead, performance uplift at 4K resolution averages 28% over the RX 9070 XT, with peaks of up to 45% in certain workloads. This would place the RX 9080 XT ES in direct contention with the RTX 5080 Super and possibly even the RTX 4090, depending on implementation and final clock speeds. This is all speculative at this time.\nThe GPU, which may be based on a refined Navi 48 architecture, is not expected to use a radical redesign. Instead, AMD appears to be pursuing higher clocks and memory bandwidth within a traditional monolithic layout. It may also be leveraging TSMC's N4X or even N3X process nodes to achieve the reported performance. AMD has publicly confirmed a roadmap including N2X and 1.4 nm nodes for future CPUs, making the use of cutting-edge nodes plausible.\nMoore's Law Is Dead speculates that the RX 9080 XT ES could follow a strategy similar to Radeon VII, which used a die-shrunk version of Vega to pre-empt NVIDIA's 7 nm transition. However, AMD has not confirmed any launch plans. The engineering sample may remain internal unless AMD identifies a market window or competitive pressure that justifies a release.\nThe final decision could hinge on the readiness of FSR4 (Redstone) and broader strategic considerations. Multiple sources suggest AMD may wait to combine a potential RX 9080 XT release with improved upscaling technology to deliver a fully competitive high-end product.\nSebastian Jankowski\n- Proofreader and tech writer\n- 37 articles published on Notebookcheck\nsince 2025\nA heavy PC user since 1989, I've experienced every stage—8-bit, 16-bit, and 32-bit—through the early console years. The Oculus revolution pulled me into VR, leading me to open my own VR arcade. My classic education was complemented by a daily deep dive into PC hardware and software news. With over 20 years of experience in the consumer electronics industry—spanning major financial and administrative firms—I now primarily work as a freelance writer and IT consultant. Based in the UK, I live with my family.",
+    "relevance_score": 0,
+    "round": 6
+  },
+  "https://www.reddit.com/r/Amd/comments/1kzy7na/amd_rumored_radeon_rx_9080_xt_up_to_32gb_of/": {
+    "url": "https://www.reddit.com/r/Amd/comments/1kzy7na/amd_rumored_radeon_rx_9080_xt_up_to_32gb_of/",
+    "title": "AMD rumored Radeon RX 9080 XT: up to 32GB of faster GDDR7, up ...",
+    "source": "www.reddit.com",
+    "snippet": "This being rumoured to have a 256 bit bus and the high clocks vs. performance suggests that this is Navi 48. So this would be after the decision to focus on",
+    "content": null,
+    "relevance_score": 0,
+    "round": 6
+  },
+  "https://hardforum.com/threads/amd-rx-9090-xt-and-9080-xt-rumors.2041733/": {
+    "url": "https://hardforum.com/threads/amd-rx-9090-xt-and-9080-xt-rumors.2041733/",
+    "title": "AMD RX 9090 XT and 9080 XT rumors | [H]ard|Forum",
+    "source": "hardforum.com",
+    "snippet": "It seems that the now defunct EVGA forums might have compromised your password there and seems many are using the same PW here. We would suggest you **UPDATE YOUR PASSWORD and TURN ON 2FA** for your account here to further secure it. Once you have enabled 2FA, your account will be updated soon to show a badge, letting other members know that you use 2FA to protect your account. If the 9090 XT can trade blows with the RTX 4090 and the 9080 XT with the RTX 5080, AMD could make some serious inroads depending on the product pricing and availability. I'm thinking the 9090 should have 32GB and the 9080 24GB to maintain their ram advantage over Nvidia's offering to give an attractive product for customers. Even a 9080 XT with 24 GB of memory and 25% faster than 9070XT performance that trades blows with the 5080 would be welcome if it came out at a reasonable price.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 6
+  },
+  "https://videocardz.com/newz/amd-radeon-rx-9060-xt-official-299-for-8gb-and-349-for-16gb-model-launching-june-5": {
+    "url": "https://videocardz.com/newz/amd-radeon-rx-9060-xt-official-299-for-8gb-and-349-for-16gb-model-launching-june-5",
+    "title": "AMD Radeon RX 9060 XT official: $299 for 8GB and $349 for 16GB model, launching June 5 - VideoCardz.com",
+    "source": "videocardz.com",
+    "snippet": "# AMD Radeon RX 9060 XT official: $299 for 8GB and $349 for 16GB model, launching June 5. AMD has not wasted the opportunity to announce its gaming Radeon RX 9060 XT at the main Computex keynote. The Radeon RX 9060 XT is positioned to compete with the GeForce RTX 5060 Ti. AMD presented a slide showing the Radeon GPU beating the RTX 5060 Ti 8GB by 6% on average, although it used the 16GB variant for the comparison. Radeon RX 9060 XT (render), Source: AMD. Officially, the **16GB model is priced at $349**, while the **8GB version is set at $299**—aggressive pricing compared to NVIDIA’s RTX 5060 Ti. Radeon RX 9060 XT performance, Source: AMD. Radeon RX 9060 XT performance, Source: AMD.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 7
+  },
+  "https://bestvaluegpu.com/history/new-and-used-rx-9060-xt-16gb-price-history-and-specs/": {
+    "url": "https://bestvaluegpu.com/history/new-and-used-rx-9060-xt-16gb-price-history-and-specs/",
+    "title": "RX 9060 XT 16GB Price Tracker US - May 2026",
+    "source": "bestvaluegpu.com",
+    "snippet": "AMD Radeon RX 9060 XT 16GB. # RX 9060 XT 16GB Price Tracker US. ## RX 9060 XT 16GB Price. AMD RX 9060 XT 16GB price is $448 on Amazon currently. The price history chart shows the average monthly lowest price of new GPUs on Newegg and used GPUs on eBay. ## Is RX 9060 XT 16GB Worth It? Maybe, when purchased new, the Radeon RX 9060 XT 16GB offers a fairly satisfactory performance with its $448 price tag. However, it doesn't quite match up to the similarly priced Radeon RX 7700 XT, what outpeforms Radeon RX 9060 XT 16GB by 4.9% in 3DMark benchmark. RX 9060 XT 16GB vs RX 7700 XT. In the used market, the Radeon RX 9060 XT 16GB fails to justify its value for money. ## PSU for RX 9060 XT 16GB. The Radeon RX 9060 XT 16GB requires 160 watts to operate. | Radeon RX 9060 XT 16GB | 16436 | $448  |  amazon logo arrow right |.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 7
+  },
+  "https://www.reddit.com/r/Amd/comments/1krpcur/amd_radeon_rx_9060_xt_official_299_for_8gb_and/": {
+    "url": "https://www.reddit.com/r/Amd/comments/1krpcur/amd_radeon_rx_9060_xt_official_299_for_8gb_and/",
+    "title": "AMD Radeon RX 9060 XT official: $299 for 8GB and $349 for 16GB ...",
+    "source": "www.reddit.com",
+    "snippet": "AMD Radeon RX 9060 XT official: $299 for 8GB and $349 for 16GB model, launching June 5 - VideoCardz.com · Comments Section · More posts you may",
+    "content": null,
+    "relevance_score": 0,
+    "round": 7
+  },
+  "https://www.club386.com/amd-radeon-rx-9060-xt-gpu-prices-are-a-touch-above-msrp/": {
+    "url": "https://www.club386.com/amd-radeon-rx-9060-xt-gpu-prices-are-a-touch-above-msrp/",
+    "title": "AMD Radeon RX 9060 XT GPU prices are a touch above MSRP",
+    "source": "www.club386.com",
+    "snippet": "As a reminder, AMD has set RX 9060 XT 8GB to $249 MSRP, with the 16GB sitting a little higher at $349. AMD RX 9060 XT US prices. Via: @momomo_us",
+    "content": null,
+    "relevance_score": 0,
+    "round": 7
+  },
+  "https://www.extremetech.com/computing/amd-unveils-9060-xt-31ghz-boost-16gb-vram-for-349": {
+    "url": "https://www.extremetech.com/computing/amd-unveils-9060-xt-31ghz-boost-16gb-vram-for-349",
+    "title": "AMD Unveils 9060 XT With 3.1GHz Boost, 16GB VRAM For $349 or ...",
+    "source": "www.extremetech.com",
+    "snippet": "It's not quite on sale yet, but when it is, it'll come in 8GB and 16GB variants, with a suggested price that tops out at $349. Time will tell",
+    "content": null,
+    "relevance_score": 0,
+    "round": 7
+  },
+  "https://hardforum.com/threads/amd-radeon-rx-9060-xt-official-299-for-8gb-and-349-for-16gb-model-launching-june-5.2041540/": {
+    "url": "https://hardforum.com/threads/amd-radeon-rx-9060-xt-official-299-for-8gb-and-349-for-16gb-model-launching-june-5.2041540/",
+    "title": "AMD Radeon RX 9060 XT official: $299 for 8GB and $349 for 16GB ...",
+    "source": "hardforum.com",
+    "snippet": "Officially, the 16GB model is priced at $349. while the 8GB version is set at $299—aggressive pricing compared to NVIDIA's RTX 5060 Ti. \".",
+    "content": null,
+    "relevance_score": 0,
+    "round": 7
+  },
+  "https://arstechnica.com/gadgets/2025/06/review-at-349-amds-16gb-radeon-rx-9060-xt-is-the-new-midrange-gpu-to-beat/": {
+    "url": "https://arstechnica.com/gadgets/2025/06/review-at-349-amds-16gb-radeon-rx-9060-xt-is-the-new-midrange-gpu-to-beat/",
+    "title": "Review: At $349, AMD’s 16GB Radeon RX 9060 XT is the new midrange GPU to beat - Ars Technica",
+    "source": "arstechnica.com",
+    "snippet": "# Review: At $349, AMD’s 16GB Radeon RX 9060 XT is the new midrange GPU to beat. That’s the advantage AMD is trying to press with the new Radeon RX 9060 XT graphics cards, which at $299 and $349 for 8GB and 16GB are both priced and configured to comprehensively undercut Nvidia’s RTX 5060 and 5060 Ti. As with the RX 9070 series earlier this year, the RDNA 4 architecture goes a long way toward addressing the RX 6000 and RX 7000-series’ lackluster ray-tracing performance and mediocre power efficiency, and a relatively affordable 16GB version will help insulate buyers from the RAM limitations that are slowly but surely becoming more of a problem for 8GB cards. With the usual 2025 GPU caveat—the difference between a “good” GPU and a “bad” one is whether you can actually find one and buy it for anything close to the list price—let’s dive into one of the few genuinely exciting midrange GPUs we’ve gotten in a while.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 7
+  },
+  "https://www.youtube.com/watch?v=c4WYa9wK9Us": {
+    "url": "https://www.youtube.com/watch?v=c4WYa9wK9Us",
+    "title": "AMD Announces 9060 XT for $350 - YouTube",
+    "source": "www.youtube.com",
+    "snippet": "AMD had a better Computex announcement reception than Nvidia. AMD also has Threadripper 9000, Radeon AI Pro R9700, and FSR Redstone.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 7
+  },
+  "https://www.pcmag.com/news/did-nvidia-cancel-the-rtx-50-super": {
+    "url": "https://www.pcmag.com/news/did-nvidia-cancel-the-rtx-50-super",
+    "title": "Did Nvidia Cancel the RTX 50 Super?",
+    "source": "www.pcmag.com",
+    "snippet": "Nvidia's long-expected RTX 50 Super series might be cancelled amidst shortages of the next-generation memory standard they're supposed to use. \"",
+    "content": null,
+    "relevance_score": 0,
+    "round": 8
+  },
+  "https://www.reddit.com/r/LocalLLaMA/comments/1or5j9z/nvidia_may_cancel_the_rtx_50_super_due_to_a/": {
+    "url": "https://www.reddit.com/r/LocalLLaMA/comments/1or5j9z/nvidia_may_cancel_the_rtx_50_super_due_to_a/",
+    "title": "Nvidia may cancel the RTX 50 Super due to a shortage ...",
+    "source": "www.reddit.com",
+    "snippet": "Nvidia may cancel the RTX 50 Super due to a shortage of 3GB GDDR7 memory · Comments Section.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 8
+  },
+  "https://www.buysellram.com/blog/why-nvidia-canceled-rtx-50-super-and-delayed-rtx-60-to-2028/": {
+    "url": "https://www.buysellram.com/blog/why-nvidia-canceled-rtx-50-super-and-delayed-rtx-60-to-2028/",
+    "title": "Why Nvidia Cancels RTX 50 Super and Delays RTX 60 to ...",
+    "source": "www.buysellram.com",
+    "snippet": "NVIDIA cancels RTX 50 Super & delays RTX 60 to 2028 due to memory shortages ... 2026, including the anticipated RTX 50-series “Super” refreshes. Even more",
+    "content": null,
+    "relevance_score": 0,
+    "round": 8
+  },
+  "https://pokde.net/system/pc/gpu/nvidia-reduce-rtx-50-gpu-supply": {
+    "url": "https://pokde.net/system/pc/gpu/nvidia-reduce-rtx-50-gpu-supply",
+    "title": "NVIDIA Reported To Reduce RTX 50 GPU Supply In 2026 Due To ...",
+    "source": "pokde.net",
+    "snippet": "Facebook-f     X-twitter     Telegram     Rss. Reading: NVIDIA Reported To Reduce RTX 50 GPU Supply In 2026 Due To RAM Shortage. # NVIDIA Reported To Reduce RTX 50 GPU Supply In 2026 Due To RAM Shortage. The effects of memory shortage is far-reaching: NVIDIA, being the largest consumer GPU vendor by a large margin, is being reported to reduce its production of RTX 50 series GPUs due to the said shortage. Based on sources among the AIB partners, Benchlife reported that mid-range RTX 50 models like the RTX 5070 Ti and RTX 5060 Ti 16GB will be the most impacted, both of which are considered among the most affordable options from the brand today if you want something over 8GB of VRAM, which is pretty important given how much VRAM is used by games these days.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 8
+  },
+  "https://www.youtube.com/watch?v=963ENa8ogyE": {
+    "url": "https://www.youtube.com/watch?v=963ENa8ogyE",
+    "title": "RAM Crisis 2026 - Nvidia RTX 50 SUPER Delays, Steam ...",
+    "source": "www.youtube.com",
+    "snippet": "RAM Crisis 2026 - Nvidia RTX 50 SUPER Delays, Steam Machine Price, AMD Zen 6 | Broken Silicon 341 · Comments.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 8
+  },
+  "https://www.hostzealot.com/blog/news/nvidia-postpones-geforce-rtx-50-super-release-due-to-memory-shortage": {
+    "url": "https://www.hostzealot.com/blog/news/nvidia-postpones-geforce-rtx-50-super-release-due-to-memory-shortage",
+    "title": "NVIDIA Postpones GeForce RTX 50 SUPER Release Due ...",
+    "source": "www.hostzealot.com",
+    "snippet": "The primary reason for the cancellation is a significant shortage of GDDR7 memory with a density of 3 GB per chip. NVIDIA originally planned to",
+    "content": null,
+    "relevance_score": 0,
+    "round": 8
+  },
+  "https://multicoreperformance.com/rtx-50-super-is-dead-what-nvidias-2026-gpu-shortage-means-for-gamers/": {
+    "url": "https://multicoreperformance.com/rtx-50-super-is-dead-what-nvidias-2026-gpu-shortage-means-for-gamers/",
+    "title": "RTX 50 Super is Dead: What NVIDIA’s 2026 GPU Shortage Means for Gamers",
+    "source": "multicoreperformance.com",
+    "snippet": "# **The RTX 50 Super is Dead: What NVIDIA’s 2026 GPU Shortage Means for Gamers**. For nearly a decade, the “Super” or “Ti” mid-cycle refresh has been the tactical heartbeat of the GPU market. It served as a course correction—a way for NVIDIA to offer more VRAM or better price-to-performance eighteen months after a new architecture launched. ​Internal supply chain shifts and manufacturing bottlenecks have confirmed a grim reality: the **RTX 50 Super series is dead on arrival.** NVIDIA is not just skipping a refresh; they are fundamentally restructuring how they distribute silicon in a world where gaming is no longer their primary revenue driver. ## The Death of the Mid-Cycle Refresh. The decision to cancel the RTX 5070 Super and 5080 Super is not a choice made by the gaming division, but a mandate from the datacenter division. **The End of Price-Correction:** Usually, “Super” cards launch at the same price as the base models, effectively lowering the price of the original cards.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 8
+  },
+  "https://www.facebook.com/DigitalTrends/posts/nvidia-may-skip-new-consumer-gaming-gpus-in-2026-due-to-global-memory-shortages-/1265638795418723/": {
+    "url": "https://www.facebook.com/DigitalTrends/posts/nvidia-may-skip-new-consumer-gaming-gpus-in-2026-due-to-global-memory-shortages-/1265638795418723/",
+    "title": "Nvidia's gaming GPU roadmap just hit a weird speed bump",
+    "source": "www.facebook.com",
+    "snippet": "Nvidia may skip new consumer gaming GPUs in 2026 due to global memory shortages, delaying RTX 50 Super and RTX 60 releases.",
+    "content": null,
+    "relevance_score": 0,
+    "round": 8
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "7f9a4bd6-8b9a-4eaa-82b2-88629e765076": {
+    "node_id": "7f9a4bd6-8b9a-4eaa-82b2-88629e765076",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.031009615384615385,
+    "snippet": "9，预留一部分显存用于其他操作。\n\nvLLM 提供了与 OpenAI 完全兼容的 API 接口，用户可以直接使用 OpenAI 的 SDK 进行调用，无需修改代码，例如使用 Python 的 openai 库，只需要将base_url设置为http://<server-ip>:8000/v1，就可以像调用 OpenAI API 一样调用 vLLM 服务。",
+    "round": 1
+  },
+  "fbe4d273-a1f8-4a55-88dc-83c6a420911d": {
+    "node_id": "fbe4d273-a1f8-4a55-88dc-83c6a420911d",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.024560107029699837,
+    "snippet": "运维工程师首先监控了服务的显存使用情况，发现显存使用率随时间缓慢上升，即使没有请求，显存也不会释放，这明显是显存泄漏的症状。进一步查看 vLLM 的日志，发现有大量的请求因为超时被取消，但这些请求的 KV 缓存没有被及时释放。经过排查，发现是 vLLM 0.4.1 版本的一个已知 bug，当请求被取消时，对应的 KV 缓存没有被正确回收。解决方案是升级 vLLM 到 0.4.2 版本，该版本修复了这个 bug，同时启用--enable-auto-gc参数，自动回收不再使用的显存。升级后，服务的显存使用情况稳定，不再出现 OOM 崩溃的问题。这个案例的经验总结是，在部署 vLLM 时，应该使用最新的稳定版本，及时修复已知的 bug，同时启用自动垃圾回收功能，预防显存泄漏问题。\n\n案例 2：Triton 推理延迟过高\n\n某企业使用 Triton 部署了一个 7B 参数的大模型推理服务，发现平均延迟超过 2 秒，无法满足业务需求。运维工程师使用 perf_analyzer 工具测试服务的性能，发现即使在低并发情况下，延迟也很高，GPU 利用率只有 30% 左右。查看 Triton 的配置文件，发现动态批处理功能没有启用，每个请求都单独处理，导致 GPU 利用率低。同时，模型使用的是 FP16 精度，没有启用量化。解决方案是在 Triton 的配置文件中启用动态批处理，设置max_batch_size为 32，max_queue_delay_microseconds为 10000，同时将模型量化为 INT4 精度，使用 TensorRT-LLM 后端。优化后，服务的平均延迟降低到 300 毫秒以下，GPU 利用率提升到 85% 以上，满足了业务的性能要求。这个案例的经验总结是，动态批处理和量化是提升大模型推理性能的关键技术，必须正确配置和启用。\n\n案例 3：多模型部署资源竞争导致服务不稳定\n\n某 Kubernetes 集群上部署了 10 个不同的大模型推理服务，所有服务都共享节点上的 GPU 资源，导致服务经常出现延迟波动和崩溃的问题。运维工程师查看节点的 GPU 使用情况，发现多个服务同时运行时，GPU 显存经常被占满，导致 OOM 错误。同时，GPU 利用率波动很大，有时高达 100%，有时又很低。解决方案是使用 NVIDIA MIG 技术将每个 A100 GPU 分割成 2 个 20GB 的 MIG 实例，为每个推理服务分配一个独立的 MIG 实例，实现资源隔离。同时，使用 Kubernetes 的资源配额功能，限制每个服务能够使用的 CPU 和内存资源。优化后，各个服务之间不再相互干扰，服务的稳定性和性能都得到了大幅提升，延迟波动从原来的 ±500 毫秒降低到 ±50 毫秒。这个案例的经验总结是，多模型部署必须实施资源隔离，避免资源竞争，MIG 技术是实现 GPU 资源隔离的有效方式。\n\n六、附录\n\n6.1 常用命令速查\n\ndocker run --gpus all -p 8000:8000 vllm/vllm-openai:v0.4.2 --model meta-llama/Llama-2-7b-chat-hf --tensor-parallel-size 1 --quantization awq命令用于使用 Docker 部署 vLLM 服务，加载 Llama-2-7b-chat 模型，使用 AWQ 量化。docker run --gpus all -p 8000:8000 -p 8001:8001 -p 8002:8002 -v /models:/models nvcr.io/nvidia/tritonserver:24.04-py3 tritonserver --model-repository=/models命令用于使用 Docker 部署 Triton 服务。perf_analyzer -m llama-2-7b -u localhost:8000 -i grpc --concurrency 10命令用于使用 perf_analyzer 测试 Triton 服务的性能。curl http://localhost:8000/v1/chat/completions -H \"Content-Type: application/json\" -d '{\"model\": \"llama-2-7b\", \"messages\": [{\"role\": \"user\", \"content\": \"Hello!\"}]}'命令用于调用 vLLM 的 OpenAI 兼容 API。kubectl logs <pod-name> -f命令用于实时查看 Pod 的日志。\n\n6.2 常用配置参数速查\n\nvLLM 的常用配置参数包括--model指定模型路径，--tensor-parallel-size指定张量并行大小，--quantization指定量化方式，--max-model-len指定最大序列长度，--max-num-batched-tokens指定每个批次的最大 token 数量，--max-num-seqs指定最大并发请求数，--gpu-memory-utilization指定 GPU 显存使用率，--enable-auto-gc启用自动垃圾回收。Triton config.pbtxt 的常用配置参数包括platform指定后端，max_batch_size指定最大批处理大小，dynamic_batching配置动态批处理，instance_group配置模型实例，parameters指定后端参数。\n\n6.3 参考资料\n\nvLLM 官方文档：https://docs.vllm.ai/en/latest/\nTriton Inference Server 官方文档：https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/index.html\nTensorRT-LLM 官方文档：https://github.com/NVIDIA/TensorRT-LLM\nKServe 官方文档：https://kserve.github.io/website/latest/",
+    "round": 2
+  },
+  "09455b02-77a4-4793-ae45-f8277987f53e": {
+    "node_id": "09455b02-77a4-4793-ae45-f8277987f53e",
+    "kb_id": 2,
+    "title": "数据与模型版本管理规范",
+    "source": "本地文档: 数据与模型版本管理规范.docx",
+    "relevance_score": 0.016666666666666666,
+    "snippet": "99\n  accuracy: 0.98\nupdate_history:\n  - version: 1.0.0\n    date: 2026-05-04\n    description: 初始版本\n\n模型元数据模板：\n\nyaml\nname: 模型名称\nversion: 1.0.0\ncreator: 创建者\ncreated_at: 2026-05-04\ndescription: 模型描述\narchitecture: Llama2-7B\nframework: PyTorch 2.3.0\nprecision: FP16\ndataset_version: pretrain_text_v1.2.0\ncode_commit: e4f5g6h\nhyperparameters:\n  batch_size: 32\n  learning_rate: 2e-5\n  epochs: 3\nmetrics:\n  accuracy: 0.92\n  f1_score: 0.",
+    "round": 2
+  },
+  "0100b23d-a90f-4bb2-bc6a-04384e5cff53": {
+    "node_id": "0100b23d-a90f-4bb2-bc6a-04384e5cff53",
+    "kb_id": 2,
+    "title": "AI 系统安全加固与权限管理规范",
+    "source": "本地文档: AI 系统安全加固与权限管理规范.docx",
+    "relevance_score": 0.016129032258064516,
+    "snippet": "1000:1000 vllm/vllm-openai:v0.4.2 \\\n  --model meta-llama/Llama-2-7b-chat-hf \\\n  --api-key your-secure-api-key \\\n  --max-model-len 4096 \\\n  --enable-auto-gc \\\n  --trust-remote-code false\n\n参考资料\n\nKubernetes 安全指南：https://kubernetes.io/docs/concepts/security/\n\nNVIDIA GPU 安全文档：https://docs.nvidia.com/datacenter/tesla/security/index.html\n\nMLflow 安全配置：https://mlflow.org/docs/latest/auth/index.html\n\nvLLM 安全最佳实践：https://docs.vllm.",
+    "round": 1
+  },
+  "37d23359-8d6f-44bc-8882-f3ffff9e7ca8": {
+    "node_id": "37d23359-8d6f-44bc-8882-f3ffff9e7ca8",
+    "kb_id": 2,
+    "title": "AI 系统安全加固与权限管理规范",
+    "source": "本地文档: AI 系统安全加固与权限管理规范.docx",
+    "relevance_score": 0.015625,
+    "snippet": "十一、附录\n\n常用安全工具\n\n漏洞扫描工具：Nessus、OpenVAS、Trivy\n\n容器安全工具：Docker Bench for Security、Clair\n\n代码安全扫描工具：SonarQube、Semgrep\n\n网络安全工具：Wireshark、Suricata、Nmap\n\n密钥管理工具：HashiCorp Vault、AWS KMS\n\n内容审核工具：OpenAI Moderation API、百度内容审核平台\n\n安全配置模板\n\nKubernetes Pod 安全上下文配置：\n\nyaml\nsecurityContext:\n  runAsUser: 1000\n  runAsGroup: 1000\n  fsGroup: 1000\n  allowPrivilegeEscalation: false\n  readOnlyRootFilesystem: true\n  capabilities:\n    drop:\n      - ALL\n\nvLLM 安全启动命令：\n\nbash\ndocker run --gpus all -p 8000:8000 --user 1000:1000 vllm/vllm-openai:v0.4.2 \\\n  --model meta-llama/Llama-2-7b-chat-hf \\\n  --api-key your-secure-api-key \\\n  --max-model-len 4096 \\\n  --enable-auto-gc \\\n  --trust-remote-code false\n\n参考资料\n\nKubernetes 安全指南：https://kubernetes.io/docs/concepts/security/\n\nNVIDIA GPU 安全文档：https://docs.nvidia.com/datacenter/tesla/security/index.html\n\nMLflow 安全配置：https://mlflow.org/docs/latest/auth/index.html\n\nvLLM 安全最佳实践：https://docs.vllm.ai/en/latest/serving/security.html\n\nTriton Inference Server 安全指南：https://docs.nvidia.",
+    "round": 1
+  },
+  "3cbce011-6598-4d9c-ac64-68e79b3a5015": {
+    "node_id": "3cbce011-6598-4d9c-ac64-68e79b3a5015",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.015151515151515152,
+    "snippet": "使用 Docker 部署 vLLM 的基本命令是docker run --gpus all -p 8000:8000 vllm/vllm-openai:v0.4.2 --model <model-path> --tensor-parallel-size <num-gpus>，其中--model参数指定模型的路径，可以是本地路径或 Hugging Face 模型仓库的模型名称，--tensor-parallel-size参数指定使用的 GPU 数量，用于张量并行部署大模型。",
+    "round": 1
+  },
+  "aadab280-04b6-405b-9da5-91646cc7867e": {
+    "node_id": "aadab280-04b6-405b-9da5-91646cc7867e",
+    "kb_id": 2,
+    "title": "AI 系统安全加固与权限管理规范",
+    "source": "本地文档: AI 系统安全加固与权限管理规范.docx",
+    "relevance_score": 0.015151515151515152,
+    "snippet": "在需求分析阶段，明确安全需求和合规要求；在设计阶段，进行安全架构设计和威胁建模；在开发阶段，进行代码安全扫描和安全测试；在测试阶段，进行全面的安全测试和渗透测试；在部署阶段，进行安全配置和加固；在运维阶段，进行持续的安全监控和漏洞修复。\n\n定期进行安全评估和渗透测试，至少每半年对 AI 系统进行一次全面的安全评估，每年进行一次渗透测试。安全评估包括基础设施安全评估、网络安全评估、数据安全评估、模型安全评估和应用安全评估，识别系统中存在的安全漏洞和风险。渗透测试模拟真实的攻击场景，测试系统的防护能力，发现潜在的安全弱点。根据安全评估和渗透测试的结果，制定整改计划，及时修复安全漏洞。\n\n加强员工的安全培训和意识教育，定期组织安全培训，向员工普及 AI 安全知识和最佳实践，提高员工的安全意识和防范能力。培训内容包括数据安全、密码安全、网络安全、模型安全和应急响应等方面。建立安全奖惩制度，对遵守安全规定的员工进行奖励，对违反安全规定的员工进行处罚。培养全员参与的安全文化，让每个员工都成为安全的守护者。\n\n建立第三方安全管理体系，对供应商和合作伙伴进行安全评估，确保其符合企业的安全要求。与供应商和合作伙伴签订安全协议，明确双方的安全责任和义务。定期对供应商和合作伙伴的安全状况进行审计，发现问题及时要求整改。禁止将核心敏感数据和模型交给未经过安全评估的第三方处理。\n\n十、常见安全问题与解决方案\n\nAPI 密钥泄露是最常见的安全问题之一，通常是由于代码中硬编码密钥、密钥存储在公共代码仓库、员工不慎泄露等原因导致的。解决方案是禁止在代码中硬编码 API 密钥，使用环境变量或密钥管理系统存储密钥。启用代码扫描功能，自动检测代码中的硬编码密钥。定期轮换 API 密钥，一旦发现密钥泄露，立即撤销泄露的密钥并生成新的密钥。审计所有使用泄露密钥的请求，排查是否存在未授权访问。\n\n数据泄露是最严重的安全事件之一，可能导致企业的商业机密和用户的个人信息被泄露。解决方案是对所有敏感数据进行加密存储和传输，严格控制数据的访问权限。定期审计数据访问日志，发现异常访问及时处理。建立数据泄露应急响应预案，一旦发生数据泄露，立即采取措施控制泄露范围，通知受影响的用户，并向相关部门报告。\n\n模型窃取是 AI 企业面临的特有安全风险，攻击者通过大量的查询请求或漏洞窃取模型参数。解决方案是限制模型的访问频率和并发数，防止攻击者通过大量查询窃取模型。使用模型水印技术，在模型中嵌入不可见的水印，便于追踪被盗模型。启用模型的运行时防护，检测并拦截异常的查询请求。对核心模型进行加密部署，只有在授权的环境中才能运行。\n\nPrompt 注入是大语言模型面临的主要攻击方式，攻击者通过精心设计的 prompt 诱导模型执行恶意指令、泄露敏感信息或生成有害内容。解决方案是启用 prompt 注入检测功能，对输入的 prompt 进行安全检测和过滤。限制模型的权限，禁止模型执行系统命令、访问敏感数据和网络资源。对模型的输出内容进行审核，过滤有害内容。持续更新 prompt 注入防护规则，应对新的攻击手法。\n\n对抗样本攻击通过在输入样本中添加微小的扰动，导致模型输出错误的结果。解决方案是在模型训练过程中加入对抗训练，提高模型的鲁棒性。部署对抗样本检测系统，对输入的样本进行实时检测，拦截恶意的对抗样本。使用模型集成技术，结合多个模型的输出结果，降低对抗样本的影响。定期更新模型，修复已知的对抗样本漏洞。\n\n十一、附录\n\n常用安全工具\n\n漏洞扫描工具：Nessus、OpenVAS、Trivy\n\n容器安全工具：Docker Bench for Security、Clair\n\n代码安全扫描工具：SonarQube、Semgrep\n\n网络安全工具：Wireshark、Suricata、Nmap\n\n密钥管理工具：HashiCorp Vault、AWS KMS\n\n内容审核工具：OpenAI Moderation API、百度内容审核平台\n\n安全配置模板\n\nKubernetes Pod 安全上下文配置：\n\nyaml\nsecurityContext:\n  runAsUser: 1000\n  runAsGroup: 1000\n  fsGroup: 1000\n  allowPrivilegeEscalation: false\n  readOnlyRootFilesystem: true\n  capabilities:\n    drop:\n      - ALL\n\nvLLM 安全启动命令：\n\nbash\ndocker run --gpus all -p 8000:8000 --user 1000:1000 vllm/vllm-openai:v0.4.2 \\\n  --model meta-llama/Llama-2-7b-chat-hf \\\n  --api-key your-secure-api-key \\\n  --max-model-len 4096 \\\n  --enable-auto-gc \\\n  --trust-remote-code false\n\n参考资料\n\nKubernetes 安全指南：https://kubernetes.io/docs/concepts/security/\n\nNVIDIA GPU 安全文档：https://docs.nvidia.com/datacenter/tesla/security/index.html\n\nMLflow 安全配置：https://mlflow.org/docs/latest/auth/index.html\n\nvLLM 安全最佳实践：https://docs.vllm.ai/en/latest/serving/security.html\n\nTriton Inference Server 安全指南：https://docs.nvidia.",
+    "round": 1
+  },
+  "5263d7c6-d976-4320-a4d2-e6e9e82b0d57": {
+    "node_id": "5263d7c6-d976-4320-a4d2-e6e9e82b0d57",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.014925373134328358,
+    "snippet": "html\nTensorRT-LLM 官方文档：https://github.com/NVIDIA/TensorRT-LLM\nKServe 官方文档：https://kserve.github.io/website/latest/",
+    "round": 1
+  },
+  "b9338c3b-6bfb-4274-9414-dfd97f183608": {
+    "node_id": "b9338c3b-6bfb-4274-9414-dfd97f183608",
+    "kb_id": 2,
+    "title": "模型训练性能优化最佳实践",
+    "source": "本地文档: 模型训练性能优化最佳实践.docx",
+    "relevance_score": 0.014925373134328358,
+    "snippet": "首先通过监控和剖析工具分析性能瓶颈，确定优化的方向和重点；然后针对性地实施优化措施，如优化数据加载、启用混合精度训练、调整 NCCL 配置等；接着运行训练任务，验证优化效果，对比优化前后的性能指标；最后总结优化经验，将有效的优化方法固化到代码和流程中，同时发现新的性能瓶颈，进入下一轮优化循环。",
+    "round": 1
+  },
+  "c7484dc2-857b-47af-83c0-0994c3f1d242": {
+    "node_id": "c7484dc2-857b-47af-83c0-0994c3f1d242",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.014705882352941176,
+    "snippet": "\"messages\": [{\"role\": \"user\", \"content\": \"Hello!\"}]}'命令用于调用 vLLM 的 OpenAI 兼容 API。kubectl logs <pod-name> -f命令用于实时查看 Pod 的日志。\n\n6.",
+    "round": 1
+  },
+  "8a6bb717-be76-48b9-859c-d109a7a1d7d3": {
+    "node_id": "8a6bb717-be76-48b9-859c-d109a7a1d7d3",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.016129032258064516,
+    "snippet": "使用 Docker 部署 vLLM 的基本命令是docker run --gpus all -p 8000:8000 vllm/vllm-openai:v0.4.2 --model <model-path> --tensor-parallel-size <num-gpus>，其中--model参数指定模型的路径，可以是本地路径或 Hugging Face 模型仓库的模型名称，--tensor-parallel-size参数指定使用的 GPU 数量，用于张量并行部署大模型。\n\nvLLM 提供了丰富的配置参数，可以根据实际需求进行调整，--quantization参数用于指定模型量化方式，支持 awq、gptq、squeezellm 和 fp8 等多种量化方式，能够大幅减少显存占用，提升推理速度。--max-model-len参数指定模型支持的最大序列长度，需要根据模型的实际能力进行设置。--max-num-batched-tokens参数指定每个批次能够处理的最大 token 数量，是影响吞吐量和延迟的关键参数，需要根据 GPU 显存大小和模型大小进行调优。--max-num-seqs参数指定同时处理的最大请求数量，--gpu-memory-utilization参数指定 vLLM 能够使用的 GPU 显存比例，默认值为 0.9，预留一部分显存用于其他操作。",
+    "round": 2
+  },
+  "049197bb-3b14-467f-ba5a-232db95b1a95": {
+    "node_id": "049197bb-3b14-467f-ba5a-232db95b1a95",
+    "kb_id": 2,
+    "title": "大模型推理服务（vLLM_Triton）运维手册",
+    "source": "本地文档: 大模型推理服务（vLLM_Triton）运维手册.docx",
+    "relevance_score": 0.015873015873015872,
+    "snippet": "6.2 常用配置参数速查\n\nvLLM 的常用配置参数包括--model指定模型路径，--tensor-parallel-size指定张量并行大小，--quantization指定量化方式，--max-model-len指定最大序列长度，--max-num-batched-tokens指定每个批次的最大 token 数量，--max-num-seqs指定最大并发请求数，--gpu-memory-utilization指定 GPU 显存使用率，--enable-auto-gc启用自动垃圾回收。Triton config.",
+    "round": 2
+  },
+  "f6964ebc-6533-45e2-97da-a2b9990eb56b": {
+    "node_id": "f6964ebc-6533-45e2-97da-a2b9990eb56b",
+    "kb_id": 2,
+    "title": "模型训练性能优化最佳实践",
+    "source": "本地文档: 模型训练性能优化最佳实践.docx",
+    "relevance_score": 0.015625,
+    "snippet": "然后启用 FP16 混合精度训练和 FlashAttention 算子，单卡计算速度提升了 2 倍。接着优化分布式训练通信配置，启用 GPUDirect RDMA，调整 NCCL 参数，使用拓扑感知调度将所有 GPU 调度到同一个节点上，通信开销减少了 70%。最后启用梯度累积，将有效批处理大小从 32 增加到 128，进一步提升了 GPU 利用率。",
+    "round": 2
+  },
+  "69b9398a-a594-4138-860a-d7af2df22a47": {
+    "node_id": "69b9398a-a594-4138-860a-d7af2df22a47",
+    "kb_id": 2,
+    "title": "NCCL 分布式通信故障排查与优化手册",
+    "source": "本地文档: NCCL 分布式通信故障排查与优化手册.docx",
+    "relevance_score": 0.015384615384615385,
+    "snippet": "对于 InfiniBand 网络，确保网卡的链路速度达到最大值，例如 HDR InfiniBand 的链路速度应该是 200Gbps，使用ibstat命令查看链路速度。对于 RoCE 网络，确保启用了无损以太网，配置了正确的 PFC 和 ECN 参数，避免网络丢包。同时，需要检查网络拓扑，确保节点之间的网络连接没有瓶颈，例如每个节点都连接到同一个交换机，或者使用胖树拓扑。",
+    "round": 2
+  },
+  "aa88a765-1ca5-44a9-9552-894e548f9bf0": {
+    "node_id": "aa88a765-1ca5-44a9-9552-894e548f9bf0",
+    "kb_id": 2,
+    "title": "数据与模型版本管理规范",
+    "source": "本地文档: 数据与模型版本管理规范.docx",
+    "relevance_score": 0.015151515151515152,
+    "snippet": "99\n  accuracy: 0.98\nupdate_history:\n  - version: 1.0.0\n    date: 2026-05-04\n    description: 初始版本\n\n模型元数据模板：\n\nyaml\nname: 模型名称\nversion: 1.0.0\ncreator: 创建者\ncreated_at: 2026-05-04\ndescription: 模型描述\narchitecture: Llama2-7B\nframework: PyTorch 2.3.0\nprecision: FP16\ndataset_version: pretrain_text_v1.2.0\ncode_commit: e4f5g6h\nhyperparameters:\n  batch_size: 32\n  learning_rate: 2e-5\n  epochs: 3\nmetrics:\n  accuracy: 0.92\n  f1_score: 0.91\n  latency: 100ms\nhardware: A100 40GB\ndeployment_config:\n  replicas: 3\n  gpu_per_replica: 1\nupdate_history:\n  - version: 1.0.0\n    date: 2026-05-04\n    description: 初始发布版本\n\n参考资料\n\nDVC 官方文档：https://dvc.",
+    "round": 2
+  },
+  "74b5cd6a-69f6-4485-96d3-5ee8cf03bf5e": {
+    "node_id": "74b5cd6a-69f6-4485-96d3-5ee8cf03bf5e",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.014925373134328358,
+    "snippet": "大模型长文本推理失败：处理长文本时出现 OOM 或推理失败，核心原因包括模型最大序列长度限制、KV 缓存不足、显存不足。首选解决方案是增大 --max-model-len 参数，启用滑动窗口注意力，使用 FP8 量化减少显存占用，调整 KV 缓存的大小限制。",
+    "round": 2
+  },
+  "1901d434-7b0e-48d8-a8a8-24bd7afe21d0": {
+    "node_id": "1901d434-7b0e-48d8-a8a8-24bd7afe21d0",
+    "kb_id": 2,
+    "title": "AI 运维 Top 100 常见故障速查手册",
+    "source": "本地文档: AI 运维 Top 100 常见故障速查手册.docx",
+    "relevance_score": 0.014705882352941176,
+    "snippet": "首选解决方案是查看服务日志获取详细错误信息，验证输入数据的格式和内容是否符合要求，检查 GPU 显存和内存是否充足，重启服务尝试恢复。\n\nAPI 调用返回 404 错误：调用推理 API 时返回 404 Not Found，核心原因包括模型名称错误、模型未加载、服务地址错误、API 路径错误。首选解决方案是检查模型名称是否正确，验证模型是否已成功加载到服务中，确认服务地址和 API 路径是否正确。",
+    "round": 2
+  },
+  "91ccf6d1-66d2-4426-bcf0-ea180fac2b28": {
+    "node_id": "91ccf6d1-66d2-4426-bcf0-ea180fac2b28",
+    "kb_id": 2,
+    "title": "数据与模型版本管理规范",
+    "source": "本地文档: 数据与模型版本管理规范.docx",
+    "relevance_score": 0.015151515151515152,
+    "snippet": "退役申请需要经过审批，确认没有业务系统在使用该模型。退役的模型被标记为 \"Archived\" 状态，从生产环境中移除，模型文件和元数据归档保存。\n\n六、最佳实践\n\n建立统一的 AI 资产目录，对所有的数据和模型资产进行集中管理和展示，资产目录包含资产名称、版本号、创建者、创建时间、状态、描述和访问链接等信息，方便团队成员查找和使用。资产目录支持搜索和过滤功能，能够快速定位到需要的资产。\n\n自动化版本记录流程，尽可能减少人工操作，避免人为错误。在 CI/CD 流水线中集成 DVC 和 MLflow，实现数据和模型版本的自动生成和记录。当代码提交到 Git 仓库时，自动触发数据检查和模型训练，自动记录训练过程中的所有信息，生成新的模型版本。\n\n重视元数据的完整性和准确性，元数据是实现可追溯性和可复现性的关键。制定元数据模板，要求所有数据和模型版本都必须包含完整的元数据信息。定期检查元数据的质量，及时修正错误和缺失的信息。\n\n建立定期清理机制，清理不再使用的旧版本数据和模型，释放存储空间。制定数据和模型的保留策略，原始数据永久保留，预处理数据保留 3 年，模型保留至退役后 3 年。对于超过保留期限且不再需要的资产，经过审批后可以删除。\n\n加强权限管理，根据用户的角色和职责分配不同的访问权限。原始数据和核心模型只有授权用户才能访问和修改，普通用户只有只读权限。记录所有的访问和操作日志，便于审计和问题排查。\n\n定期进行可复现性验证，随机抽取已发布的模型版本，尝试重新训练，验证是否能够得到相同的结果。如果发现无法复现的情况，及时查找原因，修复版本管理中的漏洞。\n\n七、常见问题与解决方案\n\n数据版本不匹配导致训练结果不可复现是最常见的问题，通常是由于训练时使用的数据集版本与记录的版本不一致，或者数据集被意外修改导致的。解决方案是严格遵循数据版本管理规范，不允许直接修改已发布的数据集版本，每次修改都生成新的版本号。训练时明确指定数据集版本，使用dvc checkout命令切换到指定版本，确保使用正确的数据。\n\n模型文件损坏或丢失是另一个常见问题，通常是由于存储系统故障或人为误操作导致的。解决方案是配置定期备份策略，将数据和模型文件备份到多个不同的存储系统中。使用 DVC 和 MLflow 的远程存储功能，确保数据和模型文件有多个副本。重要的模型版本额外进行离线备份。\n\n元数据缺失或错误会导致无法追溯模型的来源和训练过程，影响模型的可信度和可维护性。解决方案是制定严格的元数据规范，要求所有数据和模型版本都必须包含完整的元数据。在 CI/CD 流水线中添加元数据检查步骤，对于元数据不完整的版本，不允许发布。定期审核元数据的质量，及时补充和修正错误的信息。\n\n大模型文件传输和存储困难是大模型时代面临的新挑战，大模型文件通常有几十 GB 甚至几百 GB，传输和存储都非常耗时和占用空间。解决方案是使用模型分片技术，将大模型文件分割成多个小文件，方便传输和存储。使用模型量化和压缩技术，减小模型文件的大小。使用支持断点续传的传输工具，提高大文件传输的可靠性和效率。\n\n多团队协作时的版本冲突问题，通常是由于多个团队同时修改同一个数据集或模型导致的。解决方案是建立分支管理策略，每个团队在自己的分支上进行开发，定期合并到主分支。使用 Pull Request 和代码审查机制，确保合并的代码和数据符合规范。建立沟通机制，及时同步版本更新信息，避免冲突。\n\n八、附录\n\n常用命令速查\n\nDVC 初始化：dvc init\n添加远程存储：dvc remote add -d myremote s3://mybucket/dvc-store\n添加数据集：dvc add data/train\n提交数据集更新：dvc commit\n推送数据集到远程：dvc push\n拉取数据集：dvc pull\n添加版本标签：dvc tag v1.0.0\n切换数据集版本：dvc checkout v1.0.0\nMLflow 启动服务器：mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root s3://mybucket/mlflow-artifacts\nHugging Face 登录：huggingface-cli login\n上传模型到 Hugging Face Hub：model.push_to_hub(\"my-org/my-model\")\n\n元数据模板\n\n数据集元数据模板：\n\nyaml\nname: 数据集名称\nversion: 1.0.0\ncreator: 创建者\ncreated_at: 2026-05-04\ndescription: 数据集描述\nsource: 数据来源\nformat: json\nsize: 100GB\nnum_samples: 1000000\nfields:\n  - name: text\n    type: string\n    description: 文本内容\n  - name: label\n    type: int\n    description: 标签\npreprocessing:\n  code_commit: a1b2c3d\n  steps:\n    - 清洗数据\n    - 标注数据\nquality_metrics:\n  completeness: 0.99\n  accuracy: 0.98\nupdate_history:\n  - version: 1.0.0\n    date: 2026-05-04\n    description: 初始版本\n\n模型元数据模板：\n\nyaml\nname: 模型名称\nversion: 1.0.0\ncreator: 创建者\ncreated_at: 2026-05-04\ndescription: 模型描述\narchitecture: Llama2-7B\nframework: PyTorch 2.3.0\nprecision: FP16\ndataset_version: pretrain_text_v1.2.0\ncode_commit: e4f5g6h\nhyperparameters:\n  batch_size: 32\n  learning_rate: 2e-5\n  epochs: 3\nmetrics:\n  accuracy: 0.92\n  f1_score: 0.91\n  latency: 100ms\nhardware: A100 40GB\ndeployment_config:\n  replicas: 3\n  gpu_per_replica: 1\nupdate_history:\n  - version: 1.0.0\n    date: 2026-05-04\n    description: 初始发布版本\n\n参考资料\n\nDVC 官方文档：https://dvc.",
+    "round": 2
+  },
+  "23e508ab-4af0-492b-9b82-95f861ab65b6": {
+    "node_id": "23e508ab-4af0-492b-9b82-95f861ab65b6",
+    "kb_id": 2,
+    "title": "AI 系统安全加固与权限管理规范",
+    "source": "本地文档: AI 系统安全加固与权限管理规范.docx",
+    "relevance_score": 0.014925373134328358,
+    "snippet": "AI 系统安全加固遵循纵深防御原则，在基础设施、平台、数据、模型、应用多个层面构建多层防护体系，任何一层被突破后，其他层仍能提供有效防护。最小权限原则是权限管理的核心，所有用户和服务仅被授予完成其工作所必需的最小权限，避免权限过度集中和滥用。",
+    "round": 2
+  },
+  "cee21225-3cb5-4b45-8ae9-c5f06356c758": {
+    "node_id": "cee21225-3cb5-4b45-8ae9-c5f06356c758",
+    "kb_id": 2,
+    "title": "AI 系统安全加固与权限管理规范",
+    "source": "本地文档: AI 系统安全加固与权限管理规范.docx",
+    "relevance_score": 0.014705882352941176,
+    "snippet": "03-24.05，支持等保 2.0 三级及以上合规要求\n文档目的：建立标准化的 AI 系统安全防护体系，覆盖基础设施、数据、模型、应用全生命周期的安全加固与权限管控，防范数据泄露、模型窃取、对抗攻击、未授权访问等安全风险，保障 AI 系统的机密性、完整性和可用性\n\n一、基本概念与安全原则\n\nAI 系统安全是传统 IT",
+    "round": 2
+  },
+  "48ec9ed3-5fb8-431d-8927-3ac432e3b45d": {
+    "node_id": "48ec9ed3-5fb8-431d-8927-3ac432e3b45d",
+    "kb_id": 2,
+    "title": "数据与模型版本管理规范",
+    "source": "本地文档: 数据与模型版本管理规范.docx",
+    "relevance_score": 0.014492753623188406,
+    "snippet": "模型注册时必须填写完整的元数据信息，包括模型名称、版本号、创建者、创建时间、训练数据集版本、代码 Git 提交哈希值、超参数、性能指标、模型大小、支持的硬件和推理框架等。\n\n模型在发布到生产环境之前，必须经过严格的测试和验证流程。",
+    "round": 2
+  }
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "agent_kb_001",
+    "user_input": "GPU显存隔离有哪些方式？",
+    "scenario": "kb_simple",
+    "expected_routing": [
+      "retriever"
+    ],
+    "expected_tool_count_range": [
+      1,
+      4
+    ],
+    "expected_iteration_range": [
+      1,
+      1
+    ],
+    "reference": "GPU显存隔离主要有MIG和GPU虚拟化两种方式。",
+    "difficulty": "easy",
+    "tags": []
+  },
+  {
+    "id": "agent_kb_002",
+    "user_input": "K8s NetworkPolicy的默认行为是什么？",
+    "scenario": "kb_simple",
+    "expected_routing": [
+      "retriever"
+    ],
+    "expected_tool_count_range": [
+      1,
+      4
+    ],
+    "expected_iteration_range": [
+      1,
+      1
+    ],
+    "reference": "K8s NetworkPolicy默认拒绝所有入站流量，允许所有出站流量。",
+    "difficulty": "easy",
+    "tags": []
+  },
+  {
+    "id": "agent_kb_003",
+    "user_input": "对比MIG和GPU虚拟化在显存隔离方面的差异，各自适用场景是什么？",
+    "scenario": "kb_complex",
+    "expected_routing": [
+      "retriever"
+    ],
+    "expected_tool_count_range": [
+      4,
+      10
+    ],
+    "expected_iteration_range": [
+      2,
+      3
+    ],
+    "reference": "MIG适用于需要硬件级隔离的场景，GPU虚拟化适用于多租户共享。",
+    "difficulty": "hard",
+    "tags": [
+      "multi-hop",
+      "comparison"
+    ]
+  }
+]
